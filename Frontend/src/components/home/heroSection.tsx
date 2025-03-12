@@ -1,6 +1,5 @@
 import { Container, Box, Grid2, Typography, Button } from "@mui/material"
 import { DARK_GRAY0, DARK_GREEN, DARK_GRAY2, LIGHT_GREEN1, LIGHT_GREEN2 } from "../../config/colors"
-import { Image } from "@mui/icons-material"
 
 export default function HeroSection() {
 

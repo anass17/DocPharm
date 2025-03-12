@@ -7,7 +7,8 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 import Navbar from "./components/navbar"
-import HeroSection from './components/home/heroSection';
+import HeroSection from "./components/home/HeroSection";
+import AboutSection from './components/home/AboutSection';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -16,6 +17,7 @@ function App() {
     <>
       <Navbar background={false} />
       <HeroSection />
+      <AboutSection />
     </>
   )
 }
