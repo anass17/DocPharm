@@ -7,21 +7,15 @@ import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
 import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import AdbIcon from '@mui/icons-material/Adb';
-import { capitalize } from '@mui/material';
 
 import * as colors from '../config/colors.ts';
 
 const pages = ['Home', 'Services', 'Contact', 'Sign Up'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar( {background = true} ) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   let color;
 
@@ -34,20 +28,14 @@ function ResponsiveAppBar( {background = true} ) {
   const handleOpenNavMenu = (event: any) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event: any) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: color, boxShadow: 'none'}}>
+    <AppBar position="fixed" sx={{ backgroundColor: color, boxShadow: 'none', top: 0, left: 0}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
