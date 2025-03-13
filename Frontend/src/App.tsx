@@ -10,6 +10,7 @@ import Navbar from "./components/navbar"
 import HeroSection from "./components/home/HeroSection";
 import AboutSection from './components/home/AboutSection';
 import ServicesSection from './components/home/ServicesSection';
+import SponsorsSection from './components/home/SponsorsSection';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -20,6 +21,7 @@ function App() {
       <HeroSection />
       <AboutSection />
       <ServicesSection />
+      <SponsorsSection />
     </>
   )
 }
