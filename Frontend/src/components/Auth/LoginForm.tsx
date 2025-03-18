@@ -1,5 +1,5 @@
 import { Container, Box, Grid2, Typography, Button, TextField, Link } from "@mui/material"
-import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3 } from "../../config/colors"
+import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3, GREEN5 } from "../../config/colors"
 import zIndex from "@mui/material/styles/zIndex"
 
 export default function LoginForm() {
@@ -7,13 +7,13 @@ export default function LoginForm() {
     return (
         <Container maxWidth="lg" sx={{ pt: 8, display:"flex", alignItems:'center', height: '100vh' }}>
             <Box sx={{ position: 'relative', backgroundColor: '#FFF', width: '100%', borderRadius: '5px', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', border: '1px solid rgba(0, 0, 0, .1)' }}>
-                <Typography variant="body2" position={"absolute"} top={20} right={30}>
+                <Typography variant="body2" position={"absolute"} bottom={25} right={30}>
                     Not a member? 
                     <Link sx={{ textDecoration: 'none' }} href="#" color={GREEN} ml={1}>Register now</Link>
                 </Typography>
                 <Grid2 container spacing={5} p={4} pt={{ xs: 9, md: 4 }} alignItems={"center"}>
                     <Grid2 display={{md: 'block', xs: 'none'}} size={{md: 6}}>
-                        <Box py={{md: 13, lg: 10}} borderRadius={2} display={'flex'} justifyContent={'center'} sx={{ background: `linear-gradient(45deg, ${GREEN3}, ${GREEN2})` }}>
+                        <Box py={{md: 13, lg: 3}} borderRadius={2} display={'flex'} justifyContent={'center'} sx={{ background: `linear-gradient(45deg, ${GREEN5}, ${GREEN3})` }}>
                             <img style={{ width: '90%' }} src="/images/login.png" />
                         </Box>
                     </Grid2>
@@ -35,13 +35,13 @@ export default function LoginForm() {
 
                             <Box mt={2} display={'flex'} justifyContent={"center"} gap={3}>
                                 <Button>
-                                    <img src="/images/brands/Google.png" />
+                                    <img width={50} src="/images/brands/Google.png" />
                                 </Button>
                                 <Button>
-                                    <img src="/images/brands/Twitter.png" />
+                                    <img width={60} src="/images/brands/Twitter.png" />
                                 </Button>
                                 <Button>
-                                    <img src="/images/brands/Facebook.png" />
+                                    <img width={40} src="/images/brands/Facebook.png" />
                                 </Button>
                             </Box>
                         </form>
