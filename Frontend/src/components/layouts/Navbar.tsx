@@ -10,19 +10,22 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 
-import * as colors from '../config/colors.ts';
+import * as colors from '../../config/colors.ts';
 
 const pages = ['Home', 'Services', 'Contact', 'Sign Up'];
 
 function ResponsiveAppBar( {background = true} ) {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
 
-  let color;
+  let bgColor;
+  let textColor;
 
   if (background) {
-    color = "blue";
+    bgColor = colors.GRAY0;
+    textColor = "#FFF"
   } else {
-    color = "transparent";
+    bgColor = "transparent";
+    textColor = colors.GRAY2
   }
 
   const handleOpenNavMenu = (event: any) => {
@@ -35,7 +38,7 @@ function ResponsiveAppBar( {background = true} ) {
 
 
   return (
-    <AppBar position="absolute" sx={{ backgroundColor: color, boxShadow: 'none', top: 0, left: 0}}>
+    <AppBar position="absolute" sx={{backgroundColor: bgColor, color: textColor, boxShadow: 'none', top: 0, left: 0}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -53,7 +56,7 @@ function ResponsiveAppBar( {background = true} ) {
               textDecoration: 'none',
             }}
           >
-            <span style={{color: colors.DARK_GREEN}}>Doc</span><span style={{ color: colors.DARK_GRAY2 }}>Pharm</span>
+            <span style={{color: colors.GREEN}}>Doc</span><span style={{ color: textColor }}>Pharm</span>
           </Typography>
 
           {/* Mobile */}
@@ -118,7 +121,7 @@ function ResponsiveAppBar( {background = true} ) {
               <Button
                 key={page}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, display: 'block', color: colors.DARK_GRAY2, textTransform: 'capitalize', fontSize: '1rem' }}
+                sx={{ my: 2, display: 'block', color: textColor, textTransform: 'capitalize', fontSize: '1rem' }}
               >
                 {page}
               </Button>

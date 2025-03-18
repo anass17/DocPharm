@@ -1,6 +1,6 @@
 import { Box, Container, Grid2, Typography } from '@mui/material';
 import {styled} from '@mui/system'
-import { DARK_GRAY0, DARK_GREEN, DARK_GRAY2, LIGHT_GREEN1, LIGHT_GREEN2 } from "../../config/colors"
+import { GRAY0, GREEN, GRAY2, LIGHT_GREEN2 } from "../../config/colors"
 
 const StyledHeadline = styled('h3')({
     position: 'relative',
@@ -14,7 +14,7 @@ const StyledHeadline = styled('h3')({
         bottom: '-6px',
         borderRadius: '3px',
         left: 0,
-        backgroundColor: DARK_GRAY0,
+        backgroundColor: GRAY0,
     },
   });
 
@@ -22,7 +22,7 @@ export default function ServicesSection() {
     return (
         <Box sx={{ backgroundColor: LIGHT_GREEN2 }}>
             <Container maxWidth="lg" sx={{ py: "70px" }}>
-                <Typography variant="h5" color={DARK_GRAY0} textAlign={'center'} component='h2' mb={6}>Our Sponsors</Typography>
+                <Typography variant="h5" color={GRAY0} textAlign={'center'} component='h2' mb={6}>Our Sponsors</Typography>
                 <Grid2 container spacing={4}>
                     <Grid2 size={3}>
                         <img src="/images/brands/EverGreen.png"></img>
