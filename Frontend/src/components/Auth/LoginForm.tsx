@@ -11,13 +11,13 @@ export default function LoginForm() {
                     Not a member? 
                     <Link sx={{ textDecoration: 'none' }} href="#" color={GREEN} ml={1}>Register now</Link>
                 </Typography>
-                <Grid2 container spacing={5} p={4} pt={{ xs: 9, md: 4 }} alignItems={"center"}>
+                <Grid2 container spacing={5} p={4} pb={{ xs: 7, md: 4 }} alignItems={"center"}>
                     <Grid2 display={{md: 'block', xs: 'none'}} size={{md: 6}}>
-                        <Box py={{md: 13, lg: 3}} borderRadius={2} display={'flex'} justifyContent={'center'} sx={{ background: `linear-gradient(45deg, ${GREEN5}, ${GREEN3})` }}>
+                        <Box py={{md: 6, lg: 3}} borderRadius={2} display={'flex'} justifyContent={'center'} sx={{ background: `linear-gradient(45deg, ${GREEN5}, ${GREEN3})` }}>
                             <img style={{ width: '90%' }} src="/images/login.png" />
                         </Box>
                     </Grid2>
-                    <Grid2 size={{md: 6, sm: 12}}>
+                    <Grid2 size={{md: 6, xs: 12}}>
                         <form style={{ textAlign: 'center' }}>
                             <Typography variant="h4" component="h1" mb={1}>Welcome There</Typography>
                             <Typography variant="body1" mb={5}>Log into your account and see what you missed</Typography>

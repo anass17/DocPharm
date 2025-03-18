@@ -8,6 +8,7 @@ import '@fontsource/roboto/700.css';
 
 import Home from './Pages/Home';
 import Login from './Pages/Auth/Login';
+import Register from './Pages/Auth/Register';
 
 
 
@@ -17,7 +18,8 @@ function App() {
   return (
     <>
       {/* <Home /> */}
-      <Login />
+      {/* <Login /> */}
+      <Register />
     </>
   )
 }

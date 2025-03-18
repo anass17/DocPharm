@@ -3,6 +3,7 @@
 export const GREEN : string = '#1DA68F';
 export const GREEN2 : string = '#27DEBF';
 export const GREEN3 : string = '#BEF5EC';
+export const GREEN5 : string = '#E1FAF6';
 export const LIGHT_GREEN2 : string = '#E1FAF6';
 
 

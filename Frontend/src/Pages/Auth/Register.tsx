@@ -1,4 +1,4 @@
-// import RegisterForm from "../../components/Auth/RegisterForm"
+import RegisterForm from "../../components/Auth/RegisterForm"
 import Navbar from "../../components/layouts/Navbar"
 
 export default function Register() {
@@ -7,7 +7,7 @@ export default function Register() {
   return (
     <>
       <Navbar />
-      {/* <RegisterForm /> */}
+      <RegisterForm />
     </>
   )
 }
