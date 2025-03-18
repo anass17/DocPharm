@@ -9,8 +9,8 @@ import '@fontsource/roboto/700.css';
 import Home from './Pages/Home';
 import Login from './Pages/Auth/Login';
 import Register from './Pages/Auth/Register';
-
-
+import VerificationMessage from './Pages/Auth/VerificationMessage';
+import RegisterAsDoctorForm from './Pages/Auth/RegisterAsDoctor';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -19,7 +19,9 @@ function App() {
     <>
       {/* <Home /> */}
       {/* <Login /> */}
-      <Register />
+      {/* <Register /> */}
+      {/* <VerificationMessage /> */}
+      <RegisterAsDoctorForm />
     </>
   )
 }
