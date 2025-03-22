@@ -10,7 +10,8 @@ import Home from './Pages/Home';
 import Login from './Pages/Auth/Login';
 import Register from './Pages/Auth/Register';
 import VerificationMessage from './Pages/Auth/VerificationMessage';
-import RegisterAsDoctorForm from './Pages/Auth/RegisterAsDoctor';
+import RegisterAsDoctor from './Pages/Auth/RegisterAsDoctor';
+import RegisterAsPharmacy from './Pages/Auth/RegisterAsPharmacy';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -21,7 +22,8 @@ function App() {
       {/* <Login /> */}
       {/* <Register /> */}
       {/* <VerificationMessage /> */}
-      <RegisterAsDoctorForm />
+      {/* <RegisterAsDoctor /> */}
+      <RegisterAsPharmacy />
     </>
   )
 }

@@ -5,7 +5,7 @@ import { CloudUpload } from "@mui/icons-material"
 import FileUploadInput from "./FileUploadInput"
 import { useState } from "react"
 
-export default function RegisterForm() {
+export default function RegisterAsPharmacy() {
     let [step, setStep] = useState(2);
 
 
@@ -24,6 +24,7 @@ export default function RegisterForm() {
                 
                     <FormDivisor>Business Verification</FormDivisor>
 
+                    <TextField label="Pharmacy Name" variant="outlined" sx={{ marginBottom: 2, backgroundColor: '#F9F9F9' }} fullWidth />
                     <TextField label="Medical License Number" variant="outlined" sx={{ marginBottom: 2, backgroundColor: '#F9F9F9' }} fullWidth />
 
                     <FileUploadInput format="JPG, PNG, WEBP" description="CNE (Back)" />
@@ -44,34 +45,18 @@ export default function RegisterForm() {
 
                     <FormDivisor>Additional Information</FormDivisor>
 
-                    <FileUploadInput format="JPG, PNG, WEBP" description="Profile Picture" />
-
                     <FormControl fullWidth sx={{ mb: 2, bgcolor: '#F9F9F9' }}>
-                        <InputLabel id="appointmentType">Appointment Type</InputLabel>
-                        <Select
-                            labelId="appointmentType"
-                            label="Appointment Type"
-                            sx={{ textAlign: 'left' }}
-                        >
-                            <MenuItem value="in-person">In-Person Appointments</MenuItem>
-                            <MenuItem value="online">Online Appointments</MenuItem>
-                            <MenuItem value="both">Both</MenuItem>
-                        </Select>
-                    </FormControl>
-
-                    <FormControl fullWidth sx={{ mb: 2, bgcolor: '#F9F9F9' }}>
-                        <InputLabel id="speciality">Speciality</InputLabel>
+                        <InputLabel id="speciality">Orders Type</InputLabel>
                         <Select
                             labelId="speciality"
                             label="Speciality"
                             sx={{ textAlign: 'left' }}
                         >
-                            <MenuItem value="in-person">Cardiology</MenuItem>
-                            <MenuItem value="online">Physiology</MenuItem>
+                            <MenuItem value="in-person">In-person</MenuItem>
+                            <MenuItem value="online">Online</MenuItem>
+                            <MenuItem value="both">Both</MenuItem>
                         </Select>
                     </FormControl>
-
-                    <TextField variant="outlined" label="Bio" sx={{ bgcolor: '#F9F9F9' }} rows={4} multiline fullWidth></TextField>
 
                 </Grid2>
                 <Grid2 size={{md: 6, xs: 12}}>
