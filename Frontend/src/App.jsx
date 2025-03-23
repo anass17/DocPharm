@@ -38,6 +38,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/verifyEmail" element={<VerificationMessage />} />
           <Route component={<NotFoundPage />} />
         </Routes>
       </Router>

@@ -2,11 +2,13 @@ import { Container, Box, Grid2, Typography, Button, TextField, Select, InputLabe
 import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3 } from "../../config/colors"
 import { ChangeEvent, useState } from "react"
 import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 export default function RegisterForm() {
 
     const [data, setData] = useState({first_name: '', last_name: '', email: '', password: '', type: ''});
     const [errors, setErrors] = useState({first_name: '', last_name: '', email: '', password: '', type: ''})
+    const navigate = useNavigate();
 
     function handleChange(e) {
         const {name, value} = e.target;
@@ -34,7 +36,7 @@ export default function RegisterForm() {
             if (response.status === 422) {
                 setErrors(responseData.errors);
             } else if (response.status === 200) {
-                alert('Registration successful!');
+                navigate('/verifyEmail');
             } else {
                 alert('An unexpected error occurred.');
             }
