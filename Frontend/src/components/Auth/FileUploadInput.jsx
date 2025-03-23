@@ -2,12 +2,7 @@ import { CloudUpload } from "@mui/icons-material"
 import { Box, Button, Input, Typography } from "@mui/material"
 import { GRAY4, GRAY2, GRAY3 } from "../../config/colors"
 
-interface props {
-    format: string
-    description: string
-}
-
-export default function FileUploadInput({format, description}: props) {
+export default function FileUploadInput({format, description}) {
     return (
         <Box mb={2}>
             <Button

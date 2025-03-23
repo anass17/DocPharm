@@ -1,8 +1,34 @@
 import { Container, Box, Grid2, Typography, Button, TextField, Link, Select, InputLabel, MenuItem, FormControl } from "@mui/material"
 import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3 } from "../../config/colors"
-import zIndex from "@mui/material/styles/zIndex"
+import { ChangeEvent, useState } from "react"
 
 export default function RegisterForm() {
+
+    const [data, setData] = useState({first_name: '', last_name: '', email: '', password: '', type: ''});
+
+    function handleChange(e) {
+        const {name, value} = e.target;
+
+        setData({
+            ...data,
+            [name]: value
+        })
+    }
+
+
+    function handleSubmit(e) {
+        e.preventDefault();
+
+        fetch('http://localhost:8000/api/register', {
+
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        }).then(response => response.json())
+        .then(data => console.log(data));
+    }
 
     return (
         <Container maxWidth="lg" sx={{ pb: 4, pt: 12, display:"flex", alignItems:'center', minHeight: '100vh' }}>
@@ -13,15 +39,15 @@ export default function RegisterForm() {
                 </Typography>
                 <Grid2 container spacing={5} p={4} pb={{ xs: 8, md: 4 }} alignItems={"center"}>
                     <Grid2 size={{md: 6, sm: 12}}>
-                        <form style={{ textAlign: 'center' }}>
+                        <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
                             <Typography variant="h4" component="h1" mb={1}>Join Us!</Typography>
                             <Typography variant="body1" mb={5}>Create an account and access to our services</Typography>
                             <Box display={"flex"} gap={1}>
-                                <TextField label="First Name" variant="outlined" sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
-                                <TextField label="Last Name" type="password" variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
+                                <TextField label="First Name" name="first_name" variant="outlined" onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
+                                <TextField label="Last Name" name="last_name" onChange={handleChange} variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
                             </Box>
-                            <TextField label="Email" type="password" variant="outlined" sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
-                            <TextField label="Password" type="password" variant="outlined" sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
+                            <TextField label="Email" variant="outlined" name="email" onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
+                            <TextField label="Password" type="password" name="password" variant="outlined" onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
 
                             {/* Select - Account Type */}
 
@@ -31,18 +57,22 @@ export default function RegisterForm() {
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     label="Account Type"
+                                    name="type"
                                     sx={{ textAlign: 'left' }}
+                                    onChange={handleChange}
+                                    value={data.type}
                                 >
-                                    <MenuItem value="Patient">Patient</MenuItem>
-                                    <MenuItem value="Doctor">Doctor</MenuItem>
-                                    <MenuItem value="Pharmacy">Pharmacy</MenuItem>
+                                    <MenuItem value="">Select</MenuItem>
+                                    <MenuItem value="client">Client</MenuItem>
+                                    <MenuItem value="doctor">Doctor</MenuItem>
+                                    <MenuItem value="pharmacy">Pharmacy</MenuItem>
                                 </Select>
                             </FormControl>
 
                             {/* Sumbit */}
 
                             <Box mt={2} display="flex" justifyContent={"space-between"} alignItems={"center"}>
-                                <Button variant="contained" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Log in</Button>
+                                <Button variant="contained" type="Submit" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Log in</Button>
                                 <Button variant="text" sx={{ color: GREEN }}>Reset Password</Button>
                             </Box>
 

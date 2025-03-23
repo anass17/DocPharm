@@ -20,10 +20,10 @@ function App() {
     <>
       {/* <Home /> */}
       {/* <Login /> */}
-      {/* <Register /> */}
+      <Register />
       {/* <VerificationMessage /> */}
       {/* <RegisterAsDoctor /> */}
-      <RegisterAsPharmacy />
+      {/* <RegisterAsPharmacy /> */}
     </>
   )
 }

@@ -1,11 +1,7 @@
 import { Box, Typography} from "@mui/material"
 import { GRAY4, GRAY3 } from "../../config/colors"
 
-interface props {
-    children: string
-}
-
-export default function FormDivisor({children}: props) {
+export default function FormDivisor({children}) {
 
     return (
 

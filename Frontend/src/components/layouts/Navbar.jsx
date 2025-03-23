@@ -10,7 +10,7 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 
-import * as colors from '../../config/colors.ts';
+import * as colors from '../../config/colors.js';
 
 const pages = ['Home', 'Services', 'Contact', 'Sign Up'];
 
@@ -28,7 +28,7 @@ function ResponsiveAppBar( {background = true} ) {
     textColor = colors.GRAY2
   }
 
-  const handleOpenNavMenu = (event: any) => {
+  const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
 
