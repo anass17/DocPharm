@@ -1,14 +1,28 @@
 import { Container, Box, Grid2, Typography, Button, TextField, Select, InputLabel, MenuItem, FormControl, FormHelperText } from "@mui/material"
 import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3 } from "../../config/colors"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import { loginUser } from "../../Pages/store/actions";
+import Cookies from 'js-cookie';
+import { backend_url } from "../../config/app";
 
 export default function RegisterForm() {
 
     const [data, setData] = useState({first_name: '', last_name: '', email: '', password: '', type: ''});
     const [errors, setErrors] = useState({first_name: '', last_name: '', email: '', password: '', type: ''})
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const user = useSelector(data => data.user.user)
+
+    useEffect(() => {
+        if (user.email_verified_at == null) {
+            navigate('/verifyEmail');
+        } else {
+            navigate('/');
+        }
+    })
 
     function handleChange(e) {
         const {name, value} = e.target;
@@ -23,7 +37,7 @@ export default function RegisterForm() {
         e.preventDefault();
     
         try {
-            const response = await fetch('http://localhost:8000/api/register', {
+            const response = await fetch(backend_url + '/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -36,6 +50,8 @@ export default function RegisterForm() {
             if (response.status === 422) {
                 setErrors(responseData.errors);
             } else if (response.status === 200) {
+                dispatch(loginUser(responseData.user))
+                Cookies.set('auth_token', responseData.token, { expires: 1, path: '' });
                 navigate('/verifyEmail');
             } else {
                 alert('An unexpected error occurred.');

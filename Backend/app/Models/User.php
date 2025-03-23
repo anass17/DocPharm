@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 abstract class User extends Model {
+
+    use HasApiTokens;
 
     protected $table = 'users';
 

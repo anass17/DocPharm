@@ -16,11 +16,43 @@ import RegisterAsPharmacy from './Pages/Auth/RegisterAsPharmacy';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import NotFoundPage from './Pages/Errors/NotFound.jsx';
+import { useEffect } from 'react';
+import Cookies from 'js-cookie';
+import { useDispatch, useSelector } from 'react-redux';
+import { loginUser } from './Pages/store/actions.js';
 
 function App() {
 
+  const user = useSelector(data => data.user.user);
+  const dispatch = useDispatch();
+
 
   // const [count, setCount] = useState(0)
+
+
+  useEffect(() => {
+  
+    if (!user && Cookies.get('auth_token')) {
+      async function checkUser() {
+        const response = await fetch('http://localhost:8000/api/user', {
+            method: 'GET',
+            headers: {
+              'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+            }
+        });
+  
+        const responseData = await response.json();
+  
+        if (response.status === 200) {
+          dispatch(loginUser(responseData.user))
+        }
+      }
+        
+      checkUser()
+    }
+
+    
+  })
 
   return (
     <>
@@ -47,3 +79,12 @@ function App() {
 }
 
 export default App
+//  (response.status === 422) {
+          //     setErrors(responseData.errors);
+          // } else if (response.status === 200) {
+          //     dispatch(loginUser(responseData.user))
+          //     Cookies.set('auth_token', responseData.token, { expires: 1, path: '' });
+          //     navigate('/verifyEmail');
+          // } else {
+          //     alert('An unexpected error occurred.');
+          // }

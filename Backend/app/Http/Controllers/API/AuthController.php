@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -36,12 +37,6 @@ class AuthController extends Controller
 
         $user = User::returnUserByRole($request->type);
 
-        // $user -> first_name = $request -> first_name;
-        // $user -> last_name = $request -> last_name;
-        // $user -> email = $request -> email;
-        // $user -> password = Hash::make($request -> password);
-        // $user = User::returnUserByRole($request->type);
-
         $user -> first_name = $request -> first_name;
         $user -> last_name = $request -> last_name;
         $user -> email = $request -> email;
@@ -49,17 +44,22 @@ class AuthController extends Controller
 
         $user -> save();
 
-        // $this -> sendTestEmail($user);
+        $token = $user -> createToken('auth_token')->plainTextToken;
 
-        return response()->json(['message' => 'Successfully Registered', 'user' => $user]);
+        $this -> sendVerificationEmail($user);
+
+        return response()->json(['message' => 'Successfully Registered', 'token' => $token, 'user' => $user]);
     }
 
-    public function sendTestEmail(User $user) {
+    public function sendVerificationEmail(User $user) {
 
         $verificationUrl = URL::temporarySignedRoute(
             'verification.verify',
             now()->addMinutes(10),
-            ['id' => $user->id, 'hash' => sha1($user->email)]
+            [
+                'id' => $user->id, 
+                'hash' => sha1($user->email)
+            ]
         );
 
         Mail::to($user->email)->send(new VerificationEmail($user, $verificationUrl));
@@ -68,5 +68,25 @@ class AuthController extends Controller
 
     public function registerAsDoctor(Request $request) {
 
+    }
+
+    // Get the user details from sanctum token
+
+    public function getUser(Request $request) {
+        $user = $request->user();
+        return response()->json(['user' => $user]);
+    }
+
+    // Verify the email when the user clicks on the link
+
+    public function verifyEmail($id, $hash) {
+        $user = Client::findOrFail($id);
+    
+        if (hash_equals($hash, sha1($user->email))) {
+            $user->email_verified_at = now();
+            $user->save();
+        }
+    
+        return redirect()->away('http://localhost:5173/');
     }
 }

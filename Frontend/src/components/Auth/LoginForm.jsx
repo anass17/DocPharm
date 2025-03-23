@@ -1,8 +1,23 @@
 import { Container, Box, Grid2, Typography, Button, TextField } from "@mui/material"
 import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3, GREEN5 } from "../../config/colors"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 export default function LoginForm() {
+
+    const navigate = useNavigate();
+    const user = useSelector(data => data.user.user)
+
+    useEffect(() => {
+        if (user) {
+            if (user.email_verified_at == null) {
+                navigate('/verifyEmail');
+            } else {
+                navigate('/');
+            }
+        }
+    })
 
     return (
         <Container maxWidth="lg" sx={{ pt: 8, display:"flex", alignItems:'center', height: '100vh' }}>
