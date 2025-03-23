@@ -1,4 +1,4 @@
-import { Container, Box, Grid2, Typography, Button, TextField, Select, InputLabel, MenuItem, FormControl } from "@mui/material"
+import { Container, Box, Grid2, Typography, Button, TextField, Select, InputLabel, MenuItem, FormControl, FormHelperText } from "@mui/material"
 import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3 } from "../../config/colors"
 import { ChangeEvent, useState } from "react"
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 export default function RegisterForm() {
 
     const [data, setData] = useState({first_name: '', last_name: '', email: '', password: '', type: ''});
+    const [errors, setErrors] = useState({first_name: '', last_name: '', email: '', password: '', type: ''})
 
     function handleChange(e) {
         const {name, value} = e.target;
@@ -16,19 +17,31 @@ export default function RegisterForm() {
         })
     }
 
-
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-
-        fetch('http://localhost:8000/api/register', {
-
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        }).then(response => response.json())
-        .then(data => console.log(data));
+    
+        try {
+            const response = await fetch('http://localhost:8000/api/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+    
+            const responseData = await response.json();
+    
+            if (response.status === 422) {
+                setErrors(responseData.errors);
+            } else if (response.status === 200) {
+                alert('Registration successful!');
+            } else {
+                alert('An unexpected error occurred.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while processing your request.');
+        }
     }
 
     return (
@@ -44,15 +57,15 @@ export default function RegisterForm() {
                             <Typography variant="h4" component="h1" mb={1}>Join Us!</Typography>
                             <Typography variant="body1" mb={5}>Create an account and access to our services</Typography>
                             <Box display={"flex"} gap={1}>
-                                <TextField label="First Name" name="first_name" variant="outlined" onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
-                                <TextField label="Last Name" name="last_name" onChange={handleChange} variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
+                                <TextField label="First Name" name="first_name" error={!!errors.first_name} helperText={errors.first_name} variant="outlined" onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
+                                <TextField label="Last Name" name="last_name" error={!!errors.last_name} helperText={errors.last_name} onChange={handleChange} variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
                             </Box>
-                            <TextField label="Email" variant="outlined" name="email" onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
-                            <TextField label="Password" type="password" name="password" variant="outlined" onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
+                            <TextField label="Email" variant="outlined" name="email" error={!!errors.email} helperText={errors.email} onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
+                            <TextField label="Password" type="password" name="password" error={!!errors.password} helperText={errors.password} variant="outlined" onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
 
                             {/* Select - Account Type */}
 
-                            <FormControl fullWidth>
+                            <FormControl fullWidth error={!!errors.type}>
                                 <InputLabel id="demo-simple-select-label">Account Type</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -68,6 +81,7 @@ export default function RegisterForm() {
                                     <MenuItem value="doctor">Doctor</MenuItem>
                                     <MenuItem value="pharmacy">Pharmacy</MenuItem>
                                 </Select>
+                                <FormHelperText>{errors.type}</FormHelperText>
                             </FormControl>
 
                             {/* Sumbit */}
