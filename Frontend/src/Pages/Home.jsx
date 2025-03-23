@@ -10,7 +10,6 @@ function Home() {
 
   return (
     <>
-      <Navbar background={false} />
       <HeroSection />
       <AboutSection />
       <ServicesSection />

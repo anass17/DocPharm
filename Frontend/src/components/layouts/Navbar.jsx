@@ -120,6 +120,8 @@ function ResponsiveAppBar( {background = true} ) {
             {pages.map((page) => (
               <Button
                 key={page}
+                component="a"
+                href={'/' + page}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, display: 'block', color: textColor, textTransform: 'capitalize', fontSize: '1rem' }}
               >
