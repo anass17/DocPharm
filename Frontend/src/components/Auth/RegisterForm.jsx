@@ -17,10 +17,12 @@ export default function RegisterForm() {
     const user = useSelector(data => data.user.user)
 
     useEffect(() => {
-        if (user.email_verified_at == null) {
-            navigate('/verifyEmail');
-        } else {
-            navigate('/');
+        if (user) {
+            if (user.email_verified_at == null) {
+                navigate('/verifyEmail');
+            } else {
+                navigate('/');
+            }
         }
     })
 

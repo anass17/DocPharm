@@ -1,12 +1,18 @@
 import { Container, Box, Grid2, Typography, Button, TextField } from "@mui/material"
 import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3, GREEN5 } from "../../config/colors"
 import { Link, useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { backend_url } from "../../config/app";
+import Cookies from 'js-cookie';
+import { loginUser } from "../../Pages/store/actions";
 
 export default function LoginForm() {
 
+    const [data, setData] = useState({email: '', password: ''});
+    const [errors, setErrors] = useState(null)
     const navigate = useNavigate();
+    const dispatch = useDispatch();
     const user = useSelector(data => data.user.user)
 
     useEffect(() => {
@@ -18,6 +24,55 @@ export default function LoginForm() {
             }
         }
     })
+
+    function handleChange(e) {
+        const {name, value} = e.target;
+
+        setData({
+            ...data,
+            [name]: value
+        })
+    }
+
+    async function handleSubmit(e) {
+        e.preventDefault();
+    
+        try {
+            const response = await fetch(backend_url + '/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+    
+            const responseData = await response.json();
+    
+            if (response.status === 401) {
+                setErrors('Incorrect Login Credentials')
+                setData({
+                    ...data,
+                    password: ''
+                })
+            } else if (response.status === 200) {
+                dispatch(loginUser(responseData.user))
+                Cookies.set('auth_token', responseData.token, { expires: 1, path: '' });
+                navigate('/products');
+            } else {
+                setErrors('An unexpected error occurred.')
+                setData({
+                    ...data,
+                    password: ''
+                })
+            }
+        } catch (error) {
+            setErrors('An error occurred while processing your request.')
+            setData({
+                ...data,
+                password: ''
+            })
+        }
+    }
 
     return (
         <Container maxWidth="lg" sx={{ pt: 8, display:"flex", alignItems:'center', height: '100vh' }}>
@@ -33,19 +88,21 @@ export default function LoginForm() {
                         </Box>
                     </Grid2>
                     <Grid2 size={{md: 6, xs: 12}}>
-                        <form style={{ textAlign: 'center' }}>
+                        <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
                             <Typography variant="h4" component="h1" mb={1}>Welcome There</Typography>
                             <Typography variant="body1" mb={5}>Log into your account and see what you missed</Typography>
-                            <TextField label="Email" variant="outlined" sx={{ marginBottom: '7px', backgroundColor: '#F9F9F9' }} fullWidth />
-                            <TextField label="Password" type="password" variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
+                            
+                            <TextField label="Email" name="email" value={data.email} error={!!errors} onChange={handleChange} helperText={errors} variant="outlined" sx={{ marginBottom: '7px', backgroundColor: '#F9F9F9' }} fullWidth />
+                            <TextField label="Password" name="password" value={data.password} onChange={handleChange} type="password" variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
+                            
                             <Box mt={2} display="flex" justifyContent={"space-between"} alignItems={"center"}>
-                                <Button variant="contained" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Log in</Button>
+                                <Button variant="contained" type="submit" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Log in</Button>
                                 <Button variant="text" sx={{ color: GREEN }}>Reset Password</Button>
                             </Box>
 
                             <Box position={"relative"} mt={6}>
                                 <Typography variant="body1" component="h6" bgcolor={"#FFF"} zIndex={10} color={GRAY3} position={"relative"} display={"inline-block"} px={2}>Or Continue With</Typography>
-                                <Box height={'1px'} width={"100%"} bgcolor={GRAY4} position={"relative"} bottom={11}  ></Box>
+                                <Box height={'1px'} width={"100%"} bgcolor={GRAY4} position={"relative"} bottom={11}></Box>
                             </Box>
 
                             <Box mt={2} display={'flex'} justifyContent={"center"} gap={3}>

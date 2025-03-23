@@ -6,16 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\User;
 
-use Illuminate\Support\Str;
 
 use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\Mail;
 
 use Illuminate\Support\Facades\URL;
-
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -50,6 +46,27 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Successfully Registered', 'token' => $token, 'user' => $user]);
     }
+
+    // Log User In
+
+    public function login(Request $request) {
+
+        $user = User::returnUserByEmail($request->email);
+
+        if (!$user || Hash::check($request->passwor, $user->password)) {
+            return response()->json(['message', 'Incorrect Login Credentials'], 401);
+        }
+
+        $token = $user -> createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Successfully logged in',
+            'token' => $token,
+            'user' => $user
+        ], 200);
+    }
+
+    // Send Verification Email to the user
 
     public function sendVerificationEmail(User $user) {
 

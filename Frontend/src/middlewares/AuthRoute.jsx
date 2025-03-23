@@ -6,15 +6,19 @@ const AuthRoute = ({ component: Component, ...rest }) => {
 
     const navigate = useNavigate()
     const user = useSelector(data => data.user.user);
-
     return (
         <Route
             {...rest}
             render={(props) =>
-                user !== null ? (
-                <Component {...props} />
-                ) : (
+                user === null ? (
                     navigate('/login')
+                ) : (
+                    user.email_verified_at === null ? (
+                        navigate('/verifyEmail')
+                    ) : (
+                        <Component {...props} />
+                    )
+
                 )
             }
         />
