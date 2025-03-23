@@ -1,6 +1,6 @@
-import { Container, Box, Grid2, Typography, Button, TextField, Link } from "@mui/material"
+import { Container, Box, Grid2, Typography, Button, TextField } from "@mui/material"
 import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3, GREEN5 } from "../../config/colors"
-import zIndex from "@mui/material/styles/zIndex"
+import { Link } from "react-router-dom"
 
 export default function LoginForm() {
 
@@ -9,7 +9,7 @@ export default function LoginForm() {
             <Box sx={{ position: 'relative', backgroundColor: '#FFF', width: '100%', borderRadius: '5px', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', border: '1px solid rgba(0, 0, 0, .1)' }}>
                 <Typography variant="body2" position={"absolute"} bottom={25} right={30}>
                     Not a member? 
-                    <Link sx={{ textDecoration: 'none' }} href="#" color={GREEN} ml={1}>Register now</Link>
+                    <Link style={{ textDecoration: 'none', marginLeft: '0.25rem', color: GREEN }} to="/register">Register now</Link>
                 </Typography>
                 <Grid2 container spacing={5} p={4} pb={{ xs: 7, md: 4 }} alignItems={"center"}>
                     <Grid2 display={{md: 'block', xs: 'none'}} size={{md: 6}}>

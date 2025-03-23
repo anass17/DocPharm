@@ -1,6 +1,7 @@
-import { Container, Box, Grid2, Typography, Button, TextField, Link, Select, InputLabel, MenuItem, FormControl } from "@mui/material"
+import { Container, Box, Grid2, Typography, Button, TextField, Select, InputLabel, MenuItem, FormControl } from "@mui/material"
 import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3 } from "../../config/colors"
 import { ChangeEvent, useState } from "react"
+import { Link } from "react-router-dom";
 
 export default function RegisterForm() {
 
@@ -35,7 +36,7 @@ export default function RegisterForm() {
             <Box sx={{ position: 'relative', backgroundColor: '#FFF', width: '100%', borderRadius: '5px', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', border: '1px solid rgba(0, 0, 0, .1)' }}>
                 <Typography variant="body2" position={"absolute"} bottom={20} left={30}>
                     Already a member ? 
-                    <Link sx={{ textDecoration: 'none' }} href="#" color={GREEN} ml={1}>Sign in</Link>
+                    <Link to="/login" style={{ textDecoration: 'none', marginLeft: '0.25rem', color: GREEN }}>Sign in</Link>
                 </Typography>
                 <Grid2 container spacing={5} p={4} pb={{ xs: 8, md: 4 }} alignItems={"center"}>
                     <Grid2 size={{md: 6, sm: 12}}>
