@@ -89,4 +89,12 @@ class AuthController extends Controller
     
         return redirect()->away('http://localhost:5173/');
     }
+
+    // Log the user out
+
+    public function logout(Request $request) {
+        $token = $request->user()->currentAccessToken()->delete();
+        
+        return response()->json(['message' => 'Successfully logged out']);
+    }
 }

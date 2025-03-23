@@ -9,6 +9,7 @@ import '@fontsource/roboto/700.css';
 import Navbar from './components/layouts/Navbar.jsx';
 import Home from './Pages/Home';
 import Login from './Pages/Auth/Login';
+import Logout from './Pages/Auth/Logout';
 import Register from './Pages/Auth/Register';
 import VerificationMessage from './Pages/Auth/VerificationMessage';
 import RegisterAsDoctor from './Pages/Auth/RegisterAsDoctor';
@@ -20,6 +21,8 @@ import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from './Pages/store/actions.js';
+import UserNavbar from './components/layouts/ClientNavbar.jsx';
+import { backend_url } from './config/app.js';
 
 function App() {
 
@@ -34,7 +37,7 @@ function App() {
   
     if (!user && Cookies.get('auth_token')) {
       async function checkUser() {
-        const response = await fetch('http://localhost:8000/api/user', {
+        const response = await fetch(backend_url + '/api/user', {
             method: 'GET',
             headers: {
               'Authorization': 'Bearer ' + Cookies.get('auth_token'),
@@ -64,11 +67,18 @@ function App() {
       {/* <RegisterAsPharmacy /> */}
 
       <Router>
-        <Navbar />
+        {
+          !user ? (
+            <Navbar />
+          ) : (
+            <UserNavbar />
+          )
+        }
 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verifyEmail" element={<VerificationMessage />} />
           <Route component={<NotFoundPage />} />
