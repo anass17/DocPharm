@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
-import { loginUser } from "../../Pages/store/actions";
+import { loginUser } from "../../store/actions";
 import Cookies from 'js-cookie';
 import { backend_url } from "../../config/app";
 
@@ -15,16 +15,6 @@ export default function RegisterForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(data => data.user.user)
-
-    useEffect(() => {
-        if (user) {
-            if (user.email_verified_at == null) {
-                navigate('/verifyEmail');
-            } else {
-                navigate('/');
-            }
-        }
-    })
 
     function handleChange(e) {
         const {name, value} = e.target;

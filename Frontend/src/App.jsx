@@ -15,19 +15,22 @@ import VerificationMessage from './Pages/Auth/VerificationMessage';
 import RegisterAsDoctor from './Pages/Auth/RegisterAsDoctor';
 import RegisterAsPharmacy from './Pages/Auth/RegisterAsPharmacy';
 
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate, redirect } from 'react-router-dom';
 import NotFoundPage from './Pages/Errors/NotFound.jsx';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from './Pages/store/actions.js';
+import { loginUser } from './store/actions.js';
 import UserNavbar from './components/layouts/ClientNavbar.jsx';
 import { backend_url } from './config/app.js';
+
+import AuthMiddleware from './middlewares/AuthMiddleware.jsx';
 
 function App() {
 
   const user = useSelector(data => data.user.user);
   const dispatch = useDispatch();
+  // const navigate = useNavigate();
 
 
   // const [count, setCount] = useState(0)
@@ -67,6 +70,9 @@ function App() {
       {/* <RegisterAsPharmacy /> */}
 
       <Router>
+
+        <AuthMiddleware />
+
         {
           !user ? (
             <Navbar />
@@ -81,6 +87,7 @@ function App() {
           <Route path="/logout" element={<Logout />} />
           <Route path="/register" element={<Register />} />
           <Route path="/verifyEmail" element={<VerificationMessage />} />
+          <Route path="/registerAsDoctor" element={<RegisterAsDoctor />} />
           <Route component={<NotFoundPage />} />
         </Routes>
       </Router>

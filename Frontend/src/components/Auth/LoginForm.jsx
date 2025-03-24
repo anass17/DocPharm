@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { backend_url } from "../../config/app";
 import Cookies from 'js-cookie';
-import { loginUser } from "../../Pages/store/actions";
+import { loginUser } from "../../store/actions";
 
 export default function LoginForm() {
 
@@ -14,16 +14,6 @@ export default function LoginForm() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(data => data.user.user)
-
-    useEffect(() => {
-        if (user) {
-            if (user.email_verified_at == null) {
-                navigate('/verifyEmail');
-            } else {
-                navigate('/');
-            }
-        }
-    })
 
     function handleChange(e) {
         const {name, value} = e.target;

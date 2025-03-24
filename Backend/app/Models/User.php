@@ -24,7 +24,11 @@ abstract class User extends Model {
 
     static public function returnUserByRole($role) {
         if ($role == 'admin') {
-
+            return new Admin();
+        } else if ($role == 'pharmacy') {
+            return new Pharmacy();
+        } else if ($role == 'doctor') {
+            return new Doctor();
         } else {
             return new Client();
         }
@@ -38,7 +42,11 @@ abstract class User extends Model {
         }
 
         if ($user_row->role == 'admin') {
-            // $user
+            return Admin::find($user_row->id);
+        } else if ($user_row->role == 'pharmacy') {
+            return Doctor::find($user_row->id);
+        } else if ($user_row->role == 'doctor') {
+            return Doctor::find($user_row->id);
         } else if ($user_row->role == 'client') {
             return Client::find($user_row->id);
         }

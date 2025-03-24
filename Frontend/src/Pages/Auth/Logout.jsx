@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../store/actions";
+import { logoutUser } from "../../store/actions";
 import Cookies from 'js-cookie';
 import { useEffect } from "react";
 import { backend_url } from "../../config/app";

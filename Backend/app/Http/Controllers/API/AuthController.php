@@ -9,6 +9,7 @@ use App\Models\User;
 
 use App\Mail\VerificationEmail;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 use Illuminate\Support\Facades\URL;
 use Illuminate\Http\Request;
@@ -42,7 +43,7 @@ class AuthController extends Controller
 
         $token = $user -> createToken('auth_token')->plainTextToken;
 
-        $this -> sendVerificationEmail($user);
+        // $this -> sendVerificationEmail($user);
 
         return response()->json(['message' => 'Successfully Registered', 'token' => $token, 'user' => $user]);
     }
@@ -85,6 +86,50 @@ class AuthController extends Controller
 
     public function registerAsDoctor(Request $request) {
 
+        $validation = Validator::make($request->all(), [
+            'cne_front' => 'required|file|mimes:jpg,png,webp|max:10240',
+            'cne_back' => 'required|file|mimes:jpg,png,webp|max:10240',
+            'prof_document' => 'required|file|mimes:pdf|max:10240',
+            'building_front' => 'required|file|mimes:jpg,png,webp|max:10240',
+            'profile_picture' => 'required|file|mimes:jpg,png,webp|max:10240',
+            'medical_license_number' => 'required|integer',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string',
+            'postal_code' => 'required|integer',
+            'bio' => 'required|string',
+            'speciality' => 'required|string',
+            'appointment_type' => 'required|in:online,in-person,both',
+            'phone_number' => 'required|string|regex:/^0[567][0-9]{8}$/',
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(['errors' => $validation->errors()], 422);
+        }
+
+        $user = $request->user();
+
+        $dir_name = $user->id . '_' . Str::uuid();
+
+        $this -> uploadFile($request->file('cne_front'), "cne_front", $dir_name);
+        $this -> uploadFile($request->file('cne_back'), "cne_back", $dir_name);
+        $this -> uploadFile($request->file('prof_document'), "prof_document", $dir_name);
+        $this -> uploadFile($request->file('building_front'), "building_front", $dir_name);
+        $this -> uploadFile($request->file('profile_picture'), "profile_picture", $dir_name);
+
+        $user -> medical_license_number = $request -> medical_license_number;
+        $user -> personal_files_path = $request -> dir_name;
+        $user -> address = $request -> address;
+        $user -> city = $request -> city;
+        $user -> postal_code = $request -> postal_code;
+        $user -> bio = $request -> bio;
+        $user -> speciality = $request -> speciality;
+        $user -> appointment_type = $request -> appointment_type;
+        $user -> phone_number = $request -> phone_number;
+        $user -> verification_step = 'complete';
+
+        $user -> save();
+
+        return response()->json(['message' => 'Got the request']);
     }
 
     // Get the user details from sanctum token
@@ -100,6 +145,10 @@ class AuthController extends Controller
         $user = Client::findOrFail($id);
     
         if (hash_equals($hash, sha1($user->email))) {
+            if ($user->role == 'client') {
+                $user->status = 'active';
+            }
+
             $user->email_verified_at = now();
             $user->save();
         }
@@ -110,8 +159,19 @@ class AuthController extends Controller
     // Log the user out
 
     public function logout(Request $request) {
-        $token = $request->user()->currentAccessToken()->delete();
+        $request->user()->currentAccessToken()->delete();
         
         return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function uploadFile($file_to_upload, $file_name, $dir_name) {
+        $file = $file_to_upload;
+
+        $fileName = $file_name . '.' . $file->getClientOriginalExtension();
+
+        $folderPath = "private/{$dir_name}";
+
+        $file->storeAs($folderPath, $fileName, 'local');
+
     }
 }
