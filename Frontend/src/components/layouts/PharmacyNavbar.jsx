@@ -13,21 +13,10 @@ import MenuItem from '@mui/material/MenuItem';
 import * as colors from '../../config/colors.js';
 import { Link } from 'react-router-dom';
 
-const pages = [['Home', '/'], ['Services', '/services'], ['Contact', '/contact'], ['Sign Up', '/register']];
+const pages = [['Pharmacy', '/'], ['Sign out', '/logout']];
 
-function ResponsiveAppBar( {background = true} ) {
+function PharmacyNavbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-
-  let bgColor;
-  let textColor;
-
-  if (background) {
-    bgColor = colors.GRAY0;
-    textColor = "#FFF"
-  } else {
-    bgColor = "transparent";
-    textColor = colors.GRAY2
-  }
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -37,9 +26,15 @@ function ResponsiveAppBar( {background = true} ) {
     setAnchorElNav(null);
   };
 
+    let bgColor;
+    let textColor;
+
+    bgColor = colors.GRAY0;
+    textColor = "#FFF"
+
 
   return (
-    <AppBar position="absolute" sx={{backgroundColor: bgColor, color: textColor, boxShadow: 'none', top: 0, left: 0, py: 1}}>
+    <AppBar position="static" sx={{backgroundColor: bgColor, color: textColor, boxShadow: 'none', py: 1 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -136,4 +131,4 @@ function ResponsiveAppBar( {background = true} ) {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+export default PharmacyNavbar;

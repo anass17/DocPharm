@@ -5,35 +5,39 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-
 import Navbar from './components/layouts/Navbar.jsx';
-import Home from './Pages/Home';
-import Login from './Pages/Auth/Login';
-import Logout from './Pages/Auth/Logout';
-import Register from './Pages/Auth/Register';
-import VerificationMessage from './Pages/Auth/VerificationMessage';
-import RegisterAsDoctor from './Pages/Auth/RegisterAsDoctor';
-import RegisterAsPharmacy from './Pages/Auth/RegisterAsPharmacy';
-import PendingMessage from './Pages/Auth/PendingMessage';
+import React, { Suspense, lazy } from 'react';
+
+const Home = lazy(() => import('./Pages/Home'));
+const Login = lazy(() => import('./Pages/Auth/Login'));
+const Logout = lazy(() => import('./Pages/Auth/Logout'));
+const Register = lazy(() => import('./Pages/Auth/Register'));
+const VerificationMessage = lazy(() => import('./Pages/Auth/VerificationMessage'));
+const RegisterAsDoctor = lazy(() => import('./Pages/Auth/RegisterAsDoctor'));
+const RegisterAsPharmacy = lazy(() => import('./Pages/Auth/RegisterAsPharmacy'));
+const PendingMessage = lazy(() => import('./Pages/Auth/PendingMessage'));
+const PharmacyDashboard = lazy(() => import('./Pages/Pharmacy/PharmacyDashboard'));
+const NotFoundPage = lazy(() => import('./Pages/Errors/NotFound'));
 
 import { BrowserRouter as Router, Routes, Route, useNavigate, redirect } from 'react-router-dom';
-import NotFoundPage from './Pages/Errors/NotFound.jsx';
 import { useEffect } from 'react';
 import Cookies from 'js-cookie';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from './store/actions.js';
-import UserNavbar from './components/layouts/ClientNavbar.jsx';
+import ClientNavbar from './components/layouts/ClientNavbar.jsx';
+import PharmacyNavbar from './components/layouts/PharmacyNavbar.jsx';
 import { backend_url } from './config/app.js';
 
 import AuthMiddleware from './middlewares/AuthMiddleware.jsx';
+import Loading from './components/layouts/Loading.jsx';
 
 function App() {
 
   const user = useSelector(data => data.user.user);
   const dispatch = useDispatch();
+
+
   // const navigate = useNavigate();
-
-
   // const [count, setCount] = useState(0)
 
 
@@ -71,21 +75,34 @@ function App() {
           !user ? (
             <Navbar />
           ) : (
-            <UserNavbar />
+            user.role == "pharmacy" ? (
+              <PharmacyNavbar />
+            ) : (
+              <ClientNavbar />
+            )
           )
         }
 
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/logout" element={<Logout />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/verifyEmail" element={<VerificationMessage />} />
-          <Route path="/registerAsDoctor" element={<RegisterAsDoctor />} />
-          <Route path="/RegisterAsPharmacy" element={<RegisterAsPharmacy />} />
-          <Route path="/pending" element={<PendingMessage />} />
-          <Route component={<NotFoundPage />} />
-        </Routes>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/logout" element={<Logout />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/verifyEmail" element={<VerificationMessage />} />
+            <Route path="/registerAsDoctor" element={<RegisterAsDoctor />} />
+            <Route path="/RegisterAsPharmacy" element={<RegisterAsPharmacy />} />
+            <Route path="/pending" element={<PendingMessage />} />
+
+            {
+              user && user.role == "pharmacy" ? (
+                <Route path="/dashboard" element={<PharmacyDashboard />} />
+              ) : <></>
+            }
+          
+            <Route component={<NotFoundPage />} />
+          </Routes>
+        </Suspense>
       </Router>
     </>
   )
