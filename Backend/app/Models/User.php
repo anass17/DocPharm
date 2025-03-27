@@ -44,7 +44,7 @@ abstract class User extends Model {
         if ($user_row->role == 'admin') {
             return Admin::find($user_row->id);
         } else if ($user_row->role == 'pharmacy') {
-            return Doctor::find($user_row->id);
+            return Pharmacy::find($user_row->id);
         } else if ($user_row->role == 'doctor') {
             return Doctor::find($user_row->id);
         } else if ($user_row->role == 'client') {

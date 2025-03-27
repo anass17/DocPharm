@@ -1,7 +1,6 @@
 import { Container, Box, Grid2, Typography, Button, TextField, Link, Select, InputLabel, MenuItem, FormControl, Input } from "@mui/material"
 import { GRAY0, GREEN, GRAY2, GREEN2, GRAY4, GRAY3, GREEN3 } from "../../config/colors"
 import FormDivisor from "./FormDivisor"
-import { CloudUpload } from "@mui/icons-material"
 import FileUploadInput from "./FileUploadInput"
 import { useState } from "react"
 import PictureIcon from "../../icons/PictureIcon"
@@ -150,7 +149,6 @@ export default function RegisterForm() {
         }
         
         setErrors({})
-        console.log(data)
 
         sendRegisterData()
     }
@@ -183,7 +181,7 @@ export default function RegisterForm() {
                 setBackendErrors(responseData.errors);
             } else if (response.status === 200) {
                 dispatch(updateUserVerificationStep('complete'))
-                navigate('/products', { replace: true });
+                navigate('/pending', { replace: true });
             } else {
                 alert('An unexpected error occurred.');
             }

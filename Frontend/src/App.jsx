@@ -14,6 +14,7 @@ import Register from './Pages/Auth/Register';
 import VerificationMessage from './Pages/Auth/VerificationMessage';
 import RegisterAsDoctor from './Pages/Auth/RegisterAsDoctor';
 import RegisterAsPharmacy from './Pages/Auth/RegisterAsPharmacy';
+import PendingMessage from './Pages/Auth/PendingMessage';
 
 import { BrowserRouter as Router, Routes, Route, useNavigate, redirect } from 'react-router-dom';
 import NotFoundPage from './Pages/Errors/NotFound.jsx';
@@ -62,13 +63,6 @@ function App() {
 
   return (
     <>
-      {/* <Home /> */}
-      {/* <Login /> */}
-      {/* <Register /> */}
-      {/* <VerificationMessage /> */}
-      {/* <RegisterAsDoctor /> */}
-      {/* <RegisterAsPharmacy /> */}
-
       <Router>
 
         <AuthMiddleware />
@@ -88,6 +82,8 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/verifyEmail" element={<VerificationMessage />} />
           <Route path="/registerAsDoctor" element={<RegisterAsDoctor />} />
+          <Route path="/RegisterAsPharmacy" element={<RegisterAsPharmacy />} />
+          <Route path="/pending" element={<PendingMessage />} />
           <Route component={<NotFoundPage />} />
         </Routes>
       </Router>
@@ -96,12 +92,3 @@ function App() {
 }
 
 export default App
-//  (response.status === 422) {
-          //     setErrors(responseData.errors);
-          // } else if (response.status === 200) {
-          //     dispatch(loginUser(responseData.user))
-          //     Cookies.set('auth_token', responseData.token, { expires: 1, path: '' });
-          //     navigate('/verifyEmail');
-          // } else {
-          //     alert('An unexpected error occurred.');
-          // }

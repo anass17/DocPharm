@@ -97,7 +97,7 @@ export default function RegisterForm() {
                             {/* Sumbit */}
 
                             <Box mt={2} display="flex" justifyContent={"space-between"} alignItems={"center"}>
-                                <Button variant="contained" type="Submit" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Log in</Button>
+                                <Button variant="contained" type="Submit" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Register</Button>
                                 <Button variant="text" sx={{ color: GREEN }}>Reset Password</Button>
                             </Box>
 

@@ -29,7 +29,7 @@ class AuthController extends Controller
         ]);
 
         if ($validation->fails()) {
-            return response()->json(['fn' => $request->first_name, 'errors' => $validation->errors()], 422);
+            return response()->json(['errors' => $validation->errors()], 422);
         }
 
         $user = User::returnUserByRole($request->type);
@@ -84,6 +84,8 @@ class AuthController extends Controller
 
     }
 
+    // Get doctor's verification data and store it
+
     public function registerAsDoctor(Request $request) {
 
         $validation = Validator::make($request->all(), [
@@ -129,7 +131,54 @@ class AuthController extends Controller
 
         $user -> save();
 
-        return response()->json(['message' => 'Got the request']);
+        return response()->json(['message' => 'Register Data has been saved']);
+    }
+
+    // Get pharmacy's verification data and store it
+
+    public function registerAsPharmacy(Request $request) {
+
+        $validation = Validator::make($request->all(), [
+            'cne_front' => 'required|file|mimes:jpg,png,webp|max:10240',
+            'cne_back' => 'required|file|mimes:jpg,png,webp|max:10240',
+            'prof_document' => 'required|file|mimes:pdf|max:10240',
+            'building_front' => 'required|file|mimes:jpg,png,webp|max:10240',
+            'pharmacy_name' => 'required|string',
+            'medical_license_number' => 'required|integer',
+            'address' => 'required|string|max:255',
+            'city' => 'required|string',
+            'postal_code' => 'required|integer',
+            'order_type' => 'required|in:online,in-person,both',
+            'phone_number' => 'required|string|regex:/^0[567][0-9]{8}$/',
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(['errors' => $validation->errors()], 422);
+        }
+
+        $user = $request->user();
+
+        $dir_name = $user->id . '_' . Str::uuid();
+
+        $this -> uploadFile($request->file('cne_front'), "cne_front", $dir_name);
+        $this -> uploadFile($request->file('cne_back'), "cne_back", $dir_name);
+        $this -> uploadFile($request->file('prof_document'), "prof_document", $dir_name);
+        $this -> uploadFile($request->file('building_front'), "building_front", $dir_name);
+
+        $user -> medical_license_number = $request -> medical_license_number;
+        $user -> pharmacy_name = $request -> pharmacy_name;
+        $user -> personal_files_path = $request -> dir_name;
+        $user -> address = $request -> address;
+        $user -> city = $request -> city;
+        $user -> postal_code = $request -> postal_code;
+        $user -> bio = $request -> bio;
+        $user -> order_type = $request -> order_type;
+        $user -> phone_number = $request -> phone_number;
+        $user -> verification_step = 'complete';
+
+        $user -> save();
+
+        return response()->json(['message' => 'Register Data has been saved']);
     }
 
     // Get the user details from sanctum token

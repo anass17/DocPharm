@@ -30,7 +30,7 @@ return new class extends Migration
             $table->enum('appointment_type', ['in-person', 'online', 'both'])->nullable();
             $table->string('pharmacy_name')->nullable();
             $table->string('speciality')->nullable();
-            $table->enum('order_type', [''])->nullable();
+            $table->enum('order_type', ['in-person', 'online', 'both'])->nullable();
             $table->string('personal_files_path')->nullable();
             $table->enum('status', ['pending', 'active', 'banned'])->default('pending');
             $table->timestamps();

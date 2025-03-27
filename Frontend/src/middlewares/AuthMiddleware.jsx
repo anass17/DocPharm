@@ -8,13 +8,16 @@ const AuthMiddleware = () => {
     const user = useSelector(data => data.user.user);
 
     useEffect(() => {
-        console.log(user)
         if (!user) {
-            navigate('/login')
+            // navigate('/login')
         } else if (user.email_verified_at == null) {
             navigate('/verifyEmail')
         } else if (user.role == 'doctor' && user.verification_step == 'incomplete') {
             navigate('/registerAsDoctor')
+        } else if (user.role == 'pharmacy' && user.verification_step == 'incomplete') {
+            navigate('/registerAsPharmacy')
+        } else if (user.status == 'pending') {
+            navigate('/pending')
         }
     }, [user])
 
