@@ -11,6 +11,7 @@ export default function LoginForm() {
 
     const [data, setData] = useState({email: '', password: ''});
     const [errors, setErrors] = useState(null)
+    const [submit, setSubmit] = useState(false)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(data => data.user.user)
@@ -26,6 +27,8 @@ export default function LoginForm() {
 
     async function handleSubmit(e) {
         e.preventDefault();
+
+        setSubmit(true);
     
         try {
             const response = await fetch(backend_url + '/api/login', {
@@ -44,16 +47,18 @@ export default function LoginForm() {
                     ...data,
                     password: ''
                 })
+                setSubmit(false);
             } else if (response.status === 200) {
                 dispatch(loginUser(responseData.user))
                 Cookies.set('auth_token', responseData.token, { expires: 1, path: '' });
-                navigate('/products');
+                navigate('/dashboard');
             } else {
                 setErrors('An unexpected error occurred.')
                 setData({
                     ...data,
                     password: ''
                 })
+                setSubmit(false);
             }
         } catch (error) {
             setErrors('An error occurred while processing your request.')
@@ -61,6 +66,7 @@ export default function LoginForm() {
                 ...data,
                 password: ''
             })
+            setSubmit(false);
         }
     }
 
@@ -86,7 +92,18 @@ export default function LoginForm() {
                             <TextField label="Password" name="password" value={data.password} onChange={handleChange} type="password" variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
                             
                             <Box mt={2} display="flex" justifyContent={"space-between"} alignItems={"center"}>
-                                <Button variant="contained" type="submit" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Log in</Button>
+                                {
+                                    !submit ?
+                                    (
+                                        <Button variant="contained" type="submit" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>
+                                            Log in
+                                        </Button>
+                                    ) : (
+                                        <Button loading variant="outlined" type="button" sx={{ py: 1, px: 5 }}>
+                                            Log in
+                                        </Button>   
+                                    )
+                                }
                                 <Button variant="text" sx={{ color: GREEN }}>Reset Password</Button>
                             </Box>
 

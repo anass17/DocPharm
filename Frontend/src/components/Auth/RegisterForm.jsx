@@ -12,6 +12,7 @@ export default function RegisterForm() {
 
     const [data, setData] = useState({first_name: '', last_name: '', email: '', password: '', type: ''});
     const [errors, setErrors] = useState({first_name: '', last_name: '', email: '', password: '', type: ''})
+    const [submit, setSubmit] = useState(false)
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const user = useSelector(data => data.user.user)
@@ -27,6 +28,8 @@ export default function RegisterForm() {
 
     async function handleSubmit(e) {
         e.preventDefault();
+
+        setSubmit(true);
     
         try {
             const response = await fetch(backend_url + '/api/register', {
@@ -41,16 +44,30 @@ export default function RegisterForm() {
     
             if (response.status === 422) {
                 setErrors(responseData.errors);
+                setData({
+                    ...data,
+                    password: ''
+                })
+                setSubmit(false);
             } else if (response.status === 200) {
                 dispatch(loginUser(responseData.user))
                 Cookies.set('auth_token', responseData.token, { expires: 1, path: '' });
                 navigate('/verifyEmail');
             } else {
-                alert('An unexpected error occurred.');
+                setErrors('An unexpected error occurred.')
+                setData({
+                    ...data,
+                    password: ''
+                })
+                setSubmit(false);
             }
         } catch (error) {
-            console.error('Error:', error);
-            alert('An error occurred while processing your request.');
+            setErrors('An error occurred while processing your request.')
+            setData({
+                ...data,
+                password: '',
+            })
+            setSubmit(false);
         }
     }
 
@@ -96,8 +113,19 @@ export default function RegisterForm() {
 
                             {/* Sumbit */}
 
-                            <Box mt={2} display="flex" justifyContent={"space-between"} alignItems={"center"}>
-                                <Button variant="contained" type="Submit" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Register</Button>
+                            <Box mt={2} display="flex" justifyContent={"space-between"} alignItems={"center"}>  
+                                {
+                                    !submit ?
+                                    (
+                                        <Button variant="contained" type="Submit" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>
+                                            Register
+                                        </Button>
+                                    ) : (
+                                        <Button loading variant="outlined" type="button" sx={{ py: 1, px: 5 }}>
+                                            Register
+                                        </Button>   
+                                    )
+                                }
                                 <Button variant="text" sx={{ color: GREEN }}>Reset Password</Button>
                             </Box>
 
