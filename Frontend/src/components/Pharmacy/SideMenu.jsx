@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AppstoreOutlined, ClockCircleOutlined, MailOutlined, SettingOutlined, UserAddOutlined } from '@ant-design/icons';
 import { ConfigProvider, Menu } from 'antd';
 import { GREEN, GREEN2, GREEN3 } from '../../config/colors';
+import AddMedicineModal from './AddMedicineModal';
 
 const theme = {
     token: {
@@ -50,22 +51,42 @@ const items = [
     ],
   },
 ];
+
+
 const SideMenu = () => {
+
+    let [menuItem, setMenuItem] = useState('13');
+
   const onClick = e => {
+    setMenuItem(e.key);
     console.log('click ', e);
   };
+
+
   return (
-    <ConfigProvider theme={theme}>
-        <Menu
-        onClick={onClick}
-        style={{ width: 320, minHeight: 'calc(100vh - 40px)', fontWeight: '500', paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
-        defaultSelectedKeys={['13']}
-        selectedKeys={['13']}
-        defaultOpenKeys={['grp1']}
-        mode="inline"
-        items={items}
-        />
-    </ConfigProvider>
+
+    <>
+
+        {
+            menuItem == '15' ? (
+                <AddMedicineModal closeModal={() => {setMenuItem(0)}} />
+                
+            ) : null
+        }
+
+        <ConfigProvider theme={theme}>
+            <Menu
+            onClick={onClick}
+            style={{ width: 320, minHeight: 'calc(100vh - 40px)', fontWeight: '500', paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
+            defaultSelectedKeys={['13']}
+            selectedKeys={[menuItem]}
+            defaultOpenKeys={['grp1']}
+            mode="inline"
+            items={items}
+            />
+        </ConfigProvider>
+    </>
+
   );
 };
 export default SideMenu;

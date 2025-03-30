@@ -100,7 +100,7 @@ function App() {
               ) : <></>
             }
           
-            <Route component={<NotFoundPage />} />
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </Suspense>
       </Router>
