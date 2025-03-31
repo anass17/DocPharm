@@ -5,107 +5,113 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-import Navbar from './components/layouts/Navbar.jsx';
-import React, { Suspense, lazy } from 'react';
+// import React, { Suspense, lazy } from 'react';
+import RoutesList from './routes.jsx'; 
 
-const Home = lazy(() => import('./Pages/Home'));
-const Login = lazy(() => import('./Pages/Auth/Login'));
-const Logout = lazy(() => import('./Pages/Auth/Logout'));
-const Register = lazy(() => import('./Pages/Auth/Register'));
-const VerificationMessage = lazy(() => import('./Pages/Auth/VerificationMessage'));
-const RegisterAsDoctor = lazy(() => import('./Pages/Auth/RegisterAsDoctor'));
-const RegisterAsPharmacy = lazy(() => import('./Pages/Auth/RegisterAsPharmacy'));
-const PendingMessage = lazy(() => import('./Pages/Auth/PendingMessage'));
-const PharmacyDashboard = lazy(() => import('./Pages/Pharmacy/PharmacyDashboard'));
-const NotFoundPage = lazy(() => import('./Pages/Errors/NotFound'));
+// const Home = lazy(() => import('./Pages/Home'));
+// const Login = lazy(() => import('./Pages/auth/Login.jsx'));
+// const Logout = lazy(() => import('./Pages/auth/Logout.jsx'));
+// const Register = lazy(() => import('./Pages/auth/Register.jsx'));
+// const VerificationMessage = lazy(() => import('./Pages/auth/VerificationMessage.jsx'));
+// const RegisterAsDoctor = lazy(() => import('./Pages/auth/RegisterAsDoctor.jsx'));
+// const RegisterAsPharmacy = lazy(() => import('./Pages/auth/RegisterAsPharmacy.jsx'));
+// const PendingMessage = lazy(() => import('./Pages/auth/PendingMessage.jsx'));
+// const PharmacyDashboard = lazy(() => import('./Pages/pharmacy/PharmacyDashboard.jsx'));
+// const NotFoundPage = lazy(() => import('./Pages/errors/NotFound.jsx'));
 
-import { BrowserRouter as Router, Routes, Route, useNavigate, redirect } from 'react-router-dom';
-import { useEffect } from 'react';
-import Cookies from 'js-cookie';
-import { useDispatch, useSelector } from 'react-redux';
-import { loginUser } from './store/actions.js';
-import ClientNavbar from './components/layouts/ClientNavbar.jsx';
-import PharmacyNavbar from './components/layouts/PharmacyNavbar.jsx';
-import { backend_url } from './config/app.js';
+// import { BrowserRouter as Router, Routes, Route, useNavigate, redirect } from 'react-router-dom';
+// import { useEffect } from 'react';
+// import Cookies from 'js-cookie';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { loginUser } from './store/actions/userActions.js';
+// import ClientNavbar from './components/layouts/ClientNavbar.jsx';
+// import PharmacyNavbar from './components/layouts/PharmacyNavbar.jsx';
+// import { backend_url } from './config/app.js';
 
-import AuthMiddleware from './middlewares/AuthMiddleware.jsx';
-import Loading from './components/layouts/Loading.jsx';
+// import AuthMiddleware from './middlewares/AuthMiddleware.jsx';
+// import Loading from './components/layouts/Loading.jsx';
 
 function App() {
 
-  const user = useSelector(data => data.user.user);
-  const dispatch = useDispatch();
+  return(
+    <div>
+        <RoutesList />
+    </div>
+  )
+
+  // const user = useSelector(data => data.user.user);
+  // const dispatch = useDispatch();
 
 
   // const navigate = useNavigate();
   // const [count, setCount] = useState(0)
 
 
-  useEffect(() => {
+  // useEffect(() => {
   
-    if (!user && Cookies.get('auth_token')) {
-      async function checkUser() {
-        const response = await fetch(backend_url + '/api/user', {
-            method: 'GET',
-            headers: {
-              'Authorization': 'Bearer ' + Cookies.get('auth_token'),
-            }
-        });
+  //   if (!user && Cookies.get('auth_token')) {
+  //     async function checkUser() {
+  //       const response = await fetch(backend_url + '/api/user', {
+  //           method: 'GET',
+  //           headers: {
+  //             'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+  //           }
+  //       });
   
-        const responseData = await response.json();
+  //       const responseData = await response.json();
   
-        if (response.status === 200) {
-          dispatch(loginUser(responseData.user))
-        }
-      }
+  //       if (response.status === 200) {
+  //         dispatch(loginUser(responseData.user))
+  //       }
+  //     }
         
-      checkUser()
-    }
+  //     checkUser()
+  //   }
 
     
-  })
+  // })
 
-  return (
-    <>
-      <Router>
+  // return (
+  //   <>
+  //     <Router>
 
-        <AuthMiddleware />
+  //       <AuthMiddleware />
 
-        {
-          !user ? (
-            <Navbar />
-          ) : (
-            user.role == "pharmacy" ? (
-              <PharmacyNavbar />
-            ) : (
-              <ClientNavbar />
-            )
-          )
-        }
+  //       {
+  //         !user ? (
+  //           <Navbar />
+  //         ) : (
+  //           user.role == "pharmacy" ? (
+  //             <PharmacyNavbar />
+  //           ) : (
+  //             <ClientNavbar />
+  //           )
+  //         )
+  //       }
 
-        <Suspense fallback={<Loading />}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/verifyEmail" element={<VerificationMessage />} />
-            <Route path="/registerAsDoctor" element={<RegisterAsDoctor />} />
-            <Route path="/RegisterAsPharmacy" element={<RegisterAsPharmacy />} />
-            <Route path="/pending" element={<PendingMessage />} />
+  //       <Suspense fallback={<Loading />}>
+  //         <Routes>
+  //           <Route path="/" element={<Home />} />
+  //           <Route path="/login" element={<Login />} />
+  //           <Route path="/logout" element={<Logout />} />
+  //           <Route path="/register" element={<Register />} />
+  //           <Route path="/verifyEmail" element={<VerificationMessage />} />
+  //           <Route path="/registerAsDoctor" element={<RegisterAsDoctor />} />
+  //           <Route path="/RegisterAsPharmacy" element={<RegisterAsPharmacy />} />
+  //           <Route path="/pending" element={<PendingMessage />} />
 
-            {
-              user && user.role == "pharmacy" ? (
-                <Route path="/dashboard" element={<PharmacyDashboard />} />
-              ) : <></>
-            }
+  //           {
+  //             user && user.role == "pharmacy" ? (
+  //               <Route path="/dashboard" element={<PharmacyDashboard />} />
+  //             ) : <></>
+  //           }
           
-            <Route path='*' element={<NotFoundPage />} />
-          </Routes>
-        </Suspense>
-      </Router>
-    </>
-  )
+  //           <Route path='*' element={<NotFoundPage />} />
+  //         </Routes>
+  //       </Suspense>
+  //     </Router>
+  //   </>
+  // )
 }
 
 export default App

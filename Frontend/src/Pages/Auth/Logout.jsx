@@ -1,16 +1,14 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../../store/actions";
+import { logoutUser } from "../../store/actions/userActions";
 import Cookies from 'js-cookie';
 import { useEffect } from "react";
 import { backend_url } from "../../config/app";
 
 export default function Logout() {
-    // const [count, setCount] = useState(0)
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const user = useSelector(data => data.user.user)
 
     useEffect(() => {
         async function removeToken() {
@@ -20,8 +18,6 @@ export default function Logout() {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
             });
-    
-            const responseData = await response.json();
 
             if (response.status === 200) {
                 dispatch(logoutUser())
@@ -35,8 +31,6 @@ export default function Logout() {
     
 
     return (
-        <>
-
-        </>
+        <></>
     )
 }

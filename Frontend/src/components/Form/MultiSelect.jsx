@@ -27,7 +27,7 @@ function getStyles(name, data, theme) {
   };
 }
 
-export default function MultiSelect({label, name, data, setData, error, items = []}) {
+function MultiSelect({label, name, data, setData, error, items = []}) {
   const theme = useTheme();
 
   const handleChange = (event) => {
@@ -79,3 +79,5 @@ export default function MultiSelect({label, name, data, setData, error, items = 
     </div>
   );
 }
+
+export default MultiSelect;
