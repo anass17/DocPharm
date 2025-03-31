@@ -21,14 +21,14 @@ return new class extends Migration
 
         Schema::create('medicines', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('description');
-            $table->float('price');
-            $table->integer('quantity');
-            $table->integer('weight');
-            $table->enum('type', ['Over The Counter', 'Prescription Required']);
+            $table->string('medicine_name');
+            $table->text('medicine_description');
+            $table->float('medicine_price');
+            $table->integer('medicine_quantity');
+            $table->integer('medicine_weight');
+            $table->boolean('prescription_required');
             $table->string('usage_instructions');
-            $table->string('product_image');
+            $table->string('medicine_image');
             $table->unsignedBigInteger('medicine_form');
             $table->foreign('medicine_form')->on('medicine_forms')->references('id')->onDelete('set null');
             $table->timestamps();
@@ -55,9 +55,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('medicine_forms');
         Schema::dropIfExists('medicine_usage');
         Schema::dropIfExists('medicines');
+        Schema::dropIfExists('medicine_forms');
         Schema::dropIfExists('medicine_uses');
     }
 };

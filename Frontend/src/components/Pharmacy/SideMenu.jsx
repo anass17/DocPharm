@@ -56,37 +56,36 @@ const items = [
 const SideMenu = () => {
 
     let [menuItem, setMenuItem] = useState('13');
+    let [modalOpen, setModalOpen] = useState(false);
 
-  const onClick = e => {
-    setMenuItem(e.key);
-    console.log('click ', e);
-  };
-
-
-  return (
-
-    <>
-
-        {
-            menuItem == '15' ? (
-                <AddMedicineModal closeModal={() => {setMenuItem(0)}} />
-                
-            ) : null
+    const onClick = e => {
+        if (e.key == '15') {
+            setModalOpen(true);
+        } else {
+            setMenuItem(e.key);
         }
+    };
 
-        <ConfigProvider theme={theme}>
-            <Menu
-            onClick={onClick}
-            style={{ width: 320, minHeight: 'calc(100vh - 40px)', fontWeight: '500', paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
-            defaultSelectedKeys={['13']}
-            selectedKeys={[menuItem]}
-            defaultOpenKeys={['grp1']}
-            mode="inline"
-            items={items}
-            />
-        </ConfigProvider>
-    </>
 
-  );
+    return (
+
+        <>
+
+            <AddMedicineModal open={modalOpen} setOpen={setModalOpen} />
+
+            <ConfigProvider theme={theme}>
+                <Menu
+                onClick={onClick}
+                style={{ width: 320, minHeight: 'calc(100vh - 40px)', fontWeight: '500', paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
+                defaultSelectedKeys={['13']}
+                selectedKeys={[menuItem]}
+                defaultOpenKeys={['grp1']}
+                mode="inline"
+                items={items}
+                />
+            </ConfigProvider>
+        </>
+
+    );
 };
 export default SideMenu;
