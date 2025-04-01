@@ -9,6 +9,7 @@ import { Box, Button, Icon } from '@mui/material';
 import { Flex } from 'antd';
 import { GREEN } from '../../../config/colors';
 import OptionsButton from '../../Button/OptionsButton';
+import { backend_url } from '../../../config/app';
 
 const customPillsIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-capsule-pill" viewBox="0 0 16 16">
@@ -29,10 +30,10 @@ const MedicineCard = ({medicine}) => {
     <Card sx={{ position: 'relative' }}>
         <CardActionArea disableRipple>
             <CardMedia
-            component="img"
-            height="200"
-            image="http://localhost:8000/storage\medicines\1743377994.jpg"
-            alt="green iguana"
+                component="img"
+                height="200"
+                image={backend_url + medicine.medicine_image}
+                alt=""
             />
             <CardContent>
                 <Typography variant="h6" mb={-0.5} component="h3" sx={{ color: GREEN }}>{medicine?.medicine_name || "Unknown"}</Typography>
