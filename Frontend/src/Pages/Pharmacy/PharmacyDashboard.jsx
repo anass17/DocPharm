@@ -5,7 +5,7 @@ export default function PharmacyDashboard() {
 
     return (
         <>
-            <PharmacyLayout>
+            <PharmacyLayout menuItem={'13'} title={'Dashboard'}>
                 <DashboardSection />
             </PharmacyLayout>
         </>

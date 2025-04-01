@@ -16,11 +16,33 @@ const VerificationMessage = lazy(() => import('./Pages/auth/VerificationMessage.
 
 
 const PharmacyDashboard = lazy(() => import('./Pages/pharmacy/PharmacyDashboard.jsx'));
+const PharmacyInventory = lazy(() => import('./Pages/pharmacy/PharmacyInventory.jsx'));
 
 // Errors
 
 const NotFound = lazy(() => import('./Pages/errors/NotFound.jsx'));
 const Unauthorized = lazy(() => import('./Pages/errors/Unauthorized.jsx'));
+
+// Dashboard Redirection
+
+const DashboardRedirection = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login');
+    } else if (user.role == 'pharmacy') {
+      navigate('/pharmacy/dashboard');
+    } else if (user.role == 'doctor') {
+      navigate('/doctor/dashboard');
+    } else if (user.role == 'admin') {
+      navigate('/admin/dashboard');
+    } else {
+      navigate('/unauthorized');
+    }
+  }, [isAuthenticated]);
+}
 
 // Private Routes
 
@@ -56,6 +78,9 @@ const RoutesList = () => {
             <Route path="/pending" element={<PendingMessage />} />
             <Route path="/verification" element={<VerificationMessage />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
+
+            <Route path="/dashboard" element={<DashboardRedirection />} />
+
     
             {/* Protected Routes */}
             {/* <PrivateRoute
@@ -88,8 +113,10 @@ const RoutesList = () => {
               )}
             /> */}
             
-            <Route path="/pharmacy/dashboard" element={<PharmacyDashboard />} />
-            {/* // <Route path="/pharmacy/dashboard" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyDashboard />} /> */}
+            {/* <Route path="/pharmacy/dashboard" element={<PharmacyDashboard />} /> */}
+            <Route path="/pharmacy/dashboard" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyDashboard />} />} />
+            {/* <Route path="/pharmacy/inventory" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyInventory />} />} /> */}
+            <Route path="/pharmacy/inventory" element={<PharmacyInventory />} />
     
             {/* Catch-all route for undefined paths */}
             <Route path="*" element={<NotFound />} />
