@@ -35,23 +35,23 @@ const MedicineCard = ({medicine}) => {
             alt="green iguana"
             />
             <CardContent>
-                <Typography variant="h6" mb={-0.5} component="h3" sx={{ color: GREEN }}>{medicine?.name || "Unknown"}</Typography>
-                <Typography display={'Block'} mb={2} variant="body2">{medicine?.weight || "0"} {medicine?.unit || 'mg'}</Typography>
+                <Typography variant="h6" mb={-0.5} component="h3" sx={{ color: GREEN }}>{medicine?.medicine_name || "Unknown"}</Typography>
+                <Typography display={'Block'} mb={2} variant="body2">{medicine?.medicine_weight || "0"} {medicine?.medicine_form.unit || 'mg'}</Typography>
                 
                 <Box mb={2}>
                     <Flex gap={8} align='center' style={{ marginBottom: 5 }}>
                         {customPillsIcon}
-                        <Typography variant="body1">{medicine?.form || "Unknown"}</Typography>
+                        <Typography variant="body1">{medicine?.form.name || "Unknown"}</Typography>
                     </Flex>
                     <Flex gap={8} align='center'>
                         {customPrescriptionIcon}
-                        <Typography variant="body1">Prescription {medicine?.prescription || "Unknown"}</Typography>
+                        <Typography variant="body1">Prescription {medicine?.prescription_required ? "Required" : "Not Required"}</Typography>
                     </Flex>
                 </Box>
 
                 <Flex justify='space-between' align='center'>
-                    <Typography variant="body1">{medicine?.quantity || 0} Available Unit</Typography>
-                    <Typography variant="h6">{medicine?.price || 0} <Typography variant='body1' display={'inline-block'}>DH</Typography></Typography>
+                    <Typography variant="body1">{medicine?.medicine_quantity || 0} Available Unit</Typography>
+                    <Typography variant="h6">{medicine?.medicine_price || 0} <Typography variant='body1' display={'inline-block'}>DH</Typography></Typography>
                 </Flex>
 
                 {/* Options */}

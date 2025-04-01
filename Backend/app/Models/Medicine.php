@@ -17,4 +17,8 @@ class Medicine extends Model
         'prescription_required',
         'usage_instructions',
     ];
+
+    public function form() {
+        return $this->belongsTo(MedicineForm::class, 'medicine_form');
+    }
 }

@@ -21,9 +21,18 @@ class MedicineController extends Controller {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
+        $page = 1;
+
+        if ($request->page) {
+            $page = $request->page;
+        }
+
+        $medicines = Medicine::with('form')->paginate(9, ['*'], 'page', $page);
+
+        return response()->json(['medicines' => $medicines]);
     }
 
     /**
