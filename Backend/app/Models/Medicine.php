@@ -20,4 +20,8 @@ class Medicine extends Model
     public function form() {
         return $this->belongsTo(MedicineForm::class, 'medicine_form');
     }
+
+    public function pharmacies() {
+        return $this->belongsToMany(Pharmacy::class, 'pharmacy_medicines', 'medicine_id');
+    }
 }

@@ -119,7 +119,7 @@ const InventorySection = () => {
                     </FormControl>
                 </Flex>
             </Flex>
-            <Row gutter={20}>
+            <Row gutter={[20, 20]}>
                 {
                     medicines.map((item, index) => {
                         return (

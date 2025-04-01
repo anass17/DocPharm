@@ -37,12 +37,12 @@ const MedicineCard = ({medicine}) => {
             />
             <CardContent>
                 <Typography variant="h6" mb={-0.5} component="h3" sx={{ color: GREEN }}>{medicine?.medicine_name || "Unknown"}</Typography>
-                <Typography display={'Block'} mb={2} variant="body2">{medicine?.medicine_weight || "0"} {medicine?.medicine_form.unit || 'mg'}</Typography>
+                <Typography display={'Block'} mb={2} variant="body2">{medicine?.medicine_weight || "0"} {medicine?.form_unit || 'mg'}</Typography>
                 
                 <Box mb={2}>
                     <Flex gap={8} align='center' style={{ marginBottom: 5 }}>
                         {customPillsIcon}
-                        <Typography variant="body1">{medicine?.form.name || "Unknown"}</Typography>
+                        <Typography variant="body1">{medicine?.form_name || "Unknown"}</Typography>
                     </Flex>
                     <Flex gap={8} align='center'>
                         {customPrescriptionIcon}
