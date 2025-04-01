@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\MedicineController;
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [AuthController::class, 'register']);
@@ -20,4 +22,10 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])-
 // Medicines
 
 Route::middleware('auth:sanctum')->resource('medicines', MedicineController::class);
+Route::middleware('auth:sanctum')->get('/pharmacy/dashboard', [DashboardController::class, 'pharmacy']);
+Route::middleware('auth:sanctum')->get('/medicine/options', function () {
+    $forms = DB::table('medicine_forms')->get();
+    $uses = DB::table('medicine_uses')->get();
+    return response()->json(['forms' => $forms, 'uses' => $uses]);
+});
 

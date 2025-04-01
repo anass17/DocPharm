@@ -3,10 +3,49 @@ import StatisticBlock from "../../../components/Statistics/StatisticBlock";
 import { ClockCircleOutlined, DollarOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
 import { GREEN } from "../../../config/colors";
+import { useEffect, useState } from "react";
+import { backend_url } from "../../../config/app";
+import Cookies from 'js-cookie';
 
 const { Title, Text } = Typography
 
 const DashboardSection = () => {
+
+    const [submit, setSubmit] = useState(false);
+
+    const getStatistics = async () => {
+
+        setSubmit(true);
+        
+        try {
+
+            const response = await fetch(`${backend_url}/api/pharmacy/dashboard`, {
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                }
+            });
+    
+            const responseData = await response.json();
+    
+            if (response.status === 401) {
+                alert('Unauth')
+            } else if (response.status === 200) {
+                console.log(responseData);
+            } else {
+                alert('Error-0')
+            }
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                alert('Error')
+            }
+        }
+    }
+
+    useEffect(() => {
+        getStatistics()
+
+    }, [submit])
+
 
     return (
         <>

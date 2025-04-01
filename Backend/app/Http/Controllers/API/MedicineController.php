@@ -7,6 +7,7 @@ use App\Http\Controllers\FileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Medicine;
+use App\Models\PharmacyMedicine;
 use Illuminate\Support\Facades\DB;
 
 class MedicineController extends Controller {
@@ -76,6 +77,17 @@ class MedicineController extends Controller {
             return response()->json(['errors' => $validation->errors()], 422);
         }
 
+        $medicine_search = Medicine::where('medicine_name', 'ILIKE', $request->medicine_name)->where('medicine_weight', 'ILIKE', $request->medicine)->first();
+
+        if ($medicine_search) {
+            PharmacyMedicine::insert([
+                'medicine_quantity' => $request->medicine_quantity,
+                'medicine_id' => $medicine_search->id,
+                'pharmacy_id' => $request->user()->id
+            ]);
+            return response()->json(['message' => 'Medicine exists, it is now linked to your pharmacy'], 201);
+        }
+
         $response = $this->fileController->uploadPublicImage($request, 'medicines', 'medicine_image');
 
         if ($response->getStatusCode() == 200) {
@@ -99,8 +111,14 @@ class MedicineController extends Controller {
             ]);
         }
 
+        PharmacyMedicine::insert([
+            'medicine_quantity' => $request->medicine_quantity,
+            'medicine_id' => $medicine->id,
+            'pharmacy_id' => $request->user()->id
+        ]);
+
         // Return success response
-        return response()->json(['message' => 'Medicine Successfully Added'], 201);
+        return response()->json(['message' => "The Medicine '{$request->medicine_name}' was successfully added"], 201);
     }
 
     /**

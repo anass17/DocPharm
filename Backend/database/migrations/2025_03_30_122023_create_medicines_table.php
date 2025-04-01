@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('medicine_name');
             $table->text('medicine_description');
             $table->float('medicine_price');
-            $table->integer('medicine_quantity');
             $table->integer('medicine_weight');
             $table->boolean('prescription_required');
             $table->string('usage_instructions');
@@ -33,6 +32,17 @@ return new class extends Migration
             $table->foreign('medicine_form')->on('medicine_forms')->references('id')->onDelete('set null');
             $table->timestamps();
         });
+
+        Schema::create('pharmacy_medicines', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('medicine_id');
+            $table->unsignedBigInteger('pharmacy_id');
+            $table->integer('medicine_quantity');
+            $table->boolean('visibility')->default(true);
+            $table->foreign('medicine_id')->on('medicines')->references('id')->onDelete('cascade');
+            $table->foreign('pharmacy_id')->on('users')->references('id')->onDelete('cascade');
+        });
+
 
         Schema::create('medicine_uses', function (Blueprint $table) {
             $table->id();
@@ -55,6 +65,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('pharmacy_medicines');
         Schema::dropIfExists('medicine_usage');
         Schema::dropIfExists('medicines');
         Schema::dropIfExists('medicine_forms');

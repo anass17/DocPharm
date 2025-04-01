@@ -113,8 +113,8 @@ const RoutesList = () => {
               )}
             /> */}
             
-            {/* <Route path="/pharmacy/dashboard" element={<PharmacyDashboard />} /> */}
-            <Route path="/pharmacy/dashboard" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyDashboard />} />} />
+            <Route path="/pharmacy/dashboard" element={<PharmacyDashboard />} />
+            {/* <Route path="/pharmacy/dashboard" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyDashboard />} />} /> */}
             {/* <Route path="/pharmacy/inventory" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyInventory />} />} /> */}
             <Route path="/pharmacy/inventory" element={<PharmacyInventory />} />
     

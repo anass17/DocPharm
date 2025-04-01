@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, message, Modal, Row } from 'antd';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import FileUploadInput from '../../Form/FileUploadInput';
@@ -8,7 +8,6 @@ import { red } from '@mui/material/colors';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
   
-
 const names = [
     'Fever',
     'Headache',
@@ -16,17 +15,51 @@ const names = [
 ];
 
 const AddMedicineModal = ({open, setOpen}) => {
+    const [optionSubmit, setOptionSubmit] = useState(false);
     const [step, setStep] = useState(1);
+    const [uses, setUses] = useState([]);
+    const [forms, setForms] = useState([]);
     const [data, setData] = useState({});
     const [backendErrors, setBackendErrors] = useState(null)
     const [errors, setErrors] = useState({});
     const [submit, setSubmit] = useState(false)
     const [messageApi, contextHolder] = message.useMessage();
 
-    const info = () => {
+    const getOptions = async () => {
+        setOptionSubmit(true);
+        
+        try {
+
+            const response = await fetch(`${backend_url}/api/medicine/options`, {
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                }
+            });
+    
+            const responseData = await response.json();
+    
+            if (response.status === 401) {
+                alert('Unauth')
+            } else if (response.status === 200) {
+                setUses(responseData.uses)
+                setForms(responseData.forms)
+            } else {
+                alert('Error-0')
+            }
+        } catch (error) {
+            alert('Error')
+        }
+    }
+
+    useEffect(() => {
+        getOptions()
+
+    }, [optionSubmit])
+
+    const info = (message) => {
         messageApi.open({
             type: 'success',
-            content: `The medicine "${data.medicine_name}" has been added`,
+            content: message,
             duration: 5
         });
     };
@@ -149,7 +182,7 @@ const AddMedicineModal = ({open, setOpen}) => {
             } else if (response.status === 201) {
                 // alert('added');
                 setBackendErrors(null);
-                info();
+                info(responseData.message);
                 setData({})
                 setErrors({})
                 setStep(1)
@@ -200,10 +233,11 @@ const AddMedicineModal = ({open, setOpen}) => {
                             onChange={handleChange}
                         >
                             <MenuItem key="form-1" value="">Select</MenuItem>
-                            <MenuItem key="form-2" value="1">Tablet</MenuItem>
-                            <MenuItem key="form-3" value="2">Capsule</MenuItem>
-                            <MenuItem key="form-4" value="3">Syrup</MenuItem>
-                            <MenuItem key="form-5" value="4">Cream</MenuItem>
+                            {
+                                forms.map((item, index) => {
+                                    return <MenuItem key={`medicine-form-${index}`} value={item.id}>{item.name}</MenuItem>
+                                })
+                            }
                         </Select>
                     </FormControl>
                 </Col>
@@ -234,7 +268,7 @@ const AddMedicineModal = ({open, setOpen}) => {
     const formContent3 = (
         <div style={{ marginBottom: 5 }}>
             <div style={{ marginBottom: 16 }}>
-                <MultiSelect name="medicine_uses" data={data} error={!!errors.medicine_uses} setData={setData} label="Used For" items={names} />
+                <MultiSelect name="medicine_uses" data={data} error={!!errors.medicine_uses} setData={setData} label="Used For" items={uses} />
             </div>
             <TextField variant="outlined" name="usage_instructions" value={data.usage_instructions} onChange={handleChange} error={!errors.usage_instructions ? false : true} sx={{ mb: 2 }} label="Usage Instructions" multiline rows={4} fullWidth/>
         </div>

@@ -14,7 +14,7 @@ class MedicineSeeder extends Seeder
     public function run(): void
     {
         DB::table('medicine_forms')->insert([
-            ['name' => 'Table', 'unit' => 'mg'],
+            ['name' => 'Tablet', 'unit' => 'mg'],
             ['name' => 'Capsule', 'unit' => 'mg'],
             ['name' => 'Syrup', 'unit' => 'ml'],
             ['name' => 'Cream', 'unit' => 'mg']

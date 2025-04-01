@@ -67,11 +67,11 @@ function MultiSelect({label, name, data, setData, error, items = []}) {
         >
           {items.map((item) => (
             <MenuItem
-              key={item}
-              value={item}
-              style={getStyles(item, data[name] ? data[name] : [], theme)}
+              key={item.name}
+              value={item.name}
+              style={getStyles(item.name, data[name] ? data[name] : [], theme)}
             >
-              {item}
+              {item.name}
             </MenuItem>
           ))}
         </Select>
