@@ -27,6 +27,7 @@ class MedicineController extends Controller {
         $page = 1;
         $sort_by = 'id';
         $dir = 'desc';
+        $search = "";
 
         if ($request->page) {
             $page = $request->page;
@@ -41,7 +42,11 @@ class MedicineController extends Controller {
             $sort_by = 'medicine_quantity';
         }
 
-        $medicines = Medicine::with('form')->orderBy($sort_by, $dir)->paginate(9, ['*'], 'page', $page);
+        if ($request->search) {
+            $search = $request->search;
+        }
+
+        $medicines = Medicine::with('form')->where("medicine_name", "ILIKE", "%{$search}%")->orderBy($sort_by, $dir)->paginate(9, ['*'], 'page', $page);
 
         return response()->json(['medicines' => $medicines]);
     }

@@ -1,6 +1,6 @@
-import { Button, Col, ConfigProvider, Flex, Row, Typography } from "antd";
+import { Button, Col, ConfigProvider, Flex, Row, Spin, Typography } from "antd";
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
-import { ClockCircleOutlined, DollarOutlined, DownloadOutlined, MenuOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, DollarOutlined, DownloadOutlined, LoadingOutlined, MenuOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
 import { GRAY2, GRAY4, GREEN, GREEN5 } from "../../../config/colors";
 import SearchInput from "../../../components/Form/SearchInput";
@@ -17,9 +17,13 @@ const InventorySection = () => {
 
     const [submit, setSubmit] = useState(false);
     const [medicines, setMedicines] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(1);
     const [sorting, setSorting] = useState("recent");
+    const [search, setSearch] = useState("");
+
+    let controller = new AbortController();
 
     const handlePageChange = (page) => {
         getMedicines(page)
@@ -29,11 +33,25 @@ const InventorySection = () => {
         setSorting(e.target.value)
     }
 
+    const handleChange = (e) => {
+        setSearch(e.target.value)
+    }
+
     const getMedicines = async (page = 1) => {
+        
+        if (controller) {
+            controller.abort();
+        }
+        controller = new AbortController();
+        const signal = controller.signal;
+
         setSubmit(true);
+        setLoading(true);
+        
         try {
 
-            const response = await fetch(`${backend_url}/api/medicines?page=${page}&sort=${sorting}`, {
+            const response = await fetch(`${backend_url}/api/medicines?page=${page}&sort=${sorting}&search=${search}`, {
+                signal,
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -50,21 +68,37 @@ const InventorySection = () => {
             } else {
                 alert('Error-0')
             }
+            setLoading(false)
         } catch (error) {
-            alert('Error')
+            if (error.name !== 'AbortError') {
+                alert('Error')
+            }
         }
     }
 
     useEffect(() => {
         getMedicines()
-    }, [submit, sorting])
+
+        return () => {
+            if (controller) {
+                controller.abort();
+            }
+        };
+    }, [submit, sorting, search])
 
     return (
         <>
             <Flex style={{ marginBottom: 40 }} justify="space-between" align="center">
                 <div>
-                    <SearchInput model={'Medicines'} />
+                    <SearchInput onchange={handleChange} model={'Medicines'} />
                 </div>
+                    
+                {
+                    loading ? (
+                        <Spin indicator={<LoadingOutlined spin />} size="large" />
+                    ) : null
+                }
+
                 <Flex gap={8}>
                     <FormControl sx={{ width: '200px' }} size="small">
                         <InputLabel id="sort-by-select-label">Sort By</InputLabel>
