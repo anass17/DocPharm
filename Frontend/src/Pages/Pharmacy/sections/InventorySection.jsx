@@ -19,16 +19,21 @@ const InventorySection = () => {
     const [medicines, setMedicines] = useState([]);
     const [total, setTotal] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(1);
+    const [sorting, setSorting] = useState("recent");
 
     const handlePageChange = (page) => {
         getMedicines(page)
     }
 
-    const getMedicines = async (page) => {
+    const handleSelectChange = (e) => {
+        setSorting(e.target.value)
+    }
+
+    const getMedicines = async (page = 1) => {
         setSubmit(true);
         try {
 
-            const response = await fetch(backend_url + '/api/medicines?page=' + page, {
+            const response = await fetch(`${backend_url}/api/medicines?page=${page}&sort=${sorting}`, {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -51,8 +56,8 @@ const InventorySection = () => {
     }
 
     useEffect(() => {
-        getMedicines(1)
-    }, [submit])
+        getMedicines()
+    }, [submit, sorting])
 
     return (
         <>
@@ -61,9 +66,6 @@ const InventorySection = () => {
                     <SearchInput model={'Medicines'} />
                 </div>
                 <Flex gap={8}>
-                    <Button type="primary" icon={<MenuOutlined />} style={{ height: '40px', width: '150px', justifyContent: 'flex-start', fontWeight: 500, backgroundColor: '#FFF', borderColor: GRAY4, color: GRAY2 }}>
-                        Filters
-                    </Button>
                     <FormControl sx={{ width: '200px' }} size="small">
                         <InputLabel id="sort-by-select-label">Sort By</InputLabel>
                         <Select
@@ -71,14 +73,14 @@ const InventorySection = () => {
                             labelId="sort-by-select-label"
                             id="sort-by-select"
                             label="Sort By"
-                            value=""
-                            // onChange={handleChange}
+                            value={sorting}
+                            onChange={handleSelectChange}
                             sx={{ bgcolor: '#FFF' }}
                         >
-                            <MenuItem value={10}>Recent</MenuItem>
-                            <MenuItem value={20}>Alphabitically</MenuItem>
-                            <MenuItem value={30}>Availability</MenuItem>
-                            <MenuItem value={40}>Price</MenuItem>
+                            <MenuItem value={'recent'}>Recent</MenuItem>
+                            <MenuItem value={'alphabitically'}>Alphabitically</MenuItem>
+                            <MenuItem value={'availability'}>Availability</MenuItem>
+                            <MenuItem value={'price'}>Price</MenuItem>
                         </Select>
                     </FormControl>
                 </Flex>

@@ -25,12 +25,23 @@ class MedicineController extends Controller {
     {
 
         $page = 1;
+        $sort_by = 'id';
+        $dir = 'desc';
 
         if ($request->page) {
             $page = $request->page;
         }
 
-        $medicines = Medicine::with('form')->paginate(9, ['*'], 'page', $page);
+        if ($request->sort == "price") {
+            $sort_by = 'medicine_price';
+        } else if ($request->sort == "alphabitically") {
+            $sort_by = 'medicine_name';
+            $dir = 'asc';
+        } else if ($request->sort == "availability") {
+            $sort_by = 'medicine_quantity';
+        }
+
+        $medicines = Medicine::with('form')->orderBy($sort_by, $dir)->paginate(9, ['*'], 'page', $page);
 
         return response()->json(['medicines' => $medicines]);
     }
