@@ -1,4 +1,4 @@
-import { Button, Col, Flex, Row, Typography } from "antd";
+import { Button, Col, Flex, Row, Skeleton, Typography } from "antd";
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
 import { ClockCircleOutlined, DollarOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
@@ -6,16 +6,21 @@ import { GREEN } from "../../../config/colors";
 import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
+import { formatDistanceToNow } from 'date-fns';
+import { Link } from "react-router-dom";
 
 const { Title, Text } = Typography
 
 const DashboardSection = () => {
 
     const [submit, setSubmit] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [recentAdded, setRecentAdded] = useState([]);
 
     const getStatistics = async () => {
 
         setSubmit(true);
+        setLoading(true)
         
         try {
 
@@ -30,7 +35,7 @@ const DashboardSection = () => {
             if (response.status === 401) {
                 alert('Unauth')
             } else if (response.status === 200) {
-                console.log(responseData);
+                setRecentAdded(responseData.recent_added)
             } else {
                 alert('Error-0')
             }
@@ -38,6 +43,8 @@ const DashboardSection = () => {
             if (error.name !== 'AbortError') {
                 alert('Error')
             }
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -79,48 +86,39 @@ const DashboardSection = () => {
                         <div style={{ padding: '15px 20px'  }}>
                             <Title level={4} style={{ marginBottom: 20 }}>Recent Added</Title>
                             <div>
-                                <Flex justify="space-between" style={{ marginBottom: 25 }}>
-                                    <div>
-                                        <Title level={5} style={{ marginBottom: "0", color: GREEN }}>First</Title>
-                                        <Text>200mg</Text>
-                                    </div>
-                                    <div>
-                                        <Text strong>2 hours ago</Text>
-                                    </div>
-                                </Flex>
-                                <Flex justify="space-between" style={{ marginBottom: 25 }}>
-                                    <div>
-                                        <Title level={5} style={{ marginBottom: "0", color: GREEN }}>First</Title>
-                                        <Text>200mg</Text>
-                                    </div>
-                                    <div>
-                                        <Text strong>2 hours ago</Text>
-                                    </div>
-                                </Flex>
-                                <Flex justify="space-between" style={{ marginBottom: 25 }}>
-                                    <div>
-                                        <Title level={5} style={{ marginBottom: "0", color: GREEN }}>First</Title>
-                                        <Text>200mg</Text>
-                                    </div>
-                                    <div>
-                                        <Text strong>2 hours ago</Text>
-                                    </div>
-                                </Flex>
-                                <Flex justify="space-between" style={{ marginBottom: 25 }}>
-                                    <div>
-                                        <Title level={5} style={{ marginBottom: "0", color: GREEN }}>First</Title>
-                                        <Text>200mg</Text>
-                                    </div>
-                                    <div>
-                                        <Text strong>2 hours ago</Text>
-                                    </div>
-                                </Flex>
+                                {
+                                    loading ?
+                                    (
+                                        <>
+                                            <Skeleton active paragraph={{ rows: 1}} style={{ marginBottom: 25 }} />
+                                            <Skeleton active paragraph={{ rows: 1}} style={{ marginBottom: 25 }} />
+                                            <Skeleton active paragraph={{ rows: 1}} style={{ marginBottom: 25 }} />
+                                            <Skeleton active paragraph={{ rows: 1}} style={{ marginBottom: 25 }} />
+                                        </>
+                                    ) : (
+                                        recentAdded.map((item, index) => {
+                                            return (
+                                                <Flex key={'med-' + index} justify="space-between" style={{ marginBottom: 25 }}>
+                                                    <div>
+                                                        <Title level={5} style={{ marginBottom: "0", color: GREEN }}>{item.medicine_name}</Title>
+                                                        <Text>{item.medicine_weight}mg</Text>
+                                                    </div>
+                                                    <div>
+                                                        <Text strong>{formatDistanceToNow(item.created_at, { addSuffix: true })}</Text>
+                                                    </div>
+                                                </Flex>
+                                            )
+                                        })
+                                    )
+                                }
                             </div>
                         </div>
 
-                        <Button type="text" style={{ borderTop: '1px solid #DDD', paddingTop: 25, paddingBottom: 25 }} block>
-                            Show All
-                        </Button>
+                        <Link to='/pharmacy/inventory'>
+                            <Button type="text" style={{ borderTop: '1px solid #DDD', paddingTop: 25, paddingBottom: 25 }} block>
+                                Show All
+                            </Button>
+                        </Link>
                     </div>
                 </Col>
             </Row>
