@@ -135,7 +135,13 @@ class MedicineController extends Controller {
      */
     public function show(string $id)
     {
-        //
+        $medicine = Medicine::with('uses')->find($id);
+
+        if (!$medicine) {
+            return response()->json([], 404);
+        }
+
+        return response()->json(['medicine' => $medicine]);
     }
 
     /**

@@ -21,6 +21,10 @@ class Medicine extends Model
         return $this->belongsTo(MedicineForm::class, 'medicine_form');
     }
 
+    public function uses() {
+        return $this->belongsToMany(MedicineUse::class, 'medicine_usage', 'medicine_id', 'use_id');
+    }
+
     public function pharmacies() {
         return $this->belongsToMany(Pharmacy::class, 'pharmacy_medicines', 'medicine_id');
     }

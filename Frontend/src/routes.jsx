@@ -17,6 +17,7 @@ const VerificationMessage = lazy(() => import('./Pages/auth/VerificationMessage.
 
 const PharmacyDashboard = lazy(() => import('./Pages/pharmacy/PharmacyDashboard.jsx'));
 const PharmacyInventory = lazy(() => import('./Pages/pharmacy/PharmacyInventory.jsx'));
+const PharmacyMedicine = lazy(() => import('./Pages/pharmacy/PharmacyMedicine.jsx'));
 
 // Errors
 
@@ -117,6 +118,7 @@ const RoutesList = () => {
             {/* <Route path="/pharmacy/dashboard" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyDashboard />} />} /> */}
             {/* <Route path="/pharmacy/inventory" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyInventory />} />} /> */}
             <Route path="/pharmacy/inventory" element={<PharmacyInventory />} />
+            <Route path="/pharmacy/medicines/:id" element={<PharmacyMedicine />} />
     
             {/* Catch-all route for undefined paths */}
             <Route path="*" element={<NotFound />} />
