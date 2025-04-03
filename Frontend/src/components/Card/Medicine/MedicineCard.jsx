@@ -7,11 +7,12 @@ import CardActionArea from '@mui/material/CardActionArea';
 import { Block } from '@mui/icons-material';
 import { Box, Button, Icon } from '@mui/material';
 import { Flex } from 'antd';
-import { GREEN } from '../../../config/colors';
+import { GRAY0, GRAY2, GREEN } from '../../../config/colors';
 import OptionsButton from '../../Button/OptionsButton';
 import { backend_url } from '../../../config/app';
 import UpdateMedicineModal from '../../Modal/Medicine/UpdateMedicineModal';
 import { EyeInvisibleOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 const customPillsIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-capsule-pill" viewBox="0 0 16 16">
@@ -36,37 +37,39 @@ const MedicineCard = ({medicine, handleUpdateMedicine}) => {
 
   return (
     <Card sx={{ position: 'relative' }} style={{ opacity: ( medicine.visibility ? 1 : 0.7 ) }}>
-        <CardActionArea disableRipple>
-            <CardMedia
-                component="img"
-                height="200"
-                image={backend_url + medicine.medicine_image}
-                alt=""
-            />
-            <CardContent>
-                <Typography variant="h6" mb={-0.5} component="h3" sx={{ color: GREEN }}>{medicine?.medicine_name || "Unknown"}</Typography>
-                <Typography display={'Block'} mb={2} variant="body2">{medicine?.medicine_weight || "0"} {medicine?.form_unit || 'mg'}</Typography>
-                
-                <Box mb={2}>
-                    <Flex gap={8} align='center' style={{ marginBottom: 5 }}>
-                        {customPillsIcon}
-                        <Typography variant="body1">{medicine?.form_name || "Unknown"}</Typography>
+        <Link to={`/pharmacy/medicines/${medicine.id}`} style={{ color: GRAY0, backgroundColor: '#FFF' }}>
+            <CardActionArea disableRipple>
+                <CardMedia
+                    component="img"
+                    height="200"
+                    image={backend_url + medicine.medicine_image}
+                    alt=""
+                />
+                <CardContent>
+                    <Typography variant="h6" mb={-0.5} component="h3" sx={{ color: GREEN }}>{medicine?.medicine_name || "Unknown"}</Typography>
+                    <Typography display={'Block'} mb={2} variant="body2">{medicine?.medicine_weight || "0"} {medicine?.form_unit || 'mg'}</Typography>
+                    
+                    <Box mb={2}>
+                        <Flex gap={8} align='center' style={{ marginBottom: 5 }}>
+                            {customPillsIcon}
+                            <Typography variant="body1">{medicine?.form_name || "Unknown"}</Typography>
+                        </Flex>
+                        <Flex gap={8} align='center'>
+                            {customPrescriptionIcon}
+                            <Typography variant="body1">Prescription {medicine?.prescription_required ? "Required" : "Not Required"}</Typography>
+                        </Flex>
+                    </Box>
+
+                    <Flex justify='space-between' align='center'>
+                        <Typography variant="body1">{medicine?.medicine_quantity || 0} Available Unit</Typography>
+                        <Typography variant="h6">{medicine?.medicine_price || 0} <Typography variant='body1' display={'inline-block'}>DH</Typography></Typography>
                     </Flex>
-                    <Flex gap={8} align='center'>
-                        {customPrescriptionIcon}
-                        <Typography variant="body1">Prescription {medicine?.prescription_required ? "Required" : "Not Required"}</Typography>
-                    </Flex>
-                </Box>
 
-                <Flex justify='space-between' align='center'>
-                    <Typography variant="body1">{medicine?.medicine_quantity || 0} Available Unit</Typography>
-                    <Typography variant="h6">{medicine?.medicine_price || 0} <Typography variant='body1' display={'inline-block'}>DH</Typography></Typography>
-                </Flex>
+                    {/* Options */}
 
-                {/* Options */}
-
-            </CardContent>
-        </CardActionArea>
+                </CardContent>
+            </CardActionArea>
+        </Link>
 
         <Box position={'absolute'} top={10} right={10}>
             <OptionsButton onUpdate={handleUpdate} />

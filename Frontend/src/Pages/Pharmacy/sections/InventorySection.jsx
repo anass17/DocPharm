@@ -107,7 +107,7 @@ const InventorySection = () => {
         <>
             {contextHolder}
             <Flex style={{ marginBottom: 40 }} justify="space-between" align="center">
-                <div style={{ width: '100%' }}>
+                <div style={{ maxWidth: '420px', width: '100%' }}>
                     <SearchInput onchange={handleChange} model={'Medicines'} />
                 </div>
                     
@@ -123,6 +123,7 @@ const InventorySection = () => {
                         <Select
                             variant="outlined"
                             labelId="sort-by-select-label"
+                            size="large"
                             id="sort-by-select"
                             label="Sort By"
                             value={sorting}

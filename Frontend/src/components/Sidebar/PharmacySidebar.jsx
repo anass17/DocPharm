@@ -33,7 +33,6 @@ const items = [
     children: [
       { key: '15', label: 'Add New Product', icon: <AppstoreOutlined /> },
       { key: '16', label: 'My Inventory', icon: <AppstoreOutlined />},
-      { key: '17', label: 'Reported Products', icon: <AppstoreOutlined /> },
     ],
   },
   {
