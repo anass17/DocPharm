@@ -34,7 +34,7 @@ function UserNavbar() {
 
 
   return (
-    <AppBar position="absolute" sx={{backgroundColor: bgColor, color: textColor, boxShadow: 'none', top: 0, left: 0, py: 1}}>
+    <AppBar position="static" sx={{backgroundColor: bgColor, color: textColor, boxShadow: 'none', top: 0, left: 0, py: 1}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography

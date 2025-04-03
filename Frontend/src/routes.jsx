@@ -19,6 +19,10 @@ const PharmacyDashboard = lazy(() => import('./Pages/pharmacy/PharmacyDashboard.
 const PharmacyInventory = lazy(() => import('./Pages/pharmacy/PharmacyInventory.jsx'));
 const PharmacyMedicine = lazy(() => import('./Pages/pharmacy/PharmacyMedicine.jsx'));
 
+
+
+const UserMedicine = lazy(() => import('./Pages/user/UserMedicine.jsx'));
+
 // Errors
 
 const NotFound = lazy(() => import('./Pages/errors/NotFound.jsx'));
@@ -119,6 +123,12 @@ const RoutesList = () => {
             {/* <Route path="/pharmacy/inventory" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyInventory />} />} /> */}
             <Route path="/pharmacy/inventory" element={<PharmacyInventory />} />
             <Route path="/pharmacy/medicines/:id" element={<PharmacyMedicine />} />
+
+
+
+
+
+            <Route path="/medicines/:id" element={<UserMedicine />} />
     
             {/* Catch-all route for undefined paths */}
             <Route path="*" element={<NotFound />} />

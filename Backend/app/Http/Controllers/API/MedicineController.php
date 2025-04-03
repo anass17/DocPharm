@@ -135,7 +135,9 @@ class MedicineController extends Controller {
      */
     public function show(string $id)
     {
-        $medicine = Medicine::with('uses')->find($id);
+        $medicine = Medicine::with(['pharmacies' => function($query) {
+            $query->wherePivot('visibility', '=', 'true');
+        }])->with('uses')->find($id);
 
         if (!$medicine) {
             return response()->json([], 404);

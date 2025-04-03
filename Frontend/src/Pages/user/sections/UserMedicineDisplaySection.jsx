@@ -1,6 +1,6 @@
 import { Button, Col, ConfigProvider, Divider, Flex, message, Row, Skeleton, Spin, Typography } from "antd";
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
-import { ClockCircleOutlined, DollarOutlined, DownloadOutlined, LoadingOutlined, MenuOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { ClockCircleOutlined, DollarOutlined, DownloadOutlined, HeartOutlined, LoadingOutlined, MenuOutlined, PushpinFilled, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
 import { GRAY2, GRAY4, GREEN, GREEN5 } from "../../../config/colors";
 import SearchInput from "../../../components/Form/SearchInput";
@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import UpdateMedicineModal from "../../../components/Modal/Medicine/UpdateMedicineModal";
-import { useParams } from "react-router-dom";import { Tabs } from 'antd';
+import { Link, useParams } from "react-router-dom";import { Tabs } from 'antd';
 
 const { Title, Text } = Typography
 
@@ -34,9 +34,9 @@ const items = [
     },
 ];
 
-const PharmacyMedicineDisplaySection = () => {
+const UserMedicineDisplaySection = () => {
     const [submit, setSubmit] = useState(false);
-    const [medicine, setMedicine] = useState([]);
+    const [medicine, setMedicine] = useState({});
     const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState(items)
     const { id: param_id } = useParams();
@@ -166,13 +166,40 @@ const PharmacyMedicineDisplaySection = () => {
                         }
                         
                     </Box>
+                    <Divider></Divider>
+                    <Flex gap={6}>
+                        <Button style={{ flex: 1, backgroundColor: GREEN, height: 40, color: '#FFF' }} icon={<ShoppingCartOutlined />}>Add To Cart</Button>
+                        <Button style={{ width: 40, height: 40 }}><HeartOutlined /></Button>
+                    </Flex>
                 </Col>
             </Row>
             <Box sx={{ bgcolor: '#FFF', px: 3, py: 1.5, mt: 6, borderRadius: 3 }}>
                 <Tabs defaultActiveKey="1" items={details} onChange={onChange} />
             </Box>
+            <Box pt={6}>
+                <Title level={3}>Available At Nearby Pharmacies</Title>
+                <Row gutter={[20, 20]}>
+                    {
+                        !loading && medicine.pharmacies ? (
+                            medicine.pharmacies.map((item, index) => {
+                                return (
+                                    <Col span={8} key={'pharmacy-' + index}>
+                                        <Box sx={{ bgcolor: '#FFF', borderRadius: 2, py: 1.5, px: 4 }}>
+                                            <Link to="#">
+                                                <Title level={5} style={{ marginBottom: 0 }}>{item.pharmacy_name}</Title>
+                                                <Text><PushpinFilled style={{ marginRight: 5 }} />{item.address}</Text>
+                                                <Text style={{ color: 'dodgerblue', display: 'block', marginTop: 5 }}>{item.pivot.medicine_quantity} Units Available</Text>
+                                            </Link>
+                                        </Box>
+                                    </Col>
+                                )
+                            })
+                        ) : null
+                    }
+                </Row>
+            </Box>
         </>
     )
 }
 
-export default PharmacyMedicineDisplaySection;
+export default UserMedicineDisplaySection;
