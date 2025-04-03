@@ -41,6 +41,7 @@ return new class extends Migration
             $table->boolean('visibility')->default(true);
             $table->foreign('medicine_id')->on('medicines')->references('id')->onDelete('cascade');
             $table->foreign('pharmacy_id')->on('users')->references('id')->onDelete('cascade');
+            $table->timestamps();
         });
 
 

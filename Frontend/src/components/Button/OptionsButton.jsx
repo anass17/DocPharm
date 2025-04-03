@@ -56,7 +56,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function OptionsButton() {
+export default function OptionsButton({onUpdate}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     
@@ -64,11 +64,9 @@ export default function OptionsButton() {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleOptionClick = (e) => {
+    const handleUpdate = (e) => {
         setAnchorEl(null);
-        if (e.target.id == 'increase') {
-            
-        }
+        onUpdate();
     }
 
     const handleClose = () => {
@@ -99,19 +97,11 @@ export default function OptionsButton() {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleOptionClick} id={"option-increase"} disableRipple>
-                    <AddCircleOutlineIcon />
-                    Increate Units
-                </MenuItem>
-                <MenuItem onClick={handleOptionClick} id={"option-update"} disableRipple>
+                <MenuItem onClick={handleUpdate} id={"option-update"} disableRipple>
                     <EditIcon />
                     Update
                 </MenuItem>
-                <MenuItem onClick={handleOptionClick} id={"option-hide"} disableRipple>
-                    <VisibilityOffIcon />
-                    Hide
-                </MenuItem>
-                <MenuItem onClick={handleOptionClick} id={"option-delete"} disableRipple>
+                <MenuItem onClick={handleUpdate} id={"option-delete"} disableRipple>
                     <DeleteIcon />
                     Delete
                 </MenuItem>

@@ -143,7 +143,27 @@ class MedicineController extends Controller {
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validation = Validator::make($request->all(), [
+            'new_quantity' => 'required|integer',
+            'new_visibility' => 'required|bool'
+        ]);
+
+        if ($validation -> fails()) {
+            return response()->json(['errors' => $validation->errors()], 422);
+        }
+        
+        $medicine = PharmacyMedicine::where('medicine_id', '=', $id)->where('pharmacy_id', '=', $request->user() -> id)->first();
+        
+        if ($medicine->medicine_quantity + $request->new_quantity < 0) {
+            return response()->json(['errors' => ['The total quantity should not be negative']], 422);
+        }
+
+        $medicine -> medicine_quantity += $request->new_quantity;
+        $medicine -> visibility = $request->new_visibility;
+
+        $medicine->save();
+
+        return response()->json(['message' => 'Medicine Updated Successfully']);
     }
 
     /**

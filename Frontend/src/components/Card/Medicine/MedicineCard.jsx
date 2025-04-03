@@ -10,6 +10,8 @@ import { Flex } from 'antd';
 import { GREEN } from '../../../config/colors';
 import OptionsButton from '../../Button/OptionsButton';
 import { backend_url } from '../../../config/app';
+import UpdateMedicineModal from '../../Modal/Medicine/UpdateMedicineModal';
+import { EyeInvisibleOutlined } from '@ant-design/icons';
 
 const customPillsIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-capsule-pill" viewBox="0 0 16 16">
@@ -25,9 +27,15 @@ const customPrescriptionIcon = (
     </svg>
 )
 
-const MedicineCard = ({medicine}) => {
+const MedicineCard = ({medicine, handleUpdateMedicine}) => {
+    const [update, setUpdate] = React.useState(false);
+
+    const handleUpdate = () => {
+        setUpdate(true)
+    }
+
   return (
-    <Card sx={{ position: 'relative' }}>
+    <Card sx={{ position: 'relative' }} style={{ opacity: ( medicine.visibility ? 1 : 0.7 ) }}>
         <CardActionArea disableRipple>
             <CardMedia
                 component="img"
@@ -61,8 +69,10 @@ const MedicineCard = ({medicine}) => {
         </CardActionArea>
 
         <Box position={'absolute'} top={10} right={10}>
-            <OptionsButton />
+            <OptionsButton onUpdate={handleUpdate} />
         </Box>
+
+        <UpdateMedicineModal medicine={medicine} open={update} setOpen={setUpdate} handleUpdate={handleUpdateMedicine} />
     </Card>
   );
 }

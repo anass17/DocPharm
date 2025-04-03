@@ -1,4 +1,4 @@
-import { Button, Col, ConfigProvider, Flex, Row, Spin, Typography } from "antd";
+import { Button, Col, ConfigProvider, Flex, message, Row, Spin, Typography } from "antd";
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
 import { ClockCircleOutlined, DollarOutlined, DownloadOutlined, LoadingOutlined, MenuOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
@@ -10,6 +10,7 @@ import { Pagination } from 'antd';
 import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
+import UpdateMedicineModal from "../../../components/Modal/Medicine/UpdateMedicineModal";
 
 const { Title, Text } = Typography
 
@@ -22,8 +23,24 @@ const InventorySection = () => {
     const [itemsPerPage, setItemsPerPage] = useState(1);
     const [sorting, setSorting] = useState("recent");
     const [search, setSearch] = useState("");
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const info = (message) => {
+        messageApi.open({
+            type: 'error',
+            content: message,
+            duration: 5
+        });
+    };
 
     let controller = new AbortController();
+
+    const handleUpdateMedicine = (id, quantity, visibility) => {
+        console.log(id, quantity, visibility)
+        setMedicines(
+            medicines.map((item) => item.id === id ? {...item, medicine_quantity: quantity, visibility: visibility} : item)
+        )
+    }
 
     const handlePageChange = (page) => {
         getMedicines(page)
@@ -60,18 +77,18 @@ const InventorySection = () => {
             const responseData = await response.json();
     
             if (response.status === 401) {
-                alert('Unauth')
+                info('You are not authorized to view this data');
             } else if (response.status === 200) {
                 setMedicines(responseData.medicines.data);
                 setTotal(responseData.medicines.total)
                 setItemsPerPage(responseData.medicines.per_page)
             } else {
-                alert('Error-0')
+                info('Something went wrong! Could not load this data');
             }
             setLoading(false)
         } catch (error) {
             if (error.name !== 'AbortError') {
-                alert('Error')
+                info('Something went wrong! Could not load this data');
             }
         }
     }
@@ -88,8 +105,9 @@ const InventorySection = () => {
 
     return (
         <>
+            {contextHolder}
             <Flex style={{ marginBottom: 40 }} justify="space-between" align="center">
-                <div>
+                <div style={{ width: '100%' }}>
                     <SearchInput onchange={handleChange} model={'Medicines'} />
                 </div>
                     
@@ -124,7 +142,7 @@ const InventorySection = () => {
                     medicines.map((item, index) => {
                         return (
                             <Col span={8} key={"medicine-" + index}>
-                                <MedicineCard medicine={item} />
+                                <MedicineCard medicine={item} handleUpdateMedicine={handleUpdateMedicine} />
                             </Col>
                         )
                     })

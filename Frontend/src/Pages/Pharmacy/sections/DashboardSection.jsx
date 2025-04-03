@@ -1,4 +1,4 @@
-import { Button, Col, Flex, Row, Skeleton, Typography } from "antd";
+import { Button, Col, Flex, message, Row, Skeleton, Typography } from "antd";
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
 import { ClockCircleOutlined, DollarOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
@@ -16,6 +16,15 @@ const DashboardSection = () => {
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
     const [recentAdded, setRecentAdded] = useState([]);
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const info = (message) => {
+        messageApi.open({
+            type: 'error',
+            content: message,
+            duration: 5
+        });
+    };
 
     const getStatistics = async () => {
 
@@ -33,15 +42,15 @@ const DashboardSection = () => {
             const responseData = await response.json();
     
             if (response.status === 401) {
-                alert('Unauth')
+                info('You are not authorized to view this data');
             } else if (response.status === 200) {
                 setRecentAdded(responseData.recent_added)
             } else {
-                alert('Error-0')
+                info('Something went wrong! Could not load this data');
             }
         } catch (error) {
             if (error.name !== 'AbortError') {
-                alert('Error')
+                info('Something went wrong! Could not load this data');
             }
         } finally {
             setLoading(false)
@@ -56,6 +65,7 @@ const DashboardSection = () => {
 
     return (
         <>
+            {contextHolder}
             <Row gutter={[16, 16]} style={{ marginBottom: 35 }}>
                 <Col span={8}>
                     <StatisticBlock value={25} name={"Different Medicines"} component={ClockCircleOutlined} />

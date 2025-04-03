@@ -8,12 +8,6 @@ import { red } from '@mui/material/colors';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
   
-const names = [
-    'Fever',
-    'Headache',
-    'Pain',
-];
-
 const AddMedicineModal = ({open, setOpen}) => {
     const [optionSubmit, setOptionSubmit] = useState(false);
     const [step, setStep] = useState(1);
@@ -24,6 +18,14 @@ const AddMedicineModal = ({open, setOpen}) => {
     const [errors, setErrors] = useState({});
     const [submit, setSubmit] = useState(false)
     const [messageApi, contextHolder] = message.useMessage();
+
+    const info = (message, type = 'success') => {
+        messageApi.open({
+            type: type,
+            content: message,
+            duration: 5
+        });
+    };
 
     const getOptions = async () => {
         setOptionSubmit(true);
@@ -39,15 +41,15 @@ const AddMedicineModal = ({open, setOpen}) => {
             const responseData = await response.json();
     
             if (response.status === 401) {
-                alert('Unauth')
+                info('You are not authorized to view this data', 'error');
             } else if (response.status === 200) {
                 setUses(responseData.uses)
                 setForms(responseData.forms)
             } else {
-                alert('Error-0')
+                info('Something went wrong! Could not load this data', 'error');
             }
         } catch (error) {
-            alert('Error')
+            info('Something went wrong! Could not load this data', 'error');
         }
     }
 
@@ -55,14 +57,6 @@ const AddMedicineModal = ({open, setOpen}) => {
         getOptions()
 
     }, [optionSubmit])
-
-    const info = (message) => {
-        messageApi.open({
-            type: 'success',
-            content: message,
-            duration: 5
-        });
-    };
     
     // Event Handlers
 
