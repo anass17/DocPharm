@@ -29,7 +29,6 @@ class MedicineController extends Controller {
         $page = 1;
         $sort_by = 'medicines.id';
         $dir = 'desc';
-        $search = "";
 
         if ($request->page) {
             $page = $request->page;
@@ -44,17 +43,33 @@ class MedicineController extends Controller {
             $sort_by = 'medicine_quantity';
         }
 
-        if ($request->search) {
-            $search = $request->search;
-        }
-
-        // $medicines = PharmacyMedicine::with('medicines')->where("medicine_name", "ILIKE", "%{$search}%")->orderBy($sort_by, $dir)->paginate(9, ['*'], 'page', $page);
         $medicines = DB::table('medicines')
         ->join('pharmacy_medicines', 'medicines.id', '=', 'pharmacy_medicines.medicine_id')
         ->leftJoin('medicine_forms', 'medicines.medicine_form', '=', 'medicine_forms.id')
-        ->where('pharmacy_id', '=', $request->user()->id)
-        ->where("medicine_name", "ILIKE", "%{$search}%")
-        ->orderBy($sort_by, $dir)
+        ->where('pharmacy_id', '=', $request->user()->id);
+
+        if ($request->search) {
+            $search = $request->search;
+            $medicines = $medicines->where("medicine_name", "ILIKE", "%{$request->search}%");
+        }
+
+        if ($request->min) {
+            $medicines = $medicines->where('medicine_price', '>', $request->min);
+        }
+
+        if ($request->max) {
+            $medicines = $medicines->where('medicine_price', '<', $request->max);
+        }
+        if ($request->prescription) {
+            $medicines = $medicines->whereIn('prescription_required', explode(',', $request->prescription));
+        }
+        if ($request->forms) {
+            $medicines = $medicines->whereIn('medicine_form', explode(',', $request->forms));
+        }
+
+        // $medicines = PharmacyMedicine::with('medicines')->where("medicine_name", "ILIKE", "%{$search}%")->orderBy($sort_by, $dir)->paginate(9, ['*'], 'page', $page);
+       
+        $medicines = $medicines->orderBy($sort_by, $dir)
         ->select(['medicines.*', 'pharmacy_medicines.*', 'medicine_forms.name As form_name', 'medicine_forms.unit As form_unit'])
         ->paginate(9, ['*'], 'page', $page);
 

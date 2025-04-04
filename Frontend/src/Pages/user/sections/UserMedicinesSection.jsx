@@ -16,7 +16,7 @@ import UserMedicineCard from "../../../components/Card/Medicine/UserMedicineCard
 
 const { Title, Text } = Typography
 
-const UserMedicinesSection = ({sorting, setSorting}) => {
+const UserMedicinesSection = ({sorting, filters}) => {
 
     const [submit, setSubmit] = useState(false);
     const [medicines, setMedicines] = useState([]);
@@ -45,7 +45,7 @@ const UserMedicinesSection = ({sorting, setSorting}) => {
         
         try {
 
-            const response = await fetch(`${backend_url}/api/medicines?page=${page}&sort=${sorting}`, {
+            const response = await fetch(`${backend_url}/api/medicines?page=${page}&sort=${sorting}&search=${filters.filter_search || ''}&min=${filters.filter_price_min || ''}&max=${filters.filter_price_max || ''}&prescription=${filters.filter_prescription ? filters.filter_prescription.join(',') : ''}&forms=${filters.filter_forms ? filters.filter_forms.join(',') : ''}`, {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -69,8 +69,9 @@ const UserMedicinesSection = ({sorting, setSorting}) => {
     }
 
     useEffect(() => {
+        console.log(filters)
         getMedicines(page)
-    }, [submit, page, sorting])
+    }, [submit, page, sorting, filters])
     
 
     return (

@@ -4,13 +4,13 @@ import { Flex, Typography } from 'antd';
 
 const {Title} = Typography
 
-function UserSidebarLayout({Sidebar, children, title, sorting, setSorting}) {
+function UserSidebarLayout({filters, setFilters, Sidebar, children, title, sorting, setSorting}) {
 
     return (
         <>
             <UserNavbar />
             <Container maxWidth="xl" sx={{ gap: '2rem', display: "flex", py: 3 }}>
-                <Sidebar />
+                <Sidebar filters={filters} setFilters={setFilters} />
                 <div style={{ padding: "0.5rem 0", flex: 1 }}>
                     <Flex justify='space-between' align='center' style={{ marginBottom: '55px' }}>
                         <Title level={1} style={{ marginBottom: 0 }}>{title}</Title>

@@ -5,11 +5,12 @@ import { useState } from "react";
 
 export default function UserMedicines() {
     const [sorting, setSorting] = useState('recent')
+    const [filters, setFilters] = useState(0)
 
     return (
         <>
-            <UserSidebarLayout Sidebar={MedicineFiltersSidebar} title={"All Medicines"} sorting={sorting} setSorting={setSorting}>
-                <UserMedicinesSection sorting={sorting} setSorting={setSorting} />
+            <UserSidebarLayout filters={filters} setFilters={setFilters} Sidebar={MedicineFiltersSidebar} title={"All Medicines"} sorting={sorting} setSorting={setSorting}>
+                <UserMedicinesSection sorting={sorting} filters={filters} />
             </UserSidebarLayout>
         </>
     )
