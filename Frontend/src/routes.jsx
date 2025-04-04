@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-route
 import { useSelector } from 'react-redux';
 import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
+import UserMedicines from './Pages/user/UserMedicines.jsx';
 
 // Authentication
 
@@ -128,6 +129,7 @@ const RoutesList = () => {
 
 
 
+            <Route path="/medicines" element={<UserMedicines />} />
             <Route path="/medicines/:id" element={<UserMedicine />} />
     
             {/* Catch-all route for undefined paths */}

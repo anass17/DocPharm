@@ -123,7 +123,7 @@ const UserMedicineDisplaySection = () => {
                             loading ? (
                                 <Skeleton.Image active={true} style={{ height: 100, width: 100 }} />
                             ) : (
-                                <img width={'100%'} style={{ borderRadius: 3 }} src={`${backend_url}/storage/medicines/1743377994.jpg`} />
+                                <img width={'100%'} style={{ borderRadius: 3 }} src={`${backend_url}${medicine.medicine_image}`} />
                             )
                         }
                     </Box>
