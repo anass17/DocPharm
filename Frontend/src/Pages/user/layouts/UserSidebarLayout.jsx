@@ -4,7 +4,7 @@ import { Flex, Typography } from 'antd';
 
 const {Title} = Typography
 
-function UserSidebarLayout({Sidebar, children, title}) {
+function UserSidebarLayout({Sidebar, children, title, sorting, setSorting}) {
 
     return (
         <>
@@ -21,8 +21,8 @@ function UserSidebarLayout({Sidebar, children, title}) {
                                 labelId="sort-by-select-label"
                                 id="sort-by-select"
                                 label="Sort By"
-                                value={'recent'}
-                                // onChange={handleSelectChange}
+                                value={sorting}
+                                onChange={(e) => setSorting(e.target.value)}
                                 sx={{ bgcolor: '#FFF' }}
                             >
                                 <MenuItem value={'recent'}>Recent</MenuItem>

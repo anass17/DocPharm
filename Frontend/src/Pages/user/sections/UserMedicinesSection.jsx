@@ -16,14 +16,13 @@ import UserMedicineCard from "../../../components/Card/Medicine/UserMedicineCard
 
 const { Title, Text } = Typography
 
-const UserMedicinesSection = () => {
+const UserMedicinesSection = ({sorting, setSorting}) => {
 
     const [submit, setSubmit] = useState(false);
     const [medicines, setMedicines] = useState([]);
     const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(1);
-    const [sorting, setSorting] = useState("recent");
     const [page, setPage] = useState(1);
     const [search, setSearch] = useState("");
     const [messageApi, contextHolder] = message.useMessage();
@@ -46,7 +45,7 @@ const UserMedicinesSection = () => {
         
         try {
 
-            const response = await fetch(`${backend_url}/api/medicines?page=${page}`, {
+            const response = await fetch(`${backend_url}/api/medicines?page=${page}&sort=${sorting}`, {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -71,7 +70,7 @@ const UserMedicinesSection = () => {
 
     useEffect(() => {
         getMedicines(page)
-    }, [submit, page])
+    }, [submit, page, sorting])
     
 
     return (
