@@ -47,11 +47,11 @@ const UserMedicineCard = ({medicine}) => {
                     alt=""
                 />
                 <CardContent style={{ padding: 0, paddingTop: 20 }}>
-                    <Link to={`/medicines/${medicine.id}`}>
+                    <Link to={`/medicines/${medicine.medicine_id}`}>
                         <Typography variant="h6" mb={-0.5} component="h3" marginBottom={2}>{medicine?.medicine_name || "Unknown"}</Typography>
                     </Link>
                     
-                    <Box mb={2}>
+                    <Box mb={3} height={50}>
                         <Flex gap={8} align='center' style={{ marginBottom: 5 }}>
                             {customPillsIcon}
                             <Typography variant="body2">{medicine?.medicine_weight || "0"}{medicine?.form_unit || 'mg'} -  {medicine?.form_name || "Unknown"}</Typography>

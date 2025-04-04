@@ -187,7 +187,7 @@ const UserMedicineDisplaySection = () => {
                                         <Box sx={{ bgcolor: '#FFF', borderRadius: 2, py: 1.5, px: 4 }}>
                                             <Link to="#">
                                                 <Title level={5} style={{ marginBottom: 0 }}>{item.pharmacy_name}</Title>
-                                                <Text><PushpinFilled style={{ marginRight: 5 }} />{item.address}</Text>
+                                                <Text><PushpinFilled style={{ marginRight: 5 }} />{item.address}, {item.city}</Text>
                                                 <Text style={{ color: 'dodgerblue', display: 'block', marginTop: 5 }}>{item.pivot.medicine_quantity} Units Available</Text>
                                             </Link>
                                         </Box>

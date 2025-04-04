@@ -21,6 +21,11 @@ const UserMedicinesSection = () => {
     const [submit, setSubmit] = useState(false);
     const [medicines, setMedicines] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [total, setTotal] = useState(0);
+    const [itemsPerPage, setItemsPerPage] = useState(1);
+    const [sorting, setSorting] = useState("recent");
+    const [page, setPage] = useState(1);
+    const [search, setSearch] = useState("");
     const [messageApi, contextHolder] = message.useMessage();
 
     const info = (message) => {
@@ -31,13 +36,17 @@ const UserMedicinesSection = () => {
         });
     };
 
+    const handlePageChange = (currentPage) => {
+        setPage(currentPage)
+    }
+
     const getMedicines = async (page = 1) => {
         setSubmit(true);
         setLoading(true);
         
         try {
 
-            const response = await fetch(`${backend_url}/api/medicines`, {
+            const response = await fetch(`${backend_url}/api/medicines?page=${page}`, {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -49,6 +58,8 @@ const UserMedicinesSection = () => {
                 info('You are not authorized to view this data');
             } else if (response.status === 200) {
                 setMedicines(responseData.medicines.data);
+                setTotal(responseData.medicines.total)
+                setItemsPerPage(responseData.medicines.per_page)
             } else {
                 info('Something went wrong! Could not load this data');
             }
@@ -59,14 +70,14 @@ const UserMedicinesSection = () => {
     }
 
     useEffect(() => {
-        getMedicines()
-    }, [submit])
+        getMedicines(page)
+    }, [submit, page])
     
 
     return (
         <>
             {contextHolder}
-            <Row gutter={14}>
+            <Row gutter={[14, 14]}>
                 {
                     medicines.map((item, index) => {
                         return (
@@ -78,6 +89,22 @@ const UserMedicinesSection = () => {
                 }
                 
             </Row>
+            <Box mt={5}>
+                <ConfigProvider
+                    theme={{
+                        token: {
+                            colorPrimary: GREEN
+                        },
+                        components: {
+                            Pagination: {
+                                itemBg: GREEN5,
+                            },
+                        },
+                    }}
+                >
+                    <Pagination align="center" onChange={handlePageChange} defaultCurrent={1} pageSize={itemsPerPage} total={total} showSizeChanger={false} />
+                </ConfigProvider>
+            </Box>
         </>
     )
 }
