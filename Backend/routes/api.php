@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\MedicineController;
+use App\Http\Controllers\API\OrderController;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -29,3 +30,6 @@ Route::middleware('auth:sanctum')->get('/medicine/options', function () {
     return response()->json(['forms' => $forms, 'uses' => $uses]);
 });
 
+// Orders
+
+Route::middleware('auth:sanctum')->resource('orders', OrderController::class);

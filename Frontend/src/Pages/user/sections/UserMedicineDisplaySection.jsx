@@ -11,7 +11,9 @@ import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import UpdateMedicineModal from "../../../components/Modal/Medicine/UpdateMedicineModal";
-import { Link, useParams } from "react-router-dom";import { Tabs } from 'antd';
+import { Link, useParams } from "react-router-dom";
+import { Tabs } from 'antd';
+import AddToCartModal from "../../../components/Modal/Medicine/AddToCartModal";
 
 const { Title, Text } = Typography
 
@@ -35,12 +37,12 @@ const items = [
 ];
 
 const UserMedicineDisplaySection = () => {
-    const [submit, setSubmit] = useState(false);
     const [medicine, setMedicine] = useState({});
     const [loading, setLoading] = useState(false);
     const [details, setDetails] = useState(items)
-    const { id: param_id } = useParams();
     const [messageApi, contextHolder] = message.useMessage();
+    const [open, setOpen] = useState(false);
+    const { id: param_id } = useParams();
 
     const info = (message) => {
         messageApi.open({
@@ -57,7 +59,6 @@ const UserMedicineDisplaySection = () => {
 
     const getMedicineDetails = async (id) => {
 
-        setSubmit(true);
         setLoading(true);
         
         try {
@@ -108,15 +109,16 @@ const UserMedicineDisplaySection = () => {
     }
 
     useEffect(() => {
+        if (location.search.search('cart=true') >= 0) {
+            setOpen(true)
+        }
         getMedicineDetails(param_id)
-
-    }, [submit])
-
+    }, [param_id])
 
     return (
         <>
             {contextHolder}
-            <Row gutter={60}>
+            <Row gutter={40}>
                 <Col span={12}>
                     <Box sx={{ p: 4, bgcolor: '#FFF', borderRadius: 3, minHeight: 300, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         {
@@ -128,7 +130,7 @@ const UserMedicineDisplaySection = () => {
                         }
                     </Box>
                 </Col>
-                <Col span={12} style={{ paddingTop: 40 }}>
+                <Col span={12}>
                     {
                         !loading ? (
                             <>
@@ -168,7 +170,7 @@ const UserMedicineDisplaySection = () => {
                     </Box>
                     <Divider></Divider>
                     <Flex gap={6}>
-                        <Button style={{ flex: 1, backgroundColor: GREEN, height: 40, color: '#FFF' }} icon={<ShoppingCartOutlined />}>Add To Cart</Button>
+                        <Button style={{ flex: 1, backgroundColor: GREEN, height: 40, color: '#FFF' }} onClick={() => setOpen(true)} icon={<ShoppingCartOutlined />}>Add To Cart</Button>
                         <Button style={{ width: 40, height: 40 }}><HeartOutlined /></Button>
                     </Flex>
                 </Col>
@@ -198,6 +200,7 @@ const UserMedicineDisplaySection = () => {
                     }
                 </Row>
             </Box>
+            <AddToCartModal medicine={medicine} open={open} setOpen={setOpen} />
         </>
     )
 }

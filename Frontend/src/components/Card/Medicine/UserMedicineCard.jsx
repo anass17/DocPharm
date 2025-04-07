@@ -68,7 +68,9 @@ const UserMedicineCard = ({medicine}) => {
 
                     <Flex justify='space-between' align='center'>
                         <Typography variant="h6" sx={{ color: GREEN, fontWeight: 600 }}>{medicine?.medicine_price || 0} DH</Typography>
-                        <Button type='button' variant='contained' sx={{ bgcolor: GREEN }}>Add to Cart</Button>
+                        <Link to={`/medicines/${medicine.medicine_id}?cart=true`}>
+                            <Button type='button' variant='contained' sx={{ bgcolor: GREEN }}>Add to Cart</Button>
+                        </Link>
                     </Flex>
 
                     {/* Options */}
