@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderMedicine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -53,14 +55,24 @@ class CartController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request, string $id)
     {
-        //
+        $el = DB::table('order_medicines')
+            ->where('order_medicines.medicine_id', '=', $id)
+            ->where('order_medicines.order_id', '=', function($query) use ($request) {
+                $query->select('id')
+                    ->from('orders')
+                    ->where('client_id', '=', $request->user()->id)
+                    ->whereNull('confirmed_at')
+                    ->limit(1);
+            })
+            ->delete();
+        return response()->json([], 204);
     }
 }

@@ -4,9 +4,9 @@ import { Row, Col, Flex, Button } from 'antd';
 import { useEffect, useState } from 'react';
 
 const CartMedicineItem = ({medicine, index, updateItemTotal}) => {
-    const [quantity, setQuantity] = useState(medicine.pivot.order_quantity);
+    const [quantity, setQuantity] = useState(medicine?.pivot?.order_quantity);
     
-    const unitPrice = medicine.pivot.unit_price;
+    const unitPrice = medicine?.pivot?.unit_price;
 
     useEffect(() => {
         updateItemTotal(index, quantity * unitPrice);
@@ -19,7 +19,7 @@ const CartMedicineItem = ({medicine, index, updateItemTotal}) => {
                     <div style={{ width: 100, height: 80, borderRadius: 5, backgroundImage: 'url("http://localhost:8000/storage/medicines/fake_image.jpg")', backgroundPosition: 'center', backgroundSize: 'cover' }}>
                     </div>
                     <div>
-                        <h3 style={{marginBottom: 7}}>{medicine.medicine.medicine_name}</h3>
+                        <h3 style={{marginBottom: 7}}>{medicine?.medicine?.medicine_name}</h3>
                         <button type='button' style={{color: red[500], fontWeight: 600}}>Remove</button>
                     </div>
                 </Flex>

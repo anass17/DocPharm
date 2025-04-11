@@ -177,7 +177,7 @@ const UserMedicineDisplaySection = () => {
                     <Divider></Divider>
                     <Flex gap={6}>
                         {
-                            cart.filter(item => item.medicine_id == param_id) ?
+                            cart?.filter(item => item.medicine_id == param_id).length > 0 ?
                             <Button style={{ flex: 1, backgroundColor: GRAY4, border: 'none', height: 40, color: GRAY2 }} onClick={() => setOpen(true)}>Added To cart</Button> :
                             <Button style={{ flex: 1, backgroundColor: GREEN, height: 40, color: '#FFF' }} onClick={() => setOpen(true)} icon={<ShoppingCartOutlined />}>Add To Cart</Button>
                         }

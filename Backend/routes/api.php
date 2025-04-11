@@ -37,3 +37,4 @@ Route::middleware('auth:sanctum')->get('/medicine/options', function () {
 
 Route::middleware('auth:sanctum')->resource('orders', OrderController::class);
 Route::middleware('auth:sanctum')->get('/cart', [CartController::class, 'index']);
+Route::middleware('auth:sanctum')->delete('/cart/{id}', [CartController::class, 'destroy']);

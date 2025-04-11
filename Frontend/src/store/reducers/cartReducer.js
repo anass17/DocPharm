@@ -9,10 +9,11 @@ export default function cartReducer(state = initialState, action) {
                 ...state,
                 cart: [...state.cart, action.payload]
             }
-        // case 'UPDATE_VERIFICATION_STEP':
-        //     let newState = state;
-        //     newState.user.verification_step = action.verification_step
-        //     return newState 
+        case 'DELETE_MEDICINE_CART':
+            return {
+                ...state,
+                cart: state.cart.filter(item => item.id !== action.id)
+            }
         case 'CLEAR_CART':
             return {
                 ...state,

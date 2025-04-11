@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Divider, Modal, Row, Typography } from 'antd';
+import { Button, Col, Divider, message, Modal, Row, Typography } from 'antd';
 import {Button as Btn} from '@mui/material' 
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { GRAY0, GREEN } from '../../../config/colors';
@@ -7,16 +7,26 @@ import { DarkGreenButton } from '../../Button/FilledButtons';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
 import { grey, red } from '@mui/material/colors';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { deleteMedicineFromCart } from '../../../store/actions/cartActions';
 
 const AddToCartModal = ({medicine, open, setOpen}) => {
     const [data, setData] = useState({quantity: 1, price: 0})
     const [backendErrors, setBackendErrors] = useState(null)
     const cart = useSelector(data => data.cart.cart)
     const {id: param_id} = useParams()
-    // const dispatch = useDispatch();
-
+    const [cartId, setCartId] = useState(0)
+    const dispatch = useDispatch();
+    const [messageApi, contextHolder] = message.useMessage();
+    
+    const info = (message, type = 'success') => {
+        messageApi.open({
+            type: type,
+            content: message,
+            duration: 5
+        });
+    };
 
     const handleCancel = () => {
         setOpen(false);
@@ -30,7 +40,7 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
     }, [medicine])
 
     const handleCartItemRemove = () => {
-        requestRemoveCartItem()
+        requestRemoveCartItem(cartId)
     }
 
     const handleChange = (e) => {
@@ -40,36 +50,35 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
             ...data,
             [name]: value
         })
+        console.log(medicine)
     }
 
     const handleSubmit = () => {
         sendCartOrder()
     }
 
-    async function requestRemoveCartItem() {
+    async function requestRemoveCartItem(id) {
 
         try {
-            const response = await fetch(backend_url + '/api/cart/' + param_id, {
+            const response = await fetch(backend_url + '/api/cart/' + id, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 },
             });
     
-            const responseData = await response.json();
-    
             if (response.status === 422) {
                 alert('error')
                 // setBackendErrors(responseData.errors);
-            } else if (response.status === 201) {
-                console.log(responseData)
-                alert('added');
-                // setBackendErrors(null);
-                // info(responseData.message);
+            } else if (response.status === 204) {
+                // alert('added');
+                dispatch(deleteMedicineFromCart(id))
+                setBackendErrors(null);
+                info('Deleted from cart');
                 // setData({})
                 // setErrors({})
                 // setStep(1)
-                // setOpen(false)
+                setOpen(false)
             } else {
                 // setBackendErrors(['An unexpected error occurred.']);
                 alert('dd')
@@ -78,10 +87,19 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
             // setSubmit(false)
         } catch (error) {
             alert('jj')
+            console.log(error)
             // setBackendErrors(['An error occurred while processing your request.']);
             // setSubmit(false)
         }
     }
+
+    useEffect(() => {
+        console.log(cart)
+        const targetItem = cart.filter(item => item.medicine_id == param_id);
+        targetItem.length > 0 ?
+        setCartId(targetItem[0]?.pivot.medicine_id) :
+        setCartId(0)
+    }, [cart])
 
     async function sendCartOrder() {
         
@@ -106,14 +124,11 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                 // alert('error')
                 setBackendErrors(responseData.errors);
             } else if (response.status === 201) {
-                console.log(responseData)
                 alert('added');
                 setBackendErrors(null);
-                // info(responseData.message);
-                // setData({})
-                // setErrors({})
-                // setStep(1)
-                // setOpen(false)
+                info('Successfully added to cart');
+                setData({quantity: 1, price: 0})
+                setOpen(false)
             } else {
                 setBackendErrors(['An unexpected error occurred.']);
                 alert('dd')
@@ -134,11 +149,11 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                 title="Add To Cart"
                 onCancel={handleCancel}
                 footer={
-                    cart.filter(item => item.medicine_id == param_id) ? [
+                    cartId ? [
                         <Btn sx={{ px: 3, mr: 1, py: 1, color: '#FFF', bgcolor: red[400] }} key="remove" onClick={handleCartItemRemove}>
                             Remove
                         </Btn>,
-                        <Btn sx={{ px: 3, py: 1, color: GRAY0, bgcolor: grey[200], border: '1px solid ' + grey[300] }} key="remove" onClick={handleSubmit}>
+                        <Btn sx={{ px: 3, py: 1, color: GRAY0, bgcolor: grey[200], border: '1px solid ' + grey[300] }} key="update" onClick={handleSubmit}>
                             Update
                         </Btn>
                     ] :
