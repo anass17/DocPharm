@@ -9,4 +9,8 @@ class Order extends Model
     protected $fillable = [
         'client_id'
     ];
+
+    public function medicines() {
+        return $this->belongsToMany(PharmacyMedicine::class, 'order_medicines', 'order_id', 'medicine_id')->withPivot(['order_quantity', 'unit_price']);
+    }
 }

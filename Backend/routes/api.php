@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\API\AuthController;
+use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\MedicineController;
 use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\PharmacyMedicineController;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,6 +25,7 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])-
 // Medicines
 
 Route::middleware('auth:sanctum')->resource('medicines', MedicineController::class);
+Route::middleware('auth:sanctum')->get('/pharmacy/medicines', [PharmacyMedicineController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/pharmacy/dashboard', [DashboardController::class, 'pharmacy']);
 Route::middleware('auth:sanctum')->get('/medicine/options', function () {
     $forms = DB::table('medicine_forms')->get();
@@ -33,3 +36,4 @@ Route::middleware('auth:sanctum')->get('/medicine/options', function () {
 // Orders
 
 Route::middleware('auth:sanctum')->resource('orders', OrderController::class);
+Route::middleware('auth:sanctum')->get('/cart', [CartController::class, 'index']);

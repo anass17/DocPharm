@@ -1,15 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Divider, Modal, Row, Typography } from 'antd';
+import {Button as Btn} from '@mui/material' 
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { GREEN } from '../../../config/colors';
+import { GRAY0, GREEN } from '../../../config/colors';
 import { DarkGreenButton } from '../../Button/FilledButtons';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
-import { red } from '@mui/material/colors';
+import { grey, red } from '@mui/material/colors';
+import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
 const AddToCartModal = ({medicine, open, setOpen}) => {
     const [data, setData] = useState({quantity: 1, price: 0})
     const [backendErrors, setBackendErrors] = useState(null)
+    const cart = useSelector(data => data.cart.cart)
+    const {id: param_id} = useParams()
+    // const dispatch = useDispatch();
+
 
     const handleCancel = () => {
         setOpen(false);
@@ -22,6 +29,10 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
         })
     }, [medicine])
 
+    const handleCartItemRemove = () => {
+        requestRemoveCartItem()
+    }
+
     const handleChange = (e) => {
 
         const {name, value} = e.target
@@ -33,6 +44,43 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
 
     const handleSubmit = () => {
         sendCartOrder()
+    }
+
+    async function requestRemoveCartItem() {
+
+        try {
+            const response = await fetch(backend_url + '/api/cart/' + param_id, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                },
+            });
+    
+            const responseData = await response.json();
+    
+            if (response.status === 422) {
+                alert('error')
+                // setBackendErrors(responseData.errors);
+            } else if (response.status === 201) {
+                console.log(responseData)
+                alert('added');
+                // setBackendErrors(null);
+                // info(responseData.message);
+                // setData({})
+                // setErrors({})
+                // setStep(1)
+                // setOpen(false)
+            } else {
+                // setBackendErrors(['An unexpected error occurred.']);
+                alert('dd')
+            }
+
+            // setSubmit(false)
+        } catch (error) {
+            alert('jj')
+            // setBackendErrors(['An error occurred while processing your request.']);
+            // setSubmit(false)
+        }
     }
 
     async function sendCartOrder() {
@@ -85,11 +133,21 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                 open={open}
                 title="Add To Cart"
                 onCancel={handleCancel}
-                footer={[
-                    <DarkGreenButton key="back" onClick={handleSubmit}>
-                        Add
-                    </DarkGreenButton>
-                ]}
+                footer={
+                    cart.filter(item => item.medicine_id == param_id) ? [
+                        <Btn sx={{ px: 3, mr: 1, py: 1, color: '#FFF', bgcolor: red[400] }} key="remove" onClick={handleCartItemRemove}>
+                            Remove
+                        </Btn>,
+                        <Btn sx={{ px: 3, py: 1, color: GRAY0, bgcolor: grey[200], border: '1px solid ' + grey[300] }} key="remove" onClick={handleSubmit}>
+                            Update
+                        </Btn>
+                    ] :
+                    [
+                        <DarkGreenButton key="add" onClick={handleSubmit}>
+                            Add
+                        </DarkGreenButton>
+                    ]
+                }
             >
                 <Box py={2}>
                     <Typography.Title level={4} style={{textAlign: 'center', marginBottom: 25, color: GREEN}}>Testophore 400</Typography.Title>
@@ -121,7 +179,7 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                             {
                                 medicine.pharmacies ? (
                                     medicine.pharmacies.map((item, index) => {
-                                        return <MenuItem key={'order-pharmacy-' + index} value={item.id}>{item.pharmacy_name} - {item.address}</MenuItem>
+                                        return <MenuItem key={'order-pharmacy-' + index} value={item.pivot.id}>{item.pharmacy_name} - {item.address}</MenuItem>
                                     })
                                 ) : null
                             }

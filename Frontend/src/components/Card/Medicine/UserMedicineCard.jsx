@@ -47,7 +47,7 @@ const UserMedicineCard = ({medicine}) => {
                     alt=""
                 />
                 <CardContent style={{ padding: 0, paddingTop: 20 }}>
-                    <Link to={`/medicines/${medicine.medicine_id}`}>
+                    <Link to={`/medicines/${medicine.id}`}>
                         <Typography variant="h6" mb={-0.5} component="h3" marginBottom={2}>{medicine?.medicine_name || "Unknown"}</Typography>
                     </Link>
                     

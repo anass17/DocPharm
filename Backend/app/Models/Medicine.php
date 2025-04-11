@@ -26,6 +26,6 @@ class Medicine extends Model
     }
 
     public function pharmacies() {
-        return $this->belongsToMany(Pharmacy::class, 'pharmacy_medicines', 'medicine_id')->withPivot('medicine_quantity', 'visibility');
+        return $this->belongsToMany(Pharmacy::class, 'pharmacy_medicines', 'medicine_id')->withPivot('medicine_quantity', 'visibility', 'id');
     }
 }

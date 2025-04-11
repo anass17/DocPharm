@@ -5,33 +5,48 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
-// import React, { Suspense, lazy } from 'react';
 import RoutesList from './routes.jsx'; 
+import { backend_url } from './config/app.js';
+import { useEffect } from 'react';
+import Cookies from 'js-cookie'
+import { useDispatch } from 'react-redux';
+import { addMedicineToCart } from './store/actions/cartActions.js';
 
-// const Home = lazy(() => import('./Pages/Home'));
-// const Login = lazy(() => import('./Pages/auth/Login.jsx'));
-// const Logout = lazy(() => import('./Pages/auth/Logout.jsx'));
-// const Register = lazy(() => import('./Pages/auth/Register.jsx'));
-// const VerificationMessage = lazy(() => import('./Pages/auth/VerificationMessage.jsx'));
-// const RegisterAsDoctor = lazy(() => import('./Pages/auth/RegisterAsDoctor.jsx'));
-// const RegisterAsPharmacy = lazy(() => import('./Pages/auth/RegisterAsPharmacy.jsx'));
-// const PendingMessage = lazy(() => import('./Pages/auth/PendingMessage.jsx'));
-// const PharmacyDashboard = lazy(() => import('./Pages/pharmacy/PharmacyDashboard.jsx'));
-// const NotFoundPage = lazy(() => import('./Pages/errors/NotFound.jsx'));
+const getCartItems = async (dispatch) => {
+  try {
 
-// import { BrowserRouter as Router, Routes, Route, useNavigate, redirect } from 'react-router-dom';
-// import { useEffect } from 'react';
-// import Cookies from 'js-cookie';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { loginUser } from './store/actions/userActions.js';
-// import ClientNavbar from './components/layouts/ClientNavbar.jsx';
-// import PharmacyNavbar from './components/layouts/PharmacyNavbar.jsx';
-// import { backend_url } from './config/app.js';
+      const response = await fetch(`${backend_url}/api/cart`, {
+          headers: {
+              'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+          }
+      });
 
-// import AuthMiddleware from './middlewares/AuthMiddleware.jsx';
-// import Loading from './components/layouts/Loading.jsx';
+      const responseData = await response.json();
+
+      if (response.status === 401) {
+          alert('Not Authorized')
+      } else if (response.status === 200) {
+          responseData.order.medicines.forEach(item => {
+              dispatch(addMedicineToCart(item))
+          })
+      } else {
+          alert('Something went wrong! Could not load this data');
+      }
+  } catch (error) {
+      console.log(error)
+      alert('Something went wrong! Could not load this data');
+  }
+}
 
 function App() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+      if (Cookies.get('auth_token')) {
+        getCartItems(dispatch)
+      }
+    }, [])
+
 
   return(
     <div>
@@ -39,79 +54,6 @@ function App() {
     </div>
   )
 
-  // const user = useSelector(data => data.user.user);
-  // const dispatch = useDispatch();
-
-
-  // const navigate = useNavigate();
-  // const [count, setCount] = useState(0)
-
-
-  // useEffect(() => {
-  
-  //   if (!user && Cookies.get('auth_token')) {
-  //     async function checkUser() {
-  //       const response = await fetch(backend_url + '/api/user', {
-  //           method: 'GET',
-  //           headers: {
-  //             'Authorization': 'Bearer ' + Cookies.get('auth_token'),
-  //           }
-  //       });
-  
-  //       const responseData = await response.json();
-  
-  //       if (response.status === 200) {
-  //         dispatch(loginUser(responseData.user))
-  //       }
-  //     }
-        
-  //     checkUser()
-  //   }
-
-    
-  // })
-
-  // return (
-  //   <>
-  //     <Router>
-
-  //       <AuthMiddleware />
-
-  //       {
-  //         !user ? (
-  //           <Navbar />
-  //         ) : (
-  //           user.role == "pharmacy" ? (
-  //             <PharmacyNavbar />
-  //           ) : (
-  //             <ClientNavbar />
-  //           )
-  //         )
-  //       }
-
-  //       <Suspense fallback={<Loading />}>
-  //         <Routes>
-  //           <Route path="/" element={<Home />} />
-  //           <Route path="/login" element={<Login />} />
-  //           <Route path="/logout" element={<Logout />} />
-  //           <Route path="/register" element={<Register />} />
-  //           <Route path="/verifyEmail" element={<VerificationMessage />} />
-  //           <Route path="/registerAsDoctor" element={<RegisterAsDoctor />} />
-  //           <Route path="/RegisterAsPharmacy" element={<RegisterAsPharmacy />} />
-  //           <Route path="/pending" element={<PendingMessage />} />
-
-  //           {
-  //             user && user.role == "pharmacy" ? (
-  //               <Route path="/dashboard" element={<PharmacyDashboard />} />
-  //             ) : <></>
-  //           }
-          
-  //           <Route path='*' element={<NotFoundPage />} />
-  //         </Routes>
-  //       </Suspense>
-  //     </Router>
-  //   </>
-  // )
 }
 
 export default App

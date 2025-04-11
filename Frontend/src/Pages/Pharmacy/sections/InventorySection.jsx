@@ -67,7 +67,7 @@ const InventorySection = () => {
         
         try {
 
-            const response = await fetch(`${backend_url}/api/medicines?page=${page}&sort=${sorting}&search=${search}`, {
+            const response = await fetch(`${backend_url}/api/pharmacy/medicines?page=${page}&sort=${sorting}&search=${search}`, {
                 signal,
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),

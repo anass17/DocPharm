@@ -25,7 +25,6 @@ class MedicineController extends Controller {
      */
     public function index(Request $request)
     {
-
         $page = 1;
         $sort_by = 'medicines.id';
         $dir = 'desc';
@@ -43,13 +42,9 @@ class MedicineController extends Controller {
             $sort_by = 'medicine_quantity';
         }
 
-        $medicines = DB::table('medicines')
-        ->join('pharmacy_medicines', 'medicines.id', '=', 'pharmacy_medicines.medicine_id')
-        ->leftJoin('medicine_forms', 'medicines.medicine_form', '=', 'medicine_forms.id')
-        ->where('pharmacy_id', '=', $request->user()->id);
+        $medicines = DB::table('medicines')->leftJoin('medicine_forms', 'medicines.medicine_form', '=', 'medicine_forms.id');
 
         if ($request->search) {
-            $search = $request->search;
             $medicines = $medicines->where("medicine_name", "ILIKE", "%{$request->search}%");
         }
 
@@ -70,7 +65,7 @@ class MedicineController extends Controller {
         // $medicines = PharmacyMedicine::with('medicines')->where("medicine_name", "ILIKE", "%{$search}%")->orderBy($sort_by, $dir)->paginate(9, ['*'], 'page', $page);
        
         $medicines = $medicines->orderBy($sort_by, $dir)
-        ->select(['medicines.*', 'pharmacy_medicines.*', 'medicine_forms.name As form_name', 'medicine_forms.unit As form_unit'])
+        ->select(['medicines.*', 'medicine_forms.name As form_name', 'medicine_forms.unit As form_unit'])
         ->paginate(9, ['*'], 'page', $page);
 
         return response()->json(['medicines' => $medicines]);

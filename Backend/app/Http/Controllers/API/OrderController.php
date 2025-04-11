@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 
 use App\Models\Order;
+use App\Models\OrderMedicine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
@@ -34,10 +36,20 @@ class OrderController extends Controller
             return response()->json(['errors' => $validation->errors()], 422);
         }
 
-        Order::create([
-            'client_id' => $request->user()->id
-        ]);
+        $order = Order::whereNull('confirmed_at')->where('client_id', '=', $request->user()->id)->first();
 
+        if (!$order) {
+            $order = Order::create([
+                'client_id' => $request->user()->id
+            ]);
+        }
+        
+        OrderMedicine::create([
+            'order_quantity' => $request->quantity,
+            'unit_price' => $request->price,
+            'order_id' => $order->id,
+            'medicine_id' => $request->pharmacy,
+        ]);
 
         return response()->json(['message' => 'Product added to cart'], 201);
     }

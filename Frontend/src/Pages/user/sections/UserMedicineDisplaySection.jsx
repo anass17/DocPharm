@@ -14,6 +14,7 @@ import UpdateMedicineModal from "../../../components/Modal/Medicine/UpdateMedici
 import { Link, useParams } from "react-router-dom";
 import { Tabs } from 'antd';
 import AddToCartModal from "../../../components/Modal/Medicine/AddToCartModal";
+import { useSelector } from "react-redux";
 
 const { Title, Text } = Typography
 
@@ -43,6 +44,7 @@ const UserMedicineDisplaySection = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const [open, setOpen] = useState(false);
     const { id: param_id } = useParams();
+    const cart = useSelector(data => data.cart.cart)
 
     const info = (message) => {
         messageApi.open({
@@ -96,7 +98,6 @@ const UserMedicineDisplaySection = () => {
                         children: responseData.medicine.usage_instructions,
                     }]
                 )
-                console.log(responseData)
             } else {
                 info('Something went wrong! Could not load this data');
             }
@@ -114,6 +115,11 @@ const UserMedicineDisplaySection = () => {
         }
         getMedicineDetails(param_id)
     }, [param_id])
+
+    // useEffect(() => {
+    //     console.log(cart)
+    //     console.log(cart.filter(item => item.medicine_id == param_id))
+    // })
 
     return (
         <>
@@ -170,7 +176,11 @@ const UserMedicineDisplaySection = () => {
                     </Box>
                     <Divider></Divider>
                     <Flex gap={6}>
-                        <Button style={{ flex: 1, backgroundColor: GREEN, height: 40, color: '#FFF' }} onClick={() => setOpen(true)} icon={<ShoppingCartOutlined />}>Add To Cart</Button>
+                        {
+                            cart.filter(item => item.medicine_id == param_id) ?
+                            <Button style={{ flex: 1, backgroundColor: GRAY4, border: 'none', height: 40, color: GRAY2 }} onClick={() => setOpen(true)}>Added To cart</Button> :
+                            <Button style={{ flex: 1, backgroundColor: GREEN, height: 40, color: '#FFF' }} onClick={() => setOpen(true)} icon={<ShoppingCartOutlined />}>Add To Cart</Button>
+                        }
                         <Button style={{ width: 40, height: 40 }}><HeartOutlined /></Button>
                     </Flex>
                 </Col>
@@ -186,7 +196,7 @@ const UserMedicineDisplaySection = () => {
                             medicine.pharmacies.map((item, index) => {
                                 return (
                                     <Col span={8} key={'pharmacy-' + index}>
-                                        <Box sx={{ bgcolor: '#FFF', borderRadius: 2, py: 1.5, px: 4 }}>
+                                        <Box sx={{ bgcolor: '#FFF', boxShadow: '0px 2px 4px rgba(0, 0, 0, .25)', borderRadius: 2, py: 1.5, px: 4 }}>
                                             <Link to="#">
                                                 <Title level={5} style={{ marginBottom: 0 }}>{item.pharmacy_name}</Title>
                                                 <Text><PushpinFilled style={{ marginRight: 5 }} />{item.address}, {item.city}</Text>
