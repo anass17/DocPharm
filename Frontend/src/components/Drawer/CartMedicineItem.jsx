@@ -2,11 +2,18 @@ import { TextField } from '@mui/material';
 import { red } from '@mui/material/colors';
 import { Row, Col, Flex, Button } from 'antd';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteMedicineFromCart } from '../../store/actions/cartActions';
 
 const CartMedicineItem = ({medicine, index, updateItemTotal}) => {
     const [quantity, setQuantity] = useState(medicine?.pivot?.order_quantity);
-    
+    const dispatch = useDispatch();
+
     const unitPrice = medicine?.pivot?.unit_price;
+
+    const handleRemoveItem = () => {
+        dispatch(deleteMedicineFromCart(medicine.id))
+    }
 
     useEffect(() => {
         updateItemTotal(index, quantity * unitPrice);
@@ -20,7 +27,7 @@ const CartMedicineItem = ({medicine, index, updateItemTotal}) => {
                     </div>
                     <div>
                         <h3 style={{marginBottom: 7}}>{medicine?.medicine?.medicine_name}</h3>
-                        <button type='button' style={{color: red[500], fontWeight: 600}}>Remove</button>
+                        <button type='button' style={{color: red[500], fontWeight: 600}} onClick={handleRemoveItem}>Remove</button>
                     </div>
                 </Flex>
             </Col>
