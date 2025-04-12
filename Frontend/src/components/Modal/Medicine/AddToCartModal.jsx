@@ -9,7 +9,7 @@ import Cookies from 'js-cookie'
 import { grey, red } from '@mui/material/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { deleteMedicineFromCart } from '../../../store/actions/cartActions';
+import { addMedicineToCart, deleteMedicineFromCart, updateMedicineQuantity } from '../../../store/actions/cartActions';
 
 const AddToCartModal = ({medicine, open, setOpen}) => {
     const [data, setData] = useState({quantity: 1, price: 0})
@@ -50,7 +50,7 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
             ...data,
             [name]: value
         })
-        console.log(medicine)
+        // console.log(medicine)
     }
 
     const handleSubmit = () => {
@@ -68,7 +68,7 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
             });
     
             if (response.status === 422) {
-                alert('error')
+                alert('Unauthorized')
                 // setBackendErrors(responseData.errors);
             } else if (response.status === 204) {
                 // alert('added');
@@ -81,25 +81,27 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                 setOpen(false)
             } else {
                 // setBackendErrors(['An unexpected error occurred.']);
-                alert('dd')
+                alert('Error')
             }
 
             // setSubmit(false)
         } catch (error) {
-            alert('jj')
-            console.log(error)
+            alert('Error')
+            // console.log(error)
             // setBackendErrors(['An error occurred while processing your request.']);
             // setSubmit(false)
         }
     }
 
     useEffect(() => {
-        console.log(cart)
+        // console.log(cart)
+        // console.log(',,', medicine)
         const targetItem = cart.filter(item => item.medicine_id == param_id);
         targetItem.length > 0 ?
         setCartId(targetItem[0]?.pivot.medicine_id) :
         setCartId(0)
-    }, [cart])
+        
+    }, [cart, medicine])
 
     async function sendCartOrder() {
         
@@ -121,29 +123,37 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
             const responseData = await response.json();
     
             if (response.status === 422) {
-                // alert('error')
                 setBackendErrors(responseData.errors);
             } else if (response.status === 201) {
-                alert('added');
                 setBackendErrors(null);
                 info('Successfully added to cart');
-                setData({quantity: 1, price: 0})
+                dispatch(addMedicineToCart(
+                    {
+                        id: data.pharmacy,
+                        medicine_id: medicine.id,
+                        medicine: {medicine_name: medicine.medicine_name},
+                        pivot: {medicine_id: data.pharmacy, order_quantity: data.quantity, unit_price: medicine.medicine_price}
+                    }
+                ))
+
                 setOpen(false)
             } else {
                 setBackendErrors(['An unexpected error occurred.']);
-                alert('dd')
             }
 
-            // setSubmit(false)
         } catch (error) {
-            alert('jj')
             setBackendErrors(['An error occurred while processing your request.']);
-            // setSubmit(false)
         }
+    }
+
+    const handleCartItemUpdate = () => {
+        dispatch(updateMedicineQuantity(cartId, +data.quantity))
+        setOpen(false)
     }
 
     return (
         <>
+            {contextHolder}
             <Modal
                 open={open}
                 title="Add To Cart"
@@ -153,7 +163,7 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                         <Btn sx={{ px: 3, mr: 1, py: 1, color: '#FFF', bgcolor: red[400] }} key="remove" onClick={handleCartItemRemove}>
                             Remove
                         </Btn>,
-                        <Btn sx={{ px: 3, py: 1, color: GRAY0, bgcolor: grey[200], border: '1px solid ' + grey[300] }} key="update" onClick={handleSubmit}>
+                        <Btn sx={{ px: 3, py: 1, color: GRAY0, bgcolor: grey[200], border: '1px solid ' + grey[300] }} key="update" onClick={handleCartItemUpdate}>
                             Update
                         </Btn>
                     ] :
@@ -181,7 +191,7 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                         )
                     }
 
-                    <FormControl fullWidth style={{ marginBottom: 20 }}>
+                    <FormControl fullWidth style={{ marginBottom: 20 }} disabled={cartId ? true : false}>
                         <InputLabel id="order-pharmacy-label">Pharmacy</InputLabel>
                         <Select
                             labelId="order-pharmacy-label"

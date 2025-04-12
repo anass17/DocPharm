@@ -12,6 +12,13 @@ export function deleteMedicineFromCart(id) {
     }
 }
 
+export function updateMedicineQuantity(id, quantity) {
+    return {
+        type: 'UPDATE_MEDICINE_QUANTITY_CART',
+        payload: {id, quantity}
+    }
+}
+
 export function clearCart() {
     return {
         type: 'CLEAR_CART'

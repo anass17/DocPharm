@@ -4,6 +4,7 @@ import { FormControl, InputLabel, MenuItem, Select, TextField, Typography } from
 import { DarkGreenButton } from '../Button/FilledButtons';
 import CartMedicineItem from './CartMedicineItem';
 import { useSelector } from 'react-redux';
+import { GREEN } from '../../config/colors';
 
 const CartDrawer = ({open, setOpen}) => {
     const [deliveryFee, setDeliveryFee] = useState(0)
@@ -79,13 +80,14 @@ const CartDrawer = ({open, setOpen}) => {
                         </Row>
                         <Divider />
                         <Row style={{alignItems: 'center', marginBottom: 20}}>
-                            <Col span={12}>
-                                <DarkGreenButton>Checkout</DarkGreenButton>
-                            </Col>
-                            <Col span={6} style={{ display: 'flex', gap: 2, textAlign: 'center', justifyContent: 'center' }}>
-                                <h3>3 Items</h3>
+                            <Col span={8}>
+                                <Button style={{ padding: '0.5rem 2rem', textAlign: 'center', display: 'block', height: 50, width: '100%', color: '#FFF', backgroundColor: GREEN, borderColor: GREEN, fontWeight: 600 }}>Checkout</Button>
                             </Col>
                             <Col span={3}></Col>
+                            <Col span={8} style={{ display: 'flex', gap: 2, textAlign: 'center', justifyContent: 'center' }}>
+                                <h3>3 Items</h3>
+                            </Col>
+                            <Col span={2}></Col>
                             <Col span={3} style={{textAlign: 'center', fontSize: 18, fontWeight: 500}}>{calculateGrandTotal()} DH</Col>
                         </Row>
                     </>

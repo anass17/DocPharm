@@ -1,6 +1,6 @@
 import { Button, Col, ConfigProvider, Divider, Flex, message, Row, Skeleton, Spin, Typography } from "antd";
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
-import { ClockCircleOutlined, DollarOutlined, DownloadOutlined, HeartOutlined, LoadingOutlined, MenuOutlined, PushpinFilled, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
+import { CheckOutlined, ClockCircleOutlined, DollarOutlined, DownloadOutlined, HeartOutlined, LoadingOutlined, MenuOutlined, PushpinFilled, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
 import { GRAY2, GRAY4, GREEN, GREEN5 } from "../../../config/colors";
 import SearchInput from "../../../components/Form/SearchInput";
@@ -115,10 +115,9 @@ const UserMedicineDisplaySection = () => {
         }
         getMedicineDetails(param_id)
     }, [param_id])
-
+    
     // useEffect(() => {
     //     console.log(cart)
-    //     console.log(cart.filter(item => item.medicine_id == param_id))
     // })
 
     return (
@@ -178,8 +177,8 @@ const UserMedicineDisplaySection = () => {
                     <Flex gap={6}>
                         {
                             cart?.filter(item => item.medicine_id == param_id).length > 0 ?
-                            <Button style={{ flex: 1, backgroundColor: GRAY4, border: 'none', height: 40, color: GRAY2 }} onClick={() => setOpen(true)}>Added To cart</Button> :
-                            <Button style={{ flex: 1, backgroundColor: GREEN, height: 40, color: '#FFF' }} onClick={() => setOpen(true)} icon={<ShoppingCartOutlined />}>Add To Cart</Button>
+                            <Button style={{ flex: 1, backgroundColor: GRAY4, border: 'none', height: 40, color: GRAY2 }} onClick={() => setOpen(true)} icon={<CheckOutlined />}>Added To cart</Button> :
+                            <Button style={{ flex: 1, backgroundColor: GREEN, borderColor: GREEN, height: 40, color: '#FFF' }} onClick={() => setOpen(true)} icon={<ShoppingCartOutlined />}>Add To Cart</Button>
                         }
                         <Button style={{ width: 40, height: 40 }}><HeartOutlined /></Button>
                     </Flex>

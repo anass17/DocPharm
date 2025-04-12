@@ -28,11 +28,13 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@mui/material';
 
 import { DownOutlined } from '@ant-design/icons';
-import { Dropdown, Space } from 'antd';
+import { Badge, Dropdown, Space } from 'antd';
+import { useSelector } from 'react-redux';
 
 function UserNavbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const cart = useSelector(data => data.cart.cart)
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -86,9 +88,11 @@ function UserNavbar() {
               <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <FaHeart fill='#F40' size={22}/>
               </Button>
-              <Button disableRipple onClick={() => setDrawerOpen(true)} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <FaShoppingCart fill='#AAA' size={22} />
-              </Button>
+              <Badge count={cart.length} size="small" offset={[-15, 0]} style={{backgroundColor: colors.GRAY0, background: colors.GRAY0, color: colors.GREEN2, borderColor: colors.GREEN2, fontWeight: 500}}>
+                <Button disableRipple onClick={() => setDrawerOpen(true)} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <FaShoppingCart fill='#AAA' size={22} />
+                </Button>
+              </Badge>
             </Box>
             <Tooltip title="Account settings">
               <IconButton
