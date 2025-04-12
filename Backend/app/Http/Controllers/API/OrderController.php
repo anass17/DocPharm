@@ -9,6 +9,7 @@ use App\Models\OrderMedicine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Stripe\Checkout\Session;
 
 class OrderController extends Controller
 {
@@ -76,5 +77,27 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+    
+
+    public function confirm (Request $request, $sessionId) {
+        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+    
+        try {
+            $session = Session::retrieve($sessionId);
+    
+            if ($session->payment_status === 'paid') {
+                
+                $order = Order::where('client_id', '=', $request->user()->id)->whereNull('confirmed_at')->first();
+                $order->confirmed_at = now();
+                $order->save();
+
+                return response()->json(['success' => true, 'message' => 'Order Confirmed']);
+            } else {
+                return response()->json(['success' => false, 'message' => 'Payment failed']);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
     }
 }

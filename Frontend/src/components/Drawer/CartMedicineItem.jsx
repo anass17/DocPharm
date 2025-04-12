@@ -74,8 +74,8 @@ const CartMedicineItem = ({medicine, index, updateItemTotal}) => {
                     <TextField value={quantity} size={'small'} sx={{ width: 50 }} />
                     <Button style={{border: 'none', fontSize: 20, width: 40}} onClick={() => setQuantity(quantity + 1)}>+</Button>
                 </Col>
-                <Col span={3} style={{textAlign: 'center', fontSize: 16, fontWeight: 500}}>{unitPrice} DH</Col>
-                <Col span={3} style={{textAlign: 'center', fontSize: 16, fontWeight: 500}}>{quantity * unitPrice} DH</Col>
+                <Col span={3} style={{textAlign: 'center', fontSize: 16, fontWeight: 500}}>{unitPrice.toFixed(2)} DH</Col>
+                <Col span={3} style={{textAlign: 'center', fontSize: 16, fontWeight: 500}}>{(quantity * unitPrice).toFixed(2)} DH</Col>
             </Row>
         </>
     )

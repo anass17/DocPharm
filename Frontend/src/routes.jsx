@@ -23,6 +23,7 @@ const PharmacyMedicine = lazy(() => import('./Pages/pharmacy/PharmacyMedicine.js
 
 
 const UserMedicine = lazy(() => import('./Pages/user/UserMedicine.jsx'));
+const UserPaymentSuccess = lazy(() => import('./Pages/user/UserPaymentSuccess.jsx'));
 
 // Errors
 
@@ -44,6 +45,8 @@ const DashboardRedirection = () => {
       navigate('/doctor/dashboard');
     } else if (user.role == 'admin') {
       navigate('/admin/dashboard');
+    } else if (user.role == 'user') {
+      navigate('/medicines');
     } else {
       navigate('/unauthorized');
     }
@@ -94,30 +97,30 @@ const RoutesList = () => {
               roles={['admin']}  // Only Admin can access
               component={() => (
                 <AdminLayout>
-                  <AdminDashboard />
+                <AdminDashboard />
                 </AdminLayout>
-              )}
-            />
-            
-            <PrivateRoute
-              path="/pharmacy"
-              roles={['pharmacy']}  // Only Pharmacy can access
-              component={() => (
-                <PharmacyLayout>
+                )}
+                />
+                
+                <PrivateRoute
+                path="/pharmacy"
+                roles={['pharmacy']}  // Only Pharmacy can access
+                component={() => (
+                  <PharmacyLayout>
                   <PharmacyDashboard />
-                </PharmacyLayout>
-              )}
-            />
+                  </PharmacyLayout>
+                  )}
+                  />
             
             <PrivateRoute
-              path="/doctor"
-              roles={['doctor']}  // Only Doctor can access
-              component={() => (
-                <DoctorLayout>
-                  <DoctorDashboard />
-                </DoctorLayout>
+            path="/doctor"
+            roles={['doctor']}  // Only Doctor can access
+            component={() => (
+              <DoctorLayout>
+              <DoctorDashboard />
+              </DoctorLayout>
               )}
-            /> */}
+              /> */}
             
             <Route path="/pharmacy/dashboard" element={<PharmacyDashboard />} />
             {/* <Route path="/pharmacy/dashboard" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyDashboard />} />} /> */}
@@ -131,6 +134,9 @@ const RoutesList = () => {
 
             <Route path="/medicines" element={<UserMedicines />} />
             <Route path="/medicines/:id" element={<UserMedicine />} />
+
+
+            <Route path="/payment_success" element={<UserPaymentSuccess />} />
     
             {/* Catch-all route for undefined paths */}
             <Route path="*" element={<NotFound />} />

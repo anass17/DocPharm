@@ -88,7 +88,7 @@ function UserNavbar() {
               <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <FaHeart fill='#F40' size={22}/>
               </Button>
-              <Badge count={cart.length} size="small" offset={[-15, 0]} style={{backgroundColor: colors.GRAY0, background: colors.GRAY0, color: colors.GREEN2, borderColor: colors.GREEN2, fontWeight: 500}}>
+              <Badge count={cart.length} size="small" offset={[-17, 5]} style={{backgroundColor: colors.GRAY0, background: colors.GRAY0, color: colors.GREEN2, borderColor: colors.GREEN2, fontWeight: 500}}>
                 <Button disableRipple onClick={() => setDrawerOpen(true)} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   <FaShoppingCart fill='#AAA' size={22} />
                 </Button>

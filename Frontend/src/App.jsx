@@ -26,9 +26,11 @@ const getCartItems = async (dispatch) => {
       if (response.status === 401) {
           alert('Not Authorized')
       } else if (response.status === 200) {
-          responseData.order.medicines.forEach(item => {
+          if (responseData.order) {
+            responseData.order.medicines.forEach(item => {
               dispatch(addMedicineToCart(item))
-          })
+            })
+          }
       } else {
           alert('Something went wrong! Could not load this data');
       }
