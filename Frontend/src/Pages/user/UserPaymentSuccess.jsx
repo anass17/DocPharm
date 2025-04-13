@@ -15,21 +15,24 @@ export default function UserPaymentSuccess() {
 
         const params = new URLSearchParams(location.search);
         const sessionId = params.get('session_id');
+        const method = params.get('method');
 
         if (sessionId) {
-            confirmOrder(sessionId);
+            confirmOrder(sessionId, method);
         }
 
     }, [location])
 
-    const confirmOrder = async (sessionId) => {
+    const confirmOrder = async (sessionId, deliveryMethod) => {
         try {
 
             fetch(`${backend_url}/api/confirm-order/${sessionId}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                    'Content-Type': 'application/json'
                 },
+                body: JSON.stringify({method: deliveryMethod})
             }).then(response => {
                 response.status === 200 ? dispatch(clearCart()) : null
             })

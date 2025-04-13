@@ -32,11 +32,11 @@ const getCartItems = async (dispatch) => {
             })
           }
       } else {
-          alert('Something went wrong! Could not load this data');
+          console.log('Something went wrong! Could not load this data');
       }
   } catch (error) {
-      console.log(error)
-      alert('Something went wrong! Could not load this data');
+    console.log('Something went wrong! Could not load this data');
+    console.log(error)
   }
 }
 

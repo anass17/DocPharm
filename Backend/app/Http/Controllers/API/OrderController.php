@@ -16,9 +16,31 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $page = 1;
+        $status = 'pending';
+
+        if ($request->page) {
+            $page = $request->page;
+        }
+
+        if ($request->type) {
+            $status = $request->type;
+        }
+
+        $orders = Order::with('medicines.pharmacy')->whereNotNull('confirmed_at')->where('status', '=', 'pending')->paginate(9, ['*'], 'page', $page);
+
+        $orders = Order::whereHas('medicines.pharmacy', function ($query) use ($request) {
+            $query->where('users.id', $request->user()->id);
+        })
+        ->with('medicines.medicine')
+        ->with('client')
+        ->whereNotNull('confirmed_at')
+        ->where('status', '=', $status)
+        ->paginate(2, ['*'], 'page', $page);
+
+        return response()->json(['orders' => $orders]);
     }
 
     /**
@@ -68,7 +90,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        return response()->json(['Y' => 'N']);
     }
 
     /**
@@ -89,6 +111,7 @@ class OrderController extends Controller
             if ($session->payment_status === 'paid') {
                 
                 $order = Order::where('client_id', '=', $request->user()->id)->whereNull('confirmed_at')->first();
+                $order->delivery_method = $request->method;
                 $order->confirmed_at = now();
                 $order->save();
 

@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->timestamp('confirmed_at')->nullable();
             $table->timestamp('delivered_at')->nullable();
+            $table->enum('delivery_method', ['pick-up', 'delivery'])->nullable();
+            $table->enum('status', ['pending', 'accepted', 'rejected', 'delivered'])->default('pending');
+            $table->string('rejection_reason')->default('');
 
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->on('users')->references('id')->onDelete('set null');

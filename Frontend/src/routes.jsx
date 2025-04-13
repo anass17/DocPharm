@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
 import UserMedicines from './Pages/user/UserMedicines.jsx';
+import PharmacyOrders from './Pages/Pharmacy/PharmacyOrders.jsx';
 
 // Authentication
 
@@ -45,7 +46,7 @@ const DashboardRedirection = () => {
       navigate('/doctor/dashboard');
     } else if (user.role == 'admin') {
       navigate('/admin/dashboard');
-    } else if (user.role == 'user') {
+    } else if (user.role == 'client') {
       navigate('/medicines');
     } else {
       navigate('/unauthorized');
@@ -122,11 +123,14 @@ const RoutesList = () => {
               )}
               /> */}
             
+            {/* Pharmacy Routes */}
+
             <Route path="/pharmacy/dashboard" element={<PharmacyDashboard />} />
             {/* <Route path="/pharmacy/dashboard" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyDashboard />} />} /> */}
             {/* <Route path="/pharmacy/inventory" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyInventory />} />} /> */}
             <Route path="/pharmacy/inventory" element={<PharmacyInventory />} />
             <Route path="/pharmacy/medicines/:id" element={<PharmacyMedicine />} />
+            <Route path="/pharmacy/orders" element={<PharmacyOrders />} />
 
 
 
