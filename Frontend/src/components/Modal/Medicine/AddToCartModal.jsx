@@ -50,7 +50,6 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
             ...data,
             [name]: value
         })
-        // console.log(medicine)
     }
 
     const handleSubmit = () => {
@@ -69,33 +68,20 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
     
             if (response.status === 422) {
                 alert('Unauthorized')
-                // setBackendErrors(responseData.errors);
             } else if (response.status === 204) {
                 // alert('added');
                 dispatch(deleteMedicineFromCart(id))
                 setBackendErrors(null);
                 info('Deleted from cart');
-                // setData({})
-                // setErrors({})
-                // setStep(1)
                 setOpen(false)
             } else {
-                // setBackendErrors(['An unexpected error occurred.']);
                 alert('Error')
             }
-
-            // setSubmit(false)
         } catch (error) {
-            alert('Error')
-            // console.log(error)
-            // setBackendErrors(['An error occurred while processing your request.']);
-            // setSubmit(false)
         }
     }
 
     useEffect(() => {
-        // console.log(cart)
-        // console.log(',,', medicine)
         const targetItem = cart.filter(item => item.medicine_id == param_id);
         targetItem.length > 0 ?
         setCartId(targetItem[0]?.pivot.medicine_id) :
