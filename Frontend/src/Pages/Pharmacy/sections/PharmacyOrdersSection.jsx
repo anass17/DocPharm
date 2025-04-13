@@ -14,6 +14,7 @@ import AcceptedOrderCard from "../../../components/Card/Order/AcceptedOrderCard"
 import ReadyOrderCard from "../../../components/Card/Order/ReadyOrderCard";
 import React from 'react';
 import { FaArrowRight, FaBan, FaCaretRight, FaFlag } from "react-icons/fa";
+import ConfirmDeliveryModal from "../../../components/Modal/Order/ConfirmDeliveryModal";
 
 const { Title, Text } = Typography
 
@@ -27,6 +28,8 @@ const PharmacyOrdersSection = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState(0);
+    const [open, setOpen] = useState(false);
+    const [openOrder, setOpenOrder] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(1);
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -34,6 +37,11 @@ const PharmacyOrdersSection = () => {
 
     const handlePageChange = (page) => {
         getOrders(page)
+    }
+
+    const handleConfirmClick = (id) => {
+        setOpen(true);
+        setOpenOrder(id)
     }
 
     // Functions
@@ -161,7 +169,7 @@ const PharmacyOrdersSection = () => {
                                     orders.map((item, index) => {
                                         return (
                                             <Col span={8} key={index}>
-                                                <ReadyOrderCard order={item} />
+                                                <ReadyOrderCard handleClick={handleConfirmClick} order={item} />
                                             </Col>
                                         )
                                     }) 
@@ -219,6 +227,8 @@ const PharmacyOrdersSection = () => {
                     showSizeChanger={false} />
                 </ConfigProvider>
             </Box>
+
+            <ConfirmDeliveryModal medicineId={openOrder} open={open} setOpen={setOpen} />
         </>
     )
 }

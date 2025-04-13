@@ -92,7 +92,8 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $validation = Validator::make($request->all(), [
-            'status' => 'sometimes|in:accepted,ready'
+            'status' => 'sometimes|in:accepted,ready',
+            'code' => 'sometimes|integer|between:100000,999999'
         ]);
 
         if ($validation->fails()) {
@@ -111,6 +112,22 @@ class OrderController extends Controller
 
                 Mail::to("anassboutaib2018@gmail.com")->send(new DeliveryCodeEmail($request->user(), $order->delivery_code));
             
+            } else if ($request -> status == 'delivered') {
+
+                // if ($order -> tries === 5) {
+                //     return response()->json(['error' => 'You have exceeded the number of tries, please contact an admin'], 422);
+                // } else if (!$order -> code || $order -> code !== ($request -> code - 0)) {
+                //     $order -> tries += 1;
+                //     $order -> save();
+                //     return response()->json(['error' => 'Incorrect Code - 4 tries left'], 422);
+                // }
+
+                // $order->status = $request->status;
+                // $order->code = null;
+                // $order->save();
+
+                // return response()->json([], 204);
+
             } else {
                 return response()->json(['errors' => ['Invalid Status']], 422);
             }

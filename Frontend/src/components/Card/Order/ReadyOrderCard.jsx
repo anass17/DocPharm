@@ -6,7 +6,7 @@ import { Box, Button as Btn } from '@mui/material';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
 
-const AcceptedOrderCard = ({ order }) => {
+const AcceptedOrderCard = ({ handleClick, order }) => {
 
     const [api, NotificationHolder] = notification.useNotification();
     const [delivered, setDelivered] = useState(false)
@@ -30,10 +30,8 @@ const AcceptedOrderCard = ({ order }) => {
         delivery_method,
     } = order;
 
-    //--- Handlers
-
     const handleDelivery = () => {
-        setOrderAsDelivered()
+        handleClick(id);
     }
 
     //--- Fonctions
