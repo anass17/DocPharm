@@ -108,7 +108,8 @@ class OrderController extends Controller
                 
                 $order->status = $request->status;
                 $order->delivery_code = rand(100000, 999999);
-                // Mail::to("anassboutaib2018@gmail.com")->send(new DeliveryCodeEmail($request->user(), $order->delivery_code));
+
+                Mail::to("anassboutaib2018@gmail.com")->send(new DeliveryCodeEmail($request->user(), $order->delivery_code));
             
             } else {
                 return response()->json(['errors' => ['Invalid Status']], 422);
