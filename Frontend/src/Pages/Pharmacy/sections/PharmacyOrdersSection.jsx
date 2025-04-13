@@ -10,7 +10,9 @@ import {Typography as TP} from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CheckIcon from '@mui/icons-material/Check';
 import PendingOrderCard from "../../../components/Card/Medicine/PendingOrderCard";
+import AcceptedOrderCard from "../../../components/Card/Medicine/AcceptedOrderCard";
 import React from 'react';
+import { FaBan } from "react-icons/fa";
 
 const { Title, Text } = Typography
 
@@ -137,16 +139,42 @@ const PharmacyOrdersSection = () => {
                     :
                     (
                         orders.length > 0 ?
-                        orders.map((item, index) => {
-                            return (
-                                <Col span={8} key={index}>
-                                    <PendingOrderCard order={item} />
-                                </Col>
+                        (
+                            type == 'pending' ? (
+                                orders.map((item, index) => {
+                                    return (
+                                        <Col span={8} key={index}>
+                                            <PendingOrderCard order={item} />
+                                        </Col>
+                                    )
+                                }) 
+                            ) : (
+                                orders.map((item, index) => {
+                                    return (
+                                        <Col span={8} key={index}>
+                                            <AcceptedOrderCard order={item} />
+                                        </Col>
+                                    )
+                                }) 
                             )
-                        }) : 
-                        <Col span={24}>
-                            <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 30 }}>You don't have any orders that belong to this category</TP>
-                        </Col>
+                        ) : 
+                        (
+                            <Col span={24} style={{ textAlign: 'center', marginTop: 20 }}>
+                                    <FaBan fontSize={40} fill="#444"/>
+                                    {
+                                        type === 'pending' ? (
+                                            <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
+                                                You don't have any pending orders. We will list them here when you receive any.
+                                            </TP>
+                                        ) : (
+                                            <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
+                                                You don't have any accepted orders. Accept pending orders to appear here.
+                                            </TP>
+                                        )
+                                    }
+                                </Col>
+                        )
+                        
                     )
                     
                 }

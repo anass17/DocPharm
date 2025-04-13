@@ -6,7 +6,7 @@ import { Box, Button as Btn } from '@mui/material';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
 
-const PendingOrderCard = ({ order }) => {
+const AcceptedOrderCard = ({ order }) => {
 
     const [api, NotificationHolder] = notification.useNotification();
     const [accepted, setAccepted] = useState(false)
@@ -133,27 +133,25 @@ const PendingOrderCard = ({ order }) => {
                             {delivery_method}
                         </span>
                         <div className="order-actions">
-                            {
+                            {/* {
                                 loading ? (
                                     <Btn loading variant="outlined" className="btn accepted">
                                         Accepted
                                     </Btn>
                                 ) : (
-
-                                    accepted ? 
                                     <button className="btn accepted">
                                         Accepted
                                     </button> :
-                                    <>
-                                        <button className="btn reject" >
-                                            Reject
+                                    <> */}
+                                        <button className="btn confirm" >
+                                            Confirm Delivery
                                         </button>
-                                        <button className="btn accept" onClick={handleAccept}>
+                                        {/* <button className="btn accept" onClick={handleAccept}>
                                             Accept
                                         </button>
                                     </>
                                 )
-                            }
+                            } */}
                         </div>
                     </div>
                 </div>
@@ -162,4 +160,4 @@ const PendingOrderCard = ({ order }) => {
     );
 };
 
-export default PendingOrderCard;
+export default AcceptedOrderCard;

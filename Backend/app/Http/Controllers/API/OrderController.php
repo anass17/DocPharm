@@ -38,7 +38,7 @@ class OrderController extends Controller
         ->with('client')
         ->whereNotNull('confirmed_at')
         ->where('status', '=', $status)
-        ->paginate(2, ['*'], 'page', $page);
+        ->paginate(9, ['*'], 'page', $page);
 
         return response()->json(['orders' => $orders]);
     }
@@ -90,7 +90,21 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        return response()->json(['Y' => 'N']);
+        $validation = Validator::make($request->all(), [
+            'status' => 'sometimes|in:accepted'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(['errors' => $validation->errors()], 422);
+        }
+
+        if ($request->status) {
+            $order->status = $request->status;
+        }
+
+        $order -> save();
+
+        return response()->json([], 204);
     }
 
     /**

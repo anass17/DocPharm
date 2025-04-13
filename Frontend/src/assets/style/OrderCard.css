@@ -125,7 +125,12 @@
   
   .btn.accepted {
     cursor: default;
+    border: 1px solid #DDD;
     background-color: #EEE;
     color: #333;
   }
   
+  .btn.confirm {
+    background-color: dodgerblue;
+    color: #FFF;
+  }
