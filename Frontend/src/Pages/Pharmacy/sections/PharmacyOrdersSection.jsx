@@ -1,4 +1,4 @@
-import { Button, Col, ConfigProvider, message, Row, Typography } from "antd";
+import { Button, Col, ConfigProvider, Divider, message, Row, Typography } from "antd";
 import Icon from "@ant-design/icons";
 import { GRAY2, GRAY4, GREEN, GREEN5 } from "../../../config/colors";
 import { Box, Skeleton } from "@mui/material";
@@ -9,10 +9,11 @@ import Cookies from 'js-cookie';
 import {Typography as TP} from "@mui/material";
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import CheckIcon from '@mui/icons-material/Check';
-import PendingOrderCard from "../../../components/Card/Medicine/PendingOrderCard";
-import AcceptedOrderCard from "../../../components/Card/Medicine/AcceptedOrderCard";
+import PendingOrderCard from "../../../components/Card/Order/PendingOrderCard";
+import AcceptedOrderCard from "../../../components/Card/Order/AcceptedOrderCard";
+import ReadyOrderCard from "../../../components/Card/Order/ReadyOrderCard";
 import React from 'react';
-import { FaBan } from "react-icons/fa";
+import { FaArrowRight, FaBan, FaCaretRight, FaFlag } from "react-icons/fa";
 
 const { Title, Text } = Typography
 
@@ -30,14 +31,6 @@ const PharmacyOrdersSection = () => {
     const [messageApi, contextHolder] = message.useMessage();
 
     // Handlers
-
-    const handlePendingClick = () => {
-        setType('pending')
-    }
-
-    const handleAcceptClick = () => {
-        setType('accepted')
-    }
 
     const handlePageChange = (page) => {
         getOrders(page)
@@ -95,11 +88,11 @@ const PharmacyOrdersSection = () => {
 
             {contextHolder}
 
-            <TP sx={{ mb: 5, textAlign: 'center' }}>Please accept only when the order is on its way to deliver or it is ready to pick up</TP>
+            <TP sx={{ mb: 5, textAlign: 'center' }}>Here you can manage all your incoming orders and closely track their progress through each stage.</TP>
 
             {/* Buttons: Accepted & Pending */}
 
-            <Box mb={5} display={'flex'} justifyContent={'center'} gap={1}>
+            <Box mb={5} display={'flex'} justifyContent={'center'} alignItems={'center'} gap={1}>
                 <ConfigProvider
                     theme={{
                         components: {
@@ -110,8 +103,15 @@ const PharmacyOrdersSection = () => {
                         },
                     }}
                 >
-                    <Button size="large" style={{ padding: '1.25rem 2rem', border: (type === 'pending' ? '2px solid ' + GREEN : '2px solid ' + GRAY4 ), borderRadius: 5, color: (type === 'pending' ? GREEN : '' ) }} icon={<Icon style={{ marginRight: 1, position: 'relative', top: 1 }} component={AccessTimeIcon}/>} onClick={handlePendingClick}>Pending</Button>
-                    <Button size="large" style={{ padding: '1.25rem 2rem', border: (type === 'accepted' ? '2px solid ' + GREEN : '2px solid ' + GRAY4 ), borderRadius: 5, color: (type === 'accepted' ? GREEN : '' ) }} icon={<Icon style={{ marginRight: 1, position: 'relative', top: 1 }} component={CheckIcon} />} onClick={handleAcceptClick}>Accepted</Button>
+                    <Button size="large" style={{ width: 160, padding: '1.25rem 2rem', border: (type === 'pending' ? '2px solid ' + GREEN : '2px solid ' + GRAY4 ), borderRadius: 5, color: (type === 'pending' ? GREEN : '' ) }} icon={<Icon style={{ marginRight: 1, position: 'relative', top: 1 }} component={AccessTimeIcon}/>} onClick={() => setType('pending')}>Pending</Button>
+                    <Box>
+                        <FaCaretRight size={18} />
+                    </Box>
+                    <Button size="large" style={{ width: 160, padding: '1.25rem 2rem', border: (type === 'accepted' ? '2px solid ' + GREEN : '2px solid ' + GRAY4 ), borderRadius: 5, color: (type === 'accepted' ? GREEN : '' ) }} icon={<Icon style={{ marginRight: 1, position: 'relative', top: 1 }} component={CheckIcon} />} onClick={() => setType('accepted')}>Accepted</Button>
+                    <Box>
+                        <FaCaretRight size={18} />
+                    </Box>
+                    <Button size="large" style={{ width: 160, padding: '1.25rem 2rem', border: (type === 'ready' ? '2px solid ' + GREEN : '2px solid ' + GRAY4 ), borderRadius: 5, color: (type === 'ready' ? GREEN : '' ) }} icon={<Icon style={{ marginRight: 1.5 }} component={FaFlag} />} onClick={() => setType('ready')}>Ready</Button>
                 </ConfigProvider>
             </Box>
 
@@ -149,13 +149,24 @@ const PharmacyOrdersSection = () => {
                                     )
                                 }) 
                             ) : (
-                                orders.map((item, index) => {
-                                    return (
-                                        <Col span={8} key={index}>
-                                            <AcceptedOrderCard order={item} />
-                                        </Col>
-                                    )
-                                }) 
+                                type == 'accepted' ? (
+                                    orders.map((item, index) => {
+                                        return (
+                                            <Col span={8} key={index}>
+                                                <AcceptedOrderCard order={item} />
+                                            </Col>
+                                        )
+                                    }) 
+                                ) : (
+                                    orders.map((item, index) => {
+                                        return (
+                                            <Col span={8} key={index}>
+                                                <ReadyOrderCard order={item} />
+                                            </Col>
+                                        )
+                                    }) 
+
+                                )
                             )
                         ) : 
                         (
@@ -167,9 +178,15 @@ const PharmacyOrdersSection = () => {
                                                 You don't have any pending orders. We will list them here when you receive any.
                                             </TP>
                                         ) : (
-                                            <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
-                                                You don't have any accepted orders. Accept pending orders to appear here.
-                                            </TP>
+                                            type === 'accepted' ? (
+                                                <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
+                                                    You don't have any accepted orders. Accept pending orders to appear here.
+                                                </TP>
+                                            ) : (
+                                                <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
+                                                    You don't have any ready orders. Set pending orders as ready to appear here.
+                                                </TP>
+                                            )
                                         )
                                     }
                                 </Col>

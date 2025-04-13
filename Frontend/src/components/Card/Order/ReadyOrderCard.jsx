@@ -9,7 +9,7 @@ import Cookies from 'js-cookie'
 const AcceptedOrderCard = ({ order }) => {
 
     const [api, NotificationHolder] = notification.useNotification();
-    const [accepted, setAccepted] = useState(false)
+    const [delivered, setDelivered] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const openNotification = (message, description) => {
@@ -32,17 +32,13 @@ const AcceptedOrderCard = ({ order }) => {
 
     //--- Handlers
 
-    const handleAccept = () => {
-        acceptOrder()
-    }
-
-    const handleReject = () => {
-        alert('Reject')
+    const handleDelivery = () => {
+        setOrderAsDelivered()
     }
 
     //--- Fonctions
 
-    const acceptOrder = async () => {
+    const setOrderAsDelivered = async () => {
         setLoading(true);
         
         try {
@@ -53,14 +49,14 @@ const AcceptedOrderCard = ({ order }) => {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({status: 'accepted'})
+                body: JSON.stringify({status: 'delivered'})
             });
     
             if (response.status === 401) {
-                openNotification('Access Denied', 'You are not authorized to view this data');
+                openNotification('Access Denied', 'You are not authorized to perform this action');
             } else if (response.status === 200 || response.status === 204) {
-                setAccepted(true)
-                openNotification('Order Accepted', `You've successfully confirmed the order [#${order.id}] for delivering.`)
+                setDelivered(true)
+                openNotification('Order Accepted', `The order [#${order.id}] status has been updated`)
             } else {
                 openNotification('Something Went Wrong!', 'Could not perform this action');
             }
@@ -133,25 +129,23 @@ const AcceptedOrderCard = ({ order }) => {
                             {delivery_method}
                         </span>
                         <div className="order-actions">
-                            {/* {
+                            {
                                 loading ? (
                                     <Btn loading variant="outlined" className="btn accepted">
-                                        Accepted
+                                        Confirm Delivery
                                     </Btn>
                                 ) : (
-                                    <button className="btn accepted">
-                                        Accepted
+                                    !delivered ?
+                                    <button className="btn accept" onClick={handleDelivery}>
+                                        Confirm Delivery
                                     </button> :
-                                    <> */}
-                                        <button className="btn confirm" >
-                                            Confirm Delivery
-                                        </button>
-                                        {/* <button className="btn accept" onClick={handleAccept}>
-                                            Accept
+                                    <>
+                                        <button className="btn accepted">
+                                            Delivered
                                         </button>
                                     </>
                                 )
-                            } */}
+                            }
                         </div>
                     </div>
                 </div>

@@ -6,7 +6,7 @@
     <title>Verification Email</title>
 </head>
 <body>
-    <h1>Hello, {{ $user->name }}</h1>
+    <h1>Hello, {{ $user->first_name }}</h1>
     <p>Click the link below to verify your email address:</p>
     <a href="{{ $verificationUrl }}">Verify Email</a>
 </body>

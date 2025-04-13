@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-
+use App\Mail\DeliveryCodeEmail;
 use App\Models\Order;
 use App\Models\OrderMedicine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Stripe\Checkout\Session;
 
@@ -91,7 +92,7 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $validation = Validator::make($request->all(), [
-            'status' => 'sometimes|in:accepted'
+            'status' => 'sometimes|in:accepted,ready'
         ]);
 
         if ($validation->fails()) {
@@ -99,7 +100,19 @@ class OrderController extends Controller
         }
 
         if ($request->status) {
-            $order->status = $request->status;
+            if ($request -> status == 'accepted') {
+
+                $order->status = $request->status;
+                
+            } else if ($request -> status == 'ready') {
+                
+                $order->status = $request->status;
+                $order->delivery_code = rand(100000, 999999);
+                // Mail::to("anassboutaib2018@gmail.com")->send(new DeliveryCodeEmail($request->user(), $order->delivery_code));
+            
+            } else {
+                return response()->json(['errors' => ['Invalid Status']], 422);
+            }
         }
 
         $order -> save();
