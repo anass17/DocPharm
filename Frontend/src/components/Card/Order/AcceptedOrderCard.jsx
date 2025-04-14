@@ -76,7 +76,7 @@ const AcceptedOrderCard = ({ order }) => {
             <div className="order-card">
                 <div className='order-block'>
                     <div className="order-header">
-                        {delivery_method === 'delivery' && (
+                        {delivery_method === 'delivery' ? (
                             <div className="order-section">
                                 <p style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width={12} fill='#333' viewBox="0 0 384 512">
@@ -85,6 +85,8 @@ const AcceptedOrderCard = ({ order }) => {
                                     {address}, {city}
                                 </p>
                             </div>
+                        ) : (
+                            <span></span>
                         )}
                         <h2>#{id}</h2>
                     </div>
@@ -125,7 +127,7 @@ const AcceptedOrderCard = ({ order }) => {
                     </div>
 
                     <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span className={`delivery-method ${delivery_method.toLowerCase()}`}>
+                        <span className={`delivery-method`}>
                             {delivery_method}
                         </span>
                         <div className="order-actions">

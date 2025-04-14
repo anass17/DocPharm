@@ -44,6 +44,10 @@ const PharmacyOrdersSection = () => {
         setOpenOrder(id)
     }
 
+    const handleDelivered = () => {
+        setOrders(orders.filter(item => item.id != openOrder))
+    }
+
     // Functions
 
     const info = (message) => {
@@ -179,25 +183,25 @@ const PharmacyOrdersSection = () => {
                         ) : 
                         (
                             <Col span={24} style={{ textAlign: 'center', marginTop: 20 }}>
-                                    <FaBan fontSize={40} fill="#444"/>
-                                    {
-                                        type === 'pending' ? (
+                                <FaBan fontSize={40} fill="#444"/>
+                                {
+                                    type === 'pending' ? (
+                                        <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
+                                            You don't have any pending orders. We will list them here when you receive any.
+                                        </TP>
+                                    ) : (
+                                        type === 'accepted' ? (
                                             <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
-                                                You don't have any pending orders. We will list them here when you receive any.
+                                                You don't have any accepted orders. Accept pending orders to appear here.
                                             </TP>
                                         ) : (
-                                            type === 'accepted' ? (
-                                                <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
-                                                    You don't have any accepted orders. Accept pending orders to appear here.
-                                                </TP>
-                                            ) : (
-                                                <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
-                                                    You don't have any ready orders. Set pending orders as ready to appear here.
-                                                </TP>
-                                            )
+                                            <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
+                                                You don't have any ready orders. Set pending orders as ready to appear here.
+                                            </TP>
                                         )
-                                    }
-                                </Col>
+                                    )
+                                }
+                            </Col>
                         )
                         
                     )
@@ -228,7 +232,7 @@ const PharmacyOrdersSection = () => {
                 </ConfigProvider>
             </Box>
 
-            <ConfirmDeliveryModal medicineId={openOrder} open={open} setOpen={setOpen} />
+            <ConfirmDeliveryModal handleDelivered={handleDelivered} medicineId={openOrder} open={open} setOpen={setOpen} />
         </>
     )
 }

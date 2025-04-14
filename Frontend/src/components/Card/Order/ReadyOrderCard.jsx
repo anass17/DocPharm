@@ -8,20 +8,7 @@ import Cookies from 'js-cookie'
 
 const AcceptedOrderCard = ({ handleClick, order }) => {
 
-    const [api, NotificationHolder] = notification.useNotification();
     const [delivered, setDelivered] = useState(false)
-    const [loading, setLoading] = useState(false)
-
-    const openNotification = (message, description) => {
-        api.info({
-            message: message,
-            description: <p>{description}</p>,
-            placement: 'bottomRight',
-            duration: 5,
-            showProgress: true,
-            pauseOnHover: true,
-        });
-    };
     
     const {
         id,
@@ -34,47 +21,15 @@ const AcceptedOrderCard = ({ handleClick, order }) => {
         handleClick(id);
     }
 
-    //--- Fonctions
-
-    const setOrderAsDelivered = async () => {
-        setLoading(true);
-        
-        try {
-
-            const response = await fetch(`${backend_url}/api/orders/${order.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({status: 'delivered'})
-            });
-    
-            if (response.status === 401) {
-                openNotification('Access Denied', 'You are not authorized to perform this action');
-            } else if (response.status === 200 || response.status === 204) {
-                setDelivered(true)
-                openNotification('Order Accepted', `The order [#${order.id}] status has been updated`)
-            } else {
-                openNotification('Something Went Wrong!', 'Could not perform this action');
-            }
-            setLoading(false)
-        } catch (error) {
-            console.log(error)
-            openNotification('Something Went Wrong!', 'Could not perform this action');
-        }
-    }
-
     //--- Content
 
     return (
         <>
-            {NotificationHolder}
 
             <div className="order-card">
                 <div className='order-block'>
                     <div className="order-header">
-                        {delivery_method === 'delivery' && (
+                        {delivery_method === 'delivery' ? (
                             <div className="order-section">
                                 <p style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width={12} fill='#333' viewBox="0 0 384 512">
@@ -83,6 +38,8 @@ const AcceptedOrderCard = ({ handleClick, order }) => {
                                     {address}, {city}
                                 </p>
                             </div>
+                        ) : (
+                            <span></span>
                         )}
                         <h2>#{id}</h2>
                     </div>
@@ -123,26 +80,20 @@ const AcceptedOrderCard = ({ handleClick, order }) => {
                     </div>
 
                     <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span className={`delivery-method ${delivery_method.toLowerCase()}`}>
+                        <span className={`delivery-method`}>
                             {delivery_method}
                         </span>
                         <div className="order-actions">
                             {
-                                loading ? (
-                                    <Btn loading variant="outlined" className="btn accepted">
-                                        Confirm Delivery
-                                    </Btn>
-                                ) : (
-                                    !delivered ?
-                                    <button className="btn accept" onClick={handleDelivery}>
-                                        Confirm Delivery
-                                    </button> :
-                                    <>
-                                        <button className="btn accepted">
-                                            Delivered
-                                        </button>
-                                    </>
-                                )
+                                !delivered ?
+                                <button className="btn accept" onClick={handleDelivery}>
+                                    Confirm Delivery
+                                </button> :
+                                <>
+                                    <button className="btn accepted">
+                                        Delivered
+                                    </button>
+                                </>
                             }
                         </div>
                     </div>

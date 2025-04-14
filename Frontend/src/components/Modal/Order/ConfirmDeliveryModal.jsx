@@ -1,26 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Divider, message, Modal, Row, Typography } from 'antd';
-import {Button as Btn} from '@mui/material' 
-import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import { Button, Col, Modal, notification, Row, Typography } from 'antd';
+import { Box, TextField } from '@mui/material';
 import { GRAY0, GREEN } from '../../../config/colors';
 import { DarkGreenButton } from '../../Button/FilledButtons';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
-import { grey, red } from '@mui/material/colors';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { addMedicineToCart, deleteMedicineFromCart, updateMedicineQuantity } from '../../../store/actions/cartActions';
 
-const ConfirmDeliveryModal = ({medicineId, open, setOpen}) => {
+const ConfirmDeliveryModal = ({handleDelivered, medicineId, open, setOpen}) => {
     const [code, setCode] = useState(null)
     const [codeError, setCodeError] = useState(null)
-    const [messageApi, contextHolder] = message.useMessage();
+    const [api, NotificationHolder] = notification.useNotification();
     
-    const info = (message, type = 'success') => {
-        messageApi.open({
-            type: type,
-            content: message,
-            duration: 5
+    const openNotification = (message, description) => {
+        api.success({
+            message: message,
+            description: <p>{description}</p>,
+            placement: 'bottomRight',
+            duration: 5,
+            showProgress: true,
+            pauseOnHover: true,
         });
     };
 
@@ -49,29 +47,31 @@ const ConfirmDeliveryModal = ({medicineId, open, setOpen}) => {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                    'Content-Type': 'application/json'
                 },
-                body: formData,
+                body: JSON.stringify({status: 'delivered', code: code}),
             });
     
-            const responseData = await response.json();
-    
             if (response.status === 422) {
-                codeError(responseData.error);
-            } else if (response.status === 201) {
-                info('Order delivered successfully');
+                const responseData = await response.json();
+                setCodeError(responseData.error);
+            } else if (response.status === 200 || response.status === 204) {
+                openNotification('Order Delivered', 'You can view the order details in Orders History');
+                handleDelivered();
                 setOpen(false)
             } else {
-                codeError('An unexpected error occurred.');
+                setCodeError('An unexpected error occurred.');
             }
 
         } catch (error) {
-            codeError('An error occurred while processing your request.');
+            console.log(error)
+            setCodeError('An error occurred while processing your request.');
         }
     }
 
     return (
         <>
-            {contextHolder}
+            {NotificationHolder}
             <Modal
                 open={open}
                 title="Add To Cart"

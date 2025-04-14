@@ -19,6 +19,7 @@ return new class extends Migration
             $table->enum('status', ['pending', 'accepted', 'ready', 'rejected', 'delivered'])->default('pending');
             $table->string('rejection_reason')->default('');
             $table->integer('delivery_code')->nullable();
+            $table->integer('tries')->default(0);
 
             $table->unsignedBigInteger('client_id');
             $table->foreign('client_id')->on('users')->references('id')->onDelete('set null');
