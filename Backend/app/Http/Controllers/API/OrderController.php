@@ -92,8 +92,10 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $validation = Validator::make($request->all(), [
-            'status' => 'sometimes|in:accepted,ready,delivered',
-            'code' => 'sometimes|integer|between:100000,999999'
+            'status' => 'sometimes|in:accepted,ready,delivered,rejected',
+            'code' => 'sometimes|integer|between:100000,999999',
+            'note' => 'sometimes|string|max:250',
+            'reason' => 'sometimes|string|max:250'
         ]);
 
         if ($validation->fails()) {
@@ -101,18 +103,18 @@ class OrderController extends Controller
         }
 
         if ($request->status) {
-            if ($request -> status == 'accepted') {
+            if ($request -> status == 'accepted' && $order -> status == 'pending') {
 
                 $order->status = $request->status;
                 
-            } else if ($request -> status == 'ready') {
+            } else if ($request -> status == 'ready' && $order -> status == 'accepted') {
                 
                 $order->status = $request->status;
                 $order->delivery_code = rand(100000, 999999);
 
                 // Mail::to("anassboutaib2018@gmail.com")->send(new DeliveryCodeEmail($request->user(), $order->delivery_code));
             
-            } else if ($request -> status == 'delivered') {
+            } else if ($request -> status == 'delivered' && $order -> status == 'ready') {
 
                 if ($order -> tries === 5) {
                     return response()->json(['error' => 'You have exceeded the number of tries, please contact an admin'], 422);
@@ -130,6 +132,10 @@ class OrderController extends Controller
 
                 return response()->json(['error' => "Incorrect Code - " . (5 - $order -> tries) . " tries left"], 422);
 
+            } else if ($request -> status == 'rejected' && $order -> status == 'pending') {
+                $order->status = $request->status;
+                $order->rejection_reason = str_replace('_', ' ', $request->reason);
+                $order->rejection_note = $request->note;
             } else {
                 return response()->json(['errors' => ['Invalid Status']], 422);
             }

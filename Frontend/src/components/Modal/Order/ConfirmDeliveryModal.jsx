@@ -74,7 +74,7 @@ const ConfirmDeliveryModal = ({handleDelivered, medicineId, open, setOpen}) => {
             {NotificationHolder}
             <Modal
                 open={open}
-                title="Add To Cart"
+                title="Confirm Delivery"
                 onCancel={handleCancel}
                 footer={
                     [

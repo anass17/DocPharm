@@ -7,8 +7,6 @@ import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
 
 const AcceptedOrderCard = ({ handleClick, order }) => {
-
-    const [delivered, setDelivered] = useState(false)
     
     const {
         id,
@@ -84,17 +82,9 @@ const AcceptedOrderCard = ({ handleClick, order }) => {
                             {delivery_method}
                         </span>
                         <div className="order-actions">
-                            {
-                                !delivered ?
-                                <button className="btn accept" onClick={handleDelivery}>
-                                    Confirm Delivery
-                                </button> :
-                                <>
-                                    <button className="btn accepted">
-                                        Delivered
-                                    </button>
-                                </>
-                            }
+                            <button className="btn accept" onClick={handleDelivery}>
+                                Confirm Delivery
+                            </button>
                         </div>
                     </div>
                 </div>

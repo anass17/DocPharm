@@ -66,7 +66,7 @@ class OrderSeeder extends Seeder
             [
                 'id' => 8,
                 'confirmed_at' => now(),
-                'delivery_method' => 'delivery',
+                'delivery_method' => 'pick-up',
                 'status' => 'pending',
                 'client_id' => 5
             ],

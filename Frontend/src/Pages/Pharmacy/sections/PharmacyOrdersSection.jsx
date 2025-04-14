@@ -15,6 +15,7 @@ import ReadyOrderCard from "../../../components/Card/Order/ReadyOrderCard";
 import React from 'react';
 import { FaArrowRight, FaBan, FaCaretRight, FaFlag } from "react-icons/fa";
 import ConfirmDeliveryModal from "../../../components/Modal/Order/ConfirmDeliveryModal";
+import RejectOrderModal from "../../../components/Modal/Order/RejectOrderModal";
 
 const { Title, Text } = Typography
 
@@ -29,6 +30,7 @@ const PharmacyOrdersSection = () => {
     const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState(0);
     const [open, setOpen] = useState(false);
+    const [rejectOpen, setRejectOpen] = useState(false);
     const [openOrder, setOpenOrder] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(1);
     const [messageApi, contextHolder] = message.useMessage();
@@ -44,7 +46,16 @@ const PharmacyOrdersSection = () => {
         setOpenOrder(id)
     }
 
+    const handleRejectClick = (id) => {
+        setRejectOpen(true);
+        setOpenOrder(id)
+    }
+
     const handleDelivered = () => {
+        setOrders(orders.filter(item => item.id != openOrder))
+    }
+
+    const handleRejected = () => {
         setOrders(orders.filter(item => item.id != openOrder))
     }
 
@@ -156,7 +167,7 @@ const PharmacyOrdersSection = () => {
                                 orders.map((item, index) => {
                                     return (
                                         <Col span={8} key={index}>
-                                            <PendingOrderCard order={item} />
+                                            <PendingOrderCard handleRejectClick={handleRejectClick} order={item} />
                                         </Col>
                                     )
                                 }) 
@@ -233,6 +244,7 @@ const PharmacyOrdersSection = () => {
             </Box>
 
             <ConfirmDeliveryModal handleDelivered={handleDelivered} medicineId={openOrder} open={open} setOpen={setOpen} />
+            <RejectOrderModal handleRejected={handleRejected} orderId={openOrder} open={rejectOpen} setOpen={setRejectOpen} />
         </>
     )
 }
