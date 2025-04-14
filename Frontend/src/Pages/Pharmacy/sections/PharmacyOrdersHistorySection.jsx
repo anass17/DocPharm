@@ -27,7 +27,6 @@ const PharmacyOrdersHistorySection = () => {
 
     // States
 
-    const [type, setType] = useState('pending')
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState(0);
@@ -54,15 +53,6 @@ const PharmacyOrdersHistorySection = () => {
         setSearch(e.target.value)
     }
 
-    useEffect(() => {
-        setLoading(true)
-
-        setTimeout(() => {
-            setLoading(false)
-            setOrders([{id: 5, client: {address: 'Somewhere', city: 'Tinghir'}, medicines: [], delivery_method: 'pick-up'}])
-        }, 2000)
-    }, []);
-
     // Functions
 
     const openNotification = (message, description) => {
@@ -76,12 +66,12 @@ const PharmacyOrdersHistorySection = () => {
         });
     };
 
-    const getOrders = async (page = 1) => {
+    const getOrdersHistory = async (page = 1) => {
         setLoading(true);
         
         try {
 
-            const response = await fetch(`${backend_url}/api/orders?type=${type}&page=${page}`, {
+            const response = await fetch(`${backend_url}/api/orders/history`, {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -107,9 +97,38 @@ const PharmacyOrdersHistorySection = () => {
         }
     }
 
-    // useEffect(() => {
-    //     getOrders()
-    // }, [type])
+    
+    // const getOrderDetails = async () => {
+        
+    //     try {
+
+    //         const response = await fetch(`${backend_url}/api/orders/${order.id}`, {
+    //             method: 'PUT',
+    //             headers: {
+    //                 'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+    //                 'Content-Type': 'application/json'
+    //             },
+    //             body: JSON.stringify({status: 'ready'})
+    //         });
+    
+    //         if (response.status === 401) {
+    //             openNotification('Access Denied', 'You are not authorized to perform this action');
+    //         } else if (response.status === 200 || response.status === 204) {
+    //             setReady(true)
+    //             openNotification('Order Accepted', `The order [#${order.id}] status has been updated`)
+    //         } else {
+    //             openNotification('Something Went Wrong!', 'Could not perform this action');
+    //         }
+    //         setLoading(false)
+    //     } catch (error) {
+    //         console.log(error)
+    //         openNotification('Something Went Wrong!', 'Could not perform this action');
+    //     }
+    // }
+
+    useEffect(() => {
+        getOrdersHistory()
+    }, [])
 
     // Content
 
@@ -126,7 +145,7 @@ const PharmacyOrdersHistorySection = () => {
                         id="outlined-start-adornment"
                         sx={{ m: 1, width: 400, bgcolor: '#FFF' }}
                         placeholder="Type in Something ..."
-                        onchange={handleChange}
+                        onChange={handleChange}
                         slotProps={{
                             input: {
                             startAdornment: <InputAdornment position="start"><FaSearch /></InputAdornment>,
@@ -160,7 +179,7 @@ const PharmacyOrdersHistorySection = () => {
             <Row gutter={[16, 16]}>
                 {   
                     loading ?
-                    Array(6).fill(0).map((item, index) => {
+                    Array(6).fill(0).map((_, index) => {
                         return (
                             <Col span={8} key={index}>
                                 <Box sx={{ backgroundColor: '#FFF', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', height: 280, p: 3, borderRadius: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
@@ -204,6 +223,29 @@ const PharmacyOrdersHistorySection = () => {
                     
                 }
             </Row>
+
+            <Box mt={5}>
+                <ConfigProvider
+                    theme={{
+                        token: {
+                            colorPrimary: GREEN
+                        },
+                        components: {
+                            Pagination: {
+                                itemBg: GREEN5,
+                            },
+                        },
+                    }}
+                >
+                    <Pagination align="center" 
+                    onChange={handlePageChange} 
+                    hideOnSinglePage={true}
+                    defaultCurrent={1}
+                    pageSize={itemsPerPage} 
+                    total={total} 
+                    showSizeChanger={false} />
+                </ConfigProvider>
+            </Box>
         </>
     )
 }

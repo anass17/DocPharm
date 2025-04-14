@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import '../../../assets/style/OrderCard.css';
-import { Button, Col, notification, Row } from 'antd';
+import { Button, Col, notification, Row, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { Box, Button as Btn } from '@mui/material';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
+import { FaCheckCircle, FaCircleNotch, FaGgCircle, FaRegCircle, FaTimesCircle } from 'react-icons/fa';
 
 const HistoryOrderCard = ({ order }) => {
 
     const [api, NotificationHolder] = notification.useNotification();
-    const [ready, setReady] = useState(false)
-    const [loading, setLoading] = useState(false)
 
     const openNotification = (message, description) => {
         api.info({
@@ -25,47 +24,11 @@ const HistoryOrderCard = ({ order }) => {
     
     const {
         id,
-        client: {address, city},
+        client: {first_name, last_name, city},
         medicines,
         delivery_method,
+        status,
     } = order;
-
-    //--- Handlers
-
-    const handleReady = () => {
-        setOrderAsReady()
-    }
-
-    //--- Fonctions
-
-    const setOrderAsReady = async () => {
-        setLoading(true);
-        
-        try {
-
-            const response = await fetch(`${backend_url}/api/orders/${order.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({status: 'ready'})
-            });
-    
-            if (response.status === 401) {
-                openNotification('Access Denied', 'You are not authorized to perform this action');
-            } else if (response.status === 200 || response.status === 204) {
-                setReady(true)
-                openNotification('Order Accepted', `The order [#${order.id}] status has been updated`)
-            } else {
-                openNotification('Something Went Wrong!', 'Could not perform this action');
-            }
-            setLoading(false)
-        } catch (error) {
-            console.log(error)
-            openNotification('Something Went Wrong!', 'Could not perform this action');
-        }
-    }
 
     //--- Content
 
@@ -73,7 +36,7 @@ const HistoryOrderCard = ({ order }) => {
         <>
             {NotificationHolder}
 
-            <div className="order-card">
+            <div className="order-card" onClick={() => alert()}>
                 <div className='order-block'>
                     <div className="order-header">
                         {delivery_method === 'delivery' ? (
@@ -82,7 +45,7 @@ const HistoryOrderCard = ({ order }) => {
                                     <svg xmlns="http://www.w3.org/2000/svg" width={12} fill='#333' viewBox="0 0 384 512">
                                     {/* <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--> */}
                                     <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-                                    {address}, {city}
+                                    {first_name} {last_name}
                                 </p>
                             </div>
                         ) : (
@@ -99,9 +62,9 @@ const HistoryOrderCard = ({ order }) => {
                                 <div key={index} className="product-card">
                                     <Row>
                                         <Col span={15}>
-                                            <Link to={`/medicines/${product.medicine.id}`} className="product-name">
+                                            <Typography.Text className="product-name">
                                                 {product.medicine.medicine_name}
-                                            </Link>
+                                            </Typography.Text>
                                         </Col>
                                         <Col span={3}>
                                             <span>x {product.pivot.order_quantity}</span>
@@ -130,6 +93,9 @@ const HistoryOrderCard = ({ order }) => {
                         <span className={`delivery-method`}>
                             {delivery_method}
                         </span>
+                        <div className="order-actions">
+                            <p className={status + '-status'}>{status == 'delivered' ? <FaCheckCircle/> : <FaTimesCircle />} {status}</p>
+                        </div>
                     </div>
                 </div>
             </div>
