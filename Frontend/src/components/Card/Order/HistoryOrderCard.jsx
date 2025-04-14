@@ -7,7 +7,7 @@ import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
 import { FaCheckCircle, FaCircleNotch, FaGgCircle, FaRegCircle, FaTimesCircle } from 'react-icons/fa';
 
-const HistoryOrderCard = ({ order }) => {
+const HistoryOrderCard = ({ handleClick, order }) => {
 
     const [api, NotificationHolder] = notification.useNotification();
 
@@ -36,15 +36,16 @@ const HistoryOrderCard = ({ order }) => {
         <>
             {NotificationHolder}
 
-            <div className="order-card" onClick={() => alert()}>
+            <div className="order-card" onClick={() => handleClick(order.id)}>
                 <div className='order-block'>
                     <div className="order-header">
                         {delivery_method === 'delivery' ? (
                             <div className="order-section">
                                 <p style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width={12} fill='#333' viewBox="0 0 384 512">
-                                    {/* <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--> */}
-                                    <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width={12} fill='#333' viewBox="0 0 448 512">
+                                        {/* <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--> */}
+                                        <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                                    </svg>
                                     {first_name} {last_name}
                                 </p>
                             </div>

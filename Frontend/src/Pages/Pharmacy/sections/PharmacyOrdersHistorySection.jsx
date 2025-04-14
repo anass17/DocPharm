@@ -18,6 +18,7 @@ import ConfirmDeliveryModal from "../../../components/Modal/Order/ConfirmDeliver
 import RejectOrderModal from "../../../components/Modal/Order/RejectOrderModal";
 import SearchInput from "../../../components/Form/SearchInput";
 import HistoryOrderCard from "../../../components/Card/Order/HistoryOrderCard";
+import OrderDrawer from "../../../components/Drawer/Orders/OrderDrawer";
 
 const { Title, Text } = Typography
 
@@ -30,7 +31,7 @@ const PharmacyOrdersHistorySection = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState(0);
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
     const [rejectOpen, setRejectOpen] = useState(false);
     const [openOrder, setOpenOrder] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(1);
@@ -54,6 +55,10 @@ const PharmacyOrdersHistorySection = () => {
     }
 
     // Functions
+
+    const handleCardClick = () => {
+        alert()
+    }
 
     const openNotification = (message, description) => {
         api.info({
@@ -204,7 +209,7 @@ const PharmacyOrdersHistorySection = () => {
                             orders.map((item, index) => {
                                 return (
                                     <Col span={8} key={index}>
-                                        <HistoryOrderCard order={item} />
+                                        <HistoryOrderCard handleClick={handleCardClick} order={item} />
                                     </Col>
                                 )
                             }) 
