@@ -29,12 +29,12 @@ function PharmacyNavbar() {
     let bgColor;
     let textColor;
 
-    bgColor = colors.GRAY0;
-    textColor = "#FFF"
+    bgColor = '#FFF';
+    textColor = colors.GRAY0
 
 
   return (
-    <AppBar position="static" sx={{backgroundColor: bgColor, color: textColor, boxShadow: 'none', py: 1 }}>
+    <AppBar position="static" sx={{backgroundColor: bgColor, boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', color: textColor, py: 1 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -51,7 +51,7 @@ function PharmacyNavbar() {
             }}
           >
             <Link to="/">
-              <span style={{color: colors.GREEN}}>Doc</span><span style={{ color: textColor }}>Pharm</span>
+              <img height={70} src='/public/images/logo/logo.png' />
             </Link>
             
           </Typography>

@@ -69,7 +69,7 @@ function UserNavbar() {
             }}
           >
             <Link to="/">
-              <span style={{color: colors.GREEN}}>Doc</span><span style={{ color: textColor }}>Pharm</span>
+              <img src='/public/images/logo/logo.png' />
             </Link>
             
           </Typography>

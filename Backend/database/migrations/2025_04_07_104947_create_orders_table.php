@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('delivery_method', ['pick-up', 'delivery'])->nullable();
             $table->enum('status', ['pending', 'accepted', 'ready', 'rejected', 'delivered'])->default('pending');
             $table->string('rejection_reason')->default('');
+            $table->string('rejection_note')->default('');
             $table->integer('delivery_code')->nullable();
             $table->integer('tries')->default(0);
 

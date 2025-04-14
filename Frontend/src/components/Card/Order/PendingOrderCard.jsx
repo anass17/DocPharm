@@ -6,7 +6,7 @@ import { Box, Button as Btn } from '@mui/material';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
 
-const PendingOrderCard = ({ order }) => {
+const PendingOrderCard = ({ handleRejectClick, order }) => {
 
     const [api, NotificationHolder] = notification.useNotification();
     const [accepted, setAccepted] = useState(false)
@@ -37,7 +37,7 @@ const PendingOrderCard = ({ order }) => {
     }
 
     const handleReject = () => {
-        alert('Reject')
+        handleRejectClick(id);
     }
 
     //--- Fonctions
@@ -147,7 +147,7 @@ const PendingOrderCard = ({ order }) => {
                                         Accepted
                                     </button> :
                                     <>
-                                        <button className="btn reject" >
+                                        <button className="btn reject" onClick={handleReject}>
                                             Reject
                                         </button>
                                         <button className="btn accept" onClick={handleAccept}>
