@@ -17,6 +17,7 @@ import { FaArrowRight, FaBan, FaCaretRight, FaFlag, FaSearch } from "react-icons
 import ConfirmDeliveryModal from "../../../components/Modal/Order/ConfirmDeliveryModal";
 import RejectOrderModal from "../../../components/Modal/Order/RejectOrderModal";
 import SearchInput from "../../../components/Form/SearchInput";
+import HistoryOrderCard from "../../../components/Card/Order/HistoryOrderCard";
 
 const { Title, Text } = Typography
 
@@ -52,6 +53,15 @@ const PharmacyOrdersHistorySection = () => {
     const handleChange = (e) => {
         setSearch(e.target.value)
     }
+
+    useEffect(() => {
+        setLoading(true)
+
+        setTimeout(() => {
+            setLoading(false)
+            setOrders([{id: 5, client: {address: 'Somewhere', city: 'Tinghir'}, medicines: [], delivery_method: 'pick-up'}])
+        }, 2000)
+    }, []);
 
     // Functions
 
@@ -97,9 +107,9 @@ const PharmacyOrdersHistorySection = () => {
         }
     }
 
-    useEffect(() => {
-        getOrders()
-    }, [type])
+    // useEffect(() => {
+    //     getOrders()
+    // }, [type])
 
     // Content
 
@@ -146,6 +156,54 @@ const PharmacyOrdersHistorySection = () => {
                     </FormControl>
                 </Flex>
             </Flex>
+
+            <Row gutter={[16, 16]}>
+                {   
+                    loading ?
+                    Array(6).fill(0).map((item, index) => {
+                        return (
+                            <Col span={8} key={index}>
+                                <Box sx={{ backgroundColor: '#FFF', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', height: 280, p: 3, borderRadius: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
+                                    <Skeleton animation="wave" variant="text" />
+                                    <Box>
+                                        <Skeleton animation="wave" variant="text" />
+                                        <Skeleton animation="wave" variant="text" />
+                                    </Box>
+                                    <Skeleton animation="wave" variant="text" />
+                                    <Box display={'flex'} justifyContent={'space-between'}>
+                                        <Skeleton animation="wave" width={100} variant="text" />
+                                        <Skeleton animation="wave" width={100} height={30} variant="rounded" />
+                                    </Box>
+                                </Box>
+                            </Col>
+                        )
+                    }) 
+                    :
+                    (
+                        orders.length > 0 ?
+                        (
+                            orders.map((item, index) => {
+                                return (
+                                    <Col span={8} key={index}>
+                                        <HistoryOrderCard order={item} />
+                                    </Col>
+                                )
+                            }) 
+                        ) : 
+                        (
+                            <Col span={24} style={{ textAlign: 'center', marginTop: 20 }}>
+                                <FaBan fontSize={40} fill="#444"/>
+                                
+                                <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
+                                    You don't have any received or completed any orders.
+                                </TP>
+                            </Col>
+                        )
+                        
+                    )
+                    
+                }
+            </Row>
         </>
     )
 }
