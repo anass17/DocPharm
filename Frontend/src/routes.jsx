@@ -4,6 +4,7 @@ import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
 import UserMedicines from './Pages/user/UserMedicines.jsx';
 import PharmacyOrders from './Pages/Pharmacy/PharmacyOrders.jsx';
+import PharmacyOrdersHistory from './Pages/Pharmacy/PharmacyOrdersHistory.jsx';
 
 // Authentication
 
@@ -131,6 +132,7 @@ const RoutesList = () => {
             <Route path="/pharmacy/inventory" element={<PharmacyInventory />} />
             <Route path="/pharmacy/medicines/:id" element={<PharmacyMedicine />} />
             <Route path="/pharmacy/orders" element={<PharmacyOrders />} />
+            <Route path="/pharmacy/history" element={<PharmacyOrdersHistory />} />
 
 
 

@@ -8,7 +8,8 @@ import { useNavigate } from 'react-router-dom';
 const links = {
   '13': 'dashboard',
   '16': 'inventory',
-  '18': 'orders'
+  '18': 'orders',
+  '19': 'history',
 }
 
 const items = [
