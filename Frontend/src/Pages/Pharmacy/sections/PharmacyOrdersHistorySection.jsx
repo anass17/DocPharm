@@ -1,6 +1,6 @@
 import { Button, Col, ConfigProvider, Divider, Flex, message, notification, Row, Typography } from "antd";
 import Icon from "@ant-design/icons";
-import { GRAY2, GRAY4, GREEN, GREEN5 } from "../../../config/colors";
+import { GRAY2, GRAY4, GREEN, GREEN5, LIGHT_BLUE } from "../../../config/colors";
 import { Box, FormControl, InputAdornment, InputLabel, MenuItem, Select, Skeleton, TextField } from "@mui/material";
 import { Pagination } from 'antd';
 import { useEffect, useState } from "react";
@@ -31,7 +31,8 @@ const PharmacyOrdersHistorySection = () => {
     const [orders, setOrders] = useState([]);
     const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState(0);
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
+    const [selectedOrder, setSelectedOrder] = useState(null);
     const [rejectOpen, setRejectOpen] = useState(false);
     const [openOrder, setOpenOrder] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(1);
@@ -43,7 +44,7 @@ const PharmacyOrdersHistorySection = () => {
     // Handlers
 
     const handlePageChange = (page) => {
-        getOrders(page)
+        getOrdersHistory(page)
     }
 
     const handleSelectChange = (e) => {
@@ -56,8 +57,9 @@ const PharmacyOrdersHistorySection = () => {
 
     // Functions
 
-    const handleCardClick = () => {
-        alert()
+    const handleCardClick = (id) => {
+        setOpen(true)
+        setSelectedOrder(orders.filter(item => item.id === id)[0])
     }
 
     const openNotification = (message, description) => {
@@ -76,7 +78,7 @@ const PharmacyOrdersHistorySection = () => {
         
         try {
 
-            const response = await fetch(`${backend_url}/api/orders/history`, {
+            const response = await fetch(`${backend_url}/api/orders/history?page=${page}`, {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -101,35 +103,6 @@ const PharmacyOrdersHistorySection = () => {
             }
         }
     }
-
-    
-    // const getOrderDetails = async () => {
-        
-    //     try {
-
-    //         const response = await fetch(`${backend_url}/api/orders/${order.id}`, {
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Authorization': 'Bearer ' + Cookies.get('auth_token'),
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({status: 'ready'})
-    //         });
-    
-    //         if (response.status === 401) {
-    //             openNotification('Access Denied', 'You are not authorized to perform this action');
-    //         } else if (response.status === 200 || response.status === 204) {
-    //             setReady(true)
-    //             openNotification('Order Accepted', `The order [#${order.id}] status has been updated`)
-    //         } else {
-    //             openNotification('Something Went Wrong!', 'Could not perform this action');
-    //         }
-    //         setLoading(false)
-    //     } catch (error) {
-    //         console.log(error)
-    //         openNotification('Something Went Wrong!', 'Could not perform this action');
-    //     }
-    // }
 
     useEffect(() => {
         getOrdersHistory()
@@ -237,7 +210,7 @@ const PharmacyOrdersHistorySection = () => {
                         },
                         components: {
                             Pagination: {
-                                itemBg: GREEN5,
+                                itemBg: LIGHT_BLUE,
                             },
                         },
                     }}
@@ -251,6 +224,8 @@ const PharmacyOrdersHistorySection = () => {
                     showSizeChanger={false} />
                 </ConfigProvider>
             </Box>
+
+            <OrderDrawer order={selectedOrder} open={open} setOpen={setOpen}/>
         </>
     )
 }

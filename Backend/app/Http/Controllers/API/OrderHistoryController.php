@@ -29,7 +29,7 @@ class OrderHistoryController extends Controller
             $query->where('status', '=', 'delivered')
                   ->orWhere('status', '=', 'rejected');
         })
-        ->paginate(9, ['*'], 'page', $page);
+        ->paginate(2, ['*'], 'page', $page);
 
         return response()->json(['orders' => $orders]);
     }

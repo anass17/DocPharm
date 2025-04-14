@@ -1,26 +1,9 @@
 import React, { useState } from 'react';
 import '../../../assets/style/OrderCard.css';
-import { Button, Col, notification, Row, Typography } from 'antd';
-import { Link } from 'react-router-dom';
-import { Box, Button as Btn } from '@mui/material';
-import { backend_url } from '../../../config/app';
-import Cookies from 'js-cookie'
-import { FaCheckCircle, FaCircleNotch, FaGgCircle, FaRegCircle, FaTimesCircle } from 'react-icons/fa';
+import { Button, Col, Row, Typography } from 'antd';
+import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const HistoryOrderCard = ({ handleClick, order }) => {
-
-    const [api, NotificationHolder] = notification.useNotification();
-
-    const openNotification = (message, description) => {
-        api.info({
-            message: message,
-            description: <p>{description}</p>,
-            placement: 'bottomRight',
-            duration: 5,
-            showProgress: true,
-            pauseOnHover: true,
-        });
-    };
     
     const {
         id,
@@ -34,24 +17,18 @@ const HistoryOrderCard = ({ handleClick, order }) => {
 
     return (
         <>
-            {NotificationHolder}
-
             <div className="order-card" onClick={() => handleClick(order.id)}>
                 <div className='order-block'>
                     <div className="order-header">
-                        {delivery_method === 'delivery' ? (
-                            <div className="order-section">
-                                <p style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width={12} fill='#333' viewBox="0 0 448 512">
-                                        {/* <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--> */}
-                                        <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
-                                    </svg>
-                                    {first_name} {last_name}
-                                </p>
-                            </div>
-                        ) : (
-                            <span></span>
-                        )}
+                        <div className="order-section">
+                            <p style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={12} fill='#333' viewBox="0 0 448 512">
+                                    {/* <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--> */}
+                                    <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                                </svg>
+                                {first_name} {last_name}
+                            </p>
+                        </div>
                         <h2>#{id}</h2>
                     </div>
 
