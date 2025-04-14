@@ -30,8 +30,6 @@ class OrderController extends Controller
             $status = $request->type;
         }
 
-        $orders = Order::with('medicines.pharmacy')->whereNotNull('confirmed_at')->where('status', '=', 'pending')->paginate(9, ['*'], 'page', $page);
-
         $orders = Order::whereHas('medicines.pharmacy', function ($query) use ($request) {
             $query->where('users.id', $request->user()->id);
         })

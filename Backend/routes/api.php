@@ -5,6 +5,7 @@ use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\MedicineController;
 use App\Http\Controllers\API\OrderController;
+use App\Http\Controllers\API\OrderHistoryController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\PharmacyMedicineController;
 use App\Models\Client;
@@ -36,6 +37,7 @@ Route::middleware('auth:sanctum')->get('/medicine/options', function () {
 
 // Orders
 
+Route::middleware('auth:sanctum')->get('/orders/history', [OrderHistoryController::class, 'index']);
 Route::middleware('auth:sanctum')->resource('orders', OrderController::class);
 Route::middleware('auth:sanctum')->get('/cart', [CartController::class, 'index']);
 Route::middleware('auth:sanctum')->delete('/cart/{id}', [CartController::class, 'destroy']);
