@@ -78,7 +78,7 @@ const PharmacyOrdersHistorySection = () => {
         
         try {
 
-            const response = await fetch(`${backend_url}/api/orders/history?page=${page}`, {
+            const response = await fetch(`${backend_url}/api/orders/history?page=${page}&sort=${sorting}`, {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -87,26 +87,27 @@ const PharmacyOrdersHistorySection = () => {
             const responseData = await response.json();
     
             if (response.status === 401) {
-                info('You are not authorized to view this data');
                 openNotification('Something Went Wrong!', 'Could not perform this action');
             } else if (response.status === 200) {
                 setOrders(responseData.orders.data);
                 setTotal(responseData.orders.total)
                 setItemsPerPage(responseData.orders.per_page)
             } else {
-                info('Something went wrong! Could not load this data');
+                openNotification('Something Went Wrong!', 'Could not perform this action');
+
             }
             setLoading(false)
         } catch (error) {
             if (error.name !== 'AbortError') {
-                info('Something went wrong! Could not load this data');
+                openNotification('Something Went Wrong!', 'Could not load this data');
+
             }
         }
     }
 
     useEffect(() => {
         getOrdersHistory()
-    }, [])
+    }, [sorting])
 
     // Content
 
@@ -145,10 +146,8 @@ const PharmacyOrdersHistorySection = () => {
                             onChange={handleSelectChange}
                             sx={{ bgcolor: '#FFF' }}
                         >
-                            <MenuItem value={'recent'}>Recent</MenuItem>
-                            <MenuItem value={'alphabitically'}>Alphabitically</MenuItem>
-                            <MenuItem value={'availability'}>Availability</MenuItem>
-                            <MenuItem value={'price'}>Price</MenuItem>
+                            <MenuItem value={'create_date'}>Create Date</MenuItem>
+                            <MenuItem value={'modify_date'}>Modify Date</MenuItem>
                         </Select>
                     </FormControl>
                 </Flex>

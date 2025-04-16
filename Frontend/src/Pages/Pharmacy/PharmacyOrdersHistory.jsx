@@ -5,7 +5,7 @@ export default function PharmacyOrdersHistory() {
 
     return (
         <>
-            <PharmacyLayout menuItem={'19'} title={'Active Orders'}>
+            <PharmacyLayout menuItem={'19'} title={'Orders History'}>
                 <PharmacyOrdersHistorySection />
             </PharmacyLayout>
         </>

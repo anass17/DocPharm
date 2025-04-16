@@ -14,9 +14,16 @@ class OrderHistoryController extends Controller
     public function index(Request $request)
     {
         $page = 1;
+        $sort = 'orders.id';
 
         if ($request->page) {
             $page = $request->page;
+        }
+        
+        if ($request->sort) {
+            if ($request->sort == 'modify_date') {
+                $sort = 'orders.updated_at';
+            }
         }
 
         $orders = Order::whereHas('medicines.pharmacy', function ($query) use ($request) {
@@ -29,7 +36,8 @@ class OrderHistoryController extends Controller
             $query->where('status', '=', 'delivered')
                   ->orWhere('status', '=', 'rejected');
         })
-        ->paginate(2, ['*'], 'page', $page);
+        ->orderBy($sort, 'desc')
+        ->paginate(9, ['*'], 'page', $page);
 
         return response()->json(['orders' => $orders]);
     }

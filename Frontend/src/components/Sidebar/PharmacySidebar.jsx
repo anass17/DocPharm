@@ -59,7 +59,6 @@ const PharmacySidebar = ({menuItem}) => {
     let navigate = useNavigate()
 
     const onClick = e => {
-      console.log(e);
         if (e.key == '15') {
             setModalOpen(true);
         } else if (links[e.key]) {

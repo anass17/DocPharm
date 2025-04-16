@@ -2,7 +2,7 @@ import { Button, Col, ConfigProvider, Flex, message, Row, Spin, Typography } fro
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
 import { ClockCircleOutlined, DollarOutlined, DownloadOutlined, LoadingOutlined, MenuOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
-import { GRAY2, GRAY4, GREEN, GREEN5 } from "../../../config/colors";
+import { GRAY2, GRAY4, GREEN, GREEN5, LIGHT_BLUE, PRIMARY_BLUE } from "../../../config/colors";
 import SearchInput from "../../../components/Form/SearchInput";
 import MedicineCard from "../../../components/Card/Medicine/MedicineCard";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
@@ -158,7 +158,7 @@ const InventorySection = () => {
                         },
                         components: {
                             Pagination: {
-                                itemBg: GREEN5,
+                                itemBg: LIGHT_BLUE,
                             },
                         },
                     }}
