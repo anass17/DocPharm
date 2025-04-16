@@ -17,70 +17,60 @@ class OrderSeeder extends Seeder
             [
                 'id' => 1,
                 'confirmed_at' => now(),
-                'delivery_method' => 'delivery',
                 'status' => 'pending',
                 'client_id' => 5
             ],
             [
                 'id' => 2,
                 'confirmed_at' => now(),
-                'delivery_method' => 'delivery',
                 'status' => 'pending',
                 'client_id' => 5
             ],
             [
                 'id' => 3,
                 'confirmed_at' => now(),
-                'delivery_method' => 'delivery',
                 'status' => 'accepted',
                 'client_id' => 6
             ],
             [
                 'id' => 4,
                 'confirmed_at' => now(),
-                'delivery_method' => 'pick-up',
                 'status' => 'pending',
                 'client_id' => 6
             ],
             [
                 'id' => 5,
                 'confirmed_at' => now(),
-                'delivery_method' => 'delivery',
                 'status' => 'accepted',
                 'client_id' => 5
             ],
             [
                 'id' => 6,
                 'confirmed_at' => now(),
-                'delivery_method' => 'pick-up',
                 'status' => 'accepted',
                 'client_id' => 6
             ],
             [
                 'id' => 7,
                 'confirmed_at' => now(),
-                'delivery_method' => 'pick-up',
                 'status' => 'pending',
                 'client_id' => 5
             ],
             [
                 'id' => 8,
                 'confirmed_at' => now(),
-                'delivery_method' => 'pick-up',
                 'status' => 'pending',
                 'client_id' => 5
             ],
             [
                 'id' => 9,
                 'confirmed_at' => now(),
-                'delivery_method' => 'delivery',
                 'status' => 'pending',
                 'client_id' => 6
             ],
             [
                 'id' => 10,
                 'confirmed_at' => now(),
-                'delivery_method' => 'pick-up',
                 'status' => 'accepted',
                 'client_id' => 5
             ],

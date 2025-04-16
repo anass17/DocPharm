@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->timestamp('confirmed_at')->nullable();
             $table->timestamp('delivered_at')->nullable();
-            $table->enum('delivery_method', ['pick-up', 'delivery'])->nullable();
             $table->enum('status', ['pending', 'accepted', 'ready', 'rejected', 'delivered'])->default('pending');
             $table->string('rejection_reason')->default('');
             $table->string('rejection_note')->default('');
