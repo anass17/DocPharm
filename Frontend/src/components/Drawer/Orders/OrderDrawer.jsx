@@ -50,12 +50,6 @@ const OrderDrawer = ({order, open, setOpen}) => {
                             <Typography.Text>{order.confirmed_at}</Typography.Text>
                         </Box>
                     </Col>
-                    <Col span={12}>
-                        <Box>
-                            <Typography.Title level={5}>Order Delivery method</Typography.Title>
-                            <Typography.Text style={{ textTransform: 'capitalize' }}>{order.delivery_method}</Typography.Text>
-                        </Box>
-                    </Col>
                     {
                         order.status == 'rejected' ? (
                             <>
@@ -151,20 +145,6 @@ const OrderDrawer = ({order, open, setOpen}) => {
                     })
                 }
 
-                <Row gutter={[10, 20]} style={{ marginBottom: 10 }}>
-                    <Col span={12} style={{ fontWeight: 500 }}>
-                        Delivery Fee
-                    </Col>
-                    <Col span={4}>
-                        
-                    </Col>
-                    <Col span={4}>
-                        
-                    </Col>
-                    <Col span={4} style={{ textAlign: 'right' }}>
-                        {order.delivery_method == 'delivery' ? '10.00' : '0.00'} DH
-                    </Col>
-                </Row>
 
                 <Row gutter={[10, 20]} style={{ marginBottom: 10, marginTop: 20, fontWeight: 500 }}>
                     <Col span={12} style={{ fontSize: 18 }}>
@@ -177,7 +157,7 @@ const OrderDrawer = ({order, open, setOpen}) => {
                         
                     </Col>
                     <Col span={4} style={{ fontSize: 18, textAlign: 'right' }}>
-                        {(grandTotal + (order.delivery_method == 'delivery' ? 10 : 0)).toFixed(2)} DH
+                        {grandTotal.toFixed(2)} DH
                     </Col>
                 </Row>
             </Drawer>

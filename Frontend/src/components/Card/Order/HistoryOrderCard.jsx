@@ -9,7 +9,6 @@ const HistoryOrderCard = ({ handleClick, order }) => {
         id,
         client: {first_name, last_name, city},
         medicines,
-        delivery_method,
         status,
     } = order;
 
@@ -61,13 +60,11 @@ const HistoryOrderCard = ({ handleClick, order }) => {
 
                     <div className="order-total">
                         <span>Total</span>
-                        <h3>{medicines.reduce((total, current) => total + (current.pivot.order_quantity * current.pivot.unit_price), (delivery_method == 'delivery' ? 10 : 0)).toFixed(2)} DH</h3>
+                        <h3>{medicines.reduce((total, current) => total + (current.pivot.order_quantity * current.pivot.unit_price), 0).toFixed(2)} DH</h3>
                     </div>
 
                     <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
-                        <span className={`delivery-method`}>
-                            
-                        </span>
+                        <span></span>
                         <div className="order-actions">
                             <p className={status + '-status'}>{status == 'delivered' ? <FaCheckCircle/> : <FaTimesCircle />} {status}</p>
                         </div>
