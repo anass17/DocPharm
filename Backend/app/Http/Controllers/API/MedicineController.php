@@ -147,7 +147,7 @@ class MedicineController extends Controller {
     {
         $medicine = Medicine::with(['pharmacies' => function($query) {
             $query->wherePivot('visibility', '=', 'true');
-        }])->with('uses')->find($id);
+        }])->with('uses')->with('form')->find($id);
 
         if (!$medicine) {
             return response()->json([], 404);

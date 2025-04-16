@@ -159,7 +159,7 @@ const UserMedicineDisplaySection = () => {
                                         </Col>
                                         <Col span={12}>
                                             <Title level={5} style={{ margin: 0 }}>Form</Title>
-                                            <Text>{medicine.medicine_form}</Text>
+                                            <Text>{medicine.form?.name}</Text>
                                         </Col>
                                         <Col span={12}>
                                             <Title level={5} style={{ margin: 0 }}>Prescription</Title>

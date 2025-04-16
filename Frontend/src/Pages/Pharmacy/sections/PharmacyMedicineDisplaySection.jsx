@@ -123,12 +123,12 @@ const PharmacyMedicineDisplaySection = () => {
                             loading ? (
                                 <Skeleton.Image active={true} style={{ height: 100, width: 100 }} />
                             ) : (
-                                <img width={'100%'} style={{ borderRadius: 3 }} src={`${backend_url}/storage/medicines/1743377994.jpg`} />
+                                <img width={'100%'} style={{ borderRadius: 3 }} src={`${backend_url}${medicine.medicine_image}`} />
                             )
                         }
                     </Box>
                 </Col>
-                <Col span={12} style={{ paddingTop: 40 }}>
+                <Col span={12}>
                     {
                         !loading ? (
                             <>
@@ -152,7 +152,7 @@ const PharmacyMedicineDisplaySection = () => {
                                         </Col>
                                         <Col span={12}>
                                             <Title level={5} style={{ margin: 0 }}>Form</Title>
-                                            <Text>{medicine.medicine_form}</Text>
+                                            <Text>{medicine?.form?.name}</Text>
                                         </Col>
                                         <Col span={12}>
                                             <Title level={5} style={{ margin: 0 }}>Prescription</Title>
