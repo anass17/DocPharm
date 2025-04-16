@@ -13,10 +13,11 @@ import { addMedicineToCart, deleteMedicineFromCart, updateMedicineQuantity } fro
 
 const AddToCartModal = ({medicine, open, setOpen}) => {
     const [data, setData] = useState({quantity: 1, price: 0, prescription: false})
+    const [loading, setLoading] = useState(false)
     const [backendErrors, setBackendErrors] = useState(null)
+    const [cartId, setCartId] = useState(0)
     const cart = useSelector(data => data.cart.cart)
     const {id: param_id} = useParams()
-    const [cartId, setCartId] = useState(0)
     const dispatch = useDispatch();
     const [messageApi, contextHolder] = message.useMessage();
     
@@ -97,7 +98,8 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
     }, [cart, medicine])
 
     async function sendCartOrder() {
-        
+        setLoading(true)
+
         const formData = new FormData();
 
         Object.keys(data).forEach((key) => {
@@ -128,7 +130,6 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                         pivot: {medicine_id: data.pharmacy, order_quantity: data.quantity, unit_price: medicine.medicine_price}
                     }
                 ))
-
                 setOpen(false)
             } else {
                 setBackendErrors(['An unexpected error occurred.']);
@@ -136,6 +137,8 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
 
         } catch (error) {
             setBackendErrors(['An error occurred while processing your request.']);
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -161,9 +164,13 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                         </Btn>
                     ] :
                     [
-                        <DarkGreenButton key="add" disabled={data.pharmacy && (medicine.prescription_required && data.prescription || !medicine.prescription_required) && data.quantity > 0 ? false : true} onClick={handleSubmit}>
-                            Add
-                        </DarkGreenButton>
+                        loading ? (
+                            <Button key='loading' loading variant="" style={{ padding: '1.25rem 3rem' }} />
+                        ) : (
+                            <DarkGreenButton key="add" disabled={data.pharmacy && (medicine.prescription_required && data.prescription || !medicine.prescription_required) && data.quantity > 0 ? false : true} onClick={handleSubmit}>
+                                Add
+                            </DarkGreenButton>
+                        )
                     ]
                 }
             >
