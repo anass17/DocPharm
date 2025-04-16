@@ -123,7 +123,7 @@ const UserMedicineDisplaySection = () => {
     return (
         <>
             {contextHolder}
-            <Row gutter={40}>
+            <Row gutter={40} style={{ alignItems: 'center' }}>
                 <Col span={12}>
                     <Box sx={{ p: 4, bgcolor: '#FFF', borderRadius: 3, minHeight: 300, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         {

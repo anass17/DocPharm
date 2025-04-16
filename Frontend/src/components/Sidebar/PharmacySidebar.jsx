@@ -19,7 +19,6 @@ const items = [
     type: 'group',
     children: [
       { key: '13', label: 'Dashboard', icon: <AppstoreOutlined /> },
-      { key: '14', label: 'Manage Delivery Account', icon: <UserAddOutlined /> },
     ],
   },
   {

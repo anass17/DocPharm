@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Divider, message, Modal, Row, Typography } from 'antd';
-import {Button as Btn} from '@mui/material' 
+import {Button as Btn, Checkbox, FormControlLabel, FormGroup} from '@mui/material' 
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { GRAY0, GREEN } from '../../../config/colors';
+import { GRAY0, GREEN, PRIMARY_BLUE, PRIMARY_GREEN } from '../../../config/colors';
 import { DarkGreenButton } from '../../Button/FilledButtons';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom';
 import { addMedicineToCart, deleteMedicineFromCart, updateMedicineQuantity } from '../../../store/actions/cartActions';
 
 const AddToCartModal = ({medicine, open, setOpen}) => {
-    const [data, setData] = useState({quantity: 1, price: 0})
+    const [data, setData] = useState({quantity: 1, price: 0, prescription: false})
     const [backendErrors, setBackendErrors] = useState(null)
     const cart = useSelector(data => data.cart.cart)
     const {id: param_id} = useParams()
@@ -42,6 +42,13 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
     const handleCartItemRemove = () => {
         requestRemoveCartItem(cartId)
     }
+
+    const handleCheckBox = (event) => {
+        setData({
+            ...data,
+            prescription: event.target.checked
+        })
+    };
 
     const handleChange = (e) => {
 
@@ -154,14 +161,14 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                         </Btn>
                     ] :
                     [
-                        <DarkGreenButton key="add" onClick={handleSubmit}>
+                        <DarkGreenButton key="add" disabled={data.pharmacy && (medicine.prescription_required && data.prescription || !medicine.prescription_required) && data.quantity > 0 ? false : true} onClick={handleSubmit}>
                             Add
                         </DarkGreenButton>
                     ]
                 }
             >
                 <Box py={2}>
-                    <Typography.Title level={4} style={{textAlign: 'center', marginBottom: 25, color: GREEN}}>Testophore 400</Typography.Title>
+                    <Typography.Title level={4} style={{textAlign: 'center', marginBottom: 25, color: PRIMARY_BLUE}}>Testophore 400</Typography.Title>
                 
                     {
                         !backendErrors ? (
@@ -203,13 +210,24 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                         </Col>
                         <Col span={12}>
                             <Typography.Title level={5} style={{ marginBottom: 5}}>Unit Price</Typography.Title>
-                            <Typography.Text>${data.price}</Typography.Text>
+                            <Typography.Text>${(data.price || 0).toFixed(2)}</Typography.Text>
                         </Col>
                     </Row>
+
+                    {
+                        medicine.prescription_required ?
+                        (
+                            <FormGroup style={{ marginTop: 20 }}>
+                                <FormControlLabel required control={<Checkbox style={{ color: PRIMARY_GREEN }} checked={data.prescription} onChange={handleCheckBox} disableRipple />} label="Confirm that you have prescription for this medicine" />
+                            </FormGroup>
+                        ): null
+                    }
+
                     <Divider></Divider>
+                    
                     <Box>
                         <Typography.Title level={4} style={{ marginBottom: 5}}>Total Price</Typography.Title>
-                        <Typography.Text style={{color: GREEN, fontSize: 20, fontWeight: 500}}>${data.price*data.quantity}</Typography.Text>
+                        <Typography.Text style={{color: PRIMARY_GREEN, fontSize: 20, fontWeight: 500}}>${(data.price*data.quantity || 0).toFixed(2)}</Typography.Text>
                     </Box>
                 </Box>
             </Modal>

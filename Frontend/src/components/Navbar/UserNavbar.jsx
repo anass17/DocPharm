@@ -47,12 +47,12 @@ function UserNavbar() {
     let bgColor;
     let textColor;
 
-    bgColor = colors.GRAY0;
-    textColor = "#FFF"
+    bgColor = '#FFF';
+    textColor = colors.GRAY0
 
 
   return (
-    <AppBar position="static" sx={{backgroundColor: bgColor, color: textColor, boxShadow: 'none', top: 0, left: 0, py: 1}}>
+    <AppBar position="static" sx={{backgroundColor: bgColor, color: textColor, boxShadow: 'none', top: 0, left: 0, py: 1, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -68,8 +68,8 @@ function UserNavbar() {
               textDecoration: 'none',
             }}
           >
-            <Link to="/">
-              <img src='/public/images/logo/logo.png' />
+            <Link to="/" style={{ display: 'flex' }}>
+              <img height={70} src='/public/images/logo/logo.png' />
             </Link>
             
           </Typography>
@@ -79,18 +79,18 @@ function UserNavbar() {
           <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center', textAlign: 'center' }}>
             <Box sx={{ display: 'flex', mr: 3, gap: '3px' }}>
               <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <FaHome fill='#AAA' size={24} />
+                <FaHome fill={colors.GRAY2} size={24} />
               </Button>
 
               <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <FaBell fill='#AAA' size={22} />
+                <FaBell fill={colors.GRAY2} size={22} />
               </Button>
               <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                 <FaHeart fill='#F40' size={22}/>
               </Button>
               <Badge count={cart.length} size="small" offset={[-17, 5]} style={{backgroundColor: colors.GRAY0, background: colors.GRAY0, color: colors.GREEN2, borderColor: colors.GREEN2, fontWeight: 500}}>
                 <Button disableRipple onClick={() => setDrawerOpen(true)} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                  <FaShoppingCart fill='#AAA' size={22} />
+                  <FaShoppingCart fill={colors.GRAY2} size={22} />
                 </Button>
               </Badge>
             </Box>

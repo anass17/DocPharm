@@ -116,7 +116,7 @@ const PharmacyMedicineDisplaySection = () => {
     return (
         <>
             {contextHolder}
-            <Row gutter={60}>
+            <Row gutter={60} style={{ alignItems: 'center' }}>
                 <Col span={12}>
                     <Box sx={{ p: 4, bgcolor: '#FFF', borderRadius: 3, minHeight: 300, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         {
