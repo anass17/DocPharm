@@ -172,6 +172,10 @@ class MedicineController extends Controller {
         
         $medicine = PharmacyMedicine::where('medicine_id', '=', $id)->where('pharmacy_id', '=', $request->user() -> id)->first();
         
+        if (!$medicine) {
+            return response()->json(['errors' => ['Medicine not found']], 422);
+        }
+
         if ($medicine->medicine_quantity + $request->new_quantity < 0) {
             return response()->json(['errors' => ['The total quantity should not be negative']], 422);
         }

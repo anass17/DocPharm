@@ -10,7 +10,7 @@ const AcceptedOrderCard = ({ handleClick, order }) => {
     
     const {
         id,
-        client: {address, city},
+        client: {first_name, last_name},
         medicines,
         delivery_method,
     } = order;
@@ -27,18 +27,15 @@ const AcceptedOrderCard = ({ handleClick, order }) => {
             <div className="order-card">
                 <div className='order-block'>
                     <div className="order-header">
-                        {delivery_method === 'delivery' ? (
-                            <div className="order-section">
-                                <p style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width={12} fill='#333' viewBox="0 0 384 512">
+                        <div className="order-section">
+                            <p style={{ display: 'flex', gap: 7, alignItems: 'center' }}>
+                                <svg xmlns="http://www.w3.org/2000/svg" width={12} fill='#333' viewBox="0 0 448 512">
                                     {/* <!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--> */}
-                                    <path d="M215.7 499.2C267 435 384 279.4 384 192C384 86 298 0 192 0S0 86 0 192c0 87.4 117 243 168.3 307.2c12.3 15.3 35.1 15.3 47.4 0zM192 128a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
-                                    {address}, {city}
-                                </p>
-                            </div>
-                        ) : (
-                            <span></span>
-                        )}
+                                    <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/>
+                                </svg>
+                                {first_name} {last_name}
+                            </p>
+                        </div>
                         <h2>#{id}</h2>
                     </div>
 
@@ -68,18 +65,15 @@ const AcceptedOrderCard = ({ handleClick, order }) => {
                 </div>
 
                 <div className='order-block'>
-                    <div className="order-section fee">
-                        <span>Delivery Fee:</span>
-                        <span>{delivery_method == 'delivery' ? 10 : 0} DH</span>
-                    </div>
 
                     <div className="order-total">
+                        <span>Total</span>
                         <h3>{medicines.reduce((total, current) => total + (current.pivot.order_quantity * current.pivot.unit_price), (delivery_method == 'delivery' ? 10 : 0)).toFixed(2)} DH</h3>
                     </div>
 
                     <div style={{ display: 'flex', paddingTop: 10, justifyContent: 'space-between', alignItems: 'center' }}>
                         <span className={`delivery-method`}>
-                            {delivery_method}
+                            
                         </span>
                         <div className="order-actions">
                             <button className="btn accept" onClick={handleDelivery}>

@@ -36,7 +36,7 @@ const PharmacyOrdersHistorySection = () => {
     const [rejectOpen, setRejectOpen] = useState(false);
     const [openOrder, setOpenOrder] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(1);
-    const [sorting, setSorting] = useState("recent");
+    const [sorting, setSorting] = useState("create_date");
     const [search, setSearch] = useState("");
     const [api, NotificationHolder] = notification.useNotification();
 

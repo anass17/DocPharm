@@ -44,7 +44,7 @@ const UpdateMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
     async function sendMedicineUpdate() {
     
         try {
-            const response = await fetch(`${backend_url}/api/medicines/${medicine.id}`, {
+            const response = await fetch(`${backend_url}/api/medicines/${medicine.medicine_id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
