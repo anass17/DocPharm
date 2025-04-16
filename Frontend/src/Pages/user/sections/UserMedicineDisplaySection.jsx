@@ -2,7 +2,7 @@ import { Button, Col, ConfigProvider, Divider, Flex, message, Row, Skeleton, Spi
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
 import { CheckOutlined, ClockCircleOutlined, DollarOutlined, DownloadOutlined, HeartOutlined, LoadingOutlined, MenuOutlined, PushpinFilled, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
-import { GRAY2, GRAY4, GREEN, GREEN5 } from "../../../config/colors";
+import { GRAY2, GRAY4, GREEN, GREEN2, GREEN3, GREEN5, LIGHT_BLUE, LIGHT_GREEN2 } from "../../../config/colors";
 import SearchInput from "../../../components/Form/SearchInput";
 import MedicineCard from "../../../components/Card/Medicine/MedicineCard";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
@@ -15,6 +15,7 @@ import { Link, useParams } from "react-router-dom";
 import { Tabs } from 'antd';
 import AddToCartModal from "../../../components/Modal/Medicine/AddToCartModal";
 import { useSelector } from "react-redux";
+import { FaMapMarker, FaMapMarkerAlt, FaMarker, FaPills } from "react-icons/fa";
 
 const { Title, Text } = Typography
 
@@ -195,12 +196,16 @@ const UserMedicineDisplaySection = () => {
                             medicine.pharmacies.map((item, index) => {
                                 return (
                                     <Col span={8} key={'pharmacy-' + index}>
-                                        <Box sx={{ bgcolor: '#FFF', boxShadow: '0px 2px 4px rgba(0, 0, 0, .25)', borderRadius: 2, py: 1.5, px: 4 }}>
-                                            <Link to="#">
-                                                <Title level={5} style={{ marginBottom: 0 }}>{item.pharmacy_name}</Title>
-                                                <Text><PushpinFilled style={{ marginRight: 5 }} />{item.address}, {item.city}</Text>
-                                                <Text style={{ color: 'dodgerblue', display: 'block', marginTop: 5 }}>{item.pivot.medicine_quantity} Units Available</Text>
-                                            </Link>
+                                        <Box sx={{ bgcolor: '#FFF', boxShadow: '0px 2px 4px rgba(0, 0, 0, .25)', background: 'url("http://localhost:8000/storage/test/fake_pharmacy.jpg")', overflow: 'hidden', borderRadius: 2, height: 200, display: 'flex', alignItems: 'flex-end' }}>
+                                            <Box sx={{ background: 'linear-gradient(0deg, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0))', color: '#FFF', py: 1.5, px: 3, pt: 10, flex: 1 }}>
+                                                <Link to="#" style={{ color: '#FFF' }}>
+                                                    <Title level={5} style={{ marginBottom: 0, color: '#FFF' }}>{item.pharmacy_name}</Title>
+                                                    <Flex justify="space-between" align="center" style={{ color: '#FFF' }}>
+                                                        <Text style={{ color: '#FFF' }}><FaMapMarkerAlt style={{ marginRight: 5, color: '#FFF' }} />{item.address}, {item.city}</Text>
+                                                        <Text style={{ color: GREEN3, display: 'flex', alignItems: 'center' }}>{item.pivot.medicine_quantity} Units</Text>
+                                                    </Flex>
+                                                </Link>
+                                            </Box>
                                         </Box>
                                     </Col>
                                 )
