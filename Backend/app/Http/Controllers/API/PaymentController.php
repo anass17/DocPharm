@@ -28,20 +28,11 @@ class PaymentController extends Controller
             ]);
         }
 
-        array_push($payment_items, [
-            'price_data' => [
-                'currency' => 'mad',
-                'product_data' => ['name' => 'Delivery Fee'],
-                'unit_amount' => $request->delivery_fee * 100,
-            ],
-            'quantity' => 1,
-        ]);
-
         $session = Session::create([
             'payment_method_types' => ['card'],
             'line_items' => $payment_items,
             'mode' => 'payment',
-            'success_url' => env('APP_FRONT_URL') . '/payment_success?session_id={CHECKOUT_SESSION_ID}&method=' . ($request->delivery_fee === 0 ? 'pick-up' : 'delivery'),
+            'success_url' => env('APP_FRONT_URL') . '/payment_success?session_id={CHECKOUT_SESSION_ID}',
         ]);
 
         return response()->json(['id' => $session->id]);

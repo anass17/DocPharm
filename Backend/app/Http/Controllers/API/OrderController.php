@@ -163,7 +163,6 @@ class OrderController extends Controller
             if ($session->payment_status === 'paid') {
                 
                 $order = Order::where('client_id', '=', $request->user()->id)->whereNull('confirmed_at')->first();
-                $order->delivery_method = $request->method;
                 $order->confirmed_at = now();
                 $order->save();
 

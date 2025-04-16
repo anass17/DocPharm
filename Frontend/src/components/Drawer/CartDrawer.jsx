@@ -10,7 +10,6 @@ import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe('pk_test_51RD1U4Pt1gEegd9zoFVDZP64y3tg4B4KFxYzAQnNFwpBIW90mgTKVpkvZg6RLBzHb1fMpVoeTgdyLEXukSoJ6nJ0005npVkp7m');
 
 const CartDrawer = ({open, setOpen}) => {
-    const [deliveryFee, setDeliveryFee] = useState(0)
     const [itemTotals, setItemTotals] = useState([]);
     const cart = useSelector(data => data.cart.cart);
 
@@ -35,7 +34,7 @@ const CartDrawer = ({open, setOpen}) => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({items: paymentItems, delivery_fee: deliveryFee})
+            body: JSON.stringify({items: paymentItems})
         });
     
         const data = await res.json();
@@ -60,12 +59,8 @@ const CartDrawer = ({open, setOpen}) => {
     };
 
     const calculateGrandTotal = () => {
-        return (itemTotals.reduce((acc, curr) => acc + (curr || 0), 0) + deliveryFee).toFixed(2);
+        return (itemTotals.reduce((acc, curr) => acc + (curr || 0), 0)).toFixed(2);
     };
-
-    const handleDeliveryChange = (e) => {
-        e.target.value == 'delivery' ? setDeliveryFee(10) : setDeliveryFee(0)
-    }
 
     return (
         <>
@@ -90,26 +85,6 @@ const CartDrawer = ({open, setOpen}) => {
                                 return <CartMedicineItem index={index} key={index} medicine={item} updateItemTotal={updateItemTotal} />
                             }) 
                         }
-                        <Divider />
-                        <Row style={{alignItems: 'center', marginBottom: 20}}>
-                            <Col span={8}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="delivery-label">Method</InputLabel>
-                                    <Select
-                                        labelId="delivery-label"
-                                        id="delivery"
-                                        label="Method"
-                                        onChange={handleDeliveryChange}
-                                    >
-                                        <MenuItem value='pick-up'>Pick Up</MenuItem>
-                                        <MenuItem value='delivery'>Delivery</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Col>
-                            <Col span={13}>
-                            </Col>
-                            <Col span={3} style={{textAlign: 'center', fontSize: 18, fontWeight: 500}}>+{deliveryFee} DH</Col>
-                        </Row>
                         <Divider />
                         <Row style={{alignItems: 'center', marginBottom: 20}}>
                             <Col span={8}>
