@@ -11,6 +11,7 @@ import { useEffect } from 'react';
 import Cookies from 'js-cookie'
 import { useDispatch } from 'react-redux';
 import { addMedicineToCart } from './store/actions/cartActions.js';
+import { loginUser } from './store/actions/userActions.js';
 
 const getCartItems = async (dispatch) => {
   try {
@@ -40,12 +41,37 @@ const getCartItems = async (dispatch) => {
   }
 }
 
+const getUserDetails = async (dispatch) => {
+  try {
+
+      const response = await fetch(`${backend_url}/api/user`, {
+          headers: {
+              'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+          }
+      });
+
+      const responseData = await response.json();
+
+      if (response.status === 401) {
+          alert('Not Authorized')
+      } else if (response.status === 200) {
+          dispatch(loginUser(responseData.user))
+      } else {
+          console.log('Something went wrong! Could not load this data');
+      }
+  } catch (error) {
+    console.log('Something went wrong! Could not load this data');
+    console.log(error)
+  }
+}
+
 function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
       if (Cookies.get('auth_token')) {
         getCartItems(dispatch)
+        getUserDetails(dispatch)
       }
     }, [])
 

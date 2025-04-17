@@ -5,13 +5,18 @@ import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarker, FaMapMarkerAlt, FaPho
 import { Link } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
 import { GRAY2, GREEN, GREEN2 } from "../../../config/colors";
+import { useSelector } from "react-redux";
+import { useEffect } from "react";
 
 const PharmacyProfileSection = () => {
+
+    const user = useSelector(data => data.user.user)
+
     return (
         <>
             <Box height={400} borderRadius={2} overflow='hidden' mb={4} sx={{ display: 'flex', alignItems: 'flex-end', backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: 'url("http://localhost:8000/storage/test/pharmacy.jpg")' }}>
                 <Box sx={{ bgcolor: 'rgba(0, 0, 0, .7)', width: '100%', py: 2, px: 3 }}>
-                    <Typography.Text style={{ color: '#FFF', fontWeight: 500, fontSize: 20}}>Al Amal Pharmacy</Typography.Text>
+                    <Typography.Text style={{ color: '#FFF', fontWeight: 500, fontSize: 20}}>{user?.pharmacy_name}</Typography.Text>
                     <Typography.Text style={{ display: 'block', color: 'red', fontSize: 14, fontWeight: 500 }}>Closed Now</Typography.Text>
                 </Box>
             </Box>
@@ -19,7 +24,7 @@ const PharmacyProfileSection = () => {
                 <Col span={16}>
                     <Box p={3} bgcolor='#FFF' mb={3} boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4} style={{ marginBottom: 20 }}>About Us</Typography.Title>
-                        <TP fontSize={14}>Established in 1995, Pharmacie Centrale has been serving our community for over 30 years. We specialize in prescription medications, homeopathic remedies, and personalized healthcare services. Our team of experienced pharmacists is available 24/7 to assist with all your medical needs.</TP>
+                        <TP fontSize={14}>{user?.bio || "Not added"}</TP>
                     </Box>
 
                     <Box p={3} bgcolor='#FFF' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
@@ -38,9 +43,9 @@ const PharmacyProfileSection = () => {
                     <Box p={3} bgcolor='#FFF' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4}>Contact Information</Typography.Title>
                         <Box sx={{ mb: 2.5, fontWeight: 500 }}>
-                            <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaPhoneAlt color={GREEN} fontSize={15} />+212 612345678</Typography.Text>
-                            <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaEnvelope color={GREEN} fontSize={15} />info@pharmacy.com</Typography.Text>
-                            <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaMapMarkerAlt color={GREEN} fontSize={15} />123 Health Street, Medical District, NY 1002</Typography.Text>
+                            <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaPhoneAlt color={GREEN} fontSize={15} />{user?.phone_number}</Typography.Text>
+                            <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaEnvelope color={GREEN} fontSize={15} />{user?.email}</Typography.Text>
+                            <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaMapMarkerAlt color={GREEN} fontSize={15} />{user?.address}, {user?.city}</Typography.Text>
                         </Box>
                         <Box>
                             <Typography.Text style={{ fontWeight: 500, marginBottom: 15, display: 'block' }}>Follow Us</Typography.Text>
