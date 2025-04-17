@@ -78,21 +78,33 @@ function UserNavbar() {
 
           <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center', textAlign: 'center' }}>
             <Box sx={{ display: 'flex', mr: 3, gap: '3px' }}>
-              <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <FaHome fill={colors.GRAY2} size={24} />
-              </Button>
 
-              <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <FaBell fill={colors.GRAY2} size={22} />
-              </Button>
-              <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                <FaHeart fill='#F40' size={22}/>
-              </Button>
-              <Badge count={cart.length} size="small" offset={[-17, 5]} style={{background: '#FFF', color: colors.PRIMARY_GREEN, borderColor: colors.PRIMARY_GREEN, fontWeight: 500}}>
-                <Button disableRipple onClick={() => setDrawerOpen(true)} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                  <FaShoppingCart fill={colors.GRAY2} size={22} />
+              <TLP title="Favorite" color={colors.PRIMARY_GREEN}>
+                <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <FaHome fill={colors.GRAY2} size={24} />
                 </Button>
-              </Badge>
+              </TLP>
+
+              <TLP title="Favorite" color={colors.PRIMARY_GREEN}>
+                <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <FaBell fill={colors.GRAY2} size={22} />
+                </Button>
+              </TLP>
+
+              <TLP title="Favorite" color={colors.PRIMARY_GREEN}>
+                <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <FaHeart fill='#F40' size={22}/>
+                </Button>
+              </TLP>
+
+              <TLP title="Favorite" color={colors.PRIMARY_GREEN}>
+                <Badge count={cart.length} size="small" offset={[-17, 5]} style={{background: '#FFF', color: colors.PRIMARY_GREEN, borderColor: colors.PRIMARY_GREEN, fontWeight: 500}}>
+                  <Button disableRipple onClick={() => setDrawerOpen(true)} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <FaShoppingCart fill={colors.GRAY2} size={22} />
+                  </Button>
+                </Badge>
+              </TLP>
+
             </Box>
             <Tooltip title="Account settings">
               <IconButton

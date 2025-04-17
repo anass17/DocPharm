@@ -4,6 +4,7 @@ import { ConfigProvider, Menu } from 'antd';
 import { GREEN, GREEN2, GREEN3, GREEN5 } from '../../config/colors';
 import AddMedicineModal from '../Modal/Medicine/AddMedicineModal';
 import { useNavigate } from 'react-router-dom';
+import { FaBookmark, FaBoxes, FaCheckCircle, FaPlusCircle } from 'react-icons/fa';
 
 const links = {
   '13': 'dashboard',
@@ -26,8 +27,8 @@ const items = [
     label: 'Inventory',
     type: 'group',
     children: [
-      { key: '15', label: 'Add New Product', icon: <AppstoreOutlined /> },
-      { key: '16', label: 'My Inventory', icon: <AppstoreOutlined />},
+      { key: '15', label: 'Add New Product', icon: <FaPlusCircle /> },
+      { key: '16', label: 'My Inventory', icon: <FaBoxes />},
     ],
   },
   {
@@ -36,7 +37,7 @@ const items = [
     type: 'group',
     children: [
       { key: '18', label: 'Active Orders', icon: <ClockCircleOutlined /> },
-      { key: '19', label: 'Orders History', icon: <AppstoreOutlined /> },
+      { key: '19', label: 'Orders History', icon: <FaBookmark /> },
     ],
   },
   {
