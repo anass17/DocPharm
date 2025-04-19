@@ -59,43 +59,43 @@ const SettingsPasswordChange = () => {
                 pass: '',
                 confirmPass: ''
             })
-            // updateSecurity()
+            updateSecurity()
         }
     }
 
     // Send Api Requests
 
-    // const updateSecurity = async () => {
-    //     setLoading(true);
+    const updateSecurity = async () => {
+        setLoading(true);
         
-    //     try {
+        try {
 
-    //         const formData = new FormData()
+            const formData = new FormData()
 
-    //         formData.append('pass', passwordData.pass)
+            formData.append('pass', passwordData.pass)
 
-    //         const response = await fetch(`${backend_url}/api/pharmacy/update/security`, {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Authorization': 'Bearer ' + Cookies.get('auth_token'),
-    //             },
-    //             body: formData
-    //         });
+            const response = await fetch(`${backend_url}/api/pharmacy/update/security`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                },
+                body: formData
+            });
     
-    //         if (response.status === 401) {
-    //             openNotification('Access Denied', 'You are not authorized to perform this action')
-    //         } else if (response.status === 200 || response.status === 204) {
-    //             openNotification('Successfully Updated', 'Your password has been successfully updated', 'success')
-    //         } else {
-    //             openNotification('Something went wrong', 'Could not perform this action')
-    //         }
-    //     } catch (error) {
-    //         openNotification('Something went wrong', 'Could not perform this action')
-    //     } finally {
-    //         setLoading(false)
-    //         setPasswordData({pass: '', confirmPass: ''})
-    //     }
-    // }
+            if (response.status === 401) {
+                openNotification('Access Denied', 'You are not authorized to perform this action')
+            } else if (response.status === 200 || response.status === 204) {
+                openNotification('Successfully Updated', 'Your password has been successfully updated', 'success')
+            } else {
+                openNotification('Something went wrong', 'Could not perform this action')
+            }
+        } catch (error) {
+            openNotification('Something went wrong', 'Could not perform this action')
+        } finally {
+            setLoading(false)
+            setPasswordData({pass: '', confirmPass: ''})
+        }
+    }
 
     return (
         <>

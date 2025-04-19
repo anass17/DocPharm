@@ -66,49 +66,49 @@ const SettingsGeneralInfoChange = () => {
             return
         }
 
-        // updateGeneralInformation()
+        updateGeneralInformation()
         setGeneralInfoErrors({})
     }
 
     // Send Api Requests
     
-    // const updateGeneralInformation = async () => {
-    //     setLoading(true);
+    const updateGeneralInformation = async () => {
+        setLoading(true);
         
-    //     try {
+        try {
 
-    //         // const formData = new FormData()
+            // const formData = new FormData()
 
-    //         // formData.append('pass', passwordData.pass)
-    //         // formData.append('pass', passwordData.pass)
-    //         // formData.append('pass', passwordData.pass)
-    //         // formData.append('pass', passwordData.pass)
-    //         // formData.append('pass', passwordData.pass)
-    //         // formData.append('pass', passwordData.pass)
+            // formData.append('pass', passwordData.pass)
+            // formData.append('pass', passwordData.pass)
+            // formData.append('pass', passwordData.pass)
+            // formData.append('pass', passwordData.pass)
+            // formData.append('pass', passwordData.pass)
+            // formData.append('pass', passwordData.pass)
 
-    //         const response = await fetch(`${backend_url}/api/pharmacy/update/general`, {
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Authorization': 'Bearer ' + Cookies.get('auth_token'),
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify(generalInfoData)
-    //         });
+            const response = await fetch(`${backend_url}/api/pharmacy/update/general`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(generalInfoData)
+            });
     
-    //         if (response.status === 401) {
-    //             openNotification('Access Denied', 'You are not authorized to perform this action')
-    //         } else if (response.status === 200 || response.status === 204) {
-    //             openNotification('Successfully Updated', 'Your general information has been successfully updated', 'success')
-    //             dispatch(updateUserDetails(generalInfoData))
-    //         } else {
-    //             openNotification('Something went wrong', 'Could not perform this action')
-    //         }
-    //     } catch (error) {
-    //         openNotification('Something went wrong', 'Could not perform this action')
-    //     } finally {
-    //         setLoading(false)
-    //     }
-    // }
+            if (response.status === 401) {
+                openNotification('Access Denied', 'You are not authorized to perform this action')
+            } else if (response.status === 200 || response.status === 204) {
+                openNotification('Successfully Updated', 'Your general information has been successfully updated', 'success')
+                dispatch(updateUserDetails(generalInfoData))
+            } else {
+                openNotification('Something went wrong', 'Could not perform this action')
+            }
+        } catch (error) {
+            openNotification('Something went wrong', 'Could not perform this action')
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <>

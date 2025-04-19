@@ -34,40 +34,40 @@ const SettingsWorkingHoursChange = () => {
     // Event Handlers
 
     const handleWorkingHoursSubmit = () => {
-        // updateWorkingHours()
+        updateWorkingHours()
     }
 
     // Send Api Requests
     
-    // const updateWorkingHours = async () => {
-    //     setLoading(true);
+    const updateWorkingHours = async () => {
+        setLoading(true);
         
-    //     try {
+        try {
 
-    //         const response = await fetch(`${backend_url}/api/pharmacy/update/working_hours`, {
-    //             method: 'PUT',
-    //             headers: {
-    //                 'Authorization': 'Bearer ' + Cookies.get('auth_token'),
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             body: JSON.stringify({hours: data})
-    //         });
+            const response = await fetch(`${backend_url}/api/pharmacy/update/working_hours`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({hours: data})
+            });
     
-    //         if (response.status === 401) {
-    //             openNotification('Access Denied', 'You are not authorized to perform this action')
-    //         } else if (response.status === 200 || response.status === 204) {
-    //             openNotification('Successfully Updated', 'Your working hours has been updated', 'success')
-    //             dispatch(updateUserDetails({working_hours: data}))
-    //         } else {
-    //             openNotification('Something went wrong', 'Could not perform this action')
-    //         }
-    //     } catch (error) {
-    //         console.log(error)
-    //         openNotification('Something went wrong', 'Could not perform this action')
-    //     } finally {
-    //         setLoading(false)
-    //     }
-    // }
+            if (response.status === 401) {
+                openNotification('Access Denied', 'You are not authorized to perform this action')
+            } else if (response.status === 200 || response.status === 204) {
+                openNotification('Successfully Updated', 'Your working hours has been updated', 'success')
+                dispatch(updateUserDetails({working_hours: data}))
+            } else {
+                openNotification('Something went wrong', 'Could not perform this action')
+            }
+        } catch (error) {
+            console.log(error)
+            openNotification('Something went wrong', 'Could not perform this action')
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <>
