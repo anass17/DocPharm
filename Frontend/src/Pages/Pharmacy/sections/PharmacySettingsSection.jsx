@@ -1,20 +1,13 @@
-import { BorderBottom, Label } from "@mui/icons-material";
-import { Box, Button, InputLabel, TextField, Typography as TP } from "@mui/material";
-import { Col, Flex, Input, Row, Typography } from "antd";
-import { FaClock, FaEnvelope, FaFacebook, FaInfo, FaInfoCircle, FaInstagram, FaLock, FaMapMarker, FaMapMarkerAlt, FaPhone, FaPhoneAlt, FaTwitter } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
+import { Box, Button } from "@mui/material";
+import { Col, Row, Typography } from "antd";
+import { FaClock, FaInfoCircle, FaLock, FaSave } from "react-icons/fa";
 import { GRAY2, GRAY3, GREEN, GREEN2, PRIMARY_GREEN } from "../../../config/colors";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import CustomFileInput from "../../../components/Form/CustomFileInput";
 import SettingsWorkingHoursLine from "../../../components/Others/SettingsWorkingHoursLine";
 import { DarkGreenButton } from "../../../components/Button/FilledButtons";
-import TextArea from "antd/es/input/TextArea";
+import SettingsPasswordChange from "../components/SettingsPasswordChange";
+import SettingsGeneralInfoChange from "../components/SettingsGeneralInfoChange";
 
 const PharmacySettingsSection = () => {
-
-    const user = useSelector(data => data.user.user)
 
     return (
         <>
@@ -36,65 +29,14 @@ const PharmacySettingsSection = () => {
                     </Box>
                 </Col>
                 <Col xs={24} lg={16}>
-                    <Box sx={{ bgcolor: '#FFF', borderRadius: 2, p: 2.5, mb: 5, boxShadow: '0px 1px 2px rgba(0, 0, 0, .2)' }}>
-                        <Typography.Title level={4} style={{ marginBottom: 30 }}>Security</Typography.Title>
-                        <Row gutter={[10, 16]} style={{ marginBottom: 20 }}>
-                            <Col xs={24} sm={12}>
-                                <TextField label="New Password" fullWidth />
-                            </Col>
-                            <Col xs={24} sm={12}>
-                                <TextField label="Confirm Password" fullWidth />
-                            </Col>
-                        </Row>
-                        <DarkGreenButton>Update Password</DarkGreenButton>
-                    </Box>
-                    <Box sx={{ bgcolor: '#FFF', borderRadius: 2, p: 2.5, mb: 5, boxShadow: '0px 1px 2px rgba(0, 0, 0, .2)' }}>
-                        <Typography.Title level={4} style={{ marginBottom: 30 }}>General Information</Typography.Title>
-                        <Flex justify="center">
-                            <CustomFileInput />
-                        </Flex>
-                        <Row gutter={[10, 16]} style={{ margin: '1.25rem 0' }}>
-                            <Col xs={24} sm={12}>
-                                <InputLabel>Pharmacy Name</InputLabel>
-                                <Input type='text' size="large" />
-                            </Col>
-                            <Col xs={24} sm={12}>
-                                <InputLabel>Phone Number</InputLabel>
-                                <Input type='text' size="large" />
-                            </Col>
-                        </Row>
-                        <Box style={{ margin: '1.25rem 0' }}>
-                            <Col span={24}>
-                                <InputLabel>Description</InputLabel>
-                                <TextArea rows={3} size="large" style={{ resize: 'none' }}></TextArea>
-                            </Col>
-                        </Box>
-                        <Row gutter={[10, 16]} style={{ margin: '1.25rem 0' }}>
-                            <Col xs={24} sm={18}>
-                                <InputLabel>Address</InputLabel>
-                                <Input type='text' size="large" />
-                            </Col>
-                            <Col xs={24} sm={6}>
-                                <InputLabel>City</InputLabel>
-                                <Input type='text' size="large" />
-                            </Col>
-                        </Row>
-                        <Box>
-                            <Typography.Title level={5} style={{ marginBottom: 10 }}>Social Media</Typography.Title>
-                            <Flex gap={25} align="center" style={{ marginBottom: 10 }}>
-                                <FaFacebook size={25} color="#1877F2" />
-                                <Input type='text' size="large" placeholder="Facebook URL" />
-                            </Flex>
-                            <Flex gap={25} align="center" style={{ marginBottom: 10 }}>
-                                <FaInstagram size={25} color="#E1306C" />
-                                <Input type='text' size="large" placeholder="Instagram URL" />
-                            </Flex>
-                            <Flex gap={25} align="center" style={{ marginBottom: 10 }}>
-                                <FaTwitter size={25} color="#1DA1F2" />
-                                <Input type='text' size="large" placeholder="Twitter URL" />
-                            </Flex>
-                        </Box>
-                    </Box>
+
+                    {/* Security */}
+                    
+                    <SettingsPasswordChange />
+
+                    {/* General Information */}
+
+                    <SettingsGeneralInfoChange />
 
                     {/* Working Hours */}
 
@@ -121,8 +63,11 @@ const PharmacySettingsSection = () => {
                         <SettingsWorkingHoursLine day={'Friday'} active={true} open_at={"8:00"} close_at={'17:00'} />
                         <SettingsWorkingHoursLine day={'Saturday'} active={false} open_at={"0:00"} close_at={'0:00'} />
                         <SettingsWorkingHoursLine day={'Sunday'} active={false} open_at={"0:00"} close_at={'0:00'} />
+                        <DarkGreenButton style={{ marginTop: 20 }}>
+                            <FaSave />
+                            Save
+                        </DarkGreenButton>
                     </Box>
-                    <DarkGreenButton style={{ marginTop: 20 }}>Save</DarkGreenButton>
                 </Col>
             </Row>
         </>
