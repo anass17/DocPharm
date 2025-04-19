@@ -14,7 +14,14 @@ export default function userReducer(state = initialState, action) {
         case 'UPDATE_VERIFICATION_STEP':
             let newState = state;
             newState.user.verification_step = action.verification_step
-            return newState 
+            return newState
+        case 'UPDATE_USER_DETAILS':
+            return {
+                isAuthenticated: true,
+                user: {
+                    ...state.user, ...action.payload
+                }
+            }
         case 'LOGOUT_USER':
             return {
                 isAuthenticated: false,

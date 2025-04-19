@@ -6,18 +6,48 @@ import { Link } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
 import { GRAY2, GREEN, GREEN2 } from "../../../config/colors";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+
+function isTimeInRange(time, start, end) {
+    const [tHours, tMinutes] = time.split(':').map(Number);
+    const [sHours, sMinutes] = start.split(':').map(Number);
+    const [eHours, eMinutes] = end.split(':').map(Number);
+  
+    const timeMinutes = tHours * 60 + tMinutes;
+    const startMinutes = sHours * 60 + sMinutes;
+    const endMinutes = eHours * 60 + eMinutes;
+  
+    return timeMinutes >= startMinutes && timeMinutes <= endMinutes;
+  }
 
 const PharmacyProfileSection = () => {
 
     const user = useSelector(data => data.user.user)
+
+    const currentDay = (new Date()).toLocaleDateString('en-En', {weekday: 'long'}).toLowerCase()
 
     return (
         <>
             <Box height={400} borderRadius={2} overflow='hidden' mb={4} sx={{ display: 'flex', alignItems: 'flex-end', backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: 'url("http://localhost:8000/storage/test/pharmacy.jpg")' }}>
                 <Box sx={{ bgcolor: 'rgba(0, 0, 0, .7)', width: '100%', py: 2, px: 3 }}>
                     <Typography.Text style={{ color: '#FFF', fontWeight: 500, fontSize: 20}}>{user?.pharmacy_name}</Typography.Text>
-                    <Typography.Text style={{ display: 'block', color: 'red', fontSize: 14, fontWeight: 500 }}>Closed Now</Typography.Text>
+                    
+                        {
+                            !user?.working_hours ? (
+                                <Typography.Text style={{ display: 'block', color: 'red', fontSize: 14, fontWeight: 500 }}>
+                                    Unknown
+                                </Typography.Text>
+                            ) : (
+                                !user.working_hours[currentDay].active || !isTimeInRange(`${(new Date()).getHours()}:${(new Date()).getMinutes()}`, user.working_hours[currentDay].open, user.working_hours[currentDay].close) ? (
+                                    <Typography.Text style={{ display: 'block', color: 'red', fontSize: 14, fontWeight: 500 }}>
+                                        Closed Now
+                                    </Typography.Text>
+                                ) : (
+                                    <Typography.Text style={{ display: 'block', color: GREEN2, fontSize: 14, fontWeight: 500 }}>
+                                        Open Now
+                                    </Typography.Text>
+                                )
+                            )
+                        }
                 </Box>
             </Box>
             <Row gutter={16}>
@@ -29,13 +59,21 @@ const PharmacyProfileSection = () => {
 
                     <Box p={3} bgcolor='#FFF' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4}>Working Hours</Typography.Title>
-                        <WorkingHoursLine active={true} day={'Monday'} open_at={"8:00"} close_at={"17:00"} />
-                        <WorkingHoursLine day={'Tuesday'} open_at={"8:00"} close_at={"17:00"} />
-                        <WorkingHoursLine day={'Wednesday'} open_at={"8:00"} close_at={"17:00"} />
-                        <WorkingHoursLine day={'Thursday'} open_at={"8:00"} close_at={"17:00"} />
-                        <WorkingHoursLine day={'Friday'} open_at={"8:00"} close_at={"17:00"} />
-                        <WorkingHoursLine day={'Saturday'} open_at={"8:00"} close_at={"17:00"} />
-                        <WorkingHoursLine day={'Sunday'} open_at={"8:00"} close_at={"17:00"} />
+                        {
+                            user?.working_hours ? (
+                                <>
+                                    <WorkingHoursLine day={'monday'} data={user?.working_hours} />
+                                    <WorkingHoursLine day={'tuesday'} data={user?.working_hours} />
+                                    <WorkingHoursLine day={'wednesday'} data={user?.working_hours} />
+                                    <WorkingHoursLine day={'thursday'} data={user?.working_hours} />
+                                    <WorkingHoursLine day={'friday'} data={user?.working_hours} />
+                                    <WorkingHoursLine day={'saturday'} data={user?.working_hours} />
+                                    <WorkingHoursLine day={'sunday'} data={user?.working_hours} />
+                                </>
+                            ) : (
+                                <TP fontSize={14}>Not Specified</TP>
+                            )
+                        }
                         
                     </Box>
                 </Col>
@@ -50,21 +88,34 @@ const PharmacyProfileSection = () => {
                         <Box>
                             <Typography.Text style={{ fontWeight: 500, marginBottom: 15, display: 'block' }}>Follow Us</Typography.Text>
                             <Box style={{ display: 'flex', gap: 20 }}>
-                                <Box sx={{ color: GRAY2, '&:hover': {color: '#1877F2'} }}>
-                                    <Link to='#' style={{ color: "inherit" }} >
-                                        <FaFacebook size={20} />
-                                    </Link>
-                                </Box>
-                                <Box sx={{ color: GRAY2, '&:hover': {color: '#E1306C'} }}>
-                                    <Link to='#' style={{ color: "inherit" }}>
-                                        <FaInstagram size={20} />
-                                    </Link>
-                                </Box>
-                                <Box sx={{ color: GRAY2, '&:hover': {color: '#1DA1F2'} }}>
-                                    <Link to='#' style={{ color: "inherit" }}>
-                                        <FaTwitter size={20} />
-                                    </Link>
-                                </Box>
+                                {
+                                    user?.facebook_url ? (
+                                        <Box sx={{ color: GRAY2, '&:hover': {color: '#1877F2'} }}>
+                                            <Link target="_blank" to={user.facebook_url} style={{ color: "inherit" }} >
+                                                <FaFacebook size={20} />
+                                            </Link>
+                                        </Box>
+                                    ) : null
+                                }
+                                {
+                                    user?.instagram_url ? (
+                                        <Box sx={{ color: GRAY2, '&:hover': {color: '#E1306C'} }}>
+                                            <Link target="_blank" to={user.instagram_url} style={{ color: "inherit" }}>
+                                                <FaInstagram size={20} />
+                                            </Link>
+                                        </Box>
+                                    ) : null
+                                }
+                                {
+                                    user?.twitter_url ? (
+                                        <Box sx={{ color: GRAY2, '&:hover': {color: '#1DA1F2'} }}>
+                                            <Link target="_blank" to={user.twitter_url} style={{ color: "inherit" }}>
+                                                <FaTwitter size={20} />
+                                            </Link>
+                                        </Box>
+                                    ) : null
+                                }
+                                
                             </Box>
                         </Box>
                     </Box>

@@ -7,6 +7,7 @@ use App\Http\Controllers\API\MedicineController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\OrderHistoryController;
 use App\Http\Controllers\API\PaymentController;
+use App\Http\Controllers\API\PharmacyController;
 use App\Http\Controllers\API\PharmacyMedicineController;
 use App\Models\Client;
 use Illuminate\Http\Request;
@@ -23,6 +24,12 @@ Route::middleware('auth:sanctum')->group(function () {
 });
 
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verification.verify');
+
+// Update Pharmacy Details
+
+Route::middleware('auth:sanctum')->post('/pharmacy/update/security', [PharmacyController::class, 'updateSecurity']);
+Route::middleware('auth:sanctum')->put('/pharmacy/update/general', [PharmacyController::class, 'updateGeneralInfo']);
+Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [PharmacyController::class, 'updateWorkingHours']);
 
 // Medicines
 

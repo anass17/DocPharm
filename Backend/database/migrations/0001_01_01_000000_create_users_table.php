@@ -32,6 +32,11 @@ return new class extends Migration
             $table->string('speciality')->nullable();
             $table->enum('order_type', ['in-person', 'online', 'both'])->nullable();
             $table->string('personal_files_path')->nullable();
+            $table->string('building_image')->nullable();
+            $table->string('facebook_url')->nullable();
+            $table->string('instagram_url')->nullable();
+            $table->string('twitter_url')->nullable();
+            $table->json('working_hours')->nullable();
             $table->enum('status', ['pending', 'active', 'banned'])->default('pending');
             $table->timestamps();
         });

@@ -6,6 +6,7 @@ import SettingsWorkingHoursLine from "../../../components/Others/SettingsWorking
 import { DarkGreenButton } from "../../../components/Button/FilledButtons";
 import SettingsPasswordChange from "../components/SettingsPasswordChange";
 import SettingsGeneralInfoChange from "../components/SettingsGeneralInfoChange";
+import SettingsWorkingHoursChange from "../components/SettingsWorkingHoursChange";
 
 const PharmacySettingsSection = () => {
 
@@ -40,34 +41,7 @@ const PharmacySettingsSection = () => {
 
                     {/* Working Hours */}
 
-                    <Box sx={{ bgcolor: '#FFF', borderRadius: 2, p: 2.5, boxShadow: '0px 1px 2px rgba(0, 0, 0, .2)' }}>
-                        <Typography.Title level={4} style={{ marginBottom: 30 }}>Working Hours</Typography.Title>
-                        <Row style={{ marginBottom: 25, fontSize: 18, fontWeight: 500 }}>
-                            <Col span={6}>
-                                Day
-                            </Col>
-                            <Col span={6} style={{ textAlign: 'center' }}>
-                                Working
-                            </Col>
-                            <Col span={6} style={{ textAlign: 'center' }}>
-                                Open At
-                            </Col>
-                            <Col span={6} style={{ textAlign: 'center' }}>
-                                Closes At
-                            </Col>
-                        </Row>
-                        <SettingsWorkingHoursLine day={'Monday'} active={true} open_at={"8:00"} close_at={'17:00'} />
-                        <SettingsWorkingHoursLine day={'Tuesday'} active={true} open_at={"8:00"} close_at={'17:00'} />
-                        <SettingsWorkingHoursLine day={'Wednesday'} active={true} open_at={"8:00"} close_at={'17:00'} />
-                        <SettingsWorkingHoursLine day={'Thursday'} active={true} open_at={"8:00"} close_at={'17:00'} />
-                        <SettingsWorkingHoursLine day={'Friday'} active={true} open_at={"8:00"} close_at={'17:00'} />
-                        <SettingsWorkingHoursLine day={'Saturday'} active={false} open_at={"0:00"} close_at={'0:00'} />
-                        <SettingsWorkingHoursLine day={'Sunday'} active={false} open_at={"0:00"} close_at={'0:00'} />
-                        <DarkGreenButton style={{ marginTop: 20 }}>
-                            <FaSave />
-                            Save
-                        </DarkGreenButton>
-                    </Box>
+                    <SettingsWorkingHoursChange />
                 </Col>
             </Row>
         </>

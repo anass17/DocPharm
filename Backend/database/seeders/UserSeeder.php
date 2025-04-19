@@ -37,6 +37,9 @@ class UserSeeder extends Seeder
                 'order_type' => 'both',
                 'personal_files_path' => '/sadasdtesrser',
                 'status' => 'active',
+                'facebook_url' => 'https://facebook.com',
+                'instagram_url' => 'https://instagram.com',
+                'twitter_url' => 'https://x.com',
             ],
             [
                 'id' => 3,
@@ -60,6 +63,9 @@ class UserSeeder extends Seeder
                 'order_type' => 'both',
                 'personal_files_path' => '/sadasdtesrser',
                 'status' => 'active',
+                'facebook_url' => 'https://facebook.com',
+                'instagram_url' => 'https://instagram.com',
+                'twitter_url' => null,
             ],
             [
                 'id' => 4,
@@ -83,6 +89,9 @@ class UserSeeder extends Seeder
                 'order_type' => 'both',
                 'personal_files_path' => '/sadasdtesrser',
                 'status' => 'active',
+                'facebook_url' => null,
+                'instagram_url' => 'https://instagram.com',
+                'twitter_url' => null,
             ],
             [
                 'id' => 5,
@@ -106,6 +115,9 @@ class UserSeeder extends Seeder
                 'order_type' => 'both',
                 'personal_files_path' => '/sadasdtesrser',
                 'status' => 'active',
+                'facebook_url' => 'https://facebook.com',
+                'instagram_url' => null,
+                'twitter_url' => null,
             ],
             [
                 'id' => 6,
@@ -129,6 +141,9 @@ class UserSeeder extends Seeder
                 'order_type' => 'both',
                 'personal_files_path' => '/sadasdtesrser',
                 'status' => 'active',
+                'facebook_url' => 'https://facebook.com',
+                'instagram_url' => 'https://instagram.com',
+                'twitter_url' => 'https://x.com',
             ]
         ]);
     }

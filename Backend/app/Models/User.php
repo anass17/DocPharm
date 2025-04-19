@@ -22,6 +22,10 @@ abstract class User extends Model {
         'password',
     ];
 
+    protected $casts = [
+        'working_hours' => 'array',
+    ];
+
     static public function returnUserByRole($role) {
         if ($role == 'admin') {
             return new Admin();

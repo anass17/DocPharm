@@ -12,6 +12,13 @@ export function updateUserVerificationStep(verification_step) {
     }
 }
 
+export function updateUserDetails(payload) {
+    return {
+        type: 'UPDATE_USER_DETAILS',
+        payload
+    }
+}
+
 export function logoutUser() {
     return {
         type: 'LOGOUT_USER'
