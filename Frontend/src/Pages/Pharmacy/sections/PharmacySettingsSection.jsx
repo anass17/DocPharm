@@ -19,7 +19,7 @@ const PharmacySettingsSection = () => {
     return (
         <>
             <Row gutter={16}>
-                <Col span={8}>
+                <Col xs={24} lg={8} style={{ marginBottom: '2.5rem' }}>
                     <Box sx={{ bgcolor: '#FFF', borderRadius: 2, p: 2.5, boxShadow: '0px 1px 2px rgba(0, 0, 0, .2)' }}>
                         <Button variant="text" style={{ display: 'flex', gap: 15, color: GREEN, width: '100%', justifyContent: 'flex-start', p: 2 }}>
                             <FaLock />
@@ -35,14 +35,14 @@ const PharmacySettingsSection = () => {
                         </Button>
                     </Box>
                 </Col>
-                <Col span={16}>
+                <Col xs={24} lg={16}>
                     <Box sx={{ bgcolor: '#FFF', borderRadius: 2, p: 2.5, mb: 5, boxShadow: '0px 1px 2px rgba(0, 0, 0, .2)' }}>
                         <Typography.Title level={4} style={{ marginBottom: 30 }}>Security</Typography.Title>
-                        <Row gutter={10} style={{ marginBottom: 20 }}>
-                            <Col span={12}>
+                        <Row gutter={[10, 16]} style={{ marginBottom: 20 }}>
+                            <Col xs={24} sm={12}>
                                 <TextField label="New Password" fullWidth />
                             </Col>
-                            <Col span={12}>
+                            <Col xs={24} sm={12}>
                                 <TextField label="Confirm Password" fullWidth />
                             </Col>
                         </Row>
@@ -53,12 +53,12 @@ const PharmacySettingsSection = () => {
                         <Flex justify="center">
                             <CustomFileInput />
                         </Flex>
-                        <Row gutter={10} style={{ margin: '1.25rem 0' }}>
-                            <Col span={12}>
+                        <Row gutter={[10, 16]} style={{ margin: '1.25rem 0' }}>
+                            <Col xs={24} sm={12}>
                                 <InputLabel>Pharmacy Name</InputLabel>
                                 <Input type='text' size="large" />
                             </Col>
-                            <Col span={12}>
+                            <Col xs={24} sm={12}>
                                 <InputLabel>Phone Number</InputLabel>
                                 <Input type='text' size="large" />
                             </Col>
@@ -69,12 +69,12 @@ const PharmacySettingsSection = () => {
                                 <TextArea rows={3} size="large" style={{ resize: 'none' }}></TextArea>
                             </Col>
                         </Box>
-                        <Row gutter={10} style={{ margin: '1.25rem 0' }}>
-                            <Col span={18}>
+                        <Row gutter={[10, 16]} style={{ margin: '1.25rem 0' }}>
+                            <Col xs={24} sm={18}>
                                 <InputLabel>Address</InputLabel>
                                 <Input type='text' size="large" />
                             </Col>
-                            <Col span={6}>
+                            <Col xs={24} sm={6}>
                                 <InputLabel>City</InputLabel>
                                 <Input type='text' size="large" />
                             </Col>
@@ -104,13 +104,13 @@ const PharmacySettingsSection = () => {
                             <Col span={6}>
                                 Day
                             </Col>
-                            <Col span={6}>
-                                Working Day
+                            <Col span={6} style={{ textAlign: 'center' }}>
+                                Working
                             </Col>
-                            <Col span={6}>
+                            <Col span={6} style={{ textAlign: 'center' }}>
                                 Open At
                             </Col>
-                            <Col span={6}>
+                            <Col span={6} style={{ textAlign: 'center' }}>
                                 Closes At
                             </Col>
                         </Row>
