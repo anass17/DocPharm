@@ -53,7 +53,7 @@ function PharmacyNavbar() {
 
 
   return (
-    <AppBar position="static" sx={{backgroundColor: bgColor, color: textColor, boxShadow: 'none', top: 0, left: 0, py: 1, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)'}}>
+    <AppBar position="static" sx={{backgroundColor: bgColor, color: textColor, top: 0, left: 0, py: 1, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -70,7 +70,7 @@ function PharmacyNavbar() {
             }}
           >
             <Link to="/pharmacy/dashboard" style={{ display: 'flex' }}>
-              <img height={60} src='/public/images/logo/logo.png' />
+              <img className='h-[70px]' src='/public/images/logo/logo.png' />
             </Link>
             
           </Typography>

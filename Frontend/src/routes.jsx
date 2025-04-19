@@ -3,9 +3,6 @@ import { useSelector } from 'react-redux';
 import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
 import UserMedicines from './Pages/user/UserMedicines.jsx';
-import PharmacyOrders from './Pages/Pharmacy/PharmacyOrders.jsx';
-import PharmacyOrdersHistory from './Pages/Pharmacy/PharmacyOrdersHistory.jsx';
-import PharmacyProfile from './Pages/Pharmacy/PharmacyProfile.jsx';
 
 // Authentication
 
@@ -22,8 +19,10 @@ const VerificationMessage = lazy(() => import('./Pages/auth/VerificationMessage.
 const PharmacyDashboard = lazy(() => import('./Pages/pharmacy/PharmacyDashboard.jsx'));
 const PharmacyInventory = lazy(() => import('./Pages/pharmacy/PharmacyInventory.jsx'));
 const PharmacyMedicine = lazy(() => import('./Pages/pharmacy/PharmacyMedicine.jsx'));
-
-
+const PharmacyOrders = lazy(() => import('./Pages/pharmacy/PharmacyOrders.jsx'));
+const PharmacyOrdersHistory = lazy(() => import('./Pages/pharmacy/PharmacyOrdersHistory.jsx'));
+const PharmacyProfile = lazy(() => import('./Pages/pharmacy/PharmacyProfile.jsx'));
+const PharmacySettings = lazy(() => import('./Pages/pharmacy/PharmacySettings.jsx'));
 
 const UserMedicine = lazy(() => import('./Pages/user/UserMedicine.jsx'));
 const UserPaymentSuccess = lazy(() => import('./Pages/user/UserPaymentSuccess.jsx'));
@@ -135,6 +134,7 @@ const RoutesList = () => {
             <Route path="/pharmacy/orders" element={<PharmacyOrders />} />
             <Route path="/pharmacy/history" element={<PharmacyOrdersHistory />} />
             <Route path="/pharmacy/profile" element={<PharmacyProfile />} />
+            <Route path="/pharmacy/settings" element={<PharmacySettings />} />
 
 
 
