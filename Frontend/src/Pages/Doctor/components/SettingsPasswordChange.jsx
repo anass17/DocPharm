@@ -74,7 +74,7 @@ const SettingsPasswordChange = () => {
 
             formData.append('pass', passwordData.pass)
 
-            const response = await fetch(`${backend_url}/api/pharmacy/update/security`, {
+            const response = await fetch(`${backend_url}/api/doctor/update/security`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),

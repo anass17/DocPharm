@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\DashboardController;
+use App\Http\Controllers\API\DoctorController;
 use App\Http\Controllers\API\MedicineController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\OrderHistoryController;
@@ -30,6 +31,12 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])-
 Route::middleware('auth:sanctum')->post('/pharmacy/update/security', [PharmacyController::class, 'updateSecurity']);
 Route::middleware('auth:sanctum')->put('/pharmacy/update/general', [PharmacyController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [PharmacyController::class, 'updateWorkingHours']);
+
+// Update Doctor Details
+
+Route::middleware('auth:sanctum')->post('/doctor/update/security', [DoctorController::class, 'updateSecurity']);
+Route::middleware('auth:sanctum')->put('/doctor/update/general', [DoctorController::class, 'updateGeneralInfo']);
+Route::middleware('auth:sanctum')->put('/doctor/update/working_hours', [DoctorController::class, 'updateWorkingHours']);
 
 // Medicines
 
