@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [Pharma
 Route::middleware('auth:sanctum')->post('/doctor/update/security', [DoctorController::class, 'updateSecurity']);
 Route::middleware('auth:sanctum')->put('/doctor/update/general', [DoctorController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->put('/doctor/update/working_hours', [DoctorController::class, 'updateWorkingHours']);
+Route::middleware('auth:sanctum')->put('/doctor/update/reservation', [DoctorController::class, 'updateReservationDetails']);
 
 // Medicines
 

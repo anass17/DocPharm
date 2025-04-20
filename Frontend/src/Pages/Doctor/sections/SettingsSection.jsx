@@ -7,6 +7,7 @@ import { DarkGreenButton } from "../../../components/Button/FilledButtons";
 import SettingsPasswordChange from "../components/SettingsPasswordChange";
 import SettingsGeneralInfoChange from "../components/SettingsGeneralInfoChange";
 import SettingsWorkingHoursChange from "../components/SettingsWorkingHoursChange";
+import SettingsReservationChange from "../components/SettingsReservationChange";
 
 const SettingsSection = () => {
 
@@ -42,6 +43,10 @@ const SettingsSection = () => {
                     {/* Working Hours */}
 
                     <SettingsWorkingHoursChange />
+
+                    {/* Reservation Details */}
+
+                    <SettingsReservationChange />
                 </Col>
             </Row>
         </>

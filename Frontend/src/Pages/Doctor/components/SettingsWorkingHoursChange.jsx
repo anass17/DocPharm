@@ -92,7 +92,7 @@ const SettingsWorkingHoursChange = () => {
     return (
         <>
             {NotificationHolder}
-            <Box sx={{ bgcolor: '#FFF', borderRadius: 2, p: 2.5, boxShadow: '0px 1px 2px rgba(0, 0, 0, .2)' }}>
+            <Box sx={{ bgcolor: '#FFF', borderRadius: 2, p: 2.5, mb: 5, boxShadow: '0px 1px 2px rgba(0, 0, 0, .2)' }}>
                 <Typography.Title level={4} style={{ marginBottom: 30 }}>Working Hours</Typography.Title>
                 <Row style={{ marginBottom: 25, fontSize: 18, fontWeight: 500 }}>
                     <Col span={6}>

@@ -24,6 +24,7 @@ abstract class User extends Model {
 
     protected $casts = [
         'working_hours' => 'array',
+        'appointment_prices' => 'array',
     ];
 
     static public function returnUserByRole($role) {

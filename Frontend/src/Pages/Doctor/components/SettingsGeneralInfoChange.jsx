@@ -84,16 +84,7 @@ const SettingsGeneralInfoChange = () => {
         
         try {
 
-            // const formData = new FormData()
-
-            // formData.append('pass', passwordData.pass)
-            // formData.append('pass', passwordData.pass)
-            // formData.append('pass', passwordData.pass)
-            // formData.append('pass', passwordData.pass)
-            // formData.append('pass', passwordData.pass)
-            // formData.append('pass', passwordData.pass)
-
-            const response = await fetch(`${backend_url}/api/pharmacy/update/general`, {
+            const response = await fetch(`${backend_url}/api/doctor/update/general`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
