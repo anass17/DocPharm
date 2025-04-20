@@ -45,8 +45,11 @@ const SettingsGeneralInfoChange = () => {
     const handleGeneralInfoSubmit = () => {
         const errors = {}
 
-        if (!generalInfoData.pharmacy_name) {
-            errors.pharmacy_name = "Pharmacy Name is required"
+        if (!generalInfoData.first_name) {
+            errors.first_name = "First Name is required"
+        }
+        if (!generalInfoData.last_name) {
+            errors.last_name = "Last Name is required"
         }
         if (generalInfoData.phone_number.search(/^0[567][0-9]{8}$/) < 0) {
             errors.phone_number = "Enter a valid phone number"
