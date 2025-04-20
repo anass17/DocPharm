@@ -6,10 +6,10 @@ import { Link } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
 import { GRAY2, GREEN, GREEN2 } from "../../../config/colors";
 import { useSelector } from "react-redux";
-import AppointmentPicker from "../components/AppointmentPicker";
-import AppointmentTimePicker from "../components/AppointmentTimePicker";
+import AppointmentPicker from "../../user/components/AppointmentPicker";
+import AppointmentTimePicker from "../../user/components/AppointmentTimePicker";
 import { DarkGreenButton } from "../../../components/Button/FilledButtons";
-import AppointmentTypeSelect from "../components/ApointmentTypeSelect";
+import AppointmentTypeSelect from "../../user/components/ApointmentTypeSelect";
 
 function isTimeInRange(time, start, end) {
     const [tHours, tMinutes] = time.split(':').map(Number);

@@ -59,3 +59,7 @@ Route::middleware('auth:sanctum')->delete('/cart/{id}', [CartController::class, 
 Route::middleware('auth:sanctum')->post('/confirm-order/{sessionId}', [OrderController::class, 'confirm']);
 
 Route::post('/create-checkout-session', [PaymentController::class, 'medicinePayment']);
+
+// Doctor Routes
+
+Route::middleware('auth:sanctum')->get('/doctors/{id}', [DoctorController::class, 'show']);

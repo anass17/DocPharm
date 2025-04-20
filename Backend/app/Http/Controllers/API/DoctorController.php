@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Doctor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -92,7 +93,7 @@ class DoctorController extends Controller
 
     }
 
-    //
+    // Update Doctor's Reservation Details
 
     public function updateReservationDetails(Request $request) {
         $validation = Validator::make($request->all(), [
@@ -117,4 +118,17 @@ class DoctorController extends Controller
 
         return response()->json([], 204);
     }
+
+    // Get Doctor Details
+
+    public function show($id) {
+        $doctor = Doctor::where('role', 'doctor')->where('id', $id)->first();
+        
+        if (!$doctor) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+        
+        return response()->json(['doctor' => $doctor]);
+    }
+
 }

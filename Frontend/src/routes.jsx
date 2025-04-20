@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
 import UserMedicines from './Pages/user/UserMedicines.jsx';
+import UserBookAppointment from './Pages/user/UserBookAppointment.jsx';
 
 // Authentication
 
@@ -141,18 +142,19 @@ const RoutesList = () => {
 
 
 
-
+            {/* User Routes */}
 
             <Route path="/medicines" element={<UserMedicines />} />
             <Route path="/medicines/:id" element={<UserMedicine />} />
+            <Route path="/doctors/:id" element={<UserBookAppointment />} />
+            <Route path="/payment_success" element={<UserPaymentSuccess />} />
 
 
+            {/* Doctor Routes */}
 
-            <Route path="/doctors/:id" element={<DoctorProfile />} />
             <Route path="/doctor/settings" element={<DoctorSettings />} />
 
 
-            <Route path="/payment_success" element={<UserPaymentSuccess />} />
     
             {/* Catch-all route for undefined paths */}
             <Route path="*" element={<NotFound />} />

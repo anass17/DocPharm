@@ -7,7 +7,7 @@ const onPanelChange = (value, mode) => {
   console.log(value.format('YYYY-MM-DD'), mode);
 };
 
-const AppointmentPicker = () => {
+const AppointmentPicker = ({onDateChange}) => {
 
   const wrapperStyle = {
     width: '100%',
@@ -15,9 +15,14 @@ const AppointmentPicker = () => {
     borderRadius: 5,
   };
 
+  const handleChange = (date) => {
+    let selectedDayName = date.$d.toLocaleDateString('en-En', {weekday: 'long'}).toLowerCase()
+    onDateChange(selectedDayName)
+  }
+
   return (
     <div style={wrapperStyle}>
-      <Calendar fullscreen={false} onPanelChange={onPanelChange} onChange={(date) => console.log(date)} />
+      <Calendar fullscreen={false} onPanelChange={onPanelChange} onChange={handleChange} />
     </div>
   );
 };

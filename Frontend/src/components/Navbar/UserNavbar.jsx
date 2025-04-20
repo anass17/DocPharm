@@ -22,13 +22,12 @@ import { ShoppingCartOutlined, HeartFilled, HomeFilled } from '@ant-design/icons
 import { FaHome, FaHeart, FaShoppingCart, FaArrowDown, FaUserCircle, FaBell } from "react-icons/fa";
 import CartDrawer from '../Drawer/CartDrawer.jsx';
 
-
 import * as colors from '../../config/colors.js';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Icon } from '@mui/material';
 
 import { DownOutlined } from '@ant-design/icons';
-import { Badge, Dropdown, Space } from 'antd';
+import { Badge, Dropdown, Space, Tooltip as TLP } from 'antd';
 import { useSelector } from 'react-redux';
 
 function UserNavbar() {
@@ -44,11 +43,13 @@ function UserNavbar() {
     setAnchorEl(null);
   };
 
-    let bgColor;
-    let textColor;
+  let bgColor;
+  let textColor;
 
-    bgColor = '#FFF';
-    textColor = colors.GRAY0
+  bgColor = '#FFF';
+  textColor = colors.GRAY0
+
+  
 
 
   return (
@@ -69,7 +70,7 @@ function UserNavbar() {
             }}
           >
             <Link to="/" style={{ display: 'flex' }}>
-              <img height={70} src='/public/images/logo/logo.png' />
+              <img className='h-[70px]' src='/public/images/logo/logo.png' />
             </Link>
             
           </Typography>
@@ -79,13 +80,13 @@ function UserNavbar() {
           <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center', textAlign: 'center' }}>
             <Box sx={{ display: 'flex', mr: 3, gap: '3px' }}>
 
-              <TLP title="Favorite" color={colors.PRIMARY_GREEN}>
+              <TLP title="Home" color={colors.PRIMARY_GREEN}>
                 <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   <FaHome fill={colors.GRAY2} size={24} />
                 </Button>
               </TLP>
 
-              <TLP title="Favorite" color={colors.PRIMARY_GREEN}>
+              <TLP title="Updates" color={colors.PRIMARY_GREEN}>
                 <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                   <FaBell fill={colors.GRAY2} size={22} />
                 </Button>
@@ -97,7 +98,7 @@ function UserNavbar() {
                 </Button>
               </TLP>
 
-              <TLP title="Favorite" color={colors.PRIMARY_GREEN}>
+              <TLP title="Cart" color={colors.PRIMARY_GREEN}>
                 <Badge count={cart.length} size="small" offset={[-17, 5]} style={{background: '#FFF', color: colors.PRIMARY_GREEN, borderColor: colors.PRIMARY_GREEN, fontWeight: 500}}>
                   <Button disableRipple onClick={() => setDrawerOpen(true)} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                     <FaShoppingCart fill={colors.GRAY2} size={22} />
