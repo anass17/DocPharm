@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
 import UserMedicines from './Pages/user/UserMedicines.jsx';
-import DoctorProfile from './Pages/Doctor/DoctorProfile.jsx';
 
 // Authentication
 
@@ -27,6 +26,9 @@ const PharmacySettings = lazy(() => import('./Pages/pharmacy/PharmacySettings.js
 
 const UserMedicine = lazy(() => import('./Pages/user/UserMedicine.jsx'));
 const UserPaymentSuccess = lazy(() => import('./Pages/user/UserPaymentSuccess.jsx'));
+
+const DoctorProfile = lazy(() => import('./Pages/Doctor/DoctorProfile.jsx'));
+const DoctorSettings = lazy(() => import('./Pages/Doctor/DoctorSettings.jsx'));
 
 // Errors
 
@@ -147,6 +149,7 @@ const RoutesList = () => {
 
 
             <Route path="/doctors/:id" element={<DoctorProfile />} />
+            <Route path="/doctor/settings" element={<DoctorSettings />} />
 
 
             <Route path="/payment_success" element={<UserPaymentSuccess />} />
