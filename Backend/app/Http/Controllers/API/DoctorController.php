@@ -9,6 +9,9 @@ use Illuminate\Support\Facades\Validator;
 
 class DoctorController extends Controller
 {
+
+    // Update Doctor's Security
+
     public function updateSecurity(Request $request)
     {
         $validation = Validator::make($request->all(), [
@@ -22,6 +25,28 @@ class DoctorController extends Controller
         $pharmacy = $request->user();
 
         $pharmacy -> password = Hash::make($request->pass);
+
+        $pharmacy -> save();
+
+        return response()->json([], 204);
+
+    }
+
+    // Update Doctor's Working Hours
+
+    public function updateWorkingHours(Request $request)
+    {
+        $validation = Validator::make($request->all(), [
+            'hours' => 'required|array',
+        ]);
+
+        if ($validation -> fails()) {
+            return response()->json(['errors' => $validation->errors()], 422);
+        }
+
+        $pharmacy = $request->user();
+
+        $pharmacy -> working_hours = $request -> hours;
 
         $pharmacy -> save();
 

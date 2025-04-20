@@ -3,24 +3,12 @@ import { Col, notification, Row, Typography } from "antd"
 import SettingsWorkingHoursLine from "../../../components/Others/SettingsWorkingHoursLine"
 import { DarkGreenButton } from "../../../components/Button/FilledButtons"
 import { FaSave } from "react-icons/fa"
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import LoadingButton from "../../../components/Button/LoadingButton"
 import { backend_url } from "../../../config/app"
 import Cookies from 'js-cookie'
 import { useDispatch, useSelector } from "react-redux"
 import { updateUserDetails } from "../../../store/actions/userActions"
-
-const defaultObject = function () {
-    return {
-        monday: {active: true, open: '8:00', close: "17:00"},
-        tuesday: {active: true, open: '8:00', close: "17:00"},
-        wednesday: {active: true, open: '8:00', close: "17:00"},
-        thursday: {active: true, open: '8:00', close: "17:00"},
-        friday: {active: true, open: '8:00', close: "17:00"},
-        saturday: {active: false, open: '8:00', close: "17:00"},
-        sunday: {active: false, open: '8:00', close: "17:00"},
-    }
-}
 
 const SettingsWorkingHoursChange = () => {
 
@@ -31,8 +19,20 @@ const SettingsWorkingHoursChange = () => {
         console.log(user)
     }
 
+    const defaultObject = useMemo(() => {
+        return {
+            monday: {active: true, open: '8:00', close: "17:00"},
+            tuesday: {active: true, open: '8:00', close: "17:00"},
+            wednesday: {active: true, open: '8:00', close: "17:00"},
+            thursday: {active: true, open: '8:00', close: "17:00"},
+            friday: {active: true, open: '8:00', close: "17:00"},
+            saturday: {active: false, open: '8:00', close: "17:00"},
+            sunday: {active: false, open: '8:00', close: "17:00"},
+        }
+    })
+
     const [loading, setLoading] = useState(false)
-    const [data, setData] = useState(user?.working_hours || defaultObject())
+    const [data, setData] = useState(defaultObject)
     const [api, NotificationHolder] = notification.useNotification();
 
     const openNotification = (message, description, type = 'info') => {
@@ -47,6 +47,10 @@ const SettingsWorkingHoursChange = () => {
         });
     };
 
+    useEffect(() => {
+        setData(user?.working_hours || defaultObject)
+    }, [user])
+
     // Event Handlers
 
     const handleWorkingHoursSubmit = () => {
@@ -60,7 +64,7 @@ const SettingsWorkingHoursChange = () => {
         
         try {
 
-            const response = await fetch(`${backend_url}/api/pharmacy/update/working_hours`, {
+            const response = await fetch(`${backend_url}/api/doctor/update/working_hours`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),

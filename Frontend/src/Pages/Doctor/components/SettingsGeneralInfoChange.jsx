@@ -4,7 +4,7 @@ import CustomFileInput from "../../../components/Form/CustomFileInput"
 import TextArea from "antd/es/input/TextArea"
 import { FaFacebook, FaInstagram, FaSave, FaTwitter } from "react-icons/fa"
 import { DarkGreenButton } from "../../../components/Button/FilledButtons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Cookies from 'js-cookie'
 import { backend_url } from "../../../config/app"
@@ -16,7 +16,7 @@ const SettingsGeneralInfoChange = () => {
     const user = useSelector(data => data.user.user)
     const dispatch = useDispatch();
 
-    const [generalInfoData, setGeneralInfoData] = useState({first_name: user?.first_name, last_name: user?.last_name, phone_number: user?.phone_number, bio: user?.bio, address: user?.address, city: user?.city, facebook_url: user?.facebook_url, instagram_url: user?.instagram_url, twitter_url: user?.twitter_url})
+    const [generalInfoData, setGeneralInfoData] = useState({})
     const [generalInfoErrors, setGeneralInfoErrors] = useState({})
     const [loading, setLoading] = useState(false)
     const [api, NotificationHolder] = notification.useNotification();
@@ -32,6 +32,10 @@ const SettingsGeneralInfoChange = () => {
             pauseOnHover: true,
         });
     };
+
+    useEffect(() => {
+        setGeneralInfoData({first_name: user?.first_name, last_name: user?.last_name, phone_number: user?.phone_number, bio: user?.bio, address: user?.address, city: user?.city, facebook_url: user?.facebook_url, instagram_url: user?.instagram_url, twitter_url: user?.twitter_url})
+    }, [user]);
 
     // Event Handlers
 
