@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
 import UserMedicines from './Pages/user/UserMedicines.jsx';
+import DoctorProfile from './Pages/Doctor/DoctorProfile.jsx';
 
 // Authentication
 
@@ -142,6 +143,10 @@ const RoutesList = () => {
 
             <Route path="/medicines" element={<UserMedicines />} />
             <Route path="/medicines/:id" element={<UserMedicine />} />
+
+
+
+            <Route path="/doctors/:id" element={<DoctorProfile />} />
 
 
             <Route path="/payment_success" element={<UserPaymentSuccess />} />
