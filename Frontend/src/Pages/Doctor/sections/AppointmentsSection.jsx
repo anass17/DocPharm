@@ -85,7 +85,7 @@ const AppointmentsSection = () => {
 
     useEffect(() => {
         getAppointments()
-    }, [date, type]);
+    }, [date, type, search]);
     
 
     return (
