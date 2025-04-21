@@ -19,6 +19,8 @@ const AppointmentsSection = () => {
     const [appointments, setAppointments] = useState([]);
     const [api, NotificationHolder] = notification.useNotification();
     const [date, setDate] = useState(null)
+    const [search, setSearch] = useState('')
+    const [type, setType] = useState('')
 
     const openNotification = (message, description, type = 'info') => {
         api.open({
@@ -36,6 +38,12 @@ const AppointmentsSection = () => {
 
     const handleDateChange = (_, date) => {
         setDate(date)
+    }
+
+    const handleSelectionClear = () => {
+        setDate(null)
+        setSearch('')
+        setType('')
     }
 
     // Fetch API
@@ -105,7 +113,7 @@ const AppointmentsSection = () => {
                             }
                         />
                     </Box>
-                    <DarkGreenButton style={{ width: '100%' }}>
+                    <DarkGreenButton style={{ width: '100%' }} onClick={handleSelectionClear}>
                         Clear Selection
                     </DarkGreenButton>
                 </Col>
