@@ -4,7 +4,6 @@ import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
 import UserMedicines from './Pages/user/UserMedicines.jsx';
 import UserBookAppointment from './Pages/user/UserBookAppointment.jsx';
-import UserAppointmentPaymentSuccess from './Pages/user/UserAppointmentPaymentSuccess.jsx';
 
 // Authentication
 
@@ -149,7 +148,6 @@ const RoutesList = () => {
             <Route path="/medicines/:id" element={<UserMedicine />} />
             <Route path="/doctors/:id" element={<UserBookAppointment />} />
             <Route path="/payment_success" element={<UserPaymentSuccess />} />
-            <Route path="/appointment_payment_success" element={<UserAppointmentPaymentSuccess />} />
 
 
             {/* Doctor Routes */}

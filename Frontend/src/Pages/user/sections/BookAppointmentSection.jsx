@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from "js-cookie";
 import { loadStripe } from '@stripe/stripe-js';
+import LoadingButton from "../../../components/Button/LoadingButton";
 
 const stripePromise = loadStripe('pk_test_51RD1U4Pt1gEegd9zoFVDZP64y3tg4B4KFxYzAQnNFwpBIW90mgTKVpkvZg6RLBzHb1fMpVoeTgdyLEXukSoJ6nJ0005npVkp7m');
 
@@ -36,6 +37,7 @@ const BookAppointmentSection = () => {
     const currentDay = (new Date()).toLocaleDateString('en-En', {weekday: 'long'}).toLowerCase()
 
     const [doctor, setDoctor] = useState({})
+    const [booked, setBooked] = useState(false)
     const [loading, setLoading] = useState(false)
     const [selectedDate, setSelectedDate] = useState(currentDay);
     const [selectedDay, setSelectedDay] = useState(currentDay);
@@ -97,6 +99,14 @@ const BookAppointmentSection = () => {
 
         setFormErrors({})
 
+        const date = new Date(selectedDate)
+        const time = selectedSlot.split(' - ')[0].split(':').map(Number)
+        date.setHours(time[0])
+        date.setMinutes(time[1])
+        date.setSeconds(0)
+
+        bookAppointment(date)
+
     }
 
     const handleTimeSelect = (time) => {
@@ -129,6 +139,43 @@ const BookAppointmentSection = () => {
         }
     }
 
+    const bookAppointment = async (date) => {
+        setLoading(true);
+        
+        try {
+
+            const response = await fetch(`${backend_url}/api/appointments`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    doctor: param_id,
+                    selectedDate: date,
+                    selectedType,
+                    addedDescription
+                })
+            });
+    
+            if (response.status === 401) {
+                openNotification('Access Denied', 'You are not authorized to perform this action')
+            } else if (response.status === 201) {
+                openNotification('Added Successfully', 'Appointment Successfully Booked', 'success')
+                setBooked(true)
+                setAddedDescription('')
+                setSelectedType(null)
+                setSelectedSlot(null)
+            } else {
+                openNotification('Something went wrong', 'Could not perform this action')
+            }
+        } catch (error) {
+            console.log(error)
+            openNotification('Something went wrong', 'Could not perform this action')
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return (
         <>
@@ -233,7 +280,7 @@ const BookAppointmentSection = () => {
                             </Col>
                             <Col xs={24} lg={12}>
                                 <Typography.Title level={5} style={{ marginBottom: 10 }}>Description</Typography.Title>
-                                <TextField multiline rows={4} name="" onChange={handleTextChange} fullWidth placeholder="Please provide a brief description of the reason for your visit or any symptoms you're experiencing." />
+                                <TextField multiline rows={4} name="" onChange={handleTextChange} value={addedDescription} fullWidth placeholder="Please provide a brief description of the reason for your visit or any symptoms you're experiencing." />
                                 <Typography.Text style={{ color: 'red' }}>{formErrors.addedDescription}</Typography.Text>
                                 
                                 {
@@ -242,9 +289,15 @@ const BookAppointmentSection = () => {
                                             Book Appointment
                                         </LoadingButton>
                                     ) : (
-                                        <DarkGreenButton style={{ width: '100%', marginTop: 10 }} onClick={handleAppointmentBooking}>
-                                            Book Appointment
-                                        </DarkGreenButton>
+                                        booked ? (
+                                            <DarkGreenButton disabled style={{ width: '100%', marginTop: 10, backgroundColor: '#EEE', color: GRAY2 }}>
+                                                Booked
+                                            </DarkGreenButton>
+                                        ) : (
+                                            <DarkGreenButton style={{ width: '100%', marginTop: 10 }} onClick={handleAppointmentBooking}>
+                                                Book Appointment
+                                            </DarkGreenButton>
+                                        )
                                     )
                                 }
                             </Col>
