@@ -5,6 +5,7 @@ import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
 import UserMedicines from './Pages/user/UserMedicines.jsx';
 import UserBookAppointment from './Pages/user/UserBookAppointment.jsx';
 import DoctorAppointments from './Pages/Doctor/DoctorAppointments.jsx';
+import DoctorAppointmentsHistory from './Pages/Doctor/DoctorAppointmentsHistory.jsx';
 
 // Authentication
 
@@ -155,6 +156,7 @@ const RoutesList = () => {
 
             <Route path="/doctor/settings" element={<DoctorSettings />} />
             <Route path="/doctor/appointments" element={<DoctorAppointments />} />
+            <Route path="/doctor/appointments/history" element={<DoctorAppointmentsHistory />} />
 
 
     
