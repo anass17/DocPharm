@@ -22,7 +22,7 @@ const generateTimeSlots = (start, end, intervalMinutes = 30) => {
   return slots;
 };
 
-const AppointmentTimePicker = ({ active = true, start = '09:00', end = '17:00', selectedSlot, onSelect }) => {
+const AppointmentTimePicker = ({ active = true, start = '09:00', end = '17:00', selectedSlot, onSelect, reservedSlots }) => {
   const slots = useMemo(() => generateTimeSlots(start, end), [start, end]);
 
   const handleSelect = (slot) => {
@@ -34,23 +34,27 @@ const AppointmentTimePicker = ({ active = true, start = '09:00', end = '17:00', 
       {
         active ?
         (slots.map((slot, index) => (
-          <Col span={6} key={index}>
-            <Card
-              hoverable
-              size='small'
-              onClick={() => handleSelect(slot)}
-              style={{
-                textAlign: 'center',
-                backgroundColor:
-                  selectedSlot === slot.label ? '#bae7ff' : '#ffffff',
-                borderColor:
-                  selectedSlot === slot.label ? '#1890ff' : '#DDD',
-                  borderRadius: 5,
-              }}
-            >
-              {slot.label}
-            </Card>
-          </Col>
+          <>
+            
+            <Col span={6} key={index}>
+              <Card
+                hoverable={reservedSlots.filter(item => slot.label.startsWith(item.time)).length === 0}
+                size='small'
+                onClick={() => reservedSlots.filter(item => slot.label.startsWith(item.time)).length === 0 ? handleSelect(slot) : null}
+                style={{
+                  textAlign: 'center',
+                  color: reservedSlots.filter(item => slot.label.startsWith(item.time)).length > 0 ? 'red' : '',
+                  backgroundColor:
+                    selectedSlot === slot.label ? '#bae7ff' : (reservedSlots.filter(item => slot.label.startsWith(item.time)).length > 0 ? 'rgba(255, 0, 0, .1)' : '#ffffff'),
+                  borderColor:
+                    selectedSlot === slot.label ? '#1890ff' : (reservedSlots.filter(item => slot.label.startsWith(item.time)).length > 0 ? 'rgba(255, 0, 0, .3)' : '#DDD'),
+                    borderRadius: 5,
+                }}
+              >
+                {slot.label}
+              </Card>
+            </Col>
+          </>
         ))) : 
         (
           <Col span={24} style={{ textAlign: 'center', paddingTop: 30 }}>

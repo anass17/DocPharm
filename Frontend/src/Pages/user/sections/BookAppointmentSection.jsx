@@ -1,6 +1,6 @@
 import { BorderBottom } from "@mui/icons-material";
 import { Box, Button, TextField, Typography as TP } from "@mui/material";
-import { Col, Flex, notification, Row, Typography } from "antd";
+import { Col, Flex, notification, Row, Spin, Typography } from "antd";
 import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarker, FaMapMarkerAlt, FaPhone, FaPhoneAlt, FaTwitter } from "react-icons/fa";
 import { Link, Navigate, useParams } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
@@ -15,6 +15,7 @@ import { backend_url } from "../../../config/app";
 import Cookies from "js-cookie";
 import { loadStripe } from '@stripe/stripe-js';
 import LoadingButton from "../../../components/Button/LoadingButton";
+import { LoadingOutlined } from "@ant-design/icons";
 
 const stripePromise = loadStripe('pk_test_51RD1U4Pt1gEegd9zoFVDZP64y3tg4B4KFxYzAQnNFwpBIW90mgTKVpkvZg6RLBzHb1fMpVoeTgdyLEXukSoJ6nJ0005npVkp7m');
 
@@ -39,10 +40,12 @@ const BookAppointmentSection = () => {
     const [doctor, setDoctor] = useState({})
     const [booked, setBooked] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [slotLoading, setSlotLoading] = useState(false)
     const [selectedDate, setSelectedDate] = useState(currentDay);
     const [selectedDay, setSelectedDay] = useState(currentDay);
     const [selectedSlot, setSelectedSlot] = useState(null);
     const [selectedType, setSelectedType] = useState(null);
+    const [reservedSlots, setReservedSlots] = useState([])
     const [addedDescription, setAddedDescription] = useState('')
     const [formErrors, setFormErrors] = useState({})
 
@@ -70,6 +73,7 @@ const BookAppointmentSection = () => {
         setSelectedDate(date)
         setSelectedDay(day)
         setSelectedSlot(null)
+        getTakenSlots(date)
     }
 
     const handleTextChange = (e) => {
@@ -177,6 +181,39 @@ const BookAppointmentSection = () => {
         }
     }
 
+    const getTakenSlots = async (date) => {
+        
+        setSlotLoading(true)
+
+        try {
+
+            const response = await fetch(`${backend_url}/api/appointments?date=${date}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                    'Content-Type': 'application/json'
+                },
+            });
+    
+            if (response.status === 401) {
+                openNotification('Access Denied', 'You are not authorized to perform this action')
+            } else if (response.status === 200) {
+                let responseData = await response.json()
+
+                console.log(responseData)
+                setReservedSlots(responseData.results)
+
+            } else {
+                openNotification('Something went wrong', 'Could not perform this action')
+            }
+        } catch (error) {
+            console.log(error)
+            openNotification('Something went wrong', 'Could not perform this action')
+        } finally {
+            setSlotLoading(false)
+        }
+    }
+
     return (
         <>
             {NotificationHolder}
@@ -266,12 +303,24 @@ const BookAppointmentSection = () => {
                                 <Typography.Text style={{ color: 'red' }}>{formErrors.selectedDate}</Typography.Text>
                             </Col>
                             <Col xs={24} lg={12}>
-                                <Typography.Title level={5} style={{ marginBottom: 10 }}>Select Time</Typography.Title>
-                                <AppointmentTimePicker active={doctor.working_hours ? doctor.working_hours[selectedDay].active : false} 
-                                    start={doctor.working_hours ? doctor.working_hours[selectedDay].open : '9:00'} end={doctor.working_hours ? doctor.working_hours[selectedDay].close : '17:00'} 
-                                    onSelect={handleTimeSelect} selectedSlot={selectedSlot}
-                                />
-                                <Typography.Text style={{ color: 'red' }}>{formErrors.selectedSlot}</Typography.Text>
+                            <Typography.Title level={5} style={{ marginBottom: 10 }}>Select Time</Typography.Title>
+                            {
+                                slotLoading ? (
+                                    <Box style={{ textAlign: 'center', paddingTop: 30 }}>
+                                        <Spin indicator={<LoadingOutlined spin />} size="large" />
+                                    </Box>
+                                ) : (
+                                    <>
+                                        <AppointmentTimePicker active={doctor.working_hours ? doctor.working_hours[selectedDay].active : false} 
+                                            start={doctor.working_hours ? doctor.working_hours[selectedDay].open : '9:00'} end={doctor.working_hours ? doctor.working_hours[selectedDay].close : '17:00'} 
+                                            onSelect={handleTimeSelect} selectedSlot={selectedSlot}
+                                            reservedSlots={reservedSlots}
+                                        />
+                                        <Typography.Text style={{ color: 'red' }}>{formErrors.selectedSlot}</Typography.Text>
+                                    </>
+                                )
+                            }
+                                
                             </Col>
                             <Col xs={24} lg={12}>
                                 <Typography.Title level={5} style={{ marginBottom: 10 }}>Appointment Type</Typography.Title>
