@@ -18,6 +18,7 @@ const AppointmentsSection = () => {
     const [appointmentLoading, setAppointmentLoading] = useState(false);
     const [appointments, setAppointments] = useState([]);
     const [api, NotificationHolder] = notification.useNotification();
+    const [date, setDate] = useState(null)
 
     const openNotification = (message, description, type = 'info') => {
         api.open({
@@ -31,13 +32,21 @@ const AppointmentsSection = () => {
         });
     };
 
+    // Event Handler
+
+    const handleDateChange = (_, date) => {
+        setDate(date)
+    }
+
+    // Fetch API
+
     const getAppointments = async () => {
             
         setAppointmentLoading(true)
 
         try {
 
-            const response = await fetch(`${backend_url}/api/appointments`, {
+            const response = await fetch(`${backend_url}/api/appointments?date=${date}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
@@ -64,7 +73,7 @@ const AppointmentsSection = () => {
 
     useEffect(() => {
         getAppointments()
-    }, []);
+    }, [date]);
     
 
     return (
@@ -72,7 +81,7 @@ const AppointmentsSection = () => {
             {NotificationHolder}
             <Row gutter={30}>
                 <Col span={12}>
-                    <AppointmentPicker />
+                    <AppointmentPicker onDateChange={handleDateChange} />
                 </Col>
                 <Col span={12}>
                     <Box style={{ marginBottom: 20 }}>

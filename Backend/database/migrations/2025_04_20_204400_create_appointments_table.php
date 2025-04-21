@@ -17,6 +17,8 @@ return new class extends Migration
             $table->enum('appointment_type', ['online', 'in_person']);
             $table->float('appointment_price');
             $table->string('appointment_description');
+            $table->enum('appointment_status', ['active', 'closed', 'rejected']);
+            $table->string('appointment_rejection_note')->nullable();
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('doctor_id');
             $table->foreign('client_id')->on('users')->references('id')->onDelete('cascade');

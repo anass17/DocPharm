@@ -15,6 +15,8 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
+        // Get reserved Time Slots
+
         if ($request->type == "timeonly") {
             if (!$request->date) {
                 return response()->json([], 422);
@@ -26,8 +28,16 @@ class AppointmentController extends Controller
 
             return response()->json(['results' => $results]);
         }
+
+        // Get All Appointment
+            
+        $results = Appointment::with('client')->where('appointment_status', 'active');
+
+        if ($request->date != 'null') {
+            $results = $results -> whereDate('appointment_date', $request->date);
+        }
         
-        $results = Appointment::with('client')->orderBy('appointment_date', 'asc')->get();
+        $results = $results -> orderBy('appointment_date', 'asc')->get();
 
         return response()->json(['results' => $results]);
         
