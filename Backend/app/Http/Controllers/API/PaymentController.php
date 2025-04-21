@@ -37,4 +37,28 @@ class PaymentController extends Controller
 
         return response()->json(['id' => $session->id]);
     }
+
+    public function appointmentPayment(Request $request) {
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        $session = Session::create([
+            'payment_method_types' => ['card'],
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'mad',
+                        'product_data' => [
+                            'name' => 'Appointment - ' . ucfirst($request -> type),
+                        ],
+                        'unit_amount' => $request->price * 100,
+                    ],
+                    'quantity' => 1
+                ]
+            ],
+            'mode' => 'payment',
+            'success_url' => env('APP_FRONT_URL') . '/appointment_payment_success?session_id={CHECKOUT_SESSION_ID}',
+        ]);
+
+        return response()->json(['id' => $session->id]);
+    }
 }

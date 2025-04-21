@@ -13,6 +13,10 @@ import AppointmentTypeSelect from "../components/ApointmentTypeSelect";
 import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from "js-cookie";
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_51RD1U4Pt1gEegd9zoFVDZP64y3tg4B4KFxYzAQnNFwpBIW90mgTKVpkvZg6RLBzHb1fMpVoeTgdyLEXukSoJ6nJ0005npVkp7m');
+
 
 function isTimeInRange(time, start, end) {
     const [tHours, tMinutes] = time.split(':').map(Number);
@@ -33,8 +37,12 @@ const BookAppointmentSection = () => {
 
     const [doctor, setDoctor] = useState({})
     const [loading, setLoading] = useState(false)
+    const [selectedDate, setSelectedDate] = useState(currentDay);
     const [selectedDay, setSelectedDay] = useState(currentDay);
     const [selectedSlot, setSelectedSlot] = useState(null);
+    const [selectedType, setSelectedType] = useState(null);
+    const [addedDescription, setAddedDescription] = useState('')
+    const [formErrors, setFormErrors] = useState({})
 
     const {id: param_id} = useParams()
 
@@ -56,9 +64,39 @@ const BookAppointmentSection = () => {
         getDoctorPharmacy();
     }, [param_id])
 
-    const handleDateChange = (day) => {
+    const handleDateChange = (day, date) => {
+        setSelectedDate(date)
         setSelectedDay(day)
         setSelectedSlot(null)
+    }
+
+    const handleTextChange = (e) => {
+        setAddedDescription(e.target.value)
+    }
+
+    const handleAppointmentBooking = () => {
+        const errors = {}
+
+        if (!selectedDate) {
+            errors.selectedDate = 'Please select a date'
+        }
+        if (!selectedSlot) {
+            errors.selectedSlot = 'Please select a time'
+        }
+        if (!selectedType) {
+            errors.selectedType = 'Please select appointment type'
+        }
+        if (!addedDescription) {
+            errors.addedDescription = 'Please add a specific description'
+        }
+
+        if (Object.keys(errors).length !== 0) {
+            setFormErrors(errors)
+            return
+        }
+
+        setFormErrors({})
+
     }
 
     const handleTimeSelect = (time) => {
@@ -66,7 +104,6 @@ const BookAppointmentSection = () => {
     }
 
     const getDoctorPharmacy = async () => {
-        setLoading(true);
         
         try {
 
@@ -89,10 +126,9 @@ const BookAppointmentSection = () => {
         } catch (error) {
             console.log(error)
             openNotification('Something went wrong', 'Could not perform this action')
-        } finally {
-            setLoading(false)
         }
     }
+
 
     return (
         <>
@@ -180,6 +216,7 @@ const BookAppointmentSection = () => {
                             <Col xs={24} lg={12}>
                                 <Typography.Title level={5} style={{ marginBottom: 10 }}>Select Date</Typography.Title>
                                 <AppointmentPicker onDateChange={handleDateChange}/>
+                                <Typography.Text style={{ color: 'red' }}>{formErrors.selectedDate}</Typography.Text>
                             </Col>
                             <Col xs={24} lg={12}>
                                 <Typography.Title level={5} style={{ marginBottom: 10 }}>Select Time</Typography.Title>
@@ -187,15 +224,29 @@ const BookAppointmentSection = () => {
                                     start={doctor.working_hours ? doctor.working_hours[selectedDay].open : '9:00'} end={doctor.working_hours ? doctor.working_hours[selectedDay].close : '17:00'} 
                                     onSelect={handleTimeSelect} selectedSlot={selectedSlot}
                                 />
+                                <Typography.Text style={{ color: 'red' }}>{formErrors.selectedSlot}</Typography.Text>
                             </Col>
                             <Col xs={24} lg={12}>
                                 <Typography.Title level={5} style={{ marginBottom: 10 }}>Appointment Type</Typography.Title>
-                                <AppointmentTypeSelect />
+                                <AppointmentTypeSelect value={selectedType} onSelect={setSelectedType} data={doctor.appointment_prices} />
+                                <Typography.Text style={{ color: 'red' }}>{formErrors.selectedType}</Typography.Text>
                             </Col>
                             <Col xs={24} lg={12}>
                                 <Typography.Title level={5} style={{ marginBottom: 10 }}>Description</Typography.Title>
-                                <TextField multiline rows={4} name="" style={{ marginBottom: 10 }} fullWidth placeholder="Please provide a brief description of the reason for your visit or any symptoms you're experiencing." />
-                                <DarkGreenButton style={{ width: '100%' }}>Book Appointment</DarkGreenButton>
+                                <TextField multiline rows={4} name="" onChange={handleTextChange} fullWidth placeholder="Please provide a brief description of the reason for your visit or any symptoms you're experiencing." />
+                                <Typography.Text style={{ color: 'red' }}>{formErrors.addedDescription}</Typography.Text>
+                                
+                                {
+                                    loading ? (
+                                        <LoadingButton style={{ width: '100%', marginTop: 10 }}>
+                                            Book Appointment
+                                        </LoadingButton>
+                                    ) : (
+                                        <DarkGreenButton style={{ width: '100%', marginTop: 10 }} onClick={handleAppointmentBooking}>
+                                            Book Appointment
+                                        </DarkGreenButton>
+                                    )
+                                }
                             </Col>
                         </Row>
                     </Box>            

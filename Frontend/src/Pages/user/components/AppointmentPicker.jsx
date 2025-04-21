@@ -17,7 +17,7 @@ const AppointmentPicker = ({onDateChange}) => {
 
   const handleChange = (date) => {
     let selectedDayName = date.$d.toLocaleDateString('en-En', {weekday: 'long'}).toLowerCase()
-    onDateChange(selectedDayName)
+    onDateChange(selectedDayName, date)
   }
 
   return (

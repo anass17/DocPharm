@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->timestamp('appointment_date');
-            $table->enum('appointment_type', ['online', 'in-person']);
+            $table->enum('appointment_type', ['online', 'in_person']);
             $table->float('appointment_price');
             $table->string('appointment_description');
             $table->unsignedBigInteger('client_id');

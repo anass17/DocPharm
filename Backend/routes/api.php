@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AppointmentController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\DashboardController;
@@ -59,7 +60,13 @@ Route::middleware('auth:sanctum')->delete('/cart/{id}', [CartController::class, 
 Route::middleware('auth:sanctum')->post('/confirm-order/{sessionId}', [OrderController::class, 'confirm']);
 
 Route::post('/create-checkout-session', [PaymentController::class, 'medicinePayment']);
+Route::post('/create-appointment-checkout-session', [PaymentController::class, 'appointmentPayment']);
 
 // Doctor Routes
 
 Route::middleware('auth:sanctum')->get('/doctors/{id}', [DoctorController::class, 'show']);
+
+
+// Appointments
+
+Route::middleware('auth:sanctum')->resource('appointments', AppointmentController::class);
