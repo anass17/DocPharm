@@ -14,4 +14,8 @@ class Appointment extends Model
         'appointment_type',
         'appointment_description',
     ];
+
+    public function client() {
+        return $this->belongsTo(Client::class, 'client_id');
+    }
 }

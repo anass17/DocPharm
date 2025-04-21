@@ -15,15 +15,22 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
-        if (!$request->date) {
-            return response()->json([], 422);
-        }
+        if ($request->type == "timeonly") {
+            if (!$request->date) {
+                return response()->json([], 422);
+            }
+    
+            $results = Appointment::whereDate('appointment_date', $request->date)
+            ->selectRaw("TO_CHAR(appointment_date, 'HH24:MI') as time")
+            ->get();
 
-        $results = Appointment::whereDate('appointment_date', $request->date)
-        ->selectRaw("TO_CHAR(appointment_date, 'HH24:MI') as time")
-        ->get();
+            return response()->json(['results' => $results]);
+        }
+        
+        $results = Appointment::with('client')->orderBy('appointment_date', 'asc')->get();
 
         return response()->json(['results' => $results]);
+        
     }
 
     /**

@@ -187,7 +187,7 @@ const BookAppointmentSection = () => {
 
         try {
 
-            const response = await fetch(`${backend_url}/api/appointments?date=${date}`, {
+            const response = await fetch(`${backend_url}/api/appointments?type=timeonly&date=${date}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
