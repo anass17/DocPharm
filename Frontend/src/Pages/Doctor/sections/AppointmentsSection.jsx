@@ -46,6 +46,10 @@ const AppointmentsSection = () => {
         setType('')
     }
 
+    const handleTypeSelect = (value) => {
+        setType(value)
+    }
+
     // Fetch API
 
     const getAppointments = async () => {
@@ -54,7 +58,7 @@ const AppointmentsSection = () => {
 
         try {
 
-            const response = await fetch(`${backend_url}/api/appointments?date=${date}`, {
+            const response = await fetch(`${backend_url}/api/appointments?date=${date}&type=${type}&search=${search}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
@@ -81,7 +85,7 @@ const AppointmentsSection = () => {
 
     useEffect(() => {
         getAppointments()
-    }, [date]);
+    }, [date, type]);
     
 
     return (
@@ -94,7 +98,7 @@ const AppointmentsSection = () => {
                 <Col span={12}>
                     <Box style={{ marginBottom: 20 }}>
                         <InputLabel>Find By Search</InputLabel>
-                        <Input size="large" placeholder="Search for appointments ..." prefix={<FaSearch style={{ marginRight: 10 }} />} />
+                        <Input size="large" value={search} placeholder="Search for appointments ..." prefix={<FaSearch style={{ marginRight: 10 }} />} onChange={(e) => setSearch(e.target.value)} />
                     </Box>
                     <Box style={{ marginBottom: 20 }}>
                         <InputLabel>Find By Appointment Type</InputLabel>
@@ -102,15 +106,15 @@ const AppointmentsSection = () => {
                             placeholder="Appointment Type"
                             size="large"
                             style={{ width: '100%' }}
-                            defaultValue={''}
+                            value={type}
                             options={
                                 [
-                                    {value: '', label: 'Any'},
-                                    {value: 'both', label: 'Both'},
+                                    {value: '', label: 'Both'},
                                     {value: 'online', label: 'Online'},
                                     {value: 'in_person', label: 'In-Person'},
                                 ]
                             }
+                            onChange={handleTypeSelect}
                         />
                     </Box>
                     <DarkGreenButton style={{ width: '100%' }} onClick={handleSelectionClear}>

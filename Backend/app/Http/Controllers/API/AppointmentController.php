@@ -31,13 +31,24 @@ class AppointmentController extends Controller
 
         // Get All Appointment
             
-        $results = Appointment::with('client')->where('appointment_status', 'active');
+        $results = Appointment::with('client');
+
+        // if ($request->search != '') {
+            $results = $results -> whereHas('client', function ($query) use ($request) {
+                $query->where('first_name', 'ILIKE', "%" . $request->search . "%");
+                $query->orWhere('last_name', 'ILIKE', "%" . $request->search . "%");
+            });
+        // }
 
         if ($request->date != 'null') {
             $results = $results -> whereDate('appointment_date', $request->date);
         }
+
+        if ($request->type != '') {
+            $results = $results -> where('appointment_type', $request->type);
+        }
         
-        $results = $results -> orderBy('appointment_date', 'asc')->get();
+        $results = $results -> where('appointment_status', 'active') -> orderBy('appointment_date')->get();
 
         return response()->json(['results' => $results]);
         
