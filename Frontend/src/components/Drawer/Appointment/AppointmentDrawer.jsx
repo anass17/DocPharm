@@ -6,6 +6,7 @@ import { grey, red } from '@mui/material/colors';
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import dayjs from 'dayjs'
+import AddPrescriptionModal from '../../Modal/Prescription/AddPrescriptionModal';
 
 let {Title, Text} = Typography
 
@@ -16,6 +17,7 @@ const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
     const [rejectReasonError, setRejectReasonError] = useState('')
     const [rejectLoading, setRejectLoading] = useState(false)
     const [api, NotificationHolder] = notification.useNotification();
+    const [modalOpen, setModalOpen] = useState(false)
 
     const openNotification = (message, description, type = 'info') => {
         api.open({
@@ -37,6 +39,8 @@ const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
         return
     }
 
+    // Event Handlers
+
     const handleChange = (e) => {
         setRejectReason(e.target.value)
     }
@@ -54,6 +58,12 @@ const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
         setRejectReasonError('')
         updateRejection()
     }
+
+    const handlePrescriptionClick = () => {
+        setModalOpen(true)
+    }
+
+    // Fetch API
 
     const updateRejection = async () => {
                 
@@ -169,13 +179,15 @@ const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
                             </>
                         ) : (
                             <>
-                                <Button variant='contained' sx={{ mr: 1, textTransform: 'capitalize', bgcolor: PRIMARY_BLUE }}>Add Prescription</Button>
+                                <Button variant='contained' sx={{ mr: 1, textTransform: 'capitalize', bgcolor: PRIMARY_BLUE }} onClick={handlePrescriptionClick}>Add Prescription</Button>
                                 <Button variant='contained' sx={{ bgcolor: red[500], textTransform: 'capitalize' }} onClick={handleRejectClick}>Reject</Button>
                             </>
                         )
                     }
                 </Box>
             </Drawer>
+
+            <AddPrescriptionModal open={modalOpen} setOpen={setModalOpen} />
         </>
     );
 };
