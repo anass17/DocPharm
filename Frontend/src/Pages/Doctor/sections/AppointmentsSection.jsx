@@ -53,12 +53,9 @@ const AppointmentsSection = () => {
         setType(value)
     }
 
-    const handleAppointmenClick = () => {
-        setDrawerOpen(true);
-    }
-
     const handleAppointmentRejected = () => {
         setAppointments(appointments.filter(item => item.id != openAppointment.id))
+        setDrawerOpen(false);
     }
 
     // Fetch API

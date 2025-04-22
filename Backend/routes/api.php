@@ -11,6 +11,7 @@ use App\Http\Controllers\API\OrderHistoryController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\PharmacyController;
 use App\Http\Controllers\API\PharmacyMedicineController;
+use App\Http\Controllers\API\PrescriptionController;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -70,3 +71,7 @@ Route::middleware('auth:sanctum')->get('/doctors/{id}', [DoctorController::class
 // Appointments
 
 Route::middleware('auth:sanctum')->resource('appointments', AppointmentController::class);
+
+// Prescriptions
+
+Route::middleware('auth:sanctum')->post('/prescriptions', [PrescriptionController::class, 'store']);

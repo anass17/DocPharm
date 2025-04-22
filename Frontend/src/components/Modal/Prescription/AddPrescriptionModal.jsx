@@ -10,9 +10,10 @@ import { grey, red } from '@mui/material/colors';
 import Title from 'antd/es/typography/Title';
 import { LoadingOutlined } from '@ant-design/icons';
 
-const AddPrescriptionModal = ({open, setOpen}) => {
+const AddPrescriptionModal = ({apt_id, open, setOpen, statusUpdate}) => {
     const [loading, setLoading] = useState(false)
     const [searchLoading, setSearchLoading] = useState(false)
+    const [description, setDescription] = useState('')
     const [search, setSearch] = useState('')
     const [selectedMedicines, setSelectedMedicines] = useState([])
     const [searchResult, setSearchResult] = useState([]);
@@ -83,6 +84,40 @@ const AddPrescriptionModal = ({open, setOpen}) => {
         }
     }
 
+    const addPrescription = async () => {
+        
+        setLoading(true)
+
+        try {
+
+            const response = await fetch(`${backend_url}/api/prescriptions`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({appointment: apt_id, description: description, medicines: selectedMedicines.map(item=>item.id)})
+            });
+    
+            if (response.status === 401) {
+                openNotification('Access Denied', 'You are not authorized to perform this action')
+            } else if (response.status === 201) {
+                openNotification('Success', 'The prescription for this appointment has been added', 'success')
+                statusUpdate()
+            } else {
+                openNotification('Something went wrong!', 'Could not create the prescription')
+            }
+        } catch (error) {
+            console.log(error)
+            openNotification('Something went wrong!', 'Could not create the prescription')
+        } finally {
+            setLoading(false)
+            setOpen(false)
+            setDescription('')
+            setSelectedMedicines([])
+        }
+    }
+
     useEffect(()=> {
         if (search.length > 2) {
             searchForMedicines()
@@ -104,7 +139,7 @@ const AddPrescriptionModal = ({open, setOpen}) => {
                         loading ? (
                             <Button key='loading' loading variant="" style={{ padding: '1.25rem 3rem' }} />
                         ) : (
-                            <DarkGreenButton key="add">
+                            <DarkGreenButton key="add" onClick={() => addPrescription()}>
                                 Add
                             </DarkGreenButton>
                         )
@@ -112,9 +147,9 @@ const AddPrescriptionModal = ({open, setOpen}) => {
                 }
             >
                 <Box py={2}>
-                    <TextField name='' label='Prescription Note' multiline rows={4} fullWidth sx={{ mb: 1.5 }}  />
+                    <TextField name='' label='Prescription Note' multiline rows={4} fullWidth sx={{ mb: 1.5 }} value={description} onChange={(e) => setDescription(e.target.value)} />
                     <Box position={'relative'}>
-                        <TextField name='' label="Add Medicine" value={search} fullWidth onChange={handleSearch}/>
+                        <TextField name='' label="Add Medicine *" value={search} fullWidth onChange={handleSearch}/>
                         <Box position={'absolute'} bgcolor="#FFF" width="100%" zIndex={100} maxHeight={300} overflow='auto' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)'>
                             {
                                 searchLoading ? (
@@ -152,14 +187,18 @@ const AddPrescriptionModal = ({open, setOpen}) => {
                         selectedMedicines.map((item, index) => {
                             return (
                                 <Row key={index} style={{ margin: '0.6rem 0', alignItems: 'center' }}>
-                                    <Col span={18}>
-                                        <Title level={5} style={{ marginBottom: 1 }}>{item.medicine_name} - {item.medicine_weight} {item.form_unit}</Title>
-                                        <span>{item.form_name}</span>
+                                    <Col span={20}>
+                                        <Box display={'flex'} gap={2} alignItems='center'>
+                                            <div>
+                                                <img style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 5 }} src="http://localhost:8000/storage/medicines/fake_image.jpg" />
+                                            </div>
+                                            <div>
+                                                <Title level={5} style={{marginBottom: 1 }}>{item.medicine_name} - {item.medicine_weight} {item.form_unit}</Title>
+                                                <span>{item.form_name}</span>
+                                            </div>
+                                        </Box>
                                     </Col>
-                                    <Col span={4}>
-                                        <TextField placeholder='Qty' maxWidth={30} width={30} minWidth={0} size='small' />
-                                    </Col>
-                                    <Col span={2} style={{ alignItems: 'center', textAlign: 'center' }}>
+                                    <Col span={4} style={{ alignItems: 'center', textAlign: 'right' }}>
                                         <button className='font-medium text-red-500 text-[17px]' onClick={() => handleMedicineRemove(item.id)}>X</button>
                                     </Col>
                                 </Row>

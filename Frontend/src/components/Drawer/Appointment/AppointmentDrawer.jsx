@@ -187,7 +187,7 @@ const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
                 </Box>
             </Drawer>
 
-            <AddPrescriptionModal open={modalOpen} setOpen={setModalOpen} />
+            <AddPrescriptionModal apt_id={appointment?.id} open={modalOpen} setOpen={setModalOpen} statusUpdate={onUpdate} />
         </>
     );
 };
