@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Divider, Modal, notification, Row, Spin, Typography } from 'antd';
+import { Button, Col, Divider, Input, Modal, notification, Row, Spin, Typography } from 'antd';
 import {Button as Btn, Checkbox, FormControlLabel, FormGroup} from '@mui/material' 
 import { Box, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { GRAY0, GREEN, PRIMARY_BLUE, PRIMARY_GREEN } from '../../../config/colors';
@@ -14,6 +14,7 @@ const AddPrescriptionModal = ({open, setOpen}) => {
     const [loading, setLoading] = useState(false)
     const [searchLoading, setSearchLoading] = useState(false)
     const [search, setSearch] = useState('')
+    const [selectedMedicines, setSelectedMedicines] = useState([])
     const [searchResult, setSearchResult] = useState([]);
     const [api, NotificationHolder] = notification.useNotification();
 
@@ -29,6 +30,13 @@ const AddPrescriptionModal = ({open, setOpen}) => {
         });
     };
 
+    const handleMedicineClick = (item) => {
+        setSelectedMedicines(
+            [...selectedMedicines, item]
+        )
+        setSearch('')
+    } 
+
 
     const handleCancel = () => {
         setOpen(false);
@@ -36,6 +44,10 @@ const AddPrescriptionModal = ({open, setOpen}) => {
 
     const handleSearch = (e) => {
         setSearch(e.target.value)
+    }
+
+    const handleMedicineRemove = (id) => {
+        setSelectedMedicines(selectedMedicines.filter(item => item.id !== id))
     }
 
     // Fetch API
@@ -115,7 +127,7 @@ const AddPrescriptionModal = ({open, setOpen}) => {
                                         (
                                             searchResult.map((item, index) => {
                                                 return (
-                                                    <Box key={index} px={3} py={2} sx={{ cursor: 'pointer' }} className="hover:bg-gray-200 transition" borderBottom='1px solid #DDD' display={'flex'} gap={3} alignItems='center'>
+                                                    <Box key={index} px={3} py={2} sx={{ cursor: 'pointer' }} className="hover:bg-gray-200 transition" borderBottom='1px solid #DDD' display={'flex'} gap={3} alignItems='center' onClick={() => handleMedicineClick(item)}>
                                                         <div>
                                                             <img style={{ width: 100, height: 70, objectFit: 'cover', borderRadius: 5 }} src="http://localhost:8000/storage/medicines/fake_image.jpg" />
                                                         </div>
@@ -134,6 +146,26 @@ const AddPrescriptionModal = ({open, setOpen}) => {
                             }
                         </Box>
                     </Box>
+                </Box>
+                <Box>
+                    {
+                        selectedMedicines.map((item, index) => {
+                            return (
+                                <Row key={index} style={{ margin: '0.6rem 0', alignItems: 'center' }}>
+                                    <Col span={18}>
+                                        <Title level={5} style={{ marginBottom: 1 }}>{item.medicine_name} - {item.medicine_weight} {item.form_unit}</Title>
+                                        <span>{item.form_name}</span>
+                                    </Col>
+                                    <Col span={4}>
+                                        <TextField placeholder='Qty' maxWidth={30} width={30} minWidth={0} size='small' />
+                                    </Col>
+                                    <Col span={2} style={{ alignItems: 'center', textAlign: 'center' }}>
+                                        <button className='font-medium text-red-500 text-[17px]' onClick={() => handleMedicineRemove(item.id)}>X</button>
+                                    </Col>
+                                </Row>
+                            )
+                        })
+                    }
                 </Box>
             </Modal>
         </>
