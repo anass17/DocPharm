@@ -15,7 +15,6 @@ const { Title, Text } = Typography
 
 const AppointmentsSection = () => {
 
-    const [loading, setLoading] = useState(false);
     const [appointmentLoading, setAppointmentLoading] = useState(false);
     const [appointments, setAppointments] = useState([]);
     const [api, NotificationHolder] = notification.useNotification();

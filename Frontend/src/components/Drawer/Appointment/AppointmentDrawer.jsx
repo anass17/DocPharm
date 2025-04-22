@@ -134,7 +134,7 @@ const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
                         <Box>
                             <Typography.Title level={5}>Appointment Status</Typography.Title>
                             <Typography.Text>
-                                <Text style={{ color: PRIMARY_GREEN, fontWeight: 500 }} className="capitalize">{appointment?.appointment_status}</Text>
+                                <Text style={{ color: (appointment?.appointment_status == 'active' ? PRIMARY_GREEN : (appointment?.appointment_status == 'rejected' ? red[500] : GRAY2)), fontWeight: 500 }} className="capitalize">{appointment?.appointment_status}</Text>
                             </Typography.Text>
                         </Box>
                     </Col>
@@ -158,40 +158,58 @@ const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
                     </Col>
                 </Row>
 
-                <Divider />
-                
-                <Box sx={{ mt: 4 }}>
-                    {
-                        reject ? (
-                            <>
-                                <TextField multiline rows={4} placeholder='Specify the reason of the rejection' fullWidth onChange={handleChange} />
-                                <Text style={{ color: 'red' }}>{rejectReasonError}</Text>
-                                <Box sx={{ mt: 1.5 }}>
-                                    <Button variant='contained' sx={{ mr: 1, bgcolor: grey[500], textTransform: 'capitalize' }} onClick={() => setReject(false)}>Cancel</Button>
-                                    {
-                                        rejectLoading ? (
-                                            <Button loading variant='contained' sx={{ bgcolor: grey[100], color: GRAY2 }}>Reject</Button>
-                                        ) : (
-                                            <Button variant='contained' sx={{ bgcolor: red[500], textTransform: 'capitalize' }} onClick={handleRejectionSubmit}>Reject</Button>
-                                        )
-                                    }
-                                </Box>
-                            </>
-                        ) : (
-                            <>
+                {
+                    appointment.appointment_status == 'active' ? (
+                        <>
+                            <Divider />
+                        
+                            <Box sx={{ mt: 4 }}>
                                 {
-                                    dayjs(appointment.appointment_date).isBefore(dayjs()) ? (
-                                        <Button variant='contained' sx={{ mr: 1, textTransform: 'capitalize', bgcolor: PRIMARY_BLUE }} onClick={handlePrescriptionClick}>Add Prescription</Button>
-                                    ) : null
+                                    reject ? (
+                                        <>
+                                            <TextField multiline rows={4} placeholder='Specify the reason of the rejection' fullWidth onChange={handleChange} />
+                                            <Text style={{ color: 'red' }}>{rejectReasonError}</Text>
+                                            <Box sx={{ mt: 1.5 }}>
+                                                <Button variant='contained' sx={{ mr: 1, bgcolor: grey[500], textTransform: 'capitalize' }} onClick={() => setReject(false)}>Cancel</Button>
+                                                {
+                                                    rejectLoading ? (
+                                                        <Button loading variant='contained' sx={{ bgcolor: grey[100], color: GRAY2 }}>Reject</Button>
+                                                    ) : (
+                                                        <Button variant='contained' sx={{ bgcolor: red[500], textTransform: 'capitalize' }} onClick={handleRejectionSubmit}>Reject</Button>
+                                                    )
+                                                }
+                                            </Box>
+                                        </>
+                                    ) : (
+                                        <>
+                                            {
+                                                dayjs(appointment.appointment_date).isBefore(dayjs()) ? (
+                                                    <Button variant='contained' sx={{ mr: 1, textTransform: 'capitalize', bgcolor: PRIMARY_BLUE }} onClick={handlePrescriptionClick}>Add Prescription</Button>
+                                                ) : null
+                                            }
+                                            <Button variant='contained' sx={{ bgcolor: red[500], textTransform: 'capitalize' }} onClick={handleRejectClick}>Reject</Button>
+                                        </>
+                                    )
                                 }
-                                <Button variant='contained' sx={{ bgcolor: red[500], textTransform: 'capitalize' }} onClick={handleRejectClick}>Reject</Button>
+                            </Box>
+                        </>
+                    ) : (
+                        appointment.appointment_status == 'rejected' ? (
+                            <>
+                                <Divider />
+                                <Typography.Title level={5}>Rejection note</Typography.Title>
+                                <Text style={{ margin: 0 }}>{appointment.appointment_rejection_note}</Text>
                             </>
-                        )
-                    }
-                </Box>
+                        ) : null
+                    )
+                }
             </Drawer>
 
-            <AddPrescriptionModal apt_id={appointment?.id} open={modalOpen} setOpen={setModalOpen} statusUpdate={onUpdate} />
+            {
+                appointment.appointment_status == 'active' ? (
+                    <AddPrescriptionModal apt_id={appointment?.id} open={modalOpen} setOpen={setModalOpen} statusUpdate={onUpdate} />
+                ) : null
+            }
         </>
     );
 };
