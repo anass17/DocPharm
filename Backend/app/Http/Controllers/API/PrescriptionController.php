@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Mail\PrescriptionEmail;
 use App\Models\Appointment;
+use App\Models\Client;
+use App\Models\Doctor;
 use App\Models\Prescription;
 use App\Models\PrescriptionMedicine;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class PrescriptionController extends Controller
@@ -56,6 +60,8 @@ class PrescriptionController extends Controller
         $apt -> appointment_prescription = $prescription -> id;
         $apt -> appointment_status = 'closed';
         $apt -> save();
+
+        Mail::to('anassboutaib2018@gmail.com')->send(new PrescriptionEmail(Client::find($apt -> client_id), $request -> user(), $apt));
 
         return response()->json(['message' => 'Prescription Successfully Added'], 201);
     }

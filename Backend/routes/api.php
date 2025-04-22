@@ -75,3 +75,7 @@ Route::middleware('auth:sanctum')->resource('appointments', AppointmentControlle
 // Prescriptions
 
 Route::middleware('auth:sanctum')->post('/prescriptions', [PrescriptionController::class, 'store']);
+
+Route::get('/test', function () {
+    return view('mails.prescriptionEmail');
+});
