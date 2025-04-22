@@ -18,6 +18,8 @@ return new class extends Migration
             $table->float('appointment_price');
             $table->string('appointment_description');
             $table->enum('appointment_status', ['active', 'closed', 'rejected']);
+            $table->unsignedBigInteger('appointment_prescription')->nullable();
+            $table->foreign('appointment_prescription')->on('appointments')->references('id')->onDelete('cascade');
             $table->string('appointment_rejection_note')->nullable();
             $table->unsignedBigInteger('client_id');
             $table->unsignedBigInteger('doctor_id');
