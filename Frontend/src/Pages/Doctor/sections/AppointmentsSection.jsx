@@ -9,6 +9,7 @@ import { DarkGreenButton } from "../../../components/Button/FilledButtons";
 import { GRAY3, PRIMARY_BLUE, PRIMARY_GREEN } from "../../../config/colors";
 import { LoadingOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs'
+import AppointmentDrawer from "../../../components/Drawer/Appointment/AppointmentDrawer";
 
 const { Title, Text } = Typography
 
@@ -21,6 +22,8 @@ const AppointmentsSection = () => {
     const [date, setDate] = useState(null)
     const [search, setSearch] = useState('')
     const [type, setType] = useState('')
+    const [drawerOpen, setDrawerOpen] = useState(true);
+    const [openAppointment, setOpenAppointment] = useState(null)
 
     const openNotification = (message, description, type = 'info') => {
         api.open({
@@ -48,6 +51,10 @@ const AppointmentsSection = () => {
 
     const handleTypeSelect = (value) => {
         setType(value)
+    }
+
+    const handleAppointmenClick = () => {
+        setDrawerOpen(true);
     }
 
     // Fetch API
@@ -152,7 +159,7 @@ const AppointmentsSection = () => {
                             appointments.map((item, index) => {
                                 return (
                                     <Box key={index} overflow={'hidden'}>
-                                        <Row gutter={16} style={{ padding: '1rem 0.75rem', alignItems: 'center' }} className="hover:bg-gray-200 transition cursor-pointer">
+                                        <Row gutter={16} style={{ padding: '1rem 0.75rem', alignItems: 'center' }} className="hover:bg-gray-200 transition cursor-pointer" onClick={() => {setDrawerOpen(true); setOpenAppointment(item)}}>
                                             <Col span={12}>
                                                 <Flex align="center" gap={20}>
                                                     <img width={50} src="http://localhost:8000/storage/profile/fake.png" />
@@ -178,6 +185,8 @@ const AppointmentsSection = () => {
                     )
                 }
             </Box>
+
+            <AppointmentDrawer appointment={openAppointment} open={drawerOpen} setOpen={setDrawerOpen} />
         </>
     )
 }
