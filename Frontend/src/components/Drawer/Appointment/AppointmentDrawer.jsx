@@ -1,13 +1,33 @@
-import React from 'react';
-import { Col, Divider, Drawer, Flex, Row, Tag, Typography } from 'antd';
-import { Box, Button } from '@mui/material';
-import { GRAY3, GREEN, PRIMARY_BLUE, PRIMARY_GREEN } from '../../../config/colors';
-import { red } from '@mui/material/colors';
+import React, { useState } from 'react';
+import { Col, Divider, Drawer, Flex, notification, Row, Tag, Typography } from 'antd';
+import { Box, Button, TextField } from '@mui/material';
+import { GRAY2, GRAY3, GREEN, PRIMARY_BLUE, PRIMARY_GREEN } from '../../../config/colors';
+import { grey, red } from '@mui/material/colors';
+import { backend_url } from "../../../config/app";
+import Cookies from 'js-cookie';
 import dayjs from 'dayjs'
 
 let {Title, Text} = Typography
 
-const AppointmentDrawer = ({appointment, open, setOpen}) => {
+const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
+
+    const [reject, setReject] = useState(false);
+    const [rejectReason, setRejectReason] = useState('')
+    const [rejectReasonError, setRejectReasonError] = useState('')
+    const [rejectLoading, setRejectLoading] = useState(false)
+    const [api, NotificationHolder] = notification.useNotification();
+
+    const openNotification = (message, description, type = 'info') => {
+        api.open({
+            type: type,
+            message: message,
+            description: <p>{description}</p>,
+            placement: 'bottomRight',
+            duration: 5,
+            showProgress: true,
+            pauseOnHover: true,
+        });
+    };
 
     const onClose = () => {
         setOpen(false);
@@ -17,9 +37,61 @@ const AppointmentDrawer = ({appointment, open, setOpen}) => {
         return
     }
 
+    const handleChange = (e) => {
+        setRejectReason(e.target.value)
+    }
+
+    const handleRejectClick = () => {
+        setReject(true);
+    }
+
+    const handleRejectionSubmit = () => {
+        if (!rejectReason) {
+            setRejectReasonError('Please specify the reason of the rejection')
+            return
+        }
+
+        setRejectReasonError('')
+        updateRejection()
+    }
+
+    const updateRejection = async () => {
+                
+        setRejectLoading(true)
+
+        try {
+
+            const response = await fetch(`${backend_url}/api/appointments/${appointment.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({appointment_status: 'rejected', appointment_rejection_note: rejectReason})
+            });
+    
+            if (response.status === 401) {
+                openNotification('Access Denied', 'You are not authorized to perform this action')
+            } else if (response.status === 204) {
+                openNotification('Success', 'The appointment has been successfully rejected', 'success')
+                setReject(false)
+                setRejectReason('')
+                setOpen(false)
+                onUpdate()
+            } else {
+                openNotification('Something went wrong!', 'Could not load your appointments')
+            }
+        } catch (error) {
+            console.log(error)
+            openNotification('Something went wrong!', 'Could not load your appointments')
+        } finally {
+            setRejectLoading(false)
+        }
+    }
+
     return (
         <>
-
+            {NotificationHolder}
             <Drawer title={"Appointment Details"} size={'large'} onClose={onClose} open={open}>
                 <Typography.Title level={4} style={{ marginBottom: 25 }}>Client Details</Typography.Title>
                 <Row gutter={[16, 20]}>
@@ -79,8 +151,29 @@ const AppointmentDrawer = ({appointment, open, setOpen}) => {
                 <Divider />
                 
                 <Box sx={{ mt: 4 }}>
-                    <Button variant='contained' sx={{ mr: 1, textTransform: 'capitalize', bgcolor: PRIMARY_BLUE }}>Add Prescription</Button>
-                    <Button variant='contained' sx={{ bgcolor: red[500], textTransform: 'capitalize' }}>Reject</Button>
+                    {
+                        reject ? (
+                            <>
+                                <TextField multiline rows={4} placeholder='Specify the reason of the rejection' fullWidth onChange={handleChange} />
+                                <Text style={{ color: 'red' }}>{rejectReasonError}</Text>
+                                <Box sx={{ mt: 1.5 }}>
+                                    <Button variant='contained' sx={{ mr: 1, bgcolor: grey[500], textTransform: 'capitalize' }} onClick={() => setReject(false)}>Cancel</Button>
+                                    {
+                                        rejectLoading ? (
+                                            <Button loading variant='contained' sx={{ bgcolor: grey[100], color: GRAY2 }}>Reject</Button>
+                                        ) : (
+                                            <Button variant='contained' sx={{ bgcolor: red[500], textTransform: 'capitalize' }} onClick={handleRejectionSubmit}>Reject</Button>
+                                        )
+                                    }
+                                </Box>
+                            </>
+                        ) : (
+                            <>
+                                <Button variant='contained' sx={{ mr: 1, textTransform: 'capitalize', bgcolor: PRIMARY_BLUE }}>Add Prescription</Button>
+                                <Button variant='contained' sx={{ bgcolor: red[500], textTransform: 'capitalize' }} onClick={handleRejectClick}>Reject</Button>
+                            </>
+                        )
+                    }
                 </Box>
             </Drawer>
         </>

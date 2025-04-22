@@ -57,6 +57,10 @@ const AppointmentsSection = () => {
         setDrawerOpen(true);
     }
 
+    const handleAppointmentRejected = () => {
+        setAppointments(appointments.filter(item => item.id != openAppointment.id))
+    }
+
     // Fetch API
 
     const getAppointments = async () => {
@@ -186,7 +190,7 @@ const AppointmentsSection = () => {
                 }
             </Box>
 
-            <AppointmentDrawer appointment={openAppointment} open={drawerOpen} setOpen={setDrawerOpen} />
+            <AppointmentDrawer appointment={openAppointment} open={drawerOpen} setOpen={setDrawerOpen} onUpdate={handleAppointmentRejected} />
         </>
     )
 }
