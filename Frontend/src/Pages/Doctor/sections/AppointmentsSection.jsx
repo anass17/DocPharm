@@ -126,17 +126,14 @@ const AppointmentsSection = () => {
             
             <Box style={{ backgroundColor: '#FFF', boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.15)', marginBottom: 10, padding: '1rem 0.75rem', borderRadius: 5, fontWeight: 500 }}>
                 <Row gutter={16}>
-                    <Col span={10}>
+                    <Col span={12}>
                         Client
                     </Col>
-                    <Col span={4}>
+                    <Col span={5}>
                         Type
                     </Col>
-                    <Col span={6}>
+                    <Col span={7}>
                         Date
-                    </Col>
-                    <Col span={4}>
-                        Action
                     </Col>
                 </Row>
             </Box>
@@ -154,9 +151,9 @@ const AppointmentsSection = () => {
                         ) : (
                             appointments.map((item, index) => {
                                 return (
-                                    <Box key={index}>
-                                        <Row gutter={16} style={{ padding: '1rem 0.75rem', alignItems: 'center' }}>
-                                            <Col span={10}>
+                                    <Box key={index} overflow={'hidden'}>
+                                        <Row gutter={16} style={{ padding: '1rem 0.75rem', alignItems: 'center' }} className="hover:bg-gray-200 transition cursor-pointer">
+                                            <Col span={12}>
                                                 <Flex align="center" gap={20}>
                                                     <img width={50} src="http://localhost:8000/storage/profile/fake.png" />
                                                     <Box>
@@ -165,17 +162,12 @@ const AppointmentsSection = () => {
                                                     </Box>
                                                 </Flex>
                                             </Col>
-                                            <Col span={4}>
+                                            <Col span={5}>
                                                 <Tag color={item.appointment_type == 'online' ? PRIMARY_GREEN : PRIMARY_BLUE} className="capitalize">{item.appointment_type.replace('_', '-')}</Tag>
                                             </Col>
-                                            <Col span={6}>
+                                            <Col span={7}>
                                                 <Title level={5} style={{ margin: 0 }}>{dayjs(item.appointment_date).format('MMMM D, YYYY')}</Title>
                                                 <Text style={{ color: GRAY3, fontSize: 13 }}>{dayjs(item.appointment_date).format('HH:mm')}</Text>
-                                            </Col>
-                                            <Col span={4}>
-                                                <Button style={{ border: 'none' }}>
-                                                    <FaEllipsisH />
-                                                </Button>
                                             </Col>
                                         </Row>
                                         <Divider style={{ margin: 0 }}/>
