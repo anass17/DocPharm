@@ -179,7 +179,11 @@ const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
                             </>
                         ) : (
                             <>
-                                <Button variant='contained' sx={{ mr: 1, textTransform: 'capitalize', bgcolor: PRIMARY_BLUE }} onClick={handlePrescriptionClick}>Add Prescription</Button>
+                                {
+                                    dayjs(appointment.appointment_date).isBefore(dayjs()) ? (
+                                        <Button variant='contained' sx={{ mr: 1, textTransform: 'capitalize', bgcolor: PRIMARY_BLUE }} onClick={handlePrescriptionClick}>Add Prescription</Button>
+                                    ) : null
+                                }
                                 <Button variant='contained' sx={{ bgcolor: red[500], textTransform: 'capitalize' }} onClick={handleRejectClick}>Reject</Button>
                             </>
                         )
