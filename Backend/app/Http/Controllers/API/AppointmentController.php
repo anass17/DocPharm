@@ -15,30 +15,15 @@ class AppointmentController extends Controller
      */
     public function index(Request $request)
     {
-        // Get reserved Time Slots
-
-        if ($request->type == "timeonly") {
-            if (!$request->date) {
-                return response()->json([], 422);
-            }
-    
-            $results = Appointment::whereDate('appointment_date', $request->date)
-            ->selectRaw("TO_CHAR(appointment_date, 'HH24:MI') as time")
-            ->get();
-
-            return response()->json(['results' => $results]);
-        }
-
-        // Get All Appointment
             
         $results = Appointment::with('client');
 
-        // if ($request->search != '') {
+        if ($request->search != '') {
             $results = $results -> whereHas('client', function ($query) use ($request) {
                 $query->where('first_name', 'ILIKE', "%" . $request->search . "%");
                 $query->orWhere('last_name', 'ILIKE', "%" . $request->search . "%");
             });
-        // }
+        }
 
         if ($request->date != 'null') {
             $results = $results -> whereDate('appointment_date', $request->date);

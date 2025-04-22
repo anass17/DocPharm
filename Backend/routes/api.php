@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AppointmentAvailabilityController;
 use App\Http\Controllers\API\AppointmentController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
@@ -70,6 +71,7 @@ Route::middleware('auth:sanctum')->get('/doctors/{id}', [DoctorController::class
 
 // Appointments
 
+Route::middleware('auth:sanctum')->get('/appointments/availability', [AppointmentAvailabilityController::class, 'index']);
 Route::middleware('auth:sanctum')->resource('appointments', AppointmentController::class);
 
 // Prescriptions
