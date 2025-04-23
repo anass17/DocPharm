@@ -1,6 +1,5 @@
 import { Button, Col, Flex, message, Row, Skeleton, Typography } from "antd";
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
-import { ClockCircleOutlined, DollarOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
 import { GREEN } from "../../../config/colors";
 import { useEffect, useState } from "react";
@@ -8,7 +7,7 @@ import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import { formatDistanceToNow } from 'date-fns';
 import { Link } from "react-router-dom";
-import { FaCalendar, FaCalendarCheck, FaCalendarTimes, FaClock, FaDollarSign, FaUserFriends, FaVideo } from "react-icons/fa";
+import { FaCalendar, FaCalendarCheck, FaClock, FaDollarSign, FaUserFriends, FaVideo } from "react-icons/fa";
 
 const { Title, Text } = Typography
 

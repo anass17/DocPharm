@@ -56,7 +56,7 @@ const items = [
 
 const DoctorSidebar = ({menuItem}) => {
 
-    const [mobileOpen, setMobileOpen] = useState(open)
+    const [mobileOpen, setMobileOpen] = useState(false)
     let navigate = useNavigate()
     const lgScreen = useMediaQuery('(min-width: 1024px)');
 
