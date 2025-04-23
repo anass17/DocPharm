@@ -154,6 +154,7 @@ const RoutesList = () => {
 
             {/* Doctor Routes */}
 
+            <Route path="/doctor/profile" element={<DoctorProfile />} />
             <Route path="/doctor/settings" element={<DoctorSettings />} />
             <Route path="/doctor/appointments" element={<DoctorAppointments />} />
             <Route path="/doctor/appointments/history" element={<DoctorAppointmentsHistory />} />

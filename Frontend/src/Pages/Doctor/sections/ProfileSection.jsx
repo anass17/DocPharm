@@ -4,7 +4,7 @@ import { Col, Flex, Row, Typography } from "antd";
 import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarker, FaMapMarkerAlt, FaPhone, FaPhoneAlt, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
-import { GRAY2, GREEN, GREEN2 } from "../../../config/colors";
+import { GRAY2, GREEN, GREEN2, PRIMARY_BLUE } from "../../../config/colors";
 import { useSelector } from "react-redux";
 import AppointmentPicker from "../../user/components/AppointmentPicker";
 import AppointmentTimePicker from "../../user/components/AppointmentTimePicker";
@@ -27,7 +27,9 @@ const ProfileSection = () => {
 
     const user = useSelector(data => data.user.user)
 
-    {console.log(user)}
+    {
+        console.log(user)
+    }
 
     const currentDay = (new Date()).toLocaleDateString('en-En', {weekday: 'long'}).toLowerCase()
 
@@ -41,9 +43,9 @@ const ProfileSection = () => {
                             <img src="http://localhost:8000/storage/profile/fake.png" width={100} className="rounded-full border-2 border-blue-500 absolute bottom-0 left-10 translate-y-1/2" />
                         </Box>
                         <Box>
-                            <Typography.Title level={2} style={{ marginBottom: 0 }}>Jim Karter</Typography.Title>
-                            <Typography.Title level={5} style={{ marginTop: 0 }}>Cardiology</Typography.Title>
-                            <Typography.Text>Dr. Michael Carter is a compassionate and experienced family physician with over 15 years in practice. He is dedicated to providing comprehensive care to patients of all ages, with a special focus on preventive medicine, chronic disease management, and holistic wellness. Known for his approachable manner and attentive care, Dr. Carter ensures each patient feels heard and supported.</Typography.Text>
+                            <Typography.Title level={2} style={{ marginBottom: 0 }}>{user?.first_name} {user?.last_name}</Typography.Title>
+                            <Typography.Title level={5} style={{ marginTop: 0 }}>{user?.speciality}</Typography.Title>
+                            <Typography.Text>{user.bio ? user.bio : 'You have not added the bio yet'}</Typography.Text>
                         </Box>
                         <Row gutter={[12, 20]} style={{ marginTop: 20 }}>
                             <Col span={24}>
@@ -112,26 +114,28 @@ const ProfileSection = () => {
                         
                     </Box>
                     <Box p={3} bgcolor='#FFF' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
-                        <Typography.Title level={4} style={{ marginBottom: 35 }}>Book an Appointment</Typography.Title>
-                        <Row gutter={[30, 30]}>
-                            <Col span={12}>
-                                <Typography.Title level={5} style={{ marginBottom: 10 }}>Select Date</Typography.Title>
-                                <AppointmentPicker />
-                            </Col>
-                            <Col span={12}>
-                                <Typography.Title level={5} style={{ marginBottom: 10 }}>Select Time</Typography.Title>
-                                <AppointmentTimePicker />
-                            </Col>
-                            <Col span={12}>
-                                <Typography.Title level={5} style={{ marginBottom: 10 }}>Appointment Type</Typography.Title>
-                                <AppointmentTypeSelect />
-                            </Col>
-                            <Col span={12}>
-                                <Typography.Title level={5} style={{ marginBottom: 10 }}>Description</Typography.Title>
-                                <TextField multiline rows={4} name="" style={{ marginBottom: 10 }} fullWidth placeholder="Please provide a brief description of the reason for your visit or any symptoms you're experiencing." />
-                                <DarkGreenButton style={{ width: '100%' }}>Book Appointment</DarkGreenButton>
-                            </Col>
-                        </Row>
+                        <Typography.Title level={4}>Appointments Details</Typography.Title>
+                        {
+                            user?.appointment_prices ? (
+                                <Row gutter={20}>
+                                    <Col span={12}>
+                                        <Box sx={{ border: '1px solid #DDD' }} borderRadius={2} py={1.5} px={4}>
+                                            <Typography.Title level={5} style={{ marginBottom: 1 }}>Online Consultation</Typography.Title>
+                                            <Typography.Text style={{ color: PRIMARY_BLUE, fontWeight: 500 }}>{user?.appointment_prices.online} MAD</Typography.Text>
+                                        </Box>
+                                    </Col>
+                                    <Col span={12}>
+                                        <Box sx={{ border: '1px solid #DDD' }} borderRadius={2} py={1.5} px={4}>
+                                            <Typography.Title level={5} style={{ marginBottom: 1 }}>In-Person Visit</Typography.Title>
+                                            <Typography.Text style={{ color: PRIMARY_BLUE, fontWeight: 500 }}>{user?.appointment_prices.in_person} MAD</Typography.Text>
+                                        </Box>
+                                    </Col>
+                                </Row>
+                            ) : (
+                                <TP fontSize={14}>Not Specified</TP>
+                            )
+                        }
+                        
                     </Box>            
                 </Col>
             </Row>
