@@ -14,7 +14,7 @@ function DoctorSidebarLayout({children, menuItem, title, description}) {
             <div style={{ display: "flex" }}>
                 <DoctorSidebar menuItem={menuItem} />
                 <div style={{ padding: "3rem 2.5rem", flex: 1 }}>
-                    <Box style={{ marginBottom: '55px' }}>
+                    <Box sx={{ marginBottom: '55px', textAlign: {xs: 'center', lg: 'left'} }}>
                         <Title level={1}>{title}</Title>
                         <Title level={5} style={{ color: GRAY2 }}>{description}</Title>
                     </Box>

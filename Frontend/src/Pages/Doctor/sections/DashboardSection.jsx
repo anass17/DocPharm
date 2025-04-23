@@ -66,31 +66,31 @@ const DashboardSection = () => {
         <>
             {contextHolder}
             <Row gutter={[16, 16]} style={{ marginBottom: 35 }}>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={statistics.online_appointments || 0} name={"Online Appointments"} component={FaVideo} total={statistics.total_appointments} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={statistics.in_person_appointments || 0} name={"In-Person Appointments"} component={FaUserFriends} total={statistics.total_appointments} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={statistics.total_appointments || 0} name={"Total Appointments"} component={FaCalendar} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={statistics.active_appointments || 0} name={"Active Appointments"} component={FaClock} total={statistics.total_appointments} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={statistics.completed_appointments || 0} name={"Completed Appointments"} component={FaCalendarCheck} total={statistics.total_appointments} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={statistics.total_earnings || 0} name={"Total Earnings (DH)"} component={FaDollarSign} />
                 </Col>
             </Row>
             <Row gutter={16}>
-                <Col span={12}>
+                <Col xs={24} xl={12}>
                     <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow }}>
                     </div>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} xl={12}>
                     <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow}}>
                         <div style={{ padding: '15px 20px'  }}>
                             <Title level={4} style={{ marginBottom: 20 }}>Recent Added</Title>
