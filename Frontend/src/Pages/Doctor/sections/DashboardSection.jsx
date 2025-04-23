@@ -8,14 +8,15 @@ import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import { formatDistanceToNow } from 'date-fns';
 import { Link } from "react-router-dom";
+import { FaCalendar, FaCalendarCheck, FaCalendarTimes, FaClock, FaDollarSign, FaUserFriends, FaVideo } from "react-icons/fa";
 
 const { Title, Text } = Typography
 
 const DashboardSection = () => {
 
-    const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
     const [recentAdded, setRecentAdded] = useState([]);
+    const [statistics, setStatistics] = useState({});
     const [messageApi, contextHolder] = message.useMessage();
 
     const info = (message) => {
@@ -26,41 +27,39 @@ const DashboardSection = () => {
         });
     };
 
-    // const getStatistics = async () => {
+    const getStatistics = async () => {
 
-    //     setSubmit(true);
-    //     setLoading(true)
+        setLoading(true)
         
-    //     try {
+        try {
 
-    //         const response = await fetch(`${backend_url}/api/pharmacy/dashboard`, {
-    //             headers: {
-    //                 'Authorization': 'Bearer ' + Cookies.get('auth_token'),
-    //             }
-    //         });
+            const response = await fetch(`${backend_url}/api/doctor/dashboard`, {
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                }
+            });
     
-    //         const responseData = await response.json();
+            const responseData = await response.json();
     
-    //         if (response.status === 401) {
-    //             info('You are not authorized to view this data');
-    //         } else if (response.status === 200) {
-    //             setRecentAdded(responseData.recent_added)
-    //         } else {
-    //             info('Something went wrong! Could not load this data');
-    //         }
-    //     } catch (error) {
-    //         if (error.name !== 'AbortError') {
-    //             info('Something went wrong! Could not load this data');
-    //         }
-    //     } finally {
-    //         setLoading(false)
-    //     }
-    // }
+            if (response.status === 401) {
+                info('You are not authorized to view this data');
+            } else if (response.status === 200) {
+                setStatistics(responseData.statistics)
+            } else {
+                info('Something went wrong! Could not load this data');
+            }
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                info('Something went wrong! Could not load this data');
+            }
+        } finally {
+            setLoading(false)
+        }
+    }
 
-    // useEffect(() => {
-    //     getStatistics()
-
-    // }, [submit])
+    useEffect(() => {
+        getStatistics()
+    }, [])
 
 
     return (
@@ -68,22 +67,22 @@ const DashboardSection = () => {
             {contextHolder}
             <Row gutter={[16, 16]} style={{ marginBottom: 35 }}>
                 <Col span={8}>
-                    <StatisticBlock value={25} name={"Different Medicines"} component={ClockCircleOutlined} />
+                    <StatisticBlock value={statistics.online_appointments || 0} name={"Online Appointments"} component={FaVideo} total={statistics.total_appointments} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={250} name={"Medicine Unit"} component={ClockCircleOutlined} />
+                    <StatisticBlock value={statistics.in_person_appointments || 0} name={"In-Person Appointments"} component={FaUserFriends} total={statistics.total_appointments} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={2020} name={"Sold Unit"} component={ShoppingCartOutlined} />
+                    <StatisticBlock value={statistics.total_appointments || 0} name={"Total Appointments"} component={FaCalendar} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={25} name={"Delivered Orders"} component={ClockCircleOutlined} />
+                    <StatisticBlock value={statistics.active_appointments || 0} name={"Active Appointments"} component={FaClock} total={statistics.total_appointments} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={250} name={"Orders"} component={UnorderedListOutlined} />
+                    <StatisticBlock value={statistics.completed_appointments || 0} name={"Completed Appointments"} component={FaCalendarCheck} total={statistics.total_appointments} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={2020} name={"Earnings"} component={DollarOutlined} />
+                    <StatisticBlock value={statistics.total_earnings || 0} name={"Total Earnings (DH)"} component={FaDollarSign} />
                 </Col>
             </Row>
             <Row gutter={16}>

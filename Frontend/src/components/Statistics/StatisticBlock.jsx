@@ -5,13 +5,19 @@ import { GREEN } from '../../config/colors';
 import { defaultShadow } from '../../config/shadow';
 
 
-const StatisticBlock = ({name, value, component}) => (
+const StatisticBlock = ({name, value, component, total = null}) => (
   <Card variant="borderless"
     style={{ boxShadow: defaultShadow }}
   >
     <Statistic
       title={name}
-      value={value}
+      value={
+        `${value} ${
+          total ? `(${
+            total !== 0 ? ((value / total) * 100).toFixed(1) : 0
+          }%)` : ''
+        }`
+      }
       valueStyle={{ color: GREEN }}
       prefix={<Icon style={{ marginRight: 10}} component={component} />}
     />

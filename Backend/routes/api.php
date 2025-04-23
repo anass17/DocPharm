@@ -7,6 +7,7 @@ use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DoctorController;
+use App\Http\Controllers\API\DoctorDashboardController;
 use App\Http\Controllers\API\MedicineController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\OrderHistoryController;
@@ -36,12 +37,14 @@ Route::middleware('auth:sanctum')->post('/pharmacy/update/security', [PharmacyCo
 Route::middleware('auth:sanctum')->put('/pharmacy/update/general', [PharmacyController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [PharmacyController::class, 'updateWorkingHours']);
 
-// Update Doctor Details
+// Doctor Toutes
 
 Route::middleware('auth:sanctum')->post('/doctor/update/security', [DoctorController::class, 'updateSecurity']);
 Route::middleware('auth:sanctum')->put('/doctor/update/general', [DoctorController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->put('/doctor/update/working_hours', [DoctorController::class, 'updateWorkingHours']);
 Route::middleware('auth:sanctum')->put('/doctor/update/reservation', [DoctorController::class, 'updateReservationDetails']);
+Route::middleware('auth:sanctum')->get('/doctors/{id}', [DoctorController::class, 'show']);
+Route::middleware('auth:sanctum')->get('/doctor/dashboard', [DoctorDashboardController::class, 'index']);
 
 // Medicines
 
@@ -64,11 +67,6 @@ Route::middleware('auth:sanctum')->post('/confirm-order/{sessionId}', [OrderCont
 
 Route::post('/create-checkout-session', [PaymentController::class, 'medicinePayment']);
 Route::post('/create-appointment-checkout-session', [PaymentController::class, 'appointmentPayment']);
-
-// Doctor Routes
-
-Route::middleware('auth:sanctum')->get('/doctors/{id}', [DoctorController::class, 'show']);
-
 
 // Appointments
 
