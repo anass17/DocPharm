@@ -6,6 +6,7 @@ import UserMedicines from './Pages/user/UserMedicines.jsx';
 import UserBookAppointment from './Pages/user/UserBookAppointment.jsx';
 import DoctorAppointments from './Pages/Doctor/DoctorAppointments.jsx';
 import DoctorAppointmentsHistory from './Pages/Doctor/DoctorAppointmentsHistory.jsx';
+import DoctorDashboard from './Pages/Doctor/DoctorDashboard.jsx';
 
 // Authentication
 
@@ -154,6 +155,7 @@ const RoutesList = () => {
 
             {/* Doctor Routes */}
 
+            <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
             <Route path="/doctor/profile" element={<DoctorProfile />} />
             <Route path="/doctor/settings" element={<DoctorSettings />} />
             <Route path="/doctor/appointments" element={<DoctorAppointments />} />
