@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { AppstoreOutlined } from '@ant-design/icons';
-import { ConfigProvider, Menu } from 'antd';
+import { Button, ConfigProvider, Menu } from 'antd';
 import { GREEN, GREEN5 } from '../../config/colors';
 import { useNavigate } from 'react-router-dom';
-import { FaCalendarCheck, FaColumns, FaHistory, FaUser, FaUserEdit } from 'react-icons/fa';
+import { FaBars, FaCalendarCheck, FaColumns, FaHistory, FaUser, FaUserEdit } from 'react-icons/fa';
+import { Box, useMediaQuery } from '@mui/material';
 
 const links = {
   '13': 'dashboard',
@@ -55,15 +56,15 @@ const items = [
 
 const DoctorSidebar = ({menuItem}) => {
 
-    let [modalOpen, setModalOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(open)
     let navigate = useNavigate()
+    const lgScreen = useMediaQuery('(min-width: 1024px)');
 
     const onClick = e => {
         if (links[e.key]) {
             navigate(`/doctor/${links[e.key]}`);
         }
     };
-
 
     return (
 
@@ -77,14 +78,19 @@ const DoctorSidebar = ({menuItem}) => {
                   },
                 },
             }}>
+                <Box className="absolute top-[85px] left-2 z-10 block lg:hidden" onClick={() => setMobileOpen(true)}>
+                  <Button><FaBars /></Button>
+                </Box>
                 <Menu
-                onClick={onClick}
-                style={{ width: 320, minHeight: 'calc(100vh - 80px)', fontWeight: '500', paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
-                selectedKeys={[menuItem]}
-                mode="inline"
-                items={items}
+                  onClick={onClick}
+                  style={{ width: 320, minHeight: 'calc(100vh - 80px)', transition: 'transform .5s', fontWeight: '500', transform: (lgScreen ? 'none' : (mobileOpen ? 'translateX(0)' : 'translateX(-100%)')), paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
+                  className={`fixed lg:static left-0 top-0 z-20 h-full lg:translate-x-0`}
+                  selectedKeys={[menuItem]}
+                  mode="inline"
+                  items={items}
                 />
             </ConfigProvider>
+            <Box className={"absolute top-0 left-0 w-full h-full z-[15] bg-[#00000077] lg:hidden " + (mobileOpen ? 'block' : 'hidden')} onClick={() => setMobileOpen(false)} />
         </>
 
     );

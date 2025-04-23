@@ -119,7 +119,7 @@ const SettingsReservationChange = () => {
         <>
             {NotificationHolder}
             <Box sx={{ bgcolor: '#FFF', borderRadius: 2, p: 2.5, mb: 5, boxShadow: '0px 1px 2px rgba(0, 0, 0, .2)' }}>
-                <Typography.Title level={4} style={{ marginBottom: 30 }}>Reservation Details</Typography.Title>
+                <Typography.Title level={4} style={{ marginBottom: 30 }}>Booking Details</Typography.Title>
                 <Row gutter={8}>
                     <Col xs={24} sm={8}>
                         <InputLabel style={{ marginBottom: 7 }}>Appointments Type *</InputLabel>

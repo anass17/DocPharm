@@ -45,7 +45,7 @@ const ProfileSection = () => {
                         <Box>
                             <Typography.Title level={2} style={{ marginBottom: 0 }}>{user?.first_name} {user?.last_name}</Typography.Title>
                             <Typography.Title level={5} style={{ marginTop: 0 }}>{user?.speciality}</Typography.Title>
-                            <Typography.Text>{user.bio ? user.bio : 'You have not added the bio yet'}</Typography.Text>
+                            <Typography.Text>{user?.bio ? user.bio : 'You have not added the bio yet'}</Typography.Text>
                         </Box>
                         <Row gutter={[12, 20]} style={{ marginTop: 20 }}>
                             <Col span={24}>
