@@ -55,7 +55,7 @@ function DoctorNavbar() {
             noWrap
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
+              display: 'flex',
               fontFamily: 'roboto',
               fontWeight: 700,
               letterSpacing: '.1rem',
@@ -72,12 +72,12 @@ function DoctorNavbar() {
           {/* Desktop */}
 
           <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-            <Box sx={{ display: 'flex', mr: 3, gap: '3px' }}>
+            <Box sx={{ display: 'flex', mr: 3, gap: {xs: '5px', md: '10px'} }}>
               
 
               <TLP title="Dashboard" color={colors.PRIMARY_GREEN}>
                 <Link to={'/doctor/dashboard'}>
-                  <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', minWidth: 0}}>
                     <FaHome fill={colors.GRAY2} size={23} />
                   </Button>
                 </Link>
@@ -86,7 +86,7 @@ function DoctorNavbar() {
               <TLP title="Appointments" color={colors.PRIMARY_GREEN}>
                 <Badge count={0} size="small" offset={[-17, 5]} style={{background: '#FFF', color: colors.PRIMARY_GREEN, borderColor: colors.PRIMARY_GREEN, fontWeight: 500}}>
                   <Link to={'/doctor/appointments'}>
-                    <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                    <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', minWidth: 0}}>
                       <FaCalendarCheck fill={colors.GRAY2} size={20} />
                     </Button>
                   </Link>
@@ -95,7 +95,7 @@ function DoctorNavbar() {
 
               <TLP title="Profile" color={colors.PRIMARY_GREEN}>
                 <Link to={'/doctor/profile'}>
-                  <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
+                  <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center', minWidth: 0}}> 
                     <FaUser fill={colors.GRAY2} size={20}/>
                   </Button>
                 </Link>
@@ -106,7 +106,7 @@ function DoctorNavbar() {
               <IconButton
                 onClick={handleClick}
                 size="small"
-                sx={{ ml: 2 }}
+                md={{ ml: 2 }}
                 aria-controls={open ? 'account-menu' : undefined}
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
