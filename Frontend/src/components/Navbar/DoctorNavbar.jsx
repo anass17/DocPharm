@@ -64,7 +64,7 @@ function DoctorNavbar() {
             }}
           >
             <Link to="/doctor/dashboard" style={{ display: 'flex' }}>
-              <img className='h-[70px]' src='/public/images/logo/logo.png' />
+              <img className='h-[55px]' src='/public/images/logo/logo.png' />
             </Link>
             
           </Typography>
@@ -78,7 +78,7 @@ function DoctorNavbar() {
               <TLP title="Dashboard" color={colors.PRIMARY_GREEN}>
                 <Link to={'/doctor/dashboard'}>
                   <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <FaHome fill={colors.GRAY2} size={24} />
+                    <FaHome fill={colors.GRAY2} size={23} />
                   </Button>
                 </Link>
               </TLP>
@@ -87,7 +87,7 @@ function DoctorNavbar() {
                 <Badge count={0} size="small" offset={[-17, 5]} style={{background: '#FFF', color: colors.PRIMARY_GREEN, borderColor: colors.PRIMARY_GREEN, fontWeight: 500}}>
                   <Link to={'/doctor/appointments'}>
                     <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                      <FaCalendarCheck fill={colors.GRAY2} size={22} />
+                      <FaCalendarCheck fill={colors.GRAY2} size={20} />
                     </Button>
                   </Link>
                 </Badge>
@@ -96,7 +96,7 @@ function DoctorNavbar() {
               <TLP title="Profile" color={colors.PRIMARY_GREEN}>
                 <Link to={'/doctor/profile'}>
                   <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                    <FaUser fill={colors.GRAY2} size={22}/>
+                    <FaUser fill={colors.GRAY2} size={20}/>
                   </Button>
                 </Link>
               </TLP>

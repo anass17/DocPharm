@@ -79,7 +79,7 @@ const DoctorSidebar = ({menuItem}) => {
             }}>
                 <Menu
                 onClick={onClick}
-                style={{ width: 320, minHeight: 'calc(100vh - 40px)', fontWeight: '500', paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
+                style={{ width: 320, minHeight: 'calc(100vh - 80px)', fontWeight: '500', paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
                 selectedKeys={[menuItem]}
                 mode="inline"
                 items={items}
