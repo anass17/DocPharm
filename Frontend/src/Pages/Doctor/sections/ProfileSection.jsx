@@ -37,8 +37,8 @@ const ProfileSection = () => {
         <>
 
             <Row gutter={16}>
-                <Col span={8}>
-                    <Box sx={{ bgcolor: '#FFF', p: 4, mb: 2.5, borderRadius: 2, boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)' }}>
+                <Col xs={24} lg={10} xl={8}>
+                    <Box sx={{ bgcolor: '#FFF', p: {xs: 2, lg: 4}, mb: 2.5, borderRadius: 2, boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)' }}>
                         <Box height={200} borderRadius={2} mb={10} sx={{ backgroundPosition: 'center', position: 'relative', backgroundSize: 'cover', backgroundImage: 'url("http://localhost:8000/storage/test/pharmacy.jpg")' }}>
                             <img src="http://localhost:8000/storage/profile/fake.png" width={100} className="rounded-full border-2 border-blue-500 absolute bottom-0 left-10 translate-y-1/2" />
                         </Box>
@@ -93,7 +93,7 @@ const ProfileSection = () => {
                         </Row>
                     </Box>
                 </Col>
-                <Col span={16}>
+                <Col xs={24} lg={14} xl={16}>
                     <Box p={3} bgcolor='#FFF' mb={2.5} boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4}>Working Hours</Typography.Title>
                         {
@@ -117,14 +117,14 @@ const ProfileSection = () => {
                         <Typography.Title level={4}>Appointments Details</Typography.Title>
                         {
                             user?.appointment_prices ? (
-                                <Row gutter={20}>
-                                    <Col span={12}>
+                                <Row gutter={[14, 10]}>
+                                    <Col xs={24} md={12}>
                                         <Box sx={{ border: '1px solid #DDD' }} borderRadius={2} py={1.5} px={4}>
                                             <Typography.Title level={5} style={{ marginBottom: 1 }}>Online Consultation</Typography.Title>
                                             <Typography.Text style={{ color: PRIMARY_BLUE, fontWeight: 500 }}>{user?.appointment_prices.online} MAD</Typography.Text>
                                         </Box>
                                     </Col>
-                                    <Col span={12}>
+                                    <Col xs={24} md={12}>
                                         <Box sx={{ border: '1px solid #DDD' }} borderRadius={2} py={1.5} px={4}>
                                             <Typography.Title level={5} style={{ marginBottom: 1 }}>In-Person Visit</Typography.Title>
                                             <Typography.Text style={{ color: PRIMARY_BLUE, fontWeight: 500 }}>{user?.appointment_prices.in_person} MAD</Typography.Text>
