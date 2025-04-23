@@ -98,32 +98,38 @@ const AppointmentsSection = () => {
     return (
         <>
             {NotificationHolder}
-            <Row gutter={30}>
-                <Col span={12}>
+            <Row gutter={[30, 30]}>
+                <Col xs={24} xl={12}>
                     <AppointmentPicker onDateChange={handleDateChange} />
                 </Col>
-                <Col span={12}>
-                    <Box style={{ marginBottom: 20 }}>
-                        <InputLabel>Find By Search</InputLabel>
-                        <Input size="large" value={search} placeholder="Search for appointments ..." prefix={<FaSearch style={{ marginRight: 10 }} />} onChange={(e) => setSearch(e.target.value)} />
-                    </Box>
-                    <Box style={{ marginBottom: 20 }}>
-                        <InputLabel>Find By Appointment Type</InputLabel>
-                        <Select
-                            placeholder="Appointment Type"
-                            size="large"
-                            style={{ width: '100%' }}
-                            value={type}
-                            options={
-                                [
-                                    {value: '', label: 'Both'},
-                                    {value: 'online', label: 'Online'},
-                                    {value: 'in_person', label: 'In-Person'},
-                                ]
-                            }
-                            onChange={handleTypeSelect}
-                        />
-                    </Box>
+                <Col xs={24} xl={12}>
+                    <Row gutter={[12, 20]} style={{marginBottom: 20}}>
+                        <Col xs={24} md={12} xl={24}>
+                            <Box>
+                                <InputLabel>Find By Search</InputLabel>
+                                <Input size="large" value={search} placeholder="Search for appointments ..." prefix={<FaSearch style={{ marginRight: 10 }} />} onChange={(e) => setSearch(e.target.value)} />
+                            </Box>
+                        </Col>
+                        <Col xs={24} md={12} xl={24}>
+                            <Box>
+                                <InputLabel>Find By Appointment Type</InputLabel>
+                                <Select
+                                    placeholder="Appointment Type"
+                                    size="large"
+                                    style={{ width: '100%' }}
+                                    value={type}
+                                    options={
+                                        [
+                                            {value: '', label: 'Both'},
+                                            {value: 'online', label: 'Online'},
+                                            {value: 'in_person', label: 'In-Person'},
+                                        ]
+                                    }
+                                    onChange={handleTypeSelect}
+                                />
+                            </Box>
+                        </Col>
+                    </Row>
                     <DarkGreenButton style={{ width: '100%' }} onClick={handleSelectionClear}>
                         Clear Selection
                     </DarkGreenButton>
@@ -133,13 +139,16 @@ const AppointmentsSection = () => {
             
             <Box style={{ backgroundColor: '#FFF', boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.15)', marginBottom: 10, padding: '1rem 0.75rem', borderRadius: 5, fontWeight: 500 }}>
                 <Row gutter={16}>
-                    <Col span={12}>
+                    <Col xs={24} md={0} style={{textAlign: 'center' }}>
+                        Appointments
+                    </Col>
+                    <Col xs={0} md={12}>
                         Client
                     </Col>
-                    <Col span={5}>
+                    <Col xs={0} md={5}>
                         Type
                     </Col>
-                    <Col span={7}>
+                    <Col xs={0} md={7}>
                         Date
                     </Col>
                 </Row>
@@ -159,8 +168,8 @@ const AppointmentsSection = () => {
                             appointments.map((item, index) => {
                                 return (
                                     <Box key={index} overflow={'hidden'}>
-                                        <Row gutter={16} style={{ padding: '1rem 0.75rem', alignItems: 'center' }} className="hover:bg-gray-200 transition cursor-pointer" onClick={() => {setDrawerOpen(true); setOpenAppointment(item)}}>
-                                            <Col span={12}>
+                                        <Row gutter={[16, 20]} style={{ padding: '1rem 0.75rem', alignItems: 'center' }} className="hover:bg-gray-200 transition cursor-pointer" onClick={() => {setDrawerOpen(true); setOpenAppointment(item)}}>
+                                            <Col xs={12} md={12}>
                                                 <Flex align="center" gap={20}>
                                                     <img width={50} src="http://localhost:8000/storage/profile/fake.png" />
                                                     <Box>
@@ -169,10 +178,10 @@ const AppointmentsSection = () => {
                                                     </Box>
                                                 </Flex>
                                             </Col>
-                                            <Col span={5}>
+                                            <Col xs={12} md={5} className="text-right md:text-left">
                                                 <Tag color={item.appointment_type == 'online' ? PRIMARY_GREEN : PRIMARY_BLUE} className="capitalize">{item.appointment_type.replace('_', '-')}</Tag>
                                             </Col>
-                                            <Col span={7}>
+                                            <Col xs={12} md={7}>
                                                 <Title level={5} style={{ margin: 0 }}>{dayjs(item.appointment_date).format('MMMM D, YYYY')}</Title>
                                                 <Text style={{ color: GRAY3, fontSize: 13 }}>{dayjs(item.appointment_date).format('HH:mm')}</Text>
                                             </Col>
