@@ -98,49 +98,55 @@ const AppointmentsHistorySection = () => {
     return (
         <>
             {NotificationHolder}
-            <Row gutter={30}>
-                <Col span={12}>
+            <Row gutter={[30, 30]}>
+                <Col xs={24} xl={12}>
                     <AppointmentPicker onDateChange={handleDateChange} />
                 </Col>
-                <Col span={12}>
+                <Col xs={24} xl={12}>
                     <Box style={{ marginBottom: 20 }}>
                         <InputLabel>Find By Search</InputLabel>
                         <Input size="large" value={search} placeholder="Search for appointments ..." prefix={<FaSearch style={{ marginRight: 10 }} />} onChange={(e) => setSearch(e.target.value)} />
                     </Box>
-                    <Box style={{ marginBottom: 20 }}>
-                        <InputLabel>Appointment Type</InputLabel>
-                        <Select
-                            placeholder="Appointment Type"
-                            size="large"
-                            style={{ width: '100%' }}
-                            value={type}
-                            options={
-                                [
-                                    {value: '', label: 'Both'},
-                                    {value: 'online', label: 'Online'},
-                                    {value: 'in_person', label: 'In-Person'},
-                                ]
-                            }
-                            onChange={handleTypeSelect}
-                        />
-                    </Box>
-                    <Box style={{ marginBottom: 20 }}>
-                        <InputLabel>Appointment Status</InputLabel>
-                        <Select
-                            placeholder="Status"
-                            size="large"
-                            style={{ width: '100%' }}
-                            value={status}
-                            options={
-                                [
-                                    {value: '', label: 'Any'},
-                                    {value: 'closed', label: 'Closed'},
-                                    {value: 'rejected', label: 'Rejected'},
-                                ]
-                            }
-                            onChange={handleStatusSelect}
-                        />
-                    </Box>
+                    <Row gutter={[12, 24]} style={{ marginBottom: 20 }}>
+                        <Col xs={24} md={12} xl={24}>
+                            <Box>
+                                <InputLabel>Appointment Type</InputLabel>
+                                <Select
+                                    placeholder="Appointment Type"
+                                    size="large"
+                                    style={{ width: '100%' }}
+                                    value={type}
+                                    options={
+                                        [
+                                            {value: '', label: 'Both'},
+                                            {value: 'online', label: 'Online'},
+                                            {value: 'in_person', label: 'In-Person'},
+                                        ]
+                                    }
+                                    onChange={handleTypeSelect}
+                                />
+                            </Box>
+                        </Col>
+                        <Col xs={24} md={12} xl={24}>
+                            <Box>
+                                <InputLabel>Appointment Status</InputLabel>
+                                <Select
+                                    placeholder="Status"
+                                    size="large"
+                                    style={{ width: '100%' }}
+                                    value={status}
+                                    options={
+                                        [
+                                            {value: '', label: 'Any'},
+                                            {value: 'closed', label: 'Closed'},
+                                            {value: 'rejected', label: 'Rejected'},
+                                        ]
+                                    }
+                                    onChange={handleStatusSelect}
+                                />
+                            </Box>
+                        </Col>
+                    </Row>
                     <DarkGreenButton style={{ width: '100%' }} onClick={handleSelectionClear}>
                         Clear Selection
                     </DarkGreenButton>
@@ -150,19 +156,22 @@ const AppointmentsHistorySection = () => {
             
             <Box style={{ backgroundColor: '#FFF', boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.15)', marginBottom: 10, padding: '1rem 0.75rem', borderRadius: 5, fontWeight: 500 }}>
                 <Row gutter={16}>
-                    <Col span={8}>
+                    <Col xs={24} md={0} style={{ textAlign: 'center' }}>
+                        Appointments
+                    </Col>
+                    <Col xs={0} md={8}>
                         Client
                     </Col>
-                    <Col span={4}>
+                    <Col xs={0} md={4}>
                         Type
                     </Col>
-                    <Col span={4}>
+                    <Col xs={0} md={4}>
                         Status
                     </Col>
-                    <Col span={4}>
+                    <Col xs={0} md={4}>
                         Price
                     </Col>
-                    <Col span={4}>
+                    <Col xs={0} md={4}>
                         Date
                     </Col>
                 </Row>
@@ -181,8 +190,8 @@ const AppointmentsHistorySection = () => {
                             appointments.map((item, index) => {
                                 return (
                                     <Box key={index} overflow={'hidden'}>
-                                        <Row gutter={16} style={{ padding: '1rem 0.75rem', alignItems: 'center' }} className="hover:bg-gray-200 transition cursor-pointer" onClick={() => {setDrawerOpen(true); setOpenAppointment(item)}}>
-                                            <Col span={8}>
+                                        <Row gutter={[16, 20]} style={{ padding: '1rem 0.75rem', alignItems: 'center' }} className="hover:bg-gray-200 transition cursor-pointer" onClick={() => {setDrawerOpen(true); setOpenAppointment(item)}}>
+                                            <Col xs={16} lg={8}>
                                                 <Flex align="center" gap={20}>
                                                     <img width={50} src="http://localhost:8000/storage/profile/fake.png" />
                                                     <Box>
@@ -191,16 +200,16 @@ const AppointmentsHistorySection = () => {
                                                     </Box>
                                                 </Flex>
                                             </Col>
-                                            <Col span={4}>
+                                            <Col xs={8} lg={4}>
                                                 <Tag color={item.appointment_type == 'online' ? PRIMARY_GREEN : PRIMARY_BLUE} className="capitalize">{item.appointment_type.replace('_', '-')}</Tag>
                                             </Col>
-                                            <Col span={4}>
+                                            <Col xs={16} lg={4}>
                                                 <Text>{item.appointment_status}</Text>
                                             </Col>
-                                            <Col span={4}>
+                                            <Col xs={8} lg={4}>
                                                 <Text>{item.appointment_price} DH</Text>
                                             </Col>
-                                            <Col span={4}>
+                                            <Col xs={12} lg={4}>
                                                 <Title level={5} style={{ margin: 0 }}>{dayjs(item.appointment_date).format('MMMM D, YYYY')}</Title>
                                                 <Text style={{ color: GRAY3, fontSize: 13 }}>{dayjs(item.appointment_date).format('HH:mm')}</Text>
                                             </Col>
