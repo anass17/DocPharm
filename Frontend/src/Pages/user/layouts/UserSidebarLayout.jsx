@@ -9,7 +9,7 @@ function UserSidebarLayout({filters, setFilters, Sidebar, children, title, sorti
     return (
         <>
             <UserNavbar />
-            <Container maxWidth="xl" sx={{ gap: '2rem', display: "flex", py: 3 }}>
+            <Container maxWidth="xl" sx={{py: 3 }}>
                 <Row gutter={22}>
                     <Col xs={6}>
                         <Sidebar filters={filters} setFilters={setFilters} />
