@@ -1,11 +1,12 @@
 import { Col, ConfigProvider, message, Row, Typography } from "antd";
-import { GREEN, GREEN5 } from "../../../config/colors";
+import { GREEN, GREEN5, LIGHT_BLUE } from "../../../config/colors";
 import { Box } from "@mui/material";
 import { Pagination } from 'antd';
 import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import UserMedicineCard from "../../../components/Card/Medicine/UserMedicineCard";
+import UserPharmacyCard from "../../../components/Card/Pharmacy/UserPharmacyCard";
 
 const { Title, Text } = Typography
 
@@ -70,12 +71,12 @@ const PharmacyListingSection = ({sorting, filters}) => {
     return (
         <>
             {contextHolder}
-            <Row gutter={[14, 14]}>
+            <Row gutter={[10, 10]}>
                 {
                     medicines.map((item, index) => {
                         return (
                             <Col span={8} key={'medicine-' + index}>
-                                <UserMedicineCard medicine={item} />
+                                <UserPharmacyCard medicine={item} />
                             </Col>
                         )
                     })
@@ -90,7 +91,7 @@ const PharmacyListingSection = ({sorting, filters}) => {
                         },
                         components: {
                             Pagination: {
-                                itemBg: GREEN5,
+                                itemBg: LIGHT_BLUE,
                             },
                         },
                     }}
