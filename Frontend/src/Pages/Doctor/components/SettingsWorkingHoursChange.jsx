@@ -15,10 +15,6 @@ const SettingsWorkingHoursChange = () => {
     const user = useSelector(data => data.user.user)
     const dispatch = useDispatch()
 
-    {
-        console.log(user)
-    }
-
     const defaultObject = useMemo(() => {
         return {
             monday: {active: true, open: '8:00', close: "17:00"},

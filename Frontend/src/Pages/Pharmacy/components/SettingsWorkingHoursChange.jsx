@@ -10,13 +10,51 @@ import Cookies from 'js-cookie'
 import { useDispatch, useSelector } from "react-redux"
 import { updateUserDetails } from "../../../store/actions/userActions"
 
+const initialWorkingHours = {
+    monday: {
+        active: false,
+        open: '',
+        close: ''
+    },
+    tuesday: {
+        active: false,
+        open: '',
+        close: ''
+    },
+    wednesday: {
+        active: false,
+        open: '',
+        close: ''
+    },
+    thursday: {
+        active: false,
+        open: '',
+        close: ''
+    },
+    friday: {
+        active: false,
+        open: '',
+        close: ''
+    },
+    saturday: {
+        active: false,
+        open: '',
+        close: ''
+    },
+    sanday: {
+        active: false,
+        open: '',
+        close: ''
+    },
+}
+
 const SettingsWorkingHoursChange = () => {
 
     const user = useSelector(data => data.user.user)
     const dispatch = useDispatch()
 
     const [loading, setLoading] = useState(false)
-    const [data, setData] = useState(user?.working_hours)
+    const [data, setData] = useState(user?.working_hours || initialWorkingHours)
     const [api, NotificationHolder] = notification.useNotification();
 
     const openNotification = (message, description, type = 'info') => {

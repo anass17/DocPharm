@@ -13,7 +13,7 @@ const WorkingHoursLine = ({day, data}) => {
         
         <Flex justify="space-between" style={{padding: '1rem 1rem', fontWeight: 500, borderRadius: 5, color: currentDay ? PRIMARY_BLUE : GRAY3, backgroundColor: currentDay ? LIGHT_BLUE : ''}} className="hover:bg-gray-100 transition">
             <span className="capitalize">{day}</span>
-            <span>{data[day].active ? (`${data[day].open} - ${data[day].close}`) : 'Closed'}</span>
+            <span>{data[day]?.active ? (`${data[day]?.open} - ${data[day]?.close}`) : 'Closed'}</span>
         </Flex>
         
         

@@ -4,15 +4,15 @@ import { TextField } from "@mui/material"
 import { useState } from "react"
 
 const SettingsWorkingHoursLine = ({day, data, setData}) => {
-    
-    const checked = data[day].active;
+
+    const checked = data[day]?.active;
 
     const handleStatusChange = (e) => {
         setData({
             ...data,
             [day]: {
                 ...data[day],
-                active: !data[day].active
+                active: !data[day]?.active
             }
         })
     }

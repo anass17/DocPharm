@@ -17,7 +17,7 @@ function isTimeInRange(time, start, end) {
     const endMinutes = eHours * 60 + eMinutes;
   
     return timeMinutes >= startMinutes && timeMinutes <= endMinutes;
-  }
+}
 
 const PharmacyProfileSection = () => {
 

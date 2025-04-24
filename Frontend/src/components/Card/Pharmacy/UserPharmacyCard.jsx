@@ -27,9 +27,8 @@ const customPrescriptionIcon = (
     </svg>
 )
 
-const UserPharmacyCard = ({medicine}) => {
+const UserPharmacyCard = ({pharmacy, today, timeCheck}) => {
     const [favorite, setFavorite] = React.useState(false);
-
 
     const handleFavoriteClick = () => {
         setFavorite(!favorite)
@@ -43,24 +42,41 @@ const UserPharmacyCard = ({medicine}) => {
                     component="img"
                     className='h-[170px]'
                     style={{ borderRadius: 3 }}
-                    image={backend_url + medicine.medicine_image}
+                    image={backend_url + '/storage/test/pharmacy.jpg'}
                     alt=""
                 />
                 <CardContent style={{ padding: '0.5rem 0.75rem 3rem' }}>
                     <Box style={{ marginBottom: '0.5rem' }}>
-                        <Link to={`/medicines/${medicine.id}`}>
-                            <Typography.Title level={5} style={{ margin: 0 }}>{medicine?.medicine_name || "Unknown"}</Typography.Title>
+                        <Link to={`/phamacies/${pharmacy.id}`}>
+                            <Typography.Title level={5} style={{ margin: 0 }}>{pharmacy?.pharmacy_name || "Unknown"}</Typography.Title>
                         </Link>
-                        <Typography.Text style={{ fontWeight: 500, fontSize: 13, color: PRIMARY_GREEN, display: 'flex', gap: 7, alignItems: 'center' }}>
-                            <FaClock style={{ position: 'relative', top: 0.5 }} />
-                            Open Until 17:00
-                        </Typography.Text>
+
+                        {
+                            !pharmacy.working_hours ? (
+                                <Typography.Text style={{ fontWeight: 500, fontSize: 13, color: GRAY2, display: 'flex', gap: 7, alignItems: 'center' }}>
+                                    <FaClock style={{ position: 'relative', top: 0.5 }} />
+                                    Not Specified
+                                </Typography.Text>
+                            ) : (
+                                !pharmacy.working_hours[today].active || !timeCheck(`${(new Date()).getHours()}:${(new Date()).getMinutes()}`, pharmacy.working_hours[today].open, pharmacy.working_hours[today].close) ? (
+                                    <Typography.Text style={{ fontWeight: 500, fontSize: 13, color: red[500], display: 'flex', gap: 7, alignItems: 'center' }}>
+                                        <FaClock style={{ position: 'relative', top: 0.5 }} />
+                                        Closed
+                                    </Typography.Text>
+                                ) : (
+                                    <Typography.Text style={{ fontWeight: 500, fontSize: 13, color: PRIMARY_GREEN, display: 'flex', gap: 7, alignItems: 'center' }}>
+                                        <FaClock style={{ position: 'relative', top: 0.5 }} />
+                                        Open Until {pharmacy.working_hours[today].close}
+                                    </Typography.Text>
+                                )
+                            )
+                        }
                     </Box>
                     
                     <Box>
 
                         <Typography.Paragraph ellipsis={{ rows: 2, expandable: true, symbol: 'more' }}>
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry
+                            {pharmacy.bio || "Bio Not Added"}
                         </Typography.Paragraph>
                     </Box>
 
@@ -69,12 +85,12 @@ const UserPharmacyCard = ({medicine}) => {
                     <Box>
                         <Flex align='center' gap={5}>
                             <FaMapMarkerAlt />
-                            <Typography.Text>Address, City</Typography.Text>
+                            <Typography.Text>{pharmacy.address}, {pharmacy.city}</Typography.Text>
                         </Flex>
                     </Box>
 
                     <Flex justify='right' align='center' style={{position: 'absolute', padding: '0.75rem 1rem', bottom: 0, left: 0, width: '100%' }}>
-                        <Link to={`/medicines/${medicine.id}?cart=true`}>
+                        <Link to={`/pharmacies/${pharmacy.id}`}>
                             <Button type='button' variant='contained' sx={{ fontSize: 13, bgcolor: GREEN }}>
                                 <span className='capitalize'>View Details</span>
                             </Button>
