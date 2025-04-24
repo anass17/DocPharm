@@ -2,16 +2,16 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
 import { Block } from '@mui/icons-material';
 import { Box, Button, Icon } from '@mui/material';
-import { Flex } from 'antd';
+import { Flex, Typography } from 'antd';
 import { GRAY0, GRAY2, GREEN } from '../../../config/colors';
 import { backend_url } from '../../../config/app';
 import { Link } from 'react-router-dom';
 import { HeartFilled } from '@ant-design/icons';
 import { red } from '@mui/material/colors';
+import { FaShoppingCart } from 'react-icons/fa';
 
 const customPillsIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-capsule-pill" viewBox="0 0 16 16">
@@ -36,40 +36,43 @@ const UserMedicineCard = ({medicine}) => {
     }
 
   return (
-    <Card sx={{ position: 'relative', p: 2 }}>
+    <Card sx={{ position: 'relative', p: 1 }}>
         <Box style={{ color: GRAY0, backgroundColor: '#FFF' }}>
             <Box style={{ backgroundColor: '#FFF' }}>
                 <CardMedia
                     component="img"
-                    height="170"
+                    className='h-[170px]'
                     style={{ borderRadius: 3 }}
                     image={backend_url + medicine.medicine_image}
                     alt=""
                 />
-                <CardContent style={{ padding: 0, paddingTop: 20 }}>
+                <CardContent style={{ padding: '0.5rem 0.75rem' }}>
                     <Link to={`/medicines/${medicine.id}`}>
-                        <Typography variant="h6" mb={-0.5} component="h3" marginBottom={2}>{medicine?.medicine_name || "Unknown"}</Typography>
+                        <Typography.Title level={5} style={{ marginBottom: '0.5rem' }}>{medicine?.medicine_name || "Unknown"}</Typography.Title>
                     </Link>
                     
                     <Box mb={3} height={50}>
                         <Flex gap={8} align='center' style={{ marginBottom: 5 }}>
                             {customPillsIcon}
-                            <Typography variant="body2">{medicine?.medicine_weight || "0"}{medicine?.form_unit || 'mg'} -  {medicine?.form_name || "Unknown"}</Typography>
+                            <Typography.Text>{medicine?.medicine_weight || "0"}{medicine?.form_unit || 'mg'} -  {medicine?.form_name || "Unknown"}</Typography.Text>
                         </Flex>
                         {
                             medicine?.prescription_required ? (
                                 <Flex gap={8} align='center' style={{ marginBottom: 5 }}>
                                     {customPrescriptionIcon}
-                                    <Typography variant="body2">Prescription Required</Typography>
+                                    <Typography.Text>Prescription Required</Typography.Text>
                                 </Flex>
                             ) : null
                         }
                     </Box>
 
                     <Flex justify='space-between' align='center'>
-                        <Typography variant="h6" sx={{ color: GREEN, fontWeight: 600 }}>{medicine?.medicine_price || 0} DH</Typography>
+                        <Typography.Title level={5} style={{ margin: 0, color: GREEN, fontWeight: 600 }}>{medicine?.medicine_price || 0} DH</Typography.Title>
                         <Link to={`/medicines/${medicine.id}?cart=true`}>
-                            <Button type='button' variant='contained' sx={{ bgcolor: GREEN }}>Add to Cart</Button>
+                            <Button type='button' variant='contained' sx={{ fontSize: 13, bgcolor: GREEN }}>
+                                <FaShoppingCart size={15} style={{ marginRight: 10 }} />
+                                Add to Cart
+                            </Button>
                         </Link>
                     </Flex>
 

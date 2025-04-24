@@ -35,7 +35,7 @@ const MedicineFiltersSidebar = ({filters, setFilters}) => {
                     },
                 }}
             >
-                <Box p={3} borderRadius={2} bgcolor='#FFF' maxWidth='300px' boxShadow={shadows[2]}>
+                <Box p={3} borderRadius={2} bgcolor='#FFF' boxShadow={shadows[2]}>
                     <Typography.Title level={4}>Filters</Typography.Title>
                     <div style={{ maxWidth: '420px', width: '100%' }}>
                         <Typography.Title level={5}>Search for Products</Typography.Title>

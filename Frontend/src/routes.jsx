@@ -2,15 +2,11 @@ import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-route
 import { useSelector } from 'react-redux';
 import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
-import UserMedicines from './Pages/user/UserMedicines.jsx';
-import UserBookAppointment from './Pages/user/UserBookAppointment.jsx';
-import DoctorAppointments from './Pages/Doctor/DoctorAppointments.jsx';
-import DoctorAppointmentsHistory from './Pages/Doctor/DoctorAppointmentsHistory.jsx';
-import DoctorDashboard from './Pages/Doctor/DoctorDashboard.jsx';
+
+const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
 // Authentication
 
-const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 const LoginPage = lazy(() => import('./Pages/auth/Login.jsx'));
 const RegisterPage = lazy(() => import('./Pages/auth/Register.jsx'));
 const RegisterAsDoctorPage = lazy(() => import('./Pages/auth/RegisterAsDoctor.jsx'));
@@ -19,6 +15,7 @@ const Logout = lazy(() => import('./Pages/auth/Logout.jsx'));
 const PendingMessage = lazy(() => import('./Pages/auth/PendingMessage.jsx'));
 const VerificationMessage = lazy(() => import('./Pages/auth/VerificationMessage.jsx'));
 
+// Pharmacy
 
 const PharmacyDashboard = lazy(() => import('./Pages/pharmacy/PharmacyDashboard.jsx'));
 const PharmacyInventory = lazy(() => import('./Pages/pharmacy/PharmacyInventory.jsx'));
@@ -28,11 +25,22 @@ const PharmacyOrdersHistory = lazy(() => import('./Pages/pharmacy/PharmacyOrders
 const PharmacyProfile = lazy(() => import('./Pages/pharmacy/PharmacyProfile.jsx'));
 const PharmacySettings = lazy(() => import('./Pages/pharmacy/PharmacySettings.jsx'));
 
+// Client
+
 const UserMedicine = lazy(() => import('./Pages/user/UserMedicine.jsx'));
 const UserPaymentSuccess = lazy(() => import('./Pages/user/UserPaymentSuccess.jsx'));
+const UserMedicines = lazy(() => import('./Pages/user/UserMedicines.jsx'));
+const UserBookAppointment = lazy(() => import('./Pages/user/UserBookAppointment.jsx'));
+const UserPharmacyListing = lazy(() => import('./Pages/user/UserPharmaciesListing.jsx'));
+
+// Doctor
 
 const DoctorProfile = lazy(() => import('./Pages/Doctor/DoctorProfile.jsx'));
 const DoctorSettings = lazy(() => import('./Pages/Doctor/DoctorSettings.jsx'));
+const DoctorAppointments = lazy(() => import('./Pages/Doctor/DoctorAppointments.jsx'));
+const DoctorAppointmentsHistory = lazy(() => import('./Pages/Doctor/DoctorAppointmentsHistory.jsx'));
+const DoctorDashboard = lazy(() => import('./Pages/Doctor/DoctorDashboard.jsx'));
+
 
 // Errors
 
@@ -148,6 +156,7 @@ const RoutesList = () => {
             {/* User Routes */}
 
             <Route path="/medicines" element={<UserMedicines />} />
+            <Route path="/pharmacies" element={<UserPharmacyListing />} />
             <Route path="/medicines/:id" element={<UserMedicine />} />
             <Route path="/doctors/:id" element={<UserBookAppointment />} />
             <Route path="/payment_success" element={<UserPaymentSuccess />} />
