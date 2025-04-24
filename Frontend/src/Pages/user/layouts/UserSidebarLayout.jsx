@@ -14,7 +14,7 @@ function UserSidebarLayout({filters, setFilters, Sidebar, children, title, sorti
                     <Col xs={6}>
                         <Sidebar filters={filters} setFilters={setFilters} />
                     </Col>
-                    <Col xs={17}>
+                    <Col xs={18}>
                         <div style={{ padding: "0.5rem 0", flex: 1 }}>
                             <Flex justify='space-between' align='center' style={{ marginBottom: '45px' }}>
                                 <Title level={1} style={{ marginBottom: 0 }}>{title}</Title>

@@ -1,6 +1,6 @@
 import PharmacyListingSection from "./sections/PharmacyListingSection";
 import UserSidebarLayout from "./layouts/UserSidebarLayout";
-import MedicineFiltersSidebar from "../../components/Sidebar/MedicineFiltersSidebar";
+import PharmacyFiltersSidebar from "../../components/Sidebar/PharmacyFiltersSidebar";
 import { useState } from "react";
 
 export default function UserPharmacyListing() {
@@ -9,7 +9,7 @@ export default function UserPharmacyListing() {
 
     return (
         <>
-            <UserSidebarLayout filters={filters} setFilters={setFilters} Sidebar={MedicineFiltersSidebar} title={"All Medicines"} sorting={sorting} setSorting={setSorting}>
+            <UserSidebarLayout filters={filters} setFilters={setFilters} Sidebar={PharmacyFiltersSidebar} title={"All Medicines"} sorting={sorting} setSorting={setSorting}>
                 <PharmacyListingSection sorting={sorting} filters={filters} />
             </UserSidebarLayout>
         </>
