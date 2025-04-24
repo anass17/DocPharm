@@ -9,7 +9,7 @@ export default function UserMedicines() {
 
     return (
         <>
-            <UserSidebarLayout filters={filters} setFilters={setFilters} Sidebar={MedicineFiltersSidebar} title={"All Medicines"} sorting={sorting} setSorting={setSorting}>
+            <UserSidebarLayout filters={filters} setFilters={setFilters} Sidebar={MedicineFiltersSidebar} title={"All Medicines"} sorting={sorting} setSorting={setSorting} sortOptions={['Recent', 'Alphabitically', 'Price']}>
                 <UserMedicinesSection sorting={sorting} filters={filters} />
             </UserSidebarLayout>
         </>

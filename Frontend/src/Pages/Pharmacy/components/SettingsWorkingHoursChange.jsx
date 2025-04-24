@@ -41,7 +41,7 @@ const initialWorkingHours = {
         open: '',
         close: ''
     },
-    sanday: {
+    sunday: {
         active: false,
         open: '',
         close: ''

@@ -8,7 +8,7 @@ function LoadingOverlay() {
     return (
         <>
             <div style={{ position: 'absolute', top: 0, left: 0, zIndex: 1500, backgroundColor: LIGHT_BLUE, display: 'flex', gap: 20, justifyContent: 'center', alignItems: 'center', flexDirection: 'column', width: '100%', minHeight: '100vh'}}>
-                <span class="loader"></span>
+                <span className="loader"></span>
             </div>
         </>
     )

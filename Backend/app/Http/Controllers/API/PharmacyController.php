@@ -20,34 +20,29 @@ class PharmacyController extends Controller {
             $page = $request->page;
         }
 
-        // if ($request->sort == "price") {
-        //     $sort_by = 'medicine_price';
-        // } else if ($request->sort == "alphabitically") {
-        //     $sort_by = 'medicine_name';
-        //     $dir = 'asc';
-        // } else if ($request->sort == "availability") {
-        //     $sort_by = 'medicine_quantity';
-        // }
-
         $pharmacies = Pharmacy::where('role', 'pharmacy');
 
         if ($request->search) {
             $pharmacies = $pharmacies->where("pharmacy_name", "ILIKE", "%{$request->search}%");
         }
 
-        // if ($request->min) {
-        //     $pharmacies = $pharmacies->where('medicine_price', '>', $request->min);
-        // }
-
-        // if ($request->max) {
-        //     $pharmacies = $pharmacies->where('medicine_price', '<', $request->max);
-        // }
-        // if ($request->prescription) {
-        //     $pharmacies = $pharmacies->whereIn('prescription_required', explode(',', $request->prescription));
-        // }
-        // if ($request->forms) {
-        //     $pharmacies = $pharmacies->whereIn('medicine_form', explode(',', $request->forms));
-        // }
+        if ($request->city) {
+            $pharmacies = $pharmacies->where('city', $request->city);
+        }
+        if ($request->status) {
+            $params = explode(',', $request->status);
+            $pharmacies = $pharmacies->where(function ($query) use ($params) {
+                if (in_array('not_specified', $params)) {
+                    $query->orWhereNull('working_hours');
+                }
+                if (in_array('open', $params)) {
+                    $query->orWhereRaw("working_hours->'" . strtolower(now()->format('l')) . "'->>'active' = 'true'");
+                }
+                if (in_array('closed', $params)) {
+                    $query->orWhereRaw("working_hours->'" . strtolower(now()->format('l')) . "'->>'active' = 'false'");
+                }
+            });
+        }
        
         $pharmacies = $pharmacies->orderBy($sort_by, $dir)
         ->paginate(9, ['*'], 'page', $page);

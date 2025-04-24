@@ -50,8 +50,8 @@ const PharmacyListingSection = ({sorting, filters}) => {
         try {
 
             const response = await fetch(`${backend_url}/api/pharmacies?page=${page}
+                    &search=${filters.filter_search || ''}&city=${filters.filter_city || ''}&status=${filters.filter_status ? filters.filter_status.join(',') : ''}
                 `, {
-                    // &sort=${sorting}&search=${filters.filter_search || ''}&min=${filters.filter_price_min || ''}&max=${filters.filter_price_max || ''}&prescription=${filters.filter_prescription ? filters.filter_prescription.join(',') : ''}&forms=${filters.filter_forms ? filters.filter_forms.join(',') : ''}
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -63,8 +63,8 @@ const PharmacyListingSection = ({sorting, filters}) => {
                 info('You are not authorized to view this data');
             } else if (response.status === 200) {
                 setPharmacies(responseData.pharmacies.data);
-                // setTotal(responseData.pharmacies.total)
-                // setItemsPerPage(responseData.pharmacies.per_page)
+                setTotal(responseData.pharmacies.total)
+                setItemsPerPage(responseData.pharmacies.per_page)
             } else {
                 info('Something went wrong! Could not load this data');
             }

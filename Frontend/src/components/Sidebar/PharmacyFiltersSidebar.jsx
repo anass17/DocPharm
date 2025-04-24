@@ -21,7 +21,15 @@ const PharmacyFiltersSidebar = ({filters, setFilters}) => {
         }
     }
 
+    const handleCityChange = (value) => {
+        unsavedFilters = {
+            ...unsavedFilters,
+                filter_city: value
+        }
+    }
+
     const handleSubmit = () => {
+        console.log(unsavedFilters)
         setFilters(unsavedFilters)
     }
 
@@ -44,7 +52,7 @@ const PharmacyFiltersSidebar = ({filters, setFilters}) => {
                     <Divider />
                     <Typography.Title level={5}>City</Typography.Title>
                         <Select 
-                            // onChange={handleChange}
+                            onChange={handleCityChange}
                             name="filter_city"
                             defaultValue={''}
                             size='large'
@@ -54,7 +62,6 @@ const PharmacyFiltersSidebar = ({filters, setFilters}) => {
                                 { label: "Agadir", value: "Agadir" },
                                 { label: "Al Hoceima", value: "Al Hoceima" },
                                 { label: "Azilal", value: "Azilal" },
-                                { label: "Berkane", value: "Berkane" },
                                 { label: "Benslimane", value: "Benslimane" },
                                 { label: "Beni Mellal", value: "Beni Mellal" },
                                 { label: "Berkane", value: "Berkane" },
@@ -69,7 +76,6 @@ const PharmacyFiltersSidebar = ({filters, setFilters}) => {
                                 { label: "Figuig", value: "Figuig" },
                                 { label: "Guelmim", value: "Guelmim" },
                                 { label: "Ifrane", value: "Ifrane" },
-                                { label: "Inezgane", value: "Inezgane" },
                                 { label: "Kénitra", value: "Kénitra" },
                                 { label: "Khémisset", value: "Khémisset" },
                                 { label: "Khouribga", value: "Khouribga" },
@@ -88,25 +94,26 @@ const PharmacyFiltersSidebar = ({filters, setFilters}) => {
                                 { label: "Settat", value: "Settat" },
                                 { label: "Tanger", value: "Tanger" },
                                 { label: "Tata", value: "Tata" },
-                                { label: "Taza", value: "Taza" },
                                 { label: "Tiznit", value: "Tiznit" },
                                 { label: "Taroudant", value: "Taroudant" },
                                 { label: "Tétouan", value: "Tétouan" },
                                 { label: "Tinghir", value: "Tinghir" },
-                                { label: "Tiznit", value: "Tiznit" },
                                 { label: "Youssoufia", value: "Youssoufia" }
                             ]}
                         />
                     <Divider />
                     <Typography.Title level={5}>Status</Typography.Title>
                     <Box>
-                        <Checkbox.Group style={{ width: '100%' }} defaultValue={['1', '2']} onChange={(checkedValues) => unsavedFilters = {...unsavedFilters, filter_forms: checkedValues}}>
+                        <Checkbox.Group style={{ width: '100%' }} defaultValue={['open', 'closed', 'not_specified']} onChange={(checkedValues) => unsavedFilters = {...unsavedFilters, filter_status: checkedValues}}>
                             <Row gutter={[10, 6]}>
                                 <Col span={24}>
-                                    <Checkbox checked={true} value="1">Open</Checkbox>
+                                    <Checkbox checked={true} value="open">Open Today</Checkbox>
                                 </Col>
                                 <Col span={24}>
-                                    <Checkbox checked={true} value="2">Closed</Checkbox>
+                                    <Checkbox checked={true} value="closed">Closed Today</Checkbox>
+                                </Col>
+                                <Col span={24}>
+                                    <Checkbox checked={true} value="not_specified">Not Specified</Checkbox>
                                 </Col>
                             </Row>
                         </Checkbox.Group>

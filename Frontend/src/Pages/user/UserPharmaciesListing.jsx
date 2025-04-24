@@ -9,7 +9,7 @@ export default function UserPharmacyListing() {
 
     return (
         <>
-            <UserSidebarLayout filters={filters} setFilters={setFilters} Sidebar={PharmacyFiltersSidebar} title={"All Medicines"} sorting={sorting} setSorting={setSorting}>
+            <UserSidebarLayout filters={filters} setFilters={setFilters} Sidebar={PharmacyFiltersSidebar} title={"All Pharmacies"} sorting={sorting} setSorting={setSorting}>
                 <PharmacyListingSection sorting={sorting} filters={filters} />
             </UserSidebarLayout>
         </>
