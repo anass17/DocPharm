@@ -14,6 +14,7 @@ use App\Http\Controllers\API\OrderHistoryController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\PharmacyController;
 use App\Http\Controllers\API\PharmacyMedicineController;
+use App\Http\Controllers\API\PharmacySettingsController;
 use App\Http\Controllers\API\PrescriptionController;
 use App\Models\Client;
 use Illuminate\Http\Request;
@@ -33,9 +34,10 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])-
 
 // Update Pharmacy Details
 
-Route::middleware('auth:sanctum')->post('/pharmacy/update/security', [PharmacyController::class, 'updateSecurity']);
-Route::middleware('auth:sanctum')->put('/pharmacy/update/general', [PharmacyController::class, 'updateGeneralInfo']);
-Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [PharmacyController::class, 'updateWorkingHours']);
+Route::middleware('auth:sanctum')->get('/pharmacies', [PharmacyController::class, 'index']);
+Route::middleware('auth:sanctum')->post('/pharmacy/update/security', [PharmacySettingsController::class, 'updateSecurity']);
+Route::middleware('auth:sanctum')->put('/pharmacy/update/general', [PharmacySettingsController::class, 'updateGeneralInfo']);
+Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [PharmacySettingsController::class, 'updateWorkingHours']);
 
 // Doctor Toutes
 

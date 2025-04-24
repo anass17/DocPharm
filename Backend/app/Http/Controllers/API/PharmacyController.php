@@ -5,83 +5,54 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Pharmacy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
-class PharmacyController extends Controller
-{
+class PharmacyController extends Controller {
 
-    public function updateSecurity(Request $request)
-    {
-        $validation = Validator::make($request->all(), [
-            'pass' => 'required|string|min:8'
-        ]);
+    public function index(Request $request) {
+        $page = 1;
+        $sort_by = 'users.created_at';
+        $dir = 'desc';
 
-        if ($validation -> fails()) {
-            return response()->json(['errors' => $validation->errors()], 422);
+        if ($request->page) {
+            $page = $request->page;
         }
 
-        $pharmacy = $request->user();
+        // if ($request->sort == "price") {
+        //     $sort_by = 'medicine_price';
+        // } else if ($request->sort == "alphabitically") {
+        //     $sort_by = 'medicine_name';
+        //     $dir = 'asc';
+        // } else if ($request->sort == "availability") {
+        //     $sort_by = 'medicine_quantity';
+        // }
 
-        $pharmacy -> password = Hash::make($request->pass);
+        $pharmacies = Pharmacy::where('role', 'pharmacy');
 
-        $pharmacy -> save();
-
-        return response()->json([], 204);
-
-    }
-
-    public function updateGeneralInfo(Request $request)
-    {
-        $validation = Validator::make($request->all(), [
-            'pharmacy_name' => 'required|string',
-            'phone_number' => 'required|string|regex:/^0[567][0-9]{8}$/',
-            'bio' => 'required|string',
-            'address' => 'required|string',
-            'city' => 'required|string',
-            'facebook_url' => 'nullable|url',
-            'instagram_url' => 'nullable|url',
-            'twitter_url' => 'nullable|url',
-        ]);
-
-        if ($validation -> fails()) {
-            return response()->json(['errors' => $validation->errors()], 422);
+        if ($request->search) {
+            $pharmacies = $pharmacies->where("pharmacy_name", "ILIKE", "%{$request->search}%");
         }
 
-        $pharmacy = $request->user();
+        // if ($request->min) {
+        //     $pharmacies = $pharmacies->where('medicine_price', '>', $request->min);
+        // }
 
-        $pharmacy -> pharmacy_name = $request -> pharmacy_name;
-        $pharmacy -> phone_number = $request -> phone_number;
-        $pharmacy -> bio = $request -> bio;
-        $pharmacy -> address = $request -> address;
-        $pharmacy -> city = $request -> city;
-        $pharmacy -> facebook_url = $request -> facebook_url;
-        $pharmacy -> instagram_url = $request -> instagram_url;
-        $pharmacy -> twitter_url = $request -> twitter_url;
+        // if ($request->max) {
+        //     $pharmacies = $pharmacies->where('medicine_price', '<', $request->max);
+        // }
+        // if ($request->prescription) {
+        //     $pharmacies = $pharmacies->whereIn('prescription_required', explode(',', $request->prescription));
+        // }
+        // if ($request->forms) {
+        //     $pharmacies = $pharmacies->whereIn('medicine_form', explode(',', $request->forms));
+        // }
+       
+        $pharmacies = $pharmacies->orderBy($sort_by, $dir)
+        ->paginate(9, ['*'], 'page', $page);
 
-        $pharmacy -> save();
-
-        return response()->json([], 204);
-
+        return response()->json(['pharmacies' => $pharmacies]);
     }
-
-    public function updateWorkingHours(Request $request)
-    {
-        $validation = Validator::make($request->all(), [
-            'hours' => 'required|array',
-        ]);
-
-        if ($validation -> fails()) {
-            return response()->json(['errors' => $validation->errors()], 422);
-        }
-
-        $pharmacy = $request->user();
-
-        $pharmacy -> working_hours = $request -> hours;
-
-        $pharmacy -> save();
-
-        return response()->json([], 204);
-
-    }
+    
 }
