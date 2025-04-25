@@ -3,22 +3,24 @@ import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import AppointmentPicker from "../components/AppointmentPicker";
-import { FaDotCircle, FaEllipsisH, FaSearch } from "react-icons/fa";
+import { FaDotCircle, FaEllipsisH, FaMapMarkerAlt, FaSearch } from "react-icons/fa";
 import { Box, InputLabel, MenuItem } from "@mui/material";
 import { DarkGreenButton } from "../../../components/Button/FilledButtons";
-import { GRAY3, PRIMARY_BLUE, PRIMARY_GREEN } from "../../../config/colors";
+import { GRAY2, GRAY3, PRIMARY_BLUE, PRIMARY_GREEN } from "../../../config/colors";
 import { LoadingOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs'
 import AppointmentDrawer from "../../../components/Drawer/Appointment/AppointmentDrawer";
+import { Link } from "react-router-dom";
+import UserAppointmentDrawer from "../../../components/Drawer/Appointment/UserAppointmentDrawer";
 
 const { Title, Text } = Typography
 
-const AppointmentsSection = () => {
+const AppointmentsListingSection = () => {
 
     const [appointmentLoading, setAppointmentLoading] = useState(false);
     const [appointments, setAppointments] = useState([]);
     const [api, NotificationHolder] = notification.useNotification();
-    const [date, setDate] = useState(null)
+    const [status, setStatus] = useState('')
     const [search, setSearch] = useState('')
     const [type, setType] = useState('')
     const [drawerOpen, setDrawerOpen] = useState(true);
@@ -38,25 +40,6 @@ const AppointmentsSection = () => {
 
     // Event Handler
 
-    const handleDateChange = (_, date) => {
-        setDate(date)
-    }
-
-    const handleSelectionClear = () => {
-        setDate(null)
-        setSearch('')
-        setType('')
-    }
-
-    const handleTypeSelect = (value) => {
-        setType(value)
-    }
-
-    const handleAppointmentRejected = () => {
-        setAppointments(appointments.filter(item => item.id != openAppointment.id))
-        setDrawerOpen(false);
-    }
-
     // Fetch API
 
     const getAppointments = async () => {
@@ -65,7 +48,7 @@ const AppointmentsSection = () => {
 
         try {
 
-            const response = await fetch(`${backend_url}/api/doctor/appointments?date=${date}&type=${type}&search=${search}`, {
+            const response = await fetch(`${backend_url}/api/appointments?status=${status}&type=${type}&search=${search}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
@@ -92,64 +75,70 @@ const AppointmentsSection = () => {
 
     useEffect(() => {
         getAppointments()
-    }, [date, type, search]);
+    }, [status, type, search]);
     
 
     return (
         <>
             {NotificationHolder}
-            <Row gutter={[30, 30]}>
-                <Col xs={24} xl={12}>
-                    <AppointmentPicker onDateChange={handleDateChange} />
+
+            <Row gutter={[6, 20]} style={{ marginBottom: 16 }}>
+                <Col span={12}>
+                    <Title level={5}>Search for appointments</Title>
+                    <Input size="large" onChange={(e) => setSearch(e.target.value)} placeholder="Search for ..." prefix={<FaSearch style={{ marginRight: 7 }} />} />
                 </Col>
-                <Col xs={24} xl={12}>
-                    <Row gutter={[12, 20]} style={{marginBottom: 20}}>
-                        <Col xs={24} md={12} xl={24}>
-                            <Box>
-                                <InputLabel>Find By Search</InputLabel>
-                                <Input size="large" value={search} placeholder="Search for appointments ..." prefix={<FaSearch style={{ marginRight: 10 }} />} onChange={(e) => setSearch(e.target.value)} />
-                            </Box>
-                        </Col>
-                        <Col xs={24} md={12} xl={24}>
-                            <Box>
-                                <InputLabel>Find By Appointment Type</InputLabel>
-                                <Select
-                                    placeholder="Appointment Type"
-                                    size="large"
-                                    style={{ width: '100%' }}
-                                    value={type}
-                                    options={
-                                        [
-                                            {value: '', label: 'Both'},
-                                            {value: 'online', label: 'Online'},
-                                            {value: 'in_person', label: 'In-Person'},
-                                        ]
-                                    }
-                                    onChange={handleTypeSelect}
-                                />
-                            </Box>
-                        </Col>
-                    </Row>
-                    <DarkGreenButton style={{ width: '100%' }} onClick={handleSelectionClear}>
-                        Clear Selection
-                    </DarkGreenButton>
+                <Col span={6}>
+                    <Title level={5}>Select Type</Title>
+                    <Select 
+                        size="large"
+                        style={{ width: '100%' }}
+                        value={type}
+                        onChange={(value) => setType(value)}
+                        options={[
+                            {label: 'Any', value: ''},
+                            {label: 'In-Person', value: 'in_person'},
+                            {label: 'Online', value: 'online'},
+                        ]}
+                    />
+                </Col>
+                <Col span={6}>
+                    <Title level={5}>Select Status</Title>
+                    <Select 
+                        size="large"
+                        style={{ width: '100%' }}
+                        value={status}
+                        onChange={(value) => setStatus(value)}
+                        options={[
+                            {label: 'Any', value: ''},
+                            {label: 'Upcoming', value: 'active'},
+                            {label: 'Rejected', value: 'rejected'},
+                            {label: 'Completed', value: 'closed'}
+                        ]}
+                    />
                 </Col>
             </Row>
+
             <Divider />
-            
+
             <Box style={{ backgroundColor: '#FFF', boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.15)', marginBottom: 10, padding: '1rem 0.75rem', borderRadius: 5, fontWeight: 500 }}>
                 <Row gutter={16}>
                     <Col xs={24} md={0} style={{textAlign: 'center' }}>
                         Appointments
                     </Col>
-                    <Col xs={0} md={12}>
+                    <Col xs={0} md={8}>
                         Client
                     </Col>
-                    <Col xs={0} md={5}>
+                    <Col xs={0} md={4}>
                         Type
                     </Col>
-                    <Col xs={0} md={7}>
+                    <Col xs={0} md={4}>
+                        Status
+                    </Col>
+                    <Col xs={0} md={4}>
                         Date
+                    </Col>
+                    <Col xs={0} md={4}>
+                        Prescription
                     </Col>
                 </Row>
             </Box>
@@ -169,21 +158,46 @@ const AppointmentsSection = () => {
                                 return (
                                     <Box key={index} overflow={'hidden'}>
                                         <Row gutter={[16, 20]} style={{ padding: '1rem 0.75rem', alignItems: 'center' }} className="hover:bg-gray-200 transition cursor-pointer" onClick={() => {setDrawerOpen(true); setOpenAppointment(item)}}>
-                                            <Col xs={12} md={12}>
+                                            <Col xs={12} md={8}>
                                                 <Flex align="center" gap={20}>
                                                     <img width={50} src="http://localhost:8000/storage/profile/fake.png" />
                                                     <Box>
-                                                        <Title level={5} style={{ marginBottom: -1 }}>{item.client.first_name} {item.client.last_name}</Title>
-                                                        <Text style={{ color: GRAY3, fontSize: 13}}>{item.client.email}</Text>
+                                                        <Title level={5} style={{ marginBottom: -1 }}>{item.doctor.first_name} {item.doctor.last_name}</Title>
+                                                        <Text style={{ color: GRAY3, fontSize: 13, display: 'flex', gap: 5}}>
+                                                            <FaMapMarkerAlt style={{ position: 'relative', top: 4 }} />
+                                                            {item.doctor.address}, {item.doctor.city}
+                                                        </Text>
                                                     </Box>
                                                 </Flex>
                                             </Col>
-                                            <Col xs={12} md={5} className="text-right md:text-left">
+                                            <Col xs={12} md={4} className="text-right md:text-left">
                                                 <Tag color={item.appointment_type == 'online' ? PRIMARY_GREEN : PRIMARY_BLUE} className="capitalize">{item.appointment_type.replace('_', '-')}</Tag>
                                             </Col>
-                                            <Col xs={12} md={7}>
+                                            <Col xs={12} md={4} className="md:text-left">
+                                                {
+                                                    item.appointment_status == 'active' ? (
+                                                        <span style={{color: PRIMARY_GREEN}} className="capitalize">Upcoming</span>
+                                                    ) : (
+                                                        <span style={{color: GRAY2}} className="capitalize">Completed</span>
+                                                    )
+                                                }
+                                            </Col>
+                                            <Col xs={12} md={4}>
                                                 <Title level={5} style={{ margin: 0 }}>{dayjs(item.appointment_date).format('MMMM D, YYYY')}</Title>
                                                 <Text style={{ color: GRAY3, fontSize: 13 }}>{dayjs(item.appointment_date).format('HH:mm')}</Text>
+                                            </Col>
+                                            <Col xs={12} md={4} className="md:text-left">
+                                                {
+                                                    item.appointment_prescription ? (
+                                                        <Link to={`/prescriptions/${item.appointment_prescription}`}>
+                                                            View
+                                                        </Link>
+                                                    ): (
+                                                        <span>N/A</span>
+                                                    )
+                                                    
+                                                    }
+                                                    
                                             </Col>
                                         </Row>
                                         <Divider style={{ margin: 0 }}/>
@@ -195,9 +209,9 @@ const AppointmentsSection = () => {
                 }
             </Box>
 
-            <AppointmentDrawer appointment={openAppointment} open={drawerOpen} setOpen={setDrawerOpen} onUpdate={handleAppointmentRejected} />
+            <UserAppointmentDrawer appointment={openAppointment} open={drawerOpen} setOpen={setDrawerOpen} />
         </>
     )
 }
 
-export default AppointmentsSection;
+export default AppointmentsListingSection;

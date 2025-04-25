@@ -17,6 +17,7 @@ use App\Http\Controllers\API\PharmacyController;
 use App\Http\Controllers\API\PharmacyMedicineController;
 use App\Http\Controllers\API\PharmacySettingsController;
 use App\Http\Controllers\API\PrescriptionController;
+use App\Http\Controllers\API\UserAppointmentController;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -77,7 +78,8 @@ Route::post('/create-appointment-checkout-session', [PaymentController::class, '
 
 Route::middleware('auth:sanctum')->get('/appointments/availability', [AppointmentAvailabilityController::class, 'index']);
 Route::middleware('auth:sanctum')->get('appointments/history', [AppointmentHistoryController::class, 'index']);
-Route::middleware('auth:sanctum')->resource('appointments', AppointmentController::class);
+Route::middleware('auth:sanctum')->resource('doctor/appointments', AppointmentController::class)->only(['index', 'update']);
+Route::middleware('auth:sanctum')->resource('appointments', UserAppointmentController::class)->only(['index', 'store']);
 
 // Prescriptions
 

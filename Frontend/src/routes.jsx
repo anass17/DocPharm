@@ -4,6 +4,7 @@ import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
 import UserDoctorsListing from './Pages/user/UserDoctorsListing.jsx';
 import UserPharmacyView from './Pages/user/UserPharmacyView.jsx';
+import UserAppointmentsListing from './Pages/user/UserAppointmentsListing.jsx';
 
 const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
@@ -164,6 +165,7 @@ const RoutesList = () => {
             <Route path="/medicines/:id" element={<UserMedicine />} />
             <Route path="/doctors/:id" element={<UserBookAppointment />} />
             <Route path="/payment_success" element={<UserPaymentSuccess />} />
+            <Route path="/client/appointments" element={<UserAppointmentsListing />} />
 
 
             {/* Doctor Routes */}

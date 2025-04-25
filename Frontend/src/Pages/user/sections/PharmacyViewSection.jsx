@@ -106,7 +106,7 @@ const PharmacyViewSection = () => {
                                     </Typography.Text>
                                 ) : (
                                     <Typography.Text style={{ display: 'block', color: GREEN2, fontSize: 14, fontWeight: 500 }}>
-                                        Open Now
+                                        Open Until {pharmacy.working_hours[currentDay].close}
                                     </Typography.Text>
                                 )
                             )

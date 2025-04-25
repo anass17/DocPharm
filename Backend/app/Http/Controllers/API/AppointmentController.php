@@ -40,48 +40,6 @@ class AppointmentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $validation = Validator::make($request->all(), [
-            'doctor' => 'required|integer',
-            'selectedDate' => 'required|date',
-            'selectedType' => 'required|in:online,in_person',
-            'addedDescription' => 'required|string',
-        ]);
-
-        if ($validation -> fails()) {
-            return response()->json(['errors' => $validation->errors()], 422);
-        }
-
-        $doctor = Doctor::where('role', 'doctor')->where('id', $request->doctor)->first();
-
-        if (!$doctor) {
-            return response()->json(['error' => 'Doctor Not Found'], 404);
-        }
-
-        Appointment::create([
-            'doctor_id' => $doctor->id,
-            'client_id' => $request->user()->id,
-            'appointment_date' => $request->selectedDate,
-            'appointment_type' => $request->selectedType,
-            'appointment_price' => $doctor->appointment_prices[$request->selectedType],
-            'appointment_description' => $request->addedDescription,
-        ]);
-
-        return response()->json(['message' => 'Successfully Booked'], 201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
@@ -105,13 +63,5 @@ class AppointmentController extends Controller
 
         return response()->json(['message' => 'Successfully Updated'], 204);
 
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

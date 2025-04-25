@@ -71,7 +71,7 @@ const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
 
         try {
 
-            const response = await fetch(`${backend_url}/api/appointments/${appointment.id}`, {
+            const response = await fetch(`${backend_url}/api/doctor/appointments/${appointment.id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
