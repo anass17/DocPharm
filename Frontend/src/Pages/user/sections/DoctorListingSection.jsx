@@ -7,6 +7,7 @@ import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import UserPharmacyCard from "../../../components/Card/Pharmacy/UserPharmacyCard";
 import UserDoctorCard from "../../../components/Card/Doctor/UserDoctorCard";
+import UserDoctorCardLoading from "../../../components/Card/Doctor/UserDoctorCardLoading";
 
 const { Title, Text } = Typography
 
@@ -84,19 +85,30 @@ const PharmacyListingSection = ({sorting, filters}) => {
             {contextHolder}
             <Row gutter={[10, 10]}>
                 {
-                    doctors.length === 0 ? (
-                        <Col span={24}>
-                            <p style={{ fontSize: 16, textAlign: 'center', fontWeight: 400 }}>No doctors were found</p>
-                        </Col>
-                    ) : (
-                        doctors.map((item, index) => {
+                    loading ? (
+                        Array(3).fill(0).map((_, index) => {
                             return (
-                                <Col span={8} key={'doctor-' + index}>
-                                    <UserDoctorCard doctor={item} />
+                                <Col span={8} key={index}>
+                                    <UserDoctorCardLoading />
                                 </Col>
                             )
                         })
-                    )
+                    ) : (
+                        doctors.length === 0 ? (
+                            <Col span={24}>
+                                <p style={{ fontSize: 16, textAlign: 'center', fontWeight: 400 }}>No doctors were found</p>
+                            </Col>
+                        ) : (
+                            doctors.map((item, index) => {
+                                return (
+                                    <Col span={8} key={'doctor-' + index}>
+                                        <UserDoctorCard doctor={item} />
+                                    </Col>
+                                )
+                            })
+                        )
+                    )  
+                    
                 }
                 
             </Row>
