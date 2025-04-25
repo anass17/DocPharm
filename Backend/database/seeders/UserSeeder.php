@@ -16,7 +16,6 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-                'id' => 2,
                 'first_name' => 'Aziz',
                 'last_name' => 'Malki',
                 'role' => 'pharmacy',
@@ -42,7 +41,6 @@ class UserSeeder extends Seeder
                 'twitter_url' => 'https://x.com',
             ],
             [
-                'id' => 3,
                 'first_name' => 'Samir',
                 'last_name' => 'fathi',
                 'role' => 'pharmacy',
@@ -68,7 +66,6 @@ class UserSeeder extends Seeder
                 'twitter_url' => null,
             ],
             [
-                'id' => 4,
                 'first_name' => 'Mohammed',
                 'last_name' => 'Fathi',
                 'role' => 'pharmacy',
@@ -94,7 +91,6 @@ class UserSeeder extends Seeder
                 'twitter_url' => null,
             ],
             [
-                'id' => 5,
                 'first_name' => 'Abdelmalek',
                 'last_name' => 'Labid',
                 'role' => 'client',
@@ -120,7 +116,6 @@ class UserSeeder extends Seeder
                 'twitter_url' => null,
             ],
             [
-                'id' => 6,
                 'first_name' => 'Ahmed',
                 'last_name' => 'Taoudi',
                 'role' => 'client',
@@ -144,33 +139,7 @@ class UserSeeder extends Seeder
                 'facebook_url' => 'https://facebook.com',
                 'instagram_url' => 'https://instagram.com',
                 'twitter_url' => 'https://x.com',
-            ],
-            [
-                'id' => 7,
-                'first_name' => 'Amin',
-                'last_name' => 'Ibrahim',
-                'role' => 'doctor',
-                'email' => 'amin@gmail.com',
-                'email_verified_at' => now(),
-                'password' => Hash::make('123456789'),
-                'phone_number' => '0600000001',
-                'profile_picture' => '',
-                'address' => '35 Jrifat',
-                'city' => 'Asfi',
-                'bio' => '',
-                'medical_license_number' => '1568754225',
-                'postal_code' => '45875',
-                'verification_step' => 'complete',
-                'appointment_type' => 'both',
-                'pharmacy_name' => '',
-                'speciality' => 'Cardiology',
-                'order_type' => null,
-                'personal_files_path' => '/sadasdtesrser',
-                'status' => 'active',
-                'facebook_url' => null,
-                'instagram_url' => 'https://instagram.com',
-                'twitter_url' => null,
-            ],
+            ]
         ]);
     }
 }

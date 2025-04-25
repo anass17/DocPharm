@@ -27,11 +27,11 @@ return new class extends Migration
             $table->string('medical_license_number')->nullable();
             $table->string('postal_code')->nullable();
             $table->enum('verification_step', ['complete', 'incomplete'])->default('incomplete');
-            $table->enum('appointment_type', ['in-person', 'online', 'both'])->nullable();
+            $table->enum('appointment_type', ['in_person', 'online', 'both'])->nullable();
             $table->json('appointment_prices')->nullable();
             $table->string('pharmacy_name')->nullable();
             $table->string('speciality')->nullable();
-            $table->enum('order_type', ['in-person', 'online', 'both'])->nullable();
+            $table->enum('order_type', ['in_person', 'online', 'both'])->nullable();
             $table->string('personal_files_path')->nullable();
             $table->string('building_image')->nullable();
             $table->string('facebook_url')->nullable();
