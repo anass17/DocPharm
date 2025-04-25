@@ -1,8 +1,7 @@
-import { BorderBottom } from "@mui/icons-material";
 import { Box, Button, TextField, Typography as TP } from "@mui/material";
 import { Col, Flex, notification, Row, Spin, Typography } from "antd";
 import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarker, FaMapMarkerAlt, FaPhone, FaPhoneAlt, FaTwitter } from "react-icons/fa";
-import { Link, Navigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
 import { GRAY2, GREEN, GREEN2 } from "../../../config/colors";
 import { useSelector } from "react-redux";
@@ -13,28 +12,10 @@ import AppointmentTypeSelect from "../components/ApointmentTypeSelect";
 import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from "js-cookie";
-import { loadStripe } from '@stripe/stripe-js';
 import LoadingButton from "../../../components/Button/LoadingButton";
 import { LoadingOutlined } from "@ant-design/icons";
 
-const stripePromise = loadStripe('pk_test_51RD1U4Pt1gEegd9zoFVDZP64y3tg4B4KFxYzAQnNFwpBIW90mgTKVpkvZg6RLBzHb1fMpVoeTgdyLEXukSoJ6nJ0005npVkp7m');
-
-
-function isTimeInRange(time, start, end) {
-    const [tHours, tMinutes] = time.split(':').map(Number);
-    const [sHours, sMinutes] = start.split(':').map(Number);
-    const [eHours, eMinutes] = end.split(':').map(Number);
-  
-    const timeMinutes = tHours * 60 + tMinutes;
-    const startMinutes = sHours * 60 + sMinutes;
-    const endMinutes = eHours * 60 + eMinutes;
-  
-    return timeMinutes >= startMinutes && timeMinutes <= endMinutes;
-}
-
 const BookAppointmentSection = () => {
-
-    const user = useSelector(data => data.user.user)
     const currentDay = (new Date()).toLocaleDateString('en-En', {weekday: 'long'}).toLowerCase()
 
     const [doctor, setDoctor] = useState({})
@@ -66,7 +47,7 @@ const BookAppointmentSection = () => {
     };
 
     useEffect(() => {
-        getDoctorPharmacy();
+        getDoctor();
     }, [param_id])
 
     const handleDateChange = (day, date) => {
@@ -117,7 +98,7 @@ const BookAppointmentSection = () => {
         setSelectedSlot(time)
     }
 
-    const getDoctorPharmacy = async () => {
+    const getDoctor = async () => {
         
         try {
 

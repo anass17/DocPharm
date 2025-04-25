@@ -33,7 +33,7 @@ const UserPharmacyCard = ({pharmacy, today, timeCheck}) => {
                 />
                 <CardContent style={{ padding: '0.5rem 0.75rem 3rem' }}>
                     <Box style={{ marginBottom: '0.5rem' }}>
-                        <Link to={`/phamacies/${pharmacy.id}`}>
+                        <Link to={`/pharmacies/${pharmacy.id}`}>
                             <Typography.Title level={5} style={{ margin: 0 }}>{pharmacy?.pharmacy_name || "Unknown"}</Typography.Title>
                         </Link>
 
