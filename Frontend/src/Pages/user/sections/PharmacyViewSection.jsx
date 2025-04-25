@@ -123,18 +123,22 @@ const PharmacyViewSection = () => {
                     <Box p={3} bgcolor='#FFF' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4}>Working Hours</Typography.Title>
                         {
-                            pharmacy?.working_hours ? (
-                                <>
-                                    <WorkingHoursLine day={'monday'} data={pharmacy?.working_hours} />
-                                    <WorkingHoursLine day={'tuesday'} data={pharmacy?.working_hours} />
-                                    <WorkingHoursLine day={'wednesday'} data={pharmacy?.working_hours} />
-                                    <WorkingHoursLine day={'thursday'} data={pharmacy?.working_hours} />
-                                    <WorkingHoursLine day={'friday'} data={pharmacy?.working_hours} />
-                                    <WorkingHoursLine day={'saturday'} data={pharmacy?.working_hours} />
-                                    <WorkingHoursLine day={'sunday'} data={pharmacy?.working_hours} />
-                                </>
+                            loading ? (
+                                'Loading...'
                             ) : (
-                                <TP fontSize={14}>Not Specified</TP>
+                                pharmacy?.working_hours ? (
+                                    <>
+                                        <WorkingHoursLine day={'monday'} data={pharmacy?.working_hours} />
+                                        <WorkingHoursLine day={'tuesday'} data={pharmacy?.working_hours} />
+                                        <WorkingHoursLine day={'wednesday'} data={pharmacy?.working_hours} />
+                                        <WorkingHoursLine day={'thursday'} data={pharmacy?.working_hours} />
+                                        <WorkingHoursLine day={'friday'} data={pharmacy?.working_hours} />
+                                        <WorkingHoursLine day={'saturday'} data={pharmacy?.working_hours} />
+                                        <WorkingHoursLine day={'sunday'} data={pharmacy?.working_hours} />
+                                    </>
+                                ) : (
+                                    <TP fontSize={14}>Not Specified</TP>
+                                )
                             )
                         }
                         

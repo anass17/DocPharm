@@ -4,7 +4,6 @@ import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarker, FaMapMarkerAlt, FaPho
 import { Link, useParams } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
 import { GRAY2, GREEN, GREEN2 } from "../../../config/colors";
-import { useSelector } from "react-redux";
 import AppointmentPicker from "../components/AppointmentPicker";
 import AppointmentTimePicker from "../components/AppointmentTimePicker";
 import { DarkGreenButton } from "../../../components/Button/FilledButtons";
@@ -21,6 +20,7 @@ const BookAppointmentSection = () => {
     const [doctor, setDoctor] = useState({})
     const [booked, setBooked] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [profileLoading, setProfileLoading] = useState(false)
     const [slotLoading, setSlotLoading] = useState(false)
     const [selectedDate, setSelectedDate] = useState(currentDay);
     const [selectedDay, setSelectedDay] = useState(currentDay);
@@ -99,7 +99,7 @@ const BookAppointmentSection = () => {
     }
 
     const getDoctor = async () => {
-        
+        setProfileLoading(true)
         try {
 
             const response = await fetch(`${backend_url}/api/doctors/${param_id}`, {
@@ -121,6 +121,8 @@ const BookAppointmentSection = () => {
         } catch (error) {
             console.log(error)
             openNotification('Something went wrong', 'Could not perform this action')
+        } finally {
+            setProfileLoading(false)
         }
     }
 
@@ -205,18 +207,18 @@ const BookAppointmentSection = () => {
                             <img src="http://localhost:8000/storage/profile/fake.png" width={100} className="rounded-full border-2 border-blue-500 absolute bottom-0 left-10 translate-y-1/2" />
                         </Box>
                         <Box>
-                            <Typography.Title level={2} style={{ marginBottom: 0 }}>{doctor?.first_name || 'User'} {doctor?.last_name || 'User'}</Typography.Title>
-                            <Typography.Title level={5} style={{ marginTop: 0 }}>{doctor?.speciality || 'Speciality'}</Typography.Title>
-                            <Typography.Text>{doctor?.bio || 'Has not added the bio'}</Typography.Text>
+                            <Typography.Title level={2} style={{ marginBottom: 0 }}>{profileLoading ? 'loading...' : (doctor?.first_name + ' ' + doctor?.last_name)}</Typography.Title>
+                            <Typography.Title level={5} style={{ marginTop: 0 }}>{profileLoading ? 'loading...' : doctor?.speciality || 'Speciality'}</Typography.Title>
+                            <Typography.Text>{profileLoading ? 'loading...' : (doctor?.bio || 'Has not added the bio')}</Typography.Text>
                         </Box>
                         <Row gutter={[12, 20]} style={{ marginTop: 20 }}>
                             <Col xs={24} md={12} xl={24}>
                                 <Typography.Title level={5}>Contact Us</Typography.Title>
                                 <Box>
                                     <Box sx={{ fontWeight: 500 }}>
-                                        <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaPhoneAlt color={GREEN} fontSize={15} />{doctor?.phone_number}</Typography.Text>
-                                        <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaEnvelope color={GREEN} fontSize={15} />{doctor?.email}</Typography.Text>
-                                        <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaMapMarkerAlt color={GREEN} fontSize={15} />{doctor?.address}, {doctor?.city}</Typography.Text>
+                                        <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaPhoneAlt color={GREEN} fontSize={15} />{profileLoading ? 'loading...' : doctor?.phone_number}</Typography.Text>
+                                        <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaEnvelope color={GREEN} fontSize={15} />{profileLoading ? 'loading...' : doctor?.email}</Typography.Text>
+                                        <Typography.Text style={{ display: 'flex', gap: 15, padding: '0.3rem 0', alignItems: 'center' }}><FaMapMarkerAlt color={GREEN} fontSize={15} />{profileLoading ? 'loading...' : doctor?.address}, {doctor?.city}</Typography.Text>
                                     </Box>
                                 </Box>
                             </Col>
@@ -259,18 +261,22 @@ const BookAppointmentSection = () => {
                     <Box p={3} bgcolor='#FFF' mb={2.5} boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4}>Working Hours</Typography.Title>
                         {
-                            doctor?.working_hours ? (
-                                <>
-                                    <WorkingHoursLine day={'monday'} data={doctor?.working_hours} />
-                                    <WorkingHoursLine day={'tuesday'} data={doctor?.working_hours} />
-                                    <WorkingHoursLine day={'wednesday'} data={doctor?.working_hours} />
-                                    <WorkingHoursLine day={'thursday'} data={doctor?.working_hours} />
-                                    <WorkingHoursLine day={'friday'} data={doctor?.working_hours} />
-                                    <WorkingHoursLine day={'saturday'} data={doctor?.working_hours} />
-                                    <WorkingHoursLine day={'sunday'} data={doctor?.working_hours} />
-                                </>
+                            profileLoading ? (
+                                'Loading...'
                             ) : (
-                                <TP fontSize={14}>Not Specified</TP>
+                                doctor?.working_hours ? (
+                                    <>
+                                        <WorkingHoursLine day={'monday'} data={doctor?.working_hours} />
+                                        <WorkingHoursLine day={'tuesday'} data={doctor?.working_hours} />
+                                        <WorkingHoursLine day={'wednesday'} data={doctor?.working_hours} />
+                                        <WorkingHoursLine day={'thursday'} data={doctor?.working_hours} />
+                                        <WorkingHoursLine day={'friday'} data={doctor?.working_hours} />
+                                        <WorkingHoursLine day={'saturday'} data={doctor?.working_hours} />
+                                        <WorkingHoursLine day={'sunday'} data={doctor?.working_hours} />
+                                    </>
+                                ) : (
+                                    <TP fontSize={14}>Not Specified</TP>
+                                )
                             )
                         }
                         
