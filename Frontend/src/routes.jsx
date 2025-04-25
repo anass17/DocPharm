@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-route
 import { useSelector } from 'react-redux';
 import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
+import UserDoctorsListing from './Pages/user/UserDoctorsListing.jsx';
 
 const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
@@ -157,6 +158,7 @@ const RoutesList = () => {
 
             <Route path="/medicines" element={<UserMedicines />} />
             <Route path="/pharmacies" element={<UserPharmacyListing />} />
+            <Route path="/doctors" element={<UserDoctorsListing />} />
             <Route path="/medicines/:id" element={<UserMedicine />} />
             <Route path="/doctors/:id" element={<UserBookAppointment />} />
             <Route path="/payment_success" element={<UserPaymentSuccess />} />

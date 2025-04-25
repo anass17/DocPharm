@@ -8,6 +8,7 @@ use App\Http\Controllers\API\CartController;
 use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DoctorController;
 use App\Http\Controllers\API\DoctorDashboardController;
+use App\Http\Controllers\API\DoctorSettingsController;
 use App\Http\Controllers\API\MedicineController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\OrderHistoryController;
@@ -38,21 +39,22 @@ Route::middleware('auth:sanctum')->get('/pharmacies', [PharmacyController::class
 Route::middleware('auth:sanctum')->post('/pharmacy/update/security', [PharmacySettingsController::class, 'updateSecurity']);
 Route::middleware('auth:sanctum')->put('/pharmacy/update/general', [PharmacySettingsController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [PharmacySettingsController::class, 'updateWorkingHours']);
+Route::middleware('auth:sanctum')->get('/pharmacy/dashboard', [DashboardController::class, 'pharmacy']);
 
 // Doctor Toutes
 
-Route::middleware('auth:sanctum')->post('/doctor/update/security', [DoctorController::class, 'updateSecurity']);
-Route::middleware('auth:sanctum')->put('/doctor/update/general', [DoctorController::class, 'updateGeneralInfo']);
-Route::middleware('auth:sanctum')->put('/doctor/update/working_hours', [DoctorController::class, 'updateWorkingHours']);
-Route::middleware('auth:sanctum')->put('/doctor/update/reservation', [DoctorController::class, 'updateReservationDetails']);
+Route::middleware('auth:sanctum')->get('/doctors', [DoctorController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/doctors/{id}', [DoctorController::class, 'show']);
+Route::middleware('auth:sanctum')->post('/doctor/update/security', [DoctorSettingsController::class, 'updateSecurity']);
+Route::middleware('auth:sanctum')->put('/doctor/update/general', [DoctorSettingsController::class, 'updateGeneralInfo']);
+Route::middleware('auth:sanctum')->put('/doctor/update/working_hours', [DoctorSettingsController::class, 'updateWorkingHours']);
+Route::middleware('auth:sanctum')->put('/doctor/update/reservation', [DoctorSettingsController::class, 'updateReservationDetails']);
 Route::middleware('auth:sanctum')->get('/doctor/dashboard', [DoctorDashboardController::class, 'index']);
 
 // Medicines
 
 Route::middleware('auth:sanctum')->resource('medicines', MedicineController::class);
 Route::middleware('auth:sanctum')->get('/pharmacy/medicines', [PharmacyMedicineController::class, 'index']);
-Route::middleware('auth:sanctum')->get('/pharmacy/dashboard', [DashboardController::class, 'pharmacy']);
 Route::middleware('auth:sanctum')->get('/medicine/options', function () {
     $forms = DB::table('medicine_forms')->get();
     $uses = DB::table('medicine_uses')->get();
