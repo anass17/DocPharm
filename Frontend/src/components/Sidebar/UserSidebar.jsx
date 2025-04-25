@@ -9,8 +9,7 @@ import { Box, useMediaQuery } from '@mui/material';
 const links = {
   '13': 'dashboard',
   '15': 'appointments',
-  '16': 'prescriptions',
-  '17': 'orders',
+  '16': 'orders',
   '18': 'profile',
   '19': 'settings',
 }
@@ -26,19 +25,11 @@ const items = [
   },
   {
     key: 'grp2',
-    label: 'Appointments',
+    label: 'My Services',
     type: 'group',
     children: [
       { key: '15', label: 'Appointments', icon: <FaCalendar /> },
-      { key: '16', label: 'Prescriptions', icon: <FaPrescription />},
-    ],
-  },
-  {
-    key: 'grp13',
-    label: 'Orders',
-    type: 'group',
-    children: [
-      { key: '17', label: 'Orders List', icon: <FaBoxOpen /> },
+      { key: '16', label: 'Orders', icon: <FaPrescription />},
     ],
   },
   {
