@@ -36,6 +36,7 @@ Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verifyEmail'])-
 // Update Pharmacy Details
 
 Route::middleware('auth:sanctum')->get('/pharmacies', [PharmacyController::class, 'index']);
+Route::middleware('auth:sanctum')->get('/pharmacies/{id}', [PharmacyController::class, 'show']);
 Route::middleware('auth:sanctum')->post('/pharmacy/update/security', [PharmacySettingsController::class, 'updateSecurity']);
 Route::middleware('auth:sanctum')->put('/pharmacy/update/general', [PharmacySettingsController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [PharmacySettingsController::class, 'updateWorkingHours']);

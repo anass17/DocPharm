@@ -5,9 +5,6 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Pharmacy;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 
 class PharmacyController extends Controller {
 
@@ -48,6 +45,18 @@ class PharmacyController extends Controller {
         ->paginate(9, ['*'], 'page', $page);
 
         return response()->json(['pharmacies' => $pharmacies]);
+    }
+
+    // Get Pharmacy Details
+
+    public function show($id) {
+        $pharmacy = Pharmacy::where('role', 'pharmacy')->where('id', $id)->first();
+        
+        if (!$pharmacy) {
+            return response()->json(['message' => 'Not Found'], 404);
+        }
+        
+        return response()->json(['pharmacy' => $pharmacy]);
     }
     
 }
