@@ -100,10 +100,17 @@ const UserAppointmentDrawer = ({appointment, open, setOpen}) => {
 
                 <Box sx={{ mt: 4 }}>
                     {
-                        appointment.appointment_prescription ? (
-                            <Button>View Prescription</Button>
+                        appointment.appointment_status !== 'rejected' ? (
+                            appointment.appointment_prescription ? (
+                                <Button>View Prescription</Button>
+                            ) : (
+                                <span>Prescription Not Available Yet</span>
+                            )
                         ) : (
-                            <span>Prescription Not Available Yet</span>
+                            <>
+                                <Typography.Title level={5}>Rejection Note</Typography.Title>
+                                <Text style={{ margin: 0 }}>{appointment.appointment_rejection_note}</Text>
+                            </>
                         )
                     }
                 </Box>

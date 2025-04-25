@@ -12,6 +12,7 @@ import dayjs from 'dayjs'
 import AppointmentDrawer from "../../../components/Drawer/Appointment/AppointmentDrawer";
 import { Link } from "react-router-dom";
 import UserAppointmentDrawer from "../../../components/Drawer/Appointment/UserAppointmentDrawer";
+import { red } from "@mui/material/colors";
 
 const { Title, Text } = Typography
 
@@ -178,7 +179,11 @@ const AppointmentsListingSection = () => {
                                                     item.appointment_status == 'active' ? (
                                                         <span style={{color: PRIMARY_GREEN}} className="capitalize">Upcoming</span>
                                                     ) : (
-                                                        <span style={{color: GRAY2}} className="capitalize">Completed</span>
+                                                        item.appointment_status == 'rejected' ? (
+                                                            <span style={{color: red[500]}} className="capitalize">Rejected</span>
+                                                        ) : (
+                                                            <span style={{color: GRAY2}} className="capitalize">Completed</span>
+                                                        )
                                                     )
                                                 }
                                             </Col>
