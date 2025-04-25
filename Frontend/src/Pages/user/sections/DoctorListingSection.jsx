@@ -50,7 +50,7 @@ const PharmacyListingSection = ({sorting, filters}) => {
         try {
 
             const response = await fetch(`${backend_url}/api/doctors?page=${page}
-                    &search=${filters.filter_search || ''}&city=${filters.filter_city || ''}&status=${filters.filter_status ? filters.filter_status.join(',') : ''}
+                    &search=${filters.filter_search || ''}&city=${filters.filter_city || ''}&appointment=${filters.filter_appointment ? filters.filter_appointment.join(',') : ''}
                 `, {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),

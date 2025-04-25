@@ -1,6 +1,6 @@
 import DoctorListingSection from "./sections/DoctorListingSection";
 import UserSidebarLayout from "./layouts/UserSidebarLayout";
-import PharmacyFiltersSidebar from "../../components/Sidebar/PharmacyFiltersSidebar";
+import DoctorFiltersSidebar from "../../components/Sidebar/DoctorFiltersSidebar";
 import { useState } from "react";
 
 export default function UserDoctorsListing() {
@@ -9,7 +9,7 @@ export default function UserDoctorsListing() {
 
     return (
         <>
-            <UserSidebarLayout filters={filters} setFilters={setFilters} Sidebar={PharmacyFiltersSidebar} title={"All Doctors"} sorting={sorting} setSorting={setSorting}>
+            <UserSidebarLayout filters={filters} setFilters={setFilters} Sidebar={DoctorFiltersSidebar} title={"All Doctors"} sorting={sorting} setSorting={setSorting}>
                 <DoctorListingSection sorting={sorting} filters={filters} />
             </UserSidebarLayout>
         </>

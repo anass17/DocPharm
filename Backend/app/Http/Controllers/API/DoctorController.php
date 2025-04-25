@@ -36,6 +36,22 @@ class DoctorController extends Controller {
         if ($request->speciality) {
             $doctors = $doctors->where('sepeciality', $request->speciality);
         }
+
+        if ($request->appointment) {
+            $params = explode(',', $request->appointment);
+            $doctors = $doctors->where(function ($query) use ($params) {
+                
+                $query->orWhere('appointment_type', 'both');
+
+                if (in_array('online', $params)) {
+                    $query->orWhere('appointment_type', 'online');
+                }
+                
+                if (in_array('in_person', $params)) {
+                    $query->orWhere('appointment_type', 'in_person');
+                }
+            });
+        }
        
         $doctors = $doctors->orderBy($sort_by, $dir)
         ->paginate(9, ['*'], 'page', $page);

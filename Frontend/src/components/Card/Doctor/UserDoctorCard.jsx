@@ -57,7 +57,20 @@ const UserDoctorCard = ({doctor}) => {
                     <Box>
                         <Flex align='center' gap={5}>
                             <FaClock />
-                            <Typography.Text>In-Person Appointments</Typography.Text>
+                            <Typography.Text>
+                                {
+                                    doctor.appointment_type === 'online' ? (
+                                        'Online '
+                                    ) : (
+                                        doctor.appointment_type === 'in_person' ? (
+                                            'In-Person '
+                                        ) : (
+                                            'In-Person & Online '
+                                        )
+                                    )
+                                }
+                                Appointments
+                            </Typography.Text>
                         </Flex>
                     </Box>
 
