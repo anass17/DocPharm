@@ -1,11 +1,12 @@
 import { BorderBottom } from "@mui/icons-material";
 import { Box, Typography as TP } from "@mui/material";
-import { Col, Flex, Row, Typography } from "antd";
+import { Col, Flex, Image, Row, Typography } from "antd";
 import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarker, FaMapMarkerAlt, FaPhone, FaPhoneAlt, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
 import { GRAY2, GREEN, GREEN2 } from "../../../config/colors";
 import { useSelector } from "react-redux";
+import { backend_url } from "../../../config/app";
 
 function isTimeInRange(time, start, end) {
     const [tHours, tMinutes] = time.split(':').map(Number);
@@ -27,8 +28,14 @@ const PharmacyProfileSection = () => {
 
     return (
         <>
-            <Box height={400} borderRadius={2} overflow='hidden' mb={4} sx={{ display: 'flex', alignItems: 'flex-end', backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: 'url("http://localhost:8000/storage/test/pharmacy.jpg")' }}>
-                <Box sx={{ bgcolor: 'rgba(0, 0, 0, .7)', width: '100%', py: 2, px: 3 }}>
+            <Box height={400} borderRadius={2} overflow='hidden' mb={4} sx={{ position: 'relative'}}>
+                <Image
+                    width={'100%'}
+                    height={'100%'}
+                    className="object-cover"
+                    src={`${backend_url}${user?.building_image ? user.building_image : '/storage/horizontal_image_placeholder.png'}`}
+                />
+                <Box sx={{ position: 'absolute', bottom: 0, left: 0,  bgcolor: 'rgba(0, 0, 0, .7)', width: '100%', py: 2, px: 3 }}>
                     <Typography.Text style={{ color: '#FFF', fontWeight: 500, fontSize: 20}}>{user?.pharmacy_name}</Typography.Text>
                     
                         {

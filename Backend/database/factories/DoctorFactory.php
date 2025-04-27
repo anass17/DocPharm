@@ -53,7 +53,7 @@ class DoctorFactory extends Factory
             'facebook_url' => $this->faker->optional()->url,
             'instagram_url' => $this->faker->optional()->url,
             'twitter_url' => $this->faker->optional()->url,
-            'working_hours' => json_encode([
+            'working_hours' => [
                 'monday' => $this->generateWorkingDay(),
                 'tuesday' => $this->generateWorkingDay(),
                 'wednesday' => $this->generateWorkingDay(),
@@ -61,7 +61,7 @@ class DoctorFactory extends Factory
                 'friday' => $this->generateWorkingDay(),
                 'saturday' => $this->generateWorkingDay(true),
                 'sunday' => $this->generateWorkingDay(true),
-            ]),
+            ],
             'status' => $this->faker->randomElement(['pending', 'active', 'banned']),
             'created_at' => now(),
             'updated_at' => now(),
