@@ -25,7 +25,7 @@ class ClientFactory extends Factory
             'email_verified_at' => $this->faker->optional()->dateTime(),
             'password' => bcrypt('123456789'),
             'phone_number' => $this->faker->optional()->phoneNumber,
-            'profile_picture' => $this->faker->randomElement(['/storage/profile/image_' . $this->faker->optional()->numberBetween(2, 7) . '.jpg', '']),
+            'profile_picture' => $this->faker->randomElement(['/storage/profile/image_' . $this->faker->numberBetween(2, 7) . '.jpg', '']),
             'address' => $this->faker->optional()->address,
             'city' => $this->faker->optional()->city,
             'bio' => $this->faker->optional()->sentence,

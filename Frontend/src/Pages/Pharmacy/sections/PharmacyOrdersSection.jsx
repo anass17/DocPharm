@@ -1,4 +1,4 @@
-import { Button, Col, ConfigProvider, Divider, message, Row, Typography } from "antd";
+import { Button, Col, ConfigProvider, Divider, Flex, message, Row, Typography } from "antd";
 import Icon from "@ant-design/icons";
 import { GRAY2, GRAY4, GREEN, GREEN5 } from "../../../config/colors";
 import { Box, Skeleton } from "@mui/material";
@@ -141,7 +141,7 @@ const PharmacyOrdersSection = () => {
             <Row gutter={[16, 16]}>
                 {   
                     loading ?
-                    Array(6).fill(0).map((item, index) => {
+                    Array(6).fill(0).map((_, index) => {
                         return (
                             <Col span={8} key={index}>
                                 <Box sx={{ backgroundColor: '#FFF', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', height: 280, p: 3, borderRadius: 2, display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
@@ -193,8 +193,10 @@ const PharmacyOrdersSection = () => {
                             )
                         ) : 
                         (
-                            <Col span={24} style={{ textAlign: 'center', marginTop: 20 }}>
-                                <FaBan fontSize={40} fill="#444"/>
+                            <Col span={24} style={{ textAlign: 'center', marginTop: 20}}>
+                                <Flex justify="center" style={{ marginBottom: 20 }}>
+                                    <FaBan fontSize={40} fill="#444"/>
+                                </Flex>
                                 {
                                     type === 'pending' ? (
                                         <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>

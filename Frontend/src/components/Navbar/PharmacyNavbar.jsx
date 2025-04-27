@@ -5,55 +5,44 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 
 import Avatar from '@mui/material/Avatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
 import {Tooltip as TLP} from 'antd'
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 
-import { ShoppingCartOutlined, HeartFilled, HomeFilled } from '@ant-design/icons';
-import { FaHome, FaHeart, FaShoppingCart, FaArrowDown, FaUserCircle, FaBell, FaBoxes, FaCheckCircle, FaUser } from "react-icons/fa";
-import CartDrawer from '../Drawer/CartDrawer.jsx';
+import { FaHome, FaBoxes, FaCheckCircle, FaUser } from "react-icons/fa";
 
 
 import * as colors from '../../config/colors.js';
 import { Link } from 'react-router-dom';
-import { Icon } from '@mui/material';
 
-import { DownOutlined } from '@ant-design/icons';
-import { Badge, Dropdown, Space } from 'antd';
+import { Badge } from 'antd';
+import { backend_url } from '../../config/app.js';
 import { useSelector } from 'react-redux';
 
 function PharmacyNavbar() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [drawerOpen, setDrawerOpen] = useState(false)
-  const cart = useSelector(data => data.cart.cart)
+  const user = useSelector(data => data.user.user)
 
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-    let bgColor;
-    let textColor;
-
-    bgColor = '#FFF';
-    textColor = colors.GRAY0
-
 
   return (
-    <AppBar position="static" sx={{backgroundColor: bgColor, color: textColor, top: 0, left: 0, py: 1, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)'}}>
+    <AppBar position="static" sx={{backgroundColor: '#FFF', color: colors.GRAY0, top: 0, left: 0, py: 1, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
@@ -117,7 +106,7 @@ function PharmacyNavbar() {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
-                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                <Avatar sx={{ width: 40, height: 40 }} src={`${backend_url}${user?.profile_picture ? user.profile_picture : '/storage/user_placeholder.jpg'}`} />
               </IconButton>
             </Tooltip>
           </Box>
@@ -190,7 +179,6 @@ function PharmacyNavbar() {
           
         </Toolbar>
       </Container>
-      <CartDrawer open={drawerOpen} setOpen={setDrawerOpen} />
     </AppBar>
   );
 }
