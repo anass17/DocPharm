@@ -1,7 +1,4 @@
-import { Button, Col, ConfigProvider, Flex, message, Row, Spin, Typography } from "antd";
-import StatisticBlock from "../../../components/Statistics/StatisticBlock";
-import { ClockCircleOutlined, DollarOutlined, DownloadOutlined, LoadingOutlined, MenuOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
-import { defaultShadow } from "../../../config/shadow";
+import { Col, ConfigProvider, Flex, message, Row, Spin, Typography } from "antd";
 import { GRAY2, GRAY4, GREEN, GREEN5, LIGHT_BLUE, PRIMARY_BLUE } from "../../../config/colors";
 import SearchInput from "../../../components/Form/SearchInput";
 import MedicineCard from "../../../components/Card/Medicine/MedicineCard";
@@ -10,7 +7,7 @@ import { Pagination } from 'antd';
 import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
-import UpdateMedicineModal from "../../../components/Modal/Medicine/UpdateMedicineModal";
+import MedicineCardLoading from "../../../components/Card/Medicine/MedicineCardLoading";
 
 const { Title, Text } = Typography
 
@@ -110,12 +107,6 @@ const InventorySection = () => {
                 <div style={{ maxWidth: '420px', width: '100%' }}>
                     <SearchInput onchange={handleChange} model={'Medicines'} />
                 </div>
-                    
-                {
-                    loading ? (
-                        <Spin indicator={<LoadingOutlined spin />} size="large" />
-                    ) : null
-                }
 
                 <Flex gap={8}>
                     <FormControl sx={{ width: '200px' }} size="small">
@@ -140,13 +131,29 @@ const InventorySection = () => {
             </Flex>
             <Row gutter={[20, 20]}>
                 {
-                    medicines.map((item, index) => {
-                        return (
-                            <Col span={8} key={"medicine-" + index}>
-                                <MedicineCard medicine={item} handleUpdateMedicine={handleUpdateMedicine} />
+                    loading ? (
+                        Array(6).fill('').map((_, index) => {
+                            return (
+                                <Col span={8} key={index}>
+                                    <MedicineCardLoading />
+                                </Col>
+                            )
+                        })
+                    ) : (
+                        medicines.length === 0 ? (
+                            <Col span={24}>
+                                <Title level={5} style={{ textAlign: 'center', padding: '2rem 0 0.5rem' }}>You don't have any medicines</Title>
                             </Col>
+                        ) : (
+                            medicines.map((item, index) => {
+                                return (
+                                    <Col span={8} key={"medicine-" + index}>
+                                        <MedicineCard medicine={item} handleUpdateMedicine={handleUpdateMedicine} />
+                                    </Col>
+                                )
+                            })
                         )
-                    })
+                    )
                 }
             </Row>
 

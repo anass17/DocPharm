@@ -41,8 +41,9 @@ const MedicineCard = ({medicine, handleUpdateMedicine}) => {
                 <CardActionArea disableRipple>
                     <CardMedia
                         component="img"
-                        height="200"
-                        image={backend_url + medicine.medicine_image}
+                        // height="200"
+                        className='h-[200px]'
+                        image={medicine.medicine_image ? (backend_url + medicine.medicine_image) : (backend_url + '/storage/placeholder.jpg')}
                         alt=""
                     />
                     <CardContent>
