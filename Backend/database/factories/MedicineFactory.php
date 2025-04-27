@@ -20,13 +20,13 @@ class MedicineFactory extends Factory
     public function definition(): array
     {
         return [
-            'medicine_name' => $this->faker->word(),
+            'medicine_name' => $this->faker->regexify('[A-Z][a-z]{' . rand(6, 15) . '}'),
             'medicine_description' => $this->faker->paragraph(),
             'medicine_price' => $this->faker->randomFloat(2, 5, 200),
             'medicine_weight' => $this->faker->numberBetween(50, 500),
             'prescription_required' => $this->faker->boolean(),
             'usage_instructions' => $this->faker->sentence(),
-            'medicine_image' => '/storage/medicines/' . $this->faker->image(storage_path('app/public/medicines'), 640, 480, null, true),
+            'medicine_image' => $this->faker->randomElement(['/storage/medicines/image_' . $this->faker->numberBetween(1,15) . '.jpg', '']),
             'medicine_form' => $this->faker->numberBetween(1, 4),
         ];
     }
