@@ -111,7 +111,7 @@ function UserNavbar() {
               </TLP>
 
             </Box>
-            <Tooltip title="Account settings">
+            <Tooltip title={user.first_name + ' ' + user.last_name}>
               <IconButton
                 onClick={handleClick}
                 size="small"

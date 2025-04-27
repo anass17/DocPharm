@@ -20,6 +20,10 @@ const UserPharmacyCard = ({pharmacy, today, timeCheck}) => {
         setFavorite(!favorite)
     }
 
+    if (!pharmacy) {
+        return
+    }
+
   return (
     <Card sx={{ position: 'relative', p: 0.5, height: '100%', position: 'relative' }}>
         <Box style={{ color: GRAY0, backgroundColor: '#FFF' }}>
@@ -28,13 +32,13 @@ const UserPharmacyCard = ({pharmacy, today, timeCheck}) => {
                     component="img"
                     className='h-[170px]'
                     style={{ borderRadius: 3 }}
-                    image={backend_url + '/storage/test/pharmacy.jpg'}
+                    image={backend_url + (pharmacy.building_image ? pharmacy.building_image : '/storage/placeholder.jpg')}
                     alt=""
                 />
                 <CardContent style={{ padding: '0.5rem 0.75rem 3rem' }}>
                     <Box style={{ marginBottom: '0.5rem' }}>
                         <Link to={`/pharmacies/${pharmacy.id}`}>
-                            <Typography.Title level={5} style={{ margin: 0 }}>{pharmacy?.pharmacy_name || "Unknown"}</Typography.Title>
+                            <Typography.Title level={5} style={{ margin: 0 }}>{pharmacy.pharmacy_name || "Unknown"}</Typography.Title>
                         </Link>
 
                         {

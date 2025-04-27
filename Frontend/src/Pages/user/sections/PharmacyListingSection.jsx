@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import UserPharmacyCard from "../../../components/Card/Pharmacy/UserPharmacyCard";
+import MedicineCardLoading from "../../../components/Card/Medicine/MedicineCardLoading";
 
 const { Title, Text } = Typography
 
@@ -85,13 +86,23 @@ const PharmacyListingSection = ({sorting, filters}) => {
             {contextHolder}
             <Row gutter={[10, 10]}>
                 {
-                    pharmacies.map((item, index) => {
-                        return (
-                            <Col span={8} key={'medicine-' + index}>
-                                <UserPharmacyCard pharmacy={item} today={currentDayName} timeCheck={isTimeInRange} />
-                            </Col>
-                        )
-                    })
+                    loading ? (
+                        Array(6).fill('').map((_, index) => {
+                            return (
+                                <Col span={8} key={'medicine-' + index}>
+                                    <MedicineCardLoading />
+                                </Col>
+                            )
+                        })
+                    ) : (
+                        pharmacies.map((item, index) => {
+                            return (
+                                <Col span={8} key={'medicine-' + index}>
+                                    <UserPharmacyCard pharmacy={item} today={currentDayName} timeCheck={isTimeInRange} />
+                                </Col>
+                            )
+                        })
+                    )
                 }
                 
             </Row>
