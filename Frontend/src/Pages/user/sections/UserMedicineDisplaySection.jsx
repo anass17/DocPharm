@@ -169,7 +169,7 @@ const UserMedicineDisplaySection = () => {
                     <Flex gap={6}>
                         {
                             cart?.filter(item => item.medicine_id == param_id).length > 0 ?
-                            <Button style={{ flex: 1, backgroundColor: GRAY4, border: 'none', height: 40, color: GRAY2 }} onClick={() => setOpen(true)} icon={<FaCheck />}>Added To cart</Button> :
+                            <Button style={{ flex: 1, backgroundColor: grey[300], border: 'none', height: 40, color: GRAY2 }} onClick={() => setOpen(true)} icon={<FaCheck />}>Added To cart</Button> :
                             <Button style={{ flex: 1, backgroundColor: GREEN, borderColor: GREEN, height: 40, color: '#FFF' }} onClick={() => setOpen(true)} icon={<FaShoppingCart />}>Add To Cart</Button>
                         }
                         <Button style={{ width: 40, height: 40, padding: 0 }}><FaRegHeart /></Button>

@@ -74,10 +74,10 @@ const CartDrawer = ({open, setOpen}) => {
                 (
                     <>
                         <Row gutter={[16, 20]} style={{fontWeight: 500}}>
-                            <Col span={12}>Medicine Details</Col>
+                            <Col span={10}>Medicine Details</Col>
                             <Col span={6} style={{textAlign: 'center'}}>Quantity</Col>
-                            <Col span={3} style={{textAlign: 'center'}}>Unit Price</Col>
-                            <Col span={3} style={{textAlign: 'center'}}>Total</Col>
+                            <Col span={4} style={{textAlign: 'center'}}>Unit Price</Col>
+                            <Col span={4} style={{textAlign: 'center'}}>Total</Col>
                         </Row>
                         <Divider />
                         {
@@ -97,12 +97,12 @@ const CartDrawer = ({open, setOpen}) => {
                                     Checkout
                                 </Button>
                             </Col>
-                            <Col span={3}></Col>
-                            <Col span={8} style={{ display: 'flex', gap: 2, textAlign: 'center', justifyContent: 'center' }}>
+                            <Col span={2}></Col>
+                            <Col span={6} style={{ display: 'flex', gap: 2, textAlign: 'center', justifyContent: 'center' }}>
                                 <h3>{cart.length > 1 ? `${cart.length} Items`: '1 Item'}</h3>
                             </Col>
-                            <Col span={2}></Col>
-                            <Col span={3} style={{textAlign: 'center', fontSize: 18, fontWeight: 500}}>{calculateGrandTotal()} DH</Col>
+                            <Col span={4}></Col>
+                            <Col span={4} style={{textAlign: 'center', fontSize: 18, fontWeight: 500}}>{calculateGrandTotal()} DH</Col>
                         </Row>
                     </>
                     

@@ -126,7 +126,7 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                     {
                         id: data.pharmacy,
                         medicine_id: medicine.id,
-                        medicine: {medicine_name: medicine.medicine_name},
+                        medicine: {medicine_name: medicine.medicine_name, medicine_image: medicine.medicine_image},
                         pivot: {medicine_id: data.pharmacy, order_quantity: data.quantity, unit_price: medicine.medicine_price}
                     }
                 ))

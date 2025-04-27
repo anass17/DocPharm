@@ -59,9 +59,9 @@ const CartMedicineItem = ({medicine, index, updateItemTotal}) => {
         <>
             {contextHolder}
             <Row style={{alignItems: 'center', marginBottom: 20}}>
-                <Col span={12}>
+                <Col span={10}>
                     <Flex gap={20} align='center'>
-                        <div style={{ width: 100, height: 80, borderRadius: 5, backgroundImage: 'url("http://localhost:8000/storage/medicines/fake_image.jpg")', backgroundPosition: 'center', backgroundSize: 'cover' }}>
+                        <div style={{ width: 100, height: 80, borderRadius: 5, backgroundImage: `url("${backend_url}${medicine?.medicine?.medicine_image ? medicine.medicine.medicine_image : '/storage/placeholder.jpg'}")`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
                         </div>
                         <div>
                             <h3 style={{marginBottom: 7}}>{medicine?.medicine?.medicine_name}</h3>
@@ -74,8 +74,8 @@ const CartMedicineItem = ({medicine, index, updateItemTotal}) => {
                     <TextField value={quantity} size={'small'} sx={{ width: 50 }} />
                     <Button style={{border: 'none', fontSize: 20, width: 40}} onClick={() => setQuantity(quantity + 1)}>+</Button>
                 </Col>
-                <Col span={3} style={{textAlign: 'center', fontSize: 16, fontWeight: 500}}>{unitPrice.toFixed(2)} DH</Col>
-                <Col span={3} style={{textAlign: 'center', fontSize: 16, fontWeight: 500}}>{(quantity * unitPrice).toFixed(2)} DH</Col>
+                <Col span={4} style={{textAlign: 'center', fontSize: 16, fontWeight: 500}}>{unitPrice.toFixed(2)} DH</Col>
+                <Col span={4} style={{textAlign: 'center', fontSize: 16, fontWeight: 500}}>{(quantity * unitPrice).toFixed(2)} DH</Col>
             </Row>
         </>
     )
