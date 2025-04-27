@@ -32,9 +32,14 @@ const InventorySection = () => {
     let controller = new AbortController();
 
     const handleUpdateMedicine = (id, quantity, visibility) => {
-        console.log(id, quantity, visibility)
         setMedicines(
             medicines.map((item) => item.id === id ? {...item, medicine_quantity: quantity, visibility: visibility} : item)
+        )
+    }
+
+    const handleDeleteMedicine = (id) => {
+        setMedicines(
+            medicines.filter((item) => item.id !== id)
         )
     }
 
@@ -146,7 +151,7 @@ const InventorySection = () => {
                             medicines.map((item, index) => {
                                 return (
                                     <Col span={8} key={"medicine-" + index}>
-                                        <MedicineCard medicine={item} handleUpdateMedicine={handleUpdateMedicine} />
+                                        <MedicineCard medicine={item} onUpdateMedicine={handleUpdateMedicine} onDeleteMedicine={handleDeleteMedicine} />
                                     </Col>
                                 )
                             })

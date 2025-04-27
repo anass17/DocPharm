@@ -55,8 +55,8 @@ Route::middleware('auth:sanctum')->get('/doctor/dashboard', [DoctorDashboardCont
 
 // Medicines
 
-Route::middleware('auth:sanctum')->resource('medicines', MedicineController::class);
-Route::middleware('auth:sanctum')->get('/pharmacy/medicines', [PharmacyMedicineController::class, 'index']);
+Route::middleware('auth:sanctum')->resource('medicines', MedicineController::class)->only(['index']);
+Route::middleware('auth:sanctum')->resource('/pharmacy/medicines', PharmacyMedicineController::class)->only(['index', 'update', 'destroy']);
 Route::middleware('auth:sanctum')->get('/medicine/options', function () {
     $forms = DB::table('medicine_forms')->get();
     $uses = DB::table('medicine_uses')->get();

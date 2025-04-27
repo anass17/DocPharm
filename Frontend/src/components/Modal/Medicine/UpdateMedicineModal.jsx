@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Col, message, Modal, Row, Typography } from 'antd';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import FileUploadInput from '../../Form/FileUploadInput';
 import { GRAY2, GRAY4, GREEN } from '../../../config/colors';
-import MultiSelect from '../../Form/MultiSelect';
 import { red } from '@mui/material/colors';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
@@ -44,7 +42,7 @@ const UpdateMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
     async function sendMedicineUpdate() {
     
         try {
-            const response = await fetch(`${backend_url}/api/medicines/${medicine.medicine_id}`, {
+            const response = await fetch(`${backend_url}/api/pharmacy/medicines/${medicine.medicine_id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),

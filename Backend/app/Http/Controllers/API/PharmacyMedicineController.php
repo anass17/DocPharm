@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\OrderMedicine;
+use App\Models\PharmacyMedicine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class PharmacyMedicineController extends Controller
 {
@@ -44,4 +47,59 @@ class PharmacyMedicineController extends Controller
 
         return response()->json(['medicines' => $medicines]);
     }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $validation = Validator::make($request->all(), [
+            'new_quantity' => 'required|integer',
+            'new_visibility' => 'required|bool'
+        ]);
+
+        if ($validation -> fails()) {
+            return response()->json(['errors' => $validation->errors()], 422);
+        }
+        
+        $medicine = PharmacyMedicine::where('medicine_id', '=', $id)->where('pharmacy_id', '=', $request->user() -> id)->first();
+        
+        if (!$medicine) {
+            return response()->json(['errors' => ['Medicine not found']], 422);
+        }
+
+        if ($medicine->medicine_quantity + $request->new_quantity < 0) {
+            return response()->json(['errors' => ['The total quantity should not be negative']], 422);
+        }
+
+        $medicine -> medicine_quantity += $request->new_quantity;
+        $medicine -> visibility = $request->new_visibility;
+
+        $medicine->save();
+
+        return response()->json(['message' => 'Medicine Updated Successfully']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(Request $request, string $id) {
+        
+        $medicine = PharmacyMedicine::where('medicine_id', '=', $id)->where('pharmacy_id', '=', $request->user() -> id)->first();
+
+        if (!$medicine) {
+            return response()->json(['errors' => ['Medicine was not found']], 404);
+        }
+
+        $related_orders = OrderMedicine::where('medicine_id', $medicine->id)->first();
+
+        if ($related_orders) {
+            return response()->json(['errors' => ['Could not delete medicine due to previously placed orders']], 422);
+        }
+
+        $medicine->delete();
+
+        return response()->json(['message' => 'Medicine Deleted Successfully', 'd' => $related_orders]);
+    }
+
 }

@@ -4,14 +4,13 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import CardActionArea from '@mui/material/CardActionArea';
-import { Block } from '@mui/icons-material';
 import { Box, Button, Icon } from '@mui/material';
 import { Flex } from 'antd';
 import { GRAY0, GRAY2, GREEN } from '../../../config/colors';
 import OptionsButton from '../../Button/OptionsButton';
 import { backend_url } from '../../../config/app';
 import UpdateMedicineModal from '../../Modal/Medicine/UpdateMedicineModal';
-import { EyeInvisibleOutlined } from '@ant-design/icons';
+import DeleteMedicineModal from '../../Modal/Medicine/DeleteMedicineModal';
 import { Link } from 'react-router-dom';
 import { red } from '@mui/material/colors';
 
@@ -29,11 +28,16 @@ const customPrescriptionIcon = (
     </svg>
 )
 
-const MedicineCard = ({medicine, handleUpdateMedicine}) => {
+const MedicineCard = ({medicine, onUpdateMedicine, onDeleteMedicine}) => {
     const [update, setUpdate] = React.useState(false);
+    const [del, setDel] = React.useState(false);
 
     const handleUpdate = () => {
         setUpdate(true)
+    }
+
+    const handleDelete = () => {
+        setDel(true)
     }
 
     return (
@@ -74,10 +78,12 @@ const MedicineCard = ({medicine, handleUpdateMedicine}) => {
             </Link>
 
             <Box position={'absolute'} top={10} right={10}>
-                <OptionsButton onUpdate={handleUpdate} />
+                <OptionsButton onUpdate={handleUpdate} onDelete={handleDelete}/>
             </Box>
 
-            <UpdateMedicineModal medicine={medicine} open={update} setOpen={setUpdate} handleUpdate={handleUpdateMedicine} />
+            <UpdateMedicineModal medicine={medicine} open={update} setOpen={setUpdate} handleUpdate={onUpdateMedicine} />
+
+            <DeleteMedicineModal medicine={medicine} open={del} setOpen={setDel} handleUpdate={onDeleteMedicine} />
         </Card>
     );
 }

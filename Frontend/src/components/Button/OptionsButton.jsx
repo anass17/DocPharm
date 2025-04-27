@@ -56,7 +56,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function OptionsButton({onUpdate}) {
+export default function OptionsButton({onUpdate, onDelete}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     
@@ -64,9 +64,14 @@ export default function OptionsButton({onUpdate}) {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleUpdate = (e) => {
+    const handleUpdate = () => {
         setAnchorEl(null);
         onUpdate();
+    }
+
+    const handleDelete = () => {
+        setAnchorEl(null);
+        onDelete()
     }
 
     const handleClose = () => {
@@ -101,7 +106,7 @@ export default function OptionsButton({onUpdate}) {
                     <EditIcon />
                     Update
                 </MenuItem>
-                <MenuItem onClick={handleUpdate} id={"option-delete"} disableRipple>
+                <MenuItem onClick={handleDelete} id={"option-delete"} disableRipple>
                     <DeleteIcon />
                     Delete
                 </MenuItem>
