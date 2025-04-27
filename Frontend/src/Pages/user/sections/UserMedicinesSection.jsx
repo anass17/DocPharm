@@ -1,20 +1,12 @@
-import { Button, Col, ConfigProvider, Divider, Flex, message, Row, Skeleton, Spin, Typography } from "antd";
-import StatisticBlock from "../../../components/Statistics/StatisticBlock";
-import { ClockCircleOutlined, DollarOutlined, DownloadOutlined, HeartOutlined, LoadingOutlined, MenuOutlined, PushpinFilled, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
-import { defaultShadow } from "../../../config/shadow";
-import { GRAY2, GRAY4, GREEN, GREEN5, LIGHT_BLUE } from "../../../config/colors";
-import SearchInput from "../../../components/Form/SearchInput";
-import MedicineCard from "../../../components/Card/Medicine/MedicineCard";
-import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { Col, ConfigProvider, message, Row } from "antd";
+import { GREEN, GREEN5, LIGHT_BLUE } from "../../../config/colors";
+import { Box } from "@mui/material";
 import { Pagination } from 'antd';
 import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
-import UpdateMedicineModal from "../../../components/Modal/Medicine/UpdateMedicineModal";
-import { Link, useParams } from "react-router-dom";import { Tabs } from 'antd';
 import UserMedicineCard from "../../../components/Card/Medicine/UserMedicineCard";
 
-const { Title, Text } = Typography
 
 const UserMedicinesSection = ({sorting, filters}) => {
 
@@ -24,7 +16,6 @@ const UserMedicinesSection = ({sorting, filters}) => {
     const [total, setTotal] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(1);
     const [page, setPage] = useState(1);
-    const [search, setSearch] = useState("");
     const [messageApi, contextHolder] = message.useMessage();
 
     const info = (message) => {

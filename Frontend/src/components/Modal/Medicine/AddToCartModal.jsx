@@ -175,7 +175,7 @@ const AddToCartModal = ({medicine, open, setOpen}) => {
                 }
             >
                 <Box py={2}>
-                    <Typography.Title level={4} style={{textAlign: 'center', marginBottom: 25, color: PRIMARY_BLUE}}>Testophore 400</Typography.Title>
+                    <Typography.Title level={4} style={{textAlign: 'center', marginBottom: 25, color: PRIMARY_BLUE}}>{medicine.medicine_name}</Typography.Title>
                 
                     {
                         !backendErrors ? (

@@ -43,7 +43,7 @@ const UserMedicineCard = ({medicine}) => {
                     component="img"
                     className='h-[170px]'
                     style={{ borderRadius: 3 }}
-                    image={backend_url + medicine.medicine_image}
+                    image={backend_url + (medicine.medicine_image ? medicine.medicine_image : '/storage/placeholder.jpg')}
                     alt=""
                 />
                 <CardContent style={{ padding: '0.5rem 0.75rem' }}>
@@ -81,7 +81,7 @@ const UserMedicineCard = ({medicine}) => {
                 </CardContent>
             </Box>
         </Box>
-        <Button disableRipple onClick={handleFavoriteClick} style={{ position: 'absolute', top: 20, right: 20, width: 30, height: 30, minWidth: 0, color: (favorite ? red[500] : '#FFF'), transition: 'all .3s', stroke: GRAY2 }}><HeartFilled style={{ strokeWidth: '10px', scale: 1.3 }} /></Button>
+        <Button disableRipple onClick={handleFavoriteClick} style={{ position: 'absolute', top: 12, right: 14, width: 30, height: 30, minWidth: 0, color: (favorite ? red[500] : '#FFF'), transition: 'all .3s', stroke: GRAY2 }}><HeartFilled style={{ strokeWidth: '10px', scale: 1.3 }} /></Button>
     </Card>
   );
 }
