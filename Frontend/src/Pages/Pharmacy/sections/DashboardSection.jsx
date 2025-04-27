@@ -1,7 +1,7 @@
 import { Button, Col, Flex, message, Row, Skeleton, Typography } from "antd";
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
 import { defaultShadow } from "../../../config/shadow";
-import { GREEN } from "../../../config/colors";
+import { GREEN, PRIMARY_BLUE } from "../../../config/colors";
 import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
@@ -114,7 +114,7 @@ const DashboardSection = () => {
                                             return (
                                                 <Flex key={'med-' + index} justify="space-between" style={{ marginBottom: 25 }}>
                                                     <div>
-                                                        <Title level={5} style={{ marginBottom: "0", color: GREEN }}>{item.medicine_name}</Title>
+                                                        <Link to={'/medicines/' + item.medicine_id} style={{ marginBottom: "0", color: PRIMARY_BLUE, display: 'block', fontWeight: 'bold' }}>{item.medicine_name}</Link>
                                                         <Text>{item.medicine_weight}mg</Text>
                                                     </div>
                                                     <div>
