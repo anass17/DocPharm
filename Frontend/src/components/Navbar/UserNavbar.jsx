@@ -19,7 +19,7 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 
 import { ShoppingCartOutlined, HeartFilled, HomeFilled } from '@ant-design/icons';
-import { FaHome, FaHeart, FaShoppingCart, FaArrowDown, FaUserCircle, FaBell } from "react-icons/fa";
+import { FaHome, FaHeart, FaShoppingCart, FaArrowDown, FaUserCircle, FaBell, FaPills, FaColumns, FaUserNurse, FaPlus } from "react-icons/fa";
 import CartDrawer from '../Drawer/CartDrawer.jsx';
 
 import * as colors from '../../config/colors.js';
@@ -29,11 +29,13 @@ import { Icon } from '@mui/material';
 import { DownOutlined } from '@ant-design/icons';
 import { Badge, Dropdown, Space, Tooltip as TLP } from 'antd';
 import { useSelector } from 'react-redux';
+import { backend_url } from '../../config/app.js';
 
 function UserNavbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false)
   const cart = useSelector(data => data.cart.cart)
+  const user = useSelector(data => data.user.user)
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -49,7 +51,9 @@ function UserNavbar() {
   bgColor = '#FFF';
   textColor = colors.GRAY0
 
-  
+  if (!user) {
+    return;
+  }
 
 
   return (
@@ -116,7 +120,7 @@ function UserNavbar() {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
-                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                <Avatar sx={{ width: 40, height: 40 }} src={`${backend_url}${user.profile_picture ? user.profile_picture : '/storage/user_placeholder.jpg'}`} />
               </IconButton>
             </Tooltip>
           </Box>
@@ -130,7 +134,7 @@ function UserNavbar() {
               paper: {
                 elevation: 0,
                 sx: {
-                  minWidth: 200,
+                  minWidth: 250,
                   overflow: 'visible',
                   filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
                   mt: 1.5,
@@ -158,28 +162,69 @@ function UserNavbar() {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <MenuItem onClick={handleClose}>
-              <Avatar /> Profile
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <PersonAdd fontSize="small" />
-              </ListItemIcon>
-              Dashboard
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <Settings fontSize="small" />
-              </ListItemIcon>
-              Settings
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <Logout fontSize="small" />
-              </ListItemIcon>
-              Logout
-            </MenuItem>
+            <Link to={'/profile'}>
+              <MenuItem style={{ paddingTop: 14, paddingBottom: 14 }}>
+                <Avatar src={`${backend_url}${user?.profile_picture ? user.profile_picture : '/storage/user_placeholder.jpg'}`} /> {user.first_name} {user.last_name}
+              </MenuItem>
+            </Link>
+
+            <Divider sx={{ my: 1 }} />
+            
+            <Link to={'/medicines'}>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <FaPills size={18} />
+                </ListItemIcon>
+                Medicines
+              </MenuItem>
+            </Link>
+
+            <Link to={'/doctors'}>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <FaUserNurse size={18} />
+                </ListItemIcon>
+                Doctors
+              </MenuItem>
+            </Link>
+
+            <Link to={'/pharmacies'}>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <FaPlus size={18} />
+                </ListItemIcon>
+                Pharmacies
+              </MenuItem>
+            </Link>
+
+            <Divider sx={{ my: 1 }} />
+            
+            <Link to={'/user/dashboard'}>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <FaColumns size={18} />
+                </ListItemIcon>
+                Dashboard
+              </MenuItem>
+            </Link>
+
+            <Link to={'/settings'}>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Settings fontSize="small" />
+                </ListItemIcon>
+                Settings
+              </MenuItem>
+            </Link>
+
+            <Link to={'/logout'}>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Logout fontSize="small" />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Link>
           </Menu>
           
         </Toolbar>
