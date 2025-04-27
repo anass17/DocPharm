@@ -95,7 +95,6 @@ const PharmacyMedicineDisplaySection = () => {
                         children: responseData.medicine.usage_instructions,
                     }]
                 )
-                console.log(responseData)
             } else {
                 info('Something went wrong! Could not load this data');
             }
@@ -118,12 +117,12 @@ const PharmacyMedicineDisplaySection = () => {
             {contextHolder}
             <Row gutter={[48, 40]} style={{ alignItems: 'center' }}>
                 <Col xs={24} md={12}>
-                    <Box sx={{ p: 0.5, bgcolor: '#FFF', borderRadius: '7px', minHeight: 300, display: 'flex', justifyContent: 'center', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', alignItems: 'center'}}>
+                    <Box sx={{ p: 0.5, bgcolor: '#FFF', borderRadius: '7px', minHeight: 380, display: 'flex', justifyContent: 'center', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', alignItems: 'center'}}>
                         {
                             loading ? (
                                 <Skeleton.Image active={true} style={{ height: 100, width: 100 }} />
                             ) : (
-                                <img width={'100%'} className="h-[380px] object-cover" style={{ borderRadius: '7px' }} src={`${backend_url}${medicine.medicine_image}`} />
+                                <img width={'100%'} className="h-[380px] object-cover" style={{ borderRadius: '7px' }} src={`${backend_url}${medicine.medicine_image ? medicine.medicine_image : '/storage/placeholder.jpg'}`} />
                             )
                         }
                     </Box>

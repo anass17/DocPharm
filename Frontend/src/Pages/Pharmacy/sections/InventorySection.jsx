@@ -13,7 +13,6 @@ const { Title, Text } = Typography
 
 const InventorySection = () => {
 
-    const [submit, setSubmit] = useState(false);
     const [medicines, setMedicines] = useState([]);
     const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState(0);
@@ -59,7 +58,6 @@ const InventorySection = () => {
         controller = new AbortController();
         const signal = controller.signal;
 
-        setSubmit(true);
         setLoading(true);
         
         try {
@@ -98,7 +96,7 @@ const InventorySection = () => {
                 controller.abort();
             }
         };
-    }, [submit, sorting, search])
+    }, [sorting, search])
 
     return (
         <>
@@ -129,7 +127,7 @@ const InventorySection = () => {
                     </FormControl>
                 </Flex>
             </Flex>
-            <Row gutter={[20, 20]}>
+            <Row gutter={[14, 14]}>
                 {
                     loading ? (
                         Array(6).fill('').map((_, index) => {
