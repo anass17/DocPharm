@@ -31,7 +31,6 @@ return new class extends Migration
             $table->id();
             $table->integer('order_quantity');
             $table->float('unit_price');
-            
             $table->unsignedBigInteger('order_id');
             $table->foreign('order_id')->on('orders')->references('id')->onDelete('cascade');
             $table->unsignedBigInteger('medicine_id');

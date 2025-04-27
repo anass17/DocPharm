@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
@@ -9,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 abstract class User extends Model {
 
     use HasApiTokens;
+    use HasFactory;
 
     protected $table = 'users';
 

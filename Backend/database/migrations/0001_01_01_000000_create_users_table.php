@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone_number', 15)->nullable();
+            $table->string('phone_number', 20)->nullable();
             $table->string('profile_picture')->nullable();
             $table->string('address')->nullable();
             $table->string('city')->nullable();
@@ -31,7 +31,7 @@ return new class extends Migration
             $table->json('appointment_prices')->nullable();
             $table->string('pharmacy_name')->nullable();
             $table->string('speciality')->nullable();
-            $table->enum('order_type', ['in_person', 'online', 'both'])->nullable();
+            $table->enum('order_type', ['in_person', 'both'])->nullable();
             $table->string('personal_files_path')->nullable();
             $table->string('building_image')->nullable();
             $table->string('facebook_url')->nullable();
