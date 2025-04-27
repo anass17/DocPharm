@@ -13,6 +13,7 @@ import { backend_url } from '../../../config/app';
 import UpdateMedicineModal from '../../Modal/Medicine/UpdateMedicineModal';
 import { EyeInvisibleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { red } from '@mui/material/colors';
 
 const customPillsIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-capsule-pill" viewBox="0 0 16 16">
@@ -36,8 +37,8 @@ const MedicineCard = ({medicine, handleUpdateMedicine}) => {
     }
 
     return (
-        <Card sx={{ position: 'relative' }} style={{ opacity: ( medicine.visibility ? 1 : 0.7 ) }}>
-            <Link to={`/pharmacy/medicines/${medicine.medicine_id}`} style={{ color: GRAY0, backgroundColor: '#FFF' }}>
+        <Card sx={{ position: 'relative' }}>
+            <Link to={`/pharmacy/medicines/${medicine.medicine_id}`} style={{ color: GRAY0, backgroundColor: '#FFF', filter: ( medicine.visibility ? 'none' : 'blur(3px)' ) }}>
                 <CardActionArea disableRipple>
                     <CardMedia
                         component="img"
@@ -62,7 +63,7 @@ const MedicineCard = ({medicine, handleUpdateMedicine}) => {
                         </Box>
 
                         <Flex justify='space-between' align='center'>
-                            <Typography variant="body1">{medicine?.medicine_quantity || 0} Available Unit</Typography>
+                            <Typography variant="body1" style={{ color: medicine?.medicine_quantity === 0 ? red[500] : '' }}>{medicine?.medicine_quantity || 0} Available Unit</Typography>
                             <Typography variant="h6">{medicine?.medicine_price || 0} <Typography variant='body1' display={'inline-block'}>DH</Typography></Typography>
                         </Flex>
 
