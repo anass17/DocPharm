@@ -1,6 +1,5 @@
 import { Button, Col, Flex, message, Row, Skeleton, Typography } from "antd";
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
-import { ClockCircleOutlined, DollarOutlined, ShoppingCartOutlined, UnorderedListOutlined } from "@ant-design/icons";
 import { defaultShadow } from "../../../config/shadow";
 import { GREEN } from "../../../config/colors";
 import { useEffect, useState } from "react";
@@ -8,6 +7,7 @@ import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import { formatDistanceToNow } from 'date-fns';
 import { Link } from "react-router-dom";
+import { FaBoxOpen, FaCheck, FaDollarSign, FaPills, FaShoppingCart } from "react-icons/fa";
 
 const { Title, Text } = Typography
 
@@ -15,6 +15,8 @@ const DashboardSection = () => {
 
     const [submit, setSubmit] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [medicineStatistics, setMedicineStatistics] = useState([]);
+    const [orderStatistics, setOrderStatistics] = useState([]);
     const [recentAdded, setRecentAdded] = useState([]);
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -45,6 +47,8 @@ const DashboardSection = () => {
                 info('You are not authorized to view this data');
             } else if (response.status === 200) {
                 setRecentAdded(responseData.recent_added)
+                setMedicineStatistics(responseData.medicine_statistics)
+                setOrderStatistics(responseData.order_statistics)
             } else {
                 info('Something went wrong! Could not load this data');
             }
@@ -68,22 +72,22 @@ const DashboardSection = () => {
             {contextHolder}
             <Row gutter={[16, 16]} style={{ marginBottom: 35 }}>
                 <Col span={8}>
-                    <StatisticBlock value={25} name={"Different Medicines"} component={ClockCircleOutlined} />
+                    <StatisticBlock value={loading ? 'loading...' : (medicineStatistics.total_medicines || 0)} name={"Different Medicines"} component={FaPills} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={250} name={"Medicine Unit"} component={ClockCircleOutlined} />
+                    <StatisticBlock value={loading ? 'loading...' : (medicineStatistics.medicine_units || 0)} name={"Medicine Units"} component={FaPills} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={2020} name={"Sold Unit"} component={ShoppingCartOutlined} />
+                    <StatisticBlock value={loading ? 'loading...' : (orderStatistics.sold_units || 0)} name={"Sold Units"} component={FaShoppingCart} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={25} name={"Delivered Orders"} component={ClockCircleOutlined} />
+                    <StatisticBlock value={loading ? 'loading...' : (orderStatistics.delivered_orders || 0)} name={"Delivered Orders"} component={FaBoxOpen} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={250} name={"Orders"} component={UnorderedListOutlined} />
+                    <StatisticBlock value={loading ? 'loading...' : (orderStatistics.total_orders || 0)} name={"Total Orders"} component={FaCheck} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={2020} name={"Earnings"} component={DollarOutlined} />
+                    <StatisticBlock value={loading ? 'loading...' : (orderStatistics.earnings || 0)} name={"Earnings (MAD)"} component={FaDollarSign} />
                 </Col>
             </Row>
             <Row gutter={16}>

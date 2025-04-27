@@ -5,7 +5,6 @@ use App\Http\Controllers\API\AppointmentHistoryController;
 use App\Http\Controllers\API\AppointmentController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
-use App\Http\Controllers\API\DashboardController;
 use App\Http\Controllers\API\DoctorController;
 use App\Http\Controllers\API\DoctorDashboardController;
 use App\Http\Controllers\API\DoctorSettingsController;
@@ -15,12 +14,11 @@ use App\Http\Controllers\API\OrderHistoryController;
 use App\Http\Controllers\API\PaymentController;
 use App\Http\Controllers\API\PharmacyBuildingImageController;
 use App\Http\Controllers\API\PharmacyController;
+use App\Http\Controllers\API\PharmacyDashboardController;
 use App\Http\Controllers\API\PharmacyMedicineController;
 use App\Http\Controllers\API\PharmacySettingsController;
 use App\Http\Controllers\API\PrescriptionController;
 use App\Http\Controllers\API\UserAppointmentController;
-use App\Models\Client;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -42,7 +40,7 @@ Route::middleware('auth:sanctum')->get('/pharmacies/{id}', [PharmacyController::
 Route::middleware('auth:sanctum')->post('/pharmacy/update/security', [PharmacySettingsController::class, 'updateSecurity']);
 Route::middleware('auth:sanctum')->put('/pharmacy/update/general', [PharmacySettingsController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [PharmacySettingsController::class, 'updateWorkingHours']);
-Route::middleware('auth:sanctum')->get('/pharmacy/dashboard', [DashboardController::class, 'pharmacy']);
+Route::middleware('auth:sanctum')->get('/pharmacy/dashboard', [PharmacyDashboardController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/pharmacy/building_image/upload', [PharmacyBuildingImageController::class, 'store']);
 
 // Doctor Toutes
