@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { AppstoreOutlined, ClockCircleOutlined, MailOutlined, SettingOutlined, UserAddOutlined } from '@ant-design/icons';
 import { ConfigProvider, Menu } from 'antd';
 import { GREEN, GREEN2, GREEN3, GREEN5 } from '../../config/colors';
 import AddMedicineModal from '../Modal/Medicine/AddMedicineModal';
 import { useNavigate } from 'react-router-dom';
-import { FaBookmark, FaBoxes, FaCheckCircle, FaPlusCircle } from 'react-icons/fa';
+import { FaBookmark, FaBoxes, FaClock, FaColumns, FaHeadset, FaPen, FaQuestion } from 'react-icons/fa';
 
 const links = {
   '13': 'dashboard',
@@ -19,7 +18,7 @@ const items = [
     label: '',
     type: 'group',
     children: [
-      { key: '13', label: 'Dashboard', icon: <AppstoreOutlined /> },
+      { key: '13', label: 'Dashboard', icon: <FaColumns /> },
     ],
   },
   {
@@ -27,7 +26,7 @@ const items = [
     label: 'Inventory',
     type: 'group',
     children: [
-      { key: '15', label: 'Add New Product', icon: <FaPlusCircle /> },
+      { key: '15', label: 'Add New Product', icon: <FaPen /> },
       { key: '16', label: 'My Inventory', icon: <FaBoxes />},
     ],
   },
@@ -36,7 +35,7 @@ const items = [
     label: 'Orders',
     type: 'group',
     children: [
-      { key: '18', label: 'Active Orders', icon: <ClockCircleOutlined /> },
+      { key: '18', label: 'Active Orders', icon: <FaClock /> },
       { key: '19', label: 'Orders History', icon: <FaBookmark /> },
     ],
   },
@@ -45,9 +44,8 @@ const items = [
     label: 'Help',
     type: 'group',
     children: [
-      { key: '20', label: 'Contact Us', icon: <AppstoreOutlined /> },
-      { key: '21', label: 'FAQs', icon: <AppstoreOutlined /> },
-      { key: '22', label: 'Terms & Conditions', icon: <AppstoreOutlined /> },
+      { key: '20', label: 'Contact Us', icon: <FaHeadset /> },
+      { key: '21', label: 'FAQs', icon: <FaQuestion /> },
     ],
   },
 ];
