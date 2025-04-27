@@ -22,6 +22,13 @@ export default function userReducer(state = initialState, action) {
                     ...state.user, ...action.payload
                 }
             }
+        case 'UPDATE_USER_BUILDING_IMAGE':
+            return {
+                isAuthenticated: true,
+                user: {
+                    ...state.user, building_image: action.image_url
+                }
+            }
         case 'LOGOUT_USER':
             return {
                 isAuthenticated: false,

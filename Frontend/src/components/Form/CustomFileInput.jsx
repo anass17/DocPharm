@@ -31,7 +31,11 @@ var __awaiter =
   };
 import React, { useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { Flex, Image, Upload } from 'antd';
+import { Flex, Image, notification, Upload } from 'antd';
+import { backend_url } from '../../config/app';
+import Cookies from 'js-cookie'
+import { updateUserbuidingImage } from '../../store/actions/userActions';
+import { useDispatch } from 'react-redux';
 
 const getBase64 = file =>
   new Promise((resolve, reject) => {
@@ -41,7 +45,7 @@ const getBase64 = file =>
     reader.onerror = error => reject(error);
 });
 
-const CustomFileInput = ({url = '', name='image.png'}) => {
+const CustomFileInput = ({request_path = '', url = '', name='image'}) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [fileList, setFileList] = useState([
@@ -52,6 +56,25 @@ const CustomFileInput = ({url = '', name='image.png'}) => {
             url: url,
         }
     ]);
+
+    const dispatch = useDispatch();
+
+    const [api, NotificationHolder] = notification.useNotification();
+    
+      const openNotification = (message, description, type = 'info') => {
+          api.open({
+              type: type,
+              message: message,
+              description: <p>{description}</p>,
+              placement: 'bottomRight',
+              duration: 5,
+              showProgress: true,
+              pauseOnHover: true,
+          });
+      };
+
+    // Event Handlers
+
     const handlePreview = file =>
         __awaiter(void 0, void 0, void 0, function* () {
         if (!file.url && !file.preview) {
@@ -60,7 +83,15 @@ const CustomFileInput = ({url = '', name='image.png'}) => {
         setPreviewImage(file.url || file.preview);
         setPreviewOpen(true);
         });
-    const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+
+    const handleChange = ({ fileList: newFileList, file }) => {
+      setFileList(newFileList)
+      if (file.status === 'done') {
+        openNotification('Success!', 'Image Successfully Updated', 'success');
+        dispatch(updateUserbuidingImage(file.response.path))
+      }
+    };
+
     const uploadButton = (
         <button style={{ border: 0, background: 'none' }} type="button">
         <PlusOutlined />
@@ -69,9 +100,15 @@ const CustomFileInput = ({url = '', name='image.png'}) => {
     );
     return (
         <>
+            {NotificationHolder}
             <Upload
-                action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+                action={`${backend_url}${request_path}`}
+                method='POST'
                 listType="picture-card"
+                headers={{
+                  'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                }}
+                name={name}
                 fileList={fileList}
                 onPreview={handlePreview}
                 onChange={handleChange}

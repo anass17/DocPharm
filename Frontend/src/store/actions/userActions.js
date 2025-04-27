@@ -19,6 +19,13 @@ export function updateUserDetails(payload) {
     }
 }
 
+export function updateUserbuidingImage(image_url) {
+    return {
+        type: 'UPDATE_USER_BUILDING_IMAGE',
+        image_url
+    }
+}
+
 export function logoutUser() {
     return {
         type: 'LOGOUT_USER'

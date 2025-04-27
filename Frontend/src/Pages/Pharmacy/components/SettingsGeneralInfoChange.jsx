@@ -4,7 +4,7 @@ import CustomFileInput from "../../../components/Form/CustomFileInput"
 import TextArea from "antd/es/input/TextArea"
 import { FaFacebook, FaInstagram, FaSave, FaTwitter } from "react-icons/fa"
 import { DarkGreenButton } from "../../../components/Button/FilledButtons"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import Cookies from 'js-cookie'
 import { backend_url } from "../../../config/app"
@@ -16,7 +16,7 @@ const SettingsGeneralInfoChange = () => {
     const user = useSelector(data => data.user.user)
     const dispatch = useDispatch();
 
-    const [generalInfoData, setGeneralInfoData] = useState({pharmacy_name: user?.pharmacy_name, phone_number: user?.phone_number, bio: user?.bio, address: user?.address, city: user?.city, facebook_url: user?.facebook_url, instagram_url: user?.instagram_url, twitter_url: user?.twitter_url})
+    const [generalInfoData, setGeneralInfoData] = useState({building_image: user?.building_image, pharmacy_name: user?.pharmacy_name, phone_number: user?.phone_number, bio: user?.bio, address: user?.address, city: user?.city, facebook_url: user?.facebook_url, instagram_url: user?.instagram_url, twitter_url: user?.twitter_url})
     const [generalInfoErrors, setGeneralInfoErrors] = useState({})
     const [loading, setLoading] = useState(false)
     const [api, NotificationHolder] = notification.useNotification();
@@ -77,15 +77,6 @@ const SettingsGeneralInfoChange = () => {
         
         try {
 
-            // const formData = new FormData()
-
-            // formData.append('pass', passwordData.pass)
-            // formData.append('pass', passwordData.pass)
-            // formData.append('pass', passwordData.pass)
-            // formData.append('pass', passwordData.pass)
-            // formData.append('pass', passwordData.pass)
-            // formData.append('pass', passwordData.pass)
-
             const response = await fetch(`${backend_url}/api/pharmacy/update/general`, {
                 method: 'PUT',
                 headers: {
@@ -110,13 +101,17 @@ const SettingsGeneralInfoChange = () => {
         }
     }
 
+    useEffect(() => {
+        setGeneralInfoData({building_image: user?.building_image, pharmacy_name: user?.pharmacy_name, phone_number: user?.phone_number, bio: user?.bio, address: user?.address, city: user?.city, facebook_url: user?.facebook_url, instagram_url: user?.instagram_url, twitter_url: user?.twitter_url})
+    }, [user])
+
     return (
         <>
             {NotificationHolder}
             <Box sx={{ bgcolor: '#FFF', borderRadius: 2, p: 2.5, mb: 5, boxShadow: '0px 1px 2px rgba(0, 0, 0, .2)' }}>
                 <Typography.Title level={4} style={{ marginBottom: 30 }}>General Information</Typography.Title>
                 <Flex justify="center">
-                    <CustomFileInput url='http://localhost:8000/storage/test/pharmacy.jpg' />
+                    <CustomFileInput name="building_image" request_path={'/api/pharmacy/building_image/upload'} url={`${backend_url}${generalInfoData.building_image ? generalInfoData.building_image : '/storage/placeholder.jpg'}`} />
                 </Flex>
                 <Row gutter={[10, 16]} style={{ margin: '1.25rem 0' }}>
                     <Col xs={24} sm={12}>

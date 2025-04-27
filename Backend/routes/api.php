@@ -13,6 +13,7 @@ use App\Http\Controllers\API\MedicineController;
 use App\Http\Controllers\API\OrderController;
 use App\Http\Controllers\API\OrderHistoryController;
 use App\Http\Controllers\API\PaymentController;
+use App\Http\Controllers\API\PharmacyBuildingImageController;
 use App\Http\Controllers\API\PharmacyController;
 use App\Http\Controllers\API\PharmacyMedicineController;
 use App\Http\Controllers\API\PharmacySettingsController;
@@ -42,6 +43,7 @@ Route::middleware('auth:sanctum')->post('/pharmacy/update/security', [PharmacySe
 Route::middleware('auth:sanctum')->put('/pharmacy/update/general', [PharmacySettingsController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [PharmacySettingsController::class, 'updateWorkingHours']);
 Route::middleware('auth:sanctum')->get('/pharmacy/dashboard', [DashboardController::class, 'pharmacy']);
+Route::middleware('auth:sanctum')->post('/pharmacy/building_image/upload', [PharmacyBuildingImageController::class, 'store']);
 
 // Doctor Toutes
 

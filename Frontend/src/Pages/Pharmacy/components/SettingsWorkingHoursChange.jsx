@@ -3,7 +3,7 @@ import { Col, notification, Row, Typography } from "antd"
 import SettingsWorkingHoursLine from "../../../components/Others/SettingsWorkingHoursLine"
 import { DarkGreenButton } from "../../../components/Button/FilledButtons"
 import { FaSave } from "react-icons/fa"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import LoadingButton from "../../../components/Button/LoadingButton"
 import { backend_url } from "../../../config/app"
 import Cookies from 'js-cookie'
@@ -106,6 +106,10 @@ const SettingsWorkingHoursChange = () => {
             setLoading(false)
         }
     }
+
+    useEffect(() => {
+        setData(user?.working_hours || initialWorkingHours)
+    }, [user])
 
     return (
         <>
