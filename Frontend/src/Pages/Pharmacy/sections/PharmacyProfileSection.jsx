@@ -57,8 +57,8 @@ const PharmacyProfileSection = () => {
                         }
                 </Box>
             </Box>
-            <Row gutter={16}>
-                <Col span={16}>
+            <Row gutter={[16, 22]}>
+                <Col xs={24} lg={16}>
                     <Box p={3} bgcolor='#FFF' mb={3} boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4} style={{ marginBottom: 20 }}>About Us</Typography.Title>
                         <TP fontSize={14}>{user?.bio || "Not added"}</TP>
@@ -84,7 +84,7 @@ const PharmacyProfileSection = () => {
                         
                     </Box>
                 </Col>
-                <Col span={8}>
+                <Col xs={24} lg={8}>
                     <Box p={3} bgcolor='#FFF' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4}>Contact Information</Typography.Title>
                         <Box sx={{ mb: 2.5, fontWeight: 500 }}>
