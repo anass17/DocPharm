@@ -116,19 +116,19 @@ const PharmacyMedicineDisplaySection = () => {
     return (
         <>
             {contextHolder}
-            <Row gutter={60} style={{ alignItems: 'center' }}>
-                <Col span={12}>
-                    <Box sx={{ p: 4, bgcolor: '#FFF', borderRadius: 3, minHeight: 300, display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+            <Row gutter={[48, 40]} style={{ alignItems: 'center' }}>
+                <Col xs={24} md={12}>
+                    <Box sx={{ p: 0.5, bgcolor: '#FFF', borderRadius: '7px', minHeight: 300, display: 'flex', justifyContent: 'center', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', alignItems: 'center'}}>
                         {
                             loading ? (
                                 <Skeleton.Image active={true} style={{ height: 100, width: 100 }} />
                             ) : (
-                                <img width={'100%'} style={{ borderRadius: 3 }} src={`${backend_url}${medicine.medicine_image}`} />
+                                <img width={'100%'} className="h-[380px] object-cover" style={{ borderRadius: '7px' }} src={`${backend_url}${medicine.medicine_image}`} />
                             )
                         }
                     </Box>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} md={12}>
                     {
                         !loading ? (
                             <>
@@ -168,7 +168,7 @@ const PharmacyMedicineDisplaySection = () => {
                     </Box>
                 </Col>
             </Row>
-            <Box sx={{ bgcolor: '#FFF', px: 3, py: 1.5, mt: 6, borderRadius: 3 }}>
+            <Box sx={{ bgcolor: '#FFF', px: 3, py: 1.5, mt: 6, borderRadius: 3, boxShadow: '0px 1px 3px rgba(0, 0, 0, .2)' }}>
                 <Tabs defaultActiveKey="1" items={details} onChange={onChange} />
             </Box>
         </>
