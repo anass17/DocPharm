@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, message, Modal, Row, Typography } from 'antd';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { GRAY2, GRAY4, GREEN } from '../../../config/colors';
-import { red } from '@mui/material/colors';
+import { grey, red } from '@mui/material/colors';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
 import { Typography as TPG } from '@mui/material';
@@ -10,6 +10,7 @@ import { Typography as TPG } from '@mui/material';
 const UpdateMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
     const [data, setData] = useState({new_quantity: 0, new_visibility: medicine.visibility});
     const [backendErrors, setBackendErrors] = useState(null)
+    const [loading, setLoading] = useState(false)
     const [messageApi, contextHolder] = message.useMessage();
 
     const info = (message, type = 'success') => {
@@ -40,7 +41,8 @@ const UpdateMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
     }
 
     async function sendMedicineUpdate() {
-    
+        setLoading(true)
+
         try {
             const response = await fetch(`${backend_url}/api/pharmacy/medicines/${medicine.medicine_id}`, {
                 method: 'PUT',
@@ -70,6 +72,8 @@ const UpdateMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
 
         } catch (error) {
             setBackendErrors(['An error occurred while processing your request.']);
+        } finally {
+            setLoading(false)
         }
     }
 
@@ -85,9 +89,15 @@ const UpdateMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
             onCancel={handleCancel}
             footer=
             {
-                <Button variant='outlined' key="next1" onClick={submitForm} sx={{ borderColor: GREEN, color: '#FFF', bgcolor: GREEN, px: 4, ml: 1 }}>
-                    Save
-                </Button>
+                loading ? (
+                    <Button loading variant='outlined' key="loading" sx={{ borderColor: grey[200], color: GRAY2, bgcolor: grey[200], px: 4, ml: 1 }}>
+                        Save
+                    </Button>
+                ) : (
+                    <Button variant='outlined' key="next1" onClick={submitForm} sx={{ borderColor: GREEN, color: '#FFF', bgcolor: GREEN, px: 4, ml: 1 }}>
+                        Save
+                    </Button>
+                )
             }
         >
             {contextHolder}
