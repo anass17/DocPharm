@@ -26,7 +26,7 @@ const UserDoctorCard = ({doctor}) => {
                 <CardContent style={{ padding: '0.5rem 0.75rem 3rem' }}>
                     <Flex gap={20} align='center'>
                         <Box>
-                            <img className='h-16' src={backend_url + '/storage/profile/fake.png'} />
+                            <img className='h-16 w-16 rounded-full' src={backend_url + (doctor.profile_picture ? doctor.profile_picture : '/storage/user_placeholder.jpg')} />
                         </Box>
                         <Box>
                             <Link to={`/doctors/${doctor.id}`}>
@@ -49,13 +49,13 @@ const UserDoctorCard = ({doctor}) => {
                     <Divider style={{ margin: '1.25rem 0' }} />
 
                     <Box style={{ marginBottom: 5 }}>
-                        <Flex align='center' gap={5}>
-                            <FaMapMarkerAlt />
+                        <Flex gap={8}>
+                            <FaMapMarkerAlt size={15} style={{ position: 'relative', top: 4 }} />
                             <Typography.Text>{doctor.address}, {doctor.city}</Typography.Text>
                         </Flex>
                     </Box>
                     <Box>
-                        <Flex align='center' gap={5}>
+                        <Flex align='center' gap={8}>
                             <FaClock />
                             <Typography.Text>
                                 {
