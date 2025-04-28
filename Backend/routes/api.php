@@ -19,6 +19,7 @@ use App\Http\Controllers\API\PharmacyMedicineController;
 use App\Http\Controllers\API\PharmacySettingsController;
 use App\Http\Controllers\API\PrescriptionController;
 use App\Http\Controllers\API\UserAppointmentController;
+use App\Http\Controllers\API\UserPharmacyMedicineController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -57,6 +58,7 @@ Route::middleware('auth:sanctum')->get('/doctor/dashboard', [DoctorDashboardCont
 
 Route::middleware('auth:sanctum')->resource('medicines', MedicineController::class)->only(['index', 'show', 'store']);
 Route::middleware('auth:sanctum')->resource('/pharmacy/medicines', PharmacyMedicineController::class)->only(['index', 'update', 'destroy']);
+Route::middleware('auth:sanctum')->resource('/pharmacies/{id}/medicines', UserPharmacyMedicineController::class)->only(['index']);
 Route::middleware('auth:sanctum')->get('/medicine/options', function () {
     $forms = DB::table('medicine_forms')->get();
     $uses = DB::table('medicine_uses')->get();
