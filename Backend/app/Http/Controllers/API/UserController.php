@@ -17,6 +17,7 @@ class UserController extends Controller
         
         $page = 1;
         $sort_dir = 'asc';
+        $status = 'active';
 
         if ($request->page) {
             $page = $request->page;
@@ -24,6 +25,10 @@ class UserController extends Controller
 
         if ($request->sort == 'newest_first') {
             $sort_dir = 'desc';
+        }
+
+        if ($request->status) {
+            $status = $request->status;
         }
 
         
@@ -35,6 +40,11 @@ class UserController extends Controller
             $users = Client::where('role', 'pharmacy');
         } else if ($request->type == 5) {
             $users = Client::where('role', 'admin');
+        } else if ($request->status == 'pending') {
+            $users = Client::where(function ($query) use ($request) {
+                $query -> where('role', 'doctor');
+                $query -> orWhere('role', 'pharmacy');
+            });
         } else {
             $users = Client::query();
         }
@@ -46,7 +56,7 @@ class UserController extends Controller
             });
         }
 
-        $users = $users -> whereNotNull('email_verified_at') -> orderBy('id', $sort_dir) -> paginate(12, ['*'], 'page', $page);
+        $users = $users -> whereNotNull('email_verified_at') -> where('status', $status) -> orderBy('id', $sort_dir) -> paginate(12, ['*'], 'page', $page);
 
 
         return response()->json(['users' => $users]);

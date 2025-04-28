@@ -7,6 +7,7 @@ import UserPharmacyView from './Pages/user/UserPharmacyView.jsx';
 import UserAppointmentsListing from './Pages/user/UserAppointmentsListing.jsx';
 import UserOrdersListing from './Pages/user/UserOrdersListing.jsx';
 import AdminUserManagement from './Pages/admin/AdminUserManagement.jsx';
+import AdminPendingUsers from './Pages/admin/AdminPendingUsers.jsx';
 
 const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
@@ -183,6 +184,7 @@ const RoutesList = () => {
             {/* Doctor Routes */}
 
             <Route path="/admin/users" element={<AdminUserManagement />} />
+            <Route path="/admin/users/pending" element={<AdminPendingUsers />} />
     
             {/* Catch-all route for undefined paths */}
             <Route path="*" element={<NotFound />} />

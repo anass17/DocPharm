@@ -71,6 +71,12 @@ const UserDisplayDetailsDrawer = ({user, open, setOpen}) => {
                     </Col>
                     <Col xs={24} sm={12}>
                         <Box>
+                            <Typography.Title level={5}>Status</Typography.Title>
+                            <TP>{user.status}</TP>
+                        </Box>
+                    </Col>
+                    <Col xs={24} sm={12}>
+                        <Box>
                             <Typography.Title level={5}>Registration Date</Typography.Title>
                             <TP>{dayjs(user.created_at).format('DD/MM/YYYY - HH:mm')}</TP>
                         </Box>

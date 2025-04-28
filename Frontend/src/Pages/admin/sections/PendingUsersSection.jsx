@@ -9,15 +9,12 @@ import { GREEN, LIGHT_BLUE } from "../../../config/colors";
 import UserDisplayDetailsDrawer from "../../../components/Drawer/Users/UserDisplayDetailsDrawer";
 import { FaSearch } from "react-icons/fa";
 import UserDisplayDetailsCardLoading from "../../../components/Card/Users/UserDisplayDetailsCardLoading";
+import { Link } from "react-router-dom";
 
   const items = [
     {
       key: '1',
       label: 'All',
-    },
-    {
-      key: '2',
-      label: 'Clients',
     },
     {
       key: '3',
@@ -27,24 +24,18 @@ import UserDisplayDetailsCardLoading from "../../../components/Card/Users/UserDi
       key: '4',
       label: 'Pharmacies',
     },
-    {
-      key: '5',
-      label: 'Admins',
-    },
   ];
 
-const UserManagementSection = () => {
+const PendingUsersSection = () => {
 
     const [type, setType] = useState('All')
     const [loading, setLoading] = useState(false)
     const [users, setUsers] = useState([])
     const [itemsPerPage, setItemsPerPage] = useState(1);
     const [page, setPage] = useState(1)
-    const [open, setOpen] = useState(false);
     const [search, setSearch] = useState('')
     const [sort, setSort] = useState('oldest_first')
     const [total, setTotal] = useState(1)
-    const [selected, setSelected] = useState(null)
     const [messageApi, contextHolder] = message.useMessage();
 
     const info = (message) => {
@@ -62,11 +53,6 @@ const UserManagementSection = () => {
 
     const handlePageChange = (page) => {
         setPage(page)
-    }
-
-    const handleUserSelect = (user) => {
-        setOpen(true);
-        setSelected(user)
     }
 
     let typingDelay = null
@@ -93,7 +79,7 @@ const UserManagementSection = () => {
         
         try {
 
-            const response = await fetch(`${backend_url}/api/users?status=active&type=${type}&page=${page}&search=${search}&sort=${sort}`, {
+            const response = await fetch(`${backend_url}/api/users?status=pending&type=${type}&page=${page}&search=${search}&sort=${sort}`, {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -162,7 +148,9 @@ const UserManagementSection = () => {
                             users.map((item, index) => {
                                 return (
                                     <Col span={8} key={'user-' + index}>
-                                        <UserDisplayDetailsCard user={item} onUserSelect={handleUserSelect} />
+                                        <Link to={`/users/pending/${item.id}`}>
+                                            <UserDisplayDetailsCard user={item} onUserSelect={() => {}} />
+                                        </Link>
                                     </Col>
                                 )
                             })
@@ -188,10 +176,9 @@ const UserManagementSection = () => {
                 </ConfigProvider>
             </Box>
 
-            <UserDisplayDetailsDrawer user={selected} open={open} setOpen={setOpen} />
         </>
 
     )
 }
 
-export default UserManagementSection;
+export default PendingUsersSection;
