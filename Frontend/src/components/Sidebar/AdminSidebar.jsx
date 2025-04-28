@@ -1,0 +1,103 @@
+import React, { useState } from 'react';
+import { ConfigProvider, Menu } from 'antd';
+import { GREEN, GREEN2, GREEN3, GREEN5 } from '../../config/colors';
+import AddMedicineModal from '../Modal/Medicine/AddMedicineModal';
+import { useNavigate } from 'react-router-dom';
+import { FaBookmark, FaBoxes, FaClock, FaColumns, FaHeadset, FaPen, FaQuestion } from 'react-icons/fa';
+
+const links = {
+  '13': 'dashboard',
+  '14': 'users/pending',
+  '15': 'users',
+  '16': 'users/banned',
+  '17': 'medicines/manage',
+  '18': 'profile',
+  '19': 'settings',
+}
+
+const items = [
+  {
+    key: 'grp1',
+    label: '',
+    type: 'group',
+    children: [
+      { key: '13', label: 'Dashboard', icon: <FaColumns /> },
+    ],
+  },
+  {
+    key: 'grp2',
+    label: 'Inventory',
+    type: 'group',
+    children: [
+      { key: '14', label: 'Pending Users', icon: <FaPen /> },
+      { key: '15', label: 'User Management', icon: <FaBoxes />},
+      { key: '16', label: 'Banned Users', icon: <FaBoxes />},
+    ],
+  },
+  {
+    key: 'grp3',
+    label: 'Services',
+    type: 'group',
+    children: [
+      { key: '17', label: 'Medicine Management', icon: <FaClock /> },
+    ],
+  },
+  {
+    key: 'grp5',
+    label: 'My Account',
+    type: 'group',
+    children: [
+      { key: '18', label: 'Profile', icon: <FaClock /> },
+      { key: '19', label: 'Settings', icon: <FaClock /> },
+    ],
+  },
+  {
+    key: 'grp4',
+    label: 'Help',
+    type: 'group',
+    children: [
+      { key: '20', label: 'Contact Us', icon: <FaHeadset /> },
+      { key: '21', label: 'FAQs', icon: <FaQuestion /> },
+    ],
+  },
+];
+
+
+const AdminSidebar = ({menuItem}) => {
+
+    let [modalOpen, setModalOpen] = useState(false);
+    let navigate = useNavigate()
+
+    const onClick = e => {
+        navigate(`/admin/${links[e.key]}`);
+    };
+
+
+    return (
+
+        <>
+
+            <AddMedicineModal open={modalOpen} setOpen={setModalOpen} />
+
+            <ConfigProvider theme={{
+                components: {
+                  Menu: {
+                    itemSelectedColor: GREEN,
+                    itemSelectedBg: GREEN5,
+                    itemBorderRadius: 5
+                  },
+                },
+            }}>
+                <Menu
+                onClick={onClick}
+                style={{ width: 320, minHeight: 'calc(100vh - 40px)', fontWeight: '500', paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
+                selectedKeys={[menuItem]}
+                mode="inline"
+                items={items}
+                />
+            </ConfigProvider>
+        </>
+
+    );
+};
+export default AdminSidebar;

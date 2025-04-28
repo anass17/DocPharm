@@ -6,6 +6,7 @@ import UserDoctorsListing from './Pages/user/UserDoctorsListing.jsx';
 import UserPharmacyView from './Pages/user/UserPharmacyView.jsx';
 import UserAppointmentsListing from './Pages/user/UserAppointmentsListing.jsx';
 import UserOrdersListing from './Pages/user/UserOrdersListing.jsx';
+import AdminUserManagement from './Pages/admin/AdminUserManagement.jsx';
 
 const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
@@ -179,6 +180,9 @@ const RoutesList = () => {
             <Route path="/doctor/appointments/history" element={<DoctorAppointmentsHistory />} />
 
 
+            {/* Doctor Routes */}
+
+            <Route path="/admin/users" element={<AdminUserManagement />} />
     
             {/* Catch-all route for undefined paths */}
             <Route path="*" element={<NotFound />} />

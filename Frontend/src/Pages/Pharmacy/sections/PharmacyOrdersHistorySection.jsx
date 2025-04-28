@@ -1,5 +1,4 @@
 import { Button, Col, ConfigProvider, Divider, Flex, message, notification, Row, Typography } from "antd";
-import Icon from "@ant-design/icons";
 import { GRAY2, GRAY4, GREEN, GREEN5, LIGHT_BLUE } from "../../../config/colors";
 import { Box, FormControl, InputAdornment, InputLabel, MenuItem, Select, Skeleton, TextField } from "@mui/material";
 import { Pagination } from 'antd';
@@ -7,16 +6,8 @@ import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import {Typography as TP} from "@mui/material";
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import CheckIcon from '@mui/icons-material/Check';
-import PendingOrderCard from "../../../components/Card/Order/PendingOrderCard";
-import AcceptedOrderCard from "../../../components/Card/Order/AcceptedOrderCard";
-import ReadyOrderCard from "../../../components/Card/Order/ReadyOrderCard";
 import React from 'react';
 import { FaArrowRight, FaBan, FaCaretRight, FaFlag, FaSearch } from "react-icons/fa";
-import ConfirmDeliveryModal from "../../../components/Modal/Order/ConfirmDeliveryModal";
-import RejectOrderModal from "../../../components/Modal/Order/RejectOrderModal";
-import SearchInput from "../../../components/Form/SearchInput";
 import HistoryOrderCard from "../../../components/Card/Order/HistoryOrderCard";
 import OrderDrawer from "../../../components/Drawer/Orders/OrderDrawer";
 
@@ -33,8 +24,6 @@ const PharmacyOrdersHistorySection = () => {
     const [total, setTotal] = useState(0);
     const [open, setOpen] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState(null);
-    const [rejectOpen, setRejectOpen] = useState(false);
-    const [openOrder, setOpenOrder] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(1);
     const [sorting, setSorting] = useState("create_date");
     const [search, setSearch] = useState("");
