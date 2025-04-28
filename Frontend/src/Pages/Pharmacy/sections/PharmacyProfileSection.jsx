@@ -35,7 +35,7 @@ const PharmacyProfileSection = () => {
                     className="object-cover"
                     src={`${backend_url}${user?.building_image ? user.building_image : '/storage/horizontal_image_placeholder.png'}`}
                 />
-                <Box sx={{ position: 'absolute', bottom: 0, left: 0,  bgcolor: 'rgba(0, 0, 0, .7)', width: '100%', py: 2, px: 3 }}>
+                <Box sx={{ position: 'absolute', bottom: 0, left: 0, bgcolor: 'rgba(0, 0, 0, .7)', width: '100%', py: 2, px: 3 }}>
                     <Typography.Text style={{ color: '#FFF', fontWeight: 500, fontSize: 20}}>{user?.pharmacy_name}</Typography.Text>
                     
                         {

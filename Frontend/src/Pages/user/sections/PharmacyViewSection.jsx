@@ -1,13 +1,15 @@
 import { BorderBottom } from "@mui/icons-material";
 import { Box, Typography as TP } from "@mui/material";
-import { Col, Flex, notification, Row, Typography } from "antd";
+import { Col, ConfigProvider, Flex, Image, notification, Pagination, Row, Typography } from "antd";
 import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarker, FaMapMarkerAlt, FaPhone, FaPhoneAlt, FaTwitter } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
-import { GRAY2, GREEN, GREEN2 } from "../../../config/colors";
+import { GRAY2, GREEN, GREEN2, LIGHT_BLUE } from "../../../config/colors";
 import { backend_url } from "../../../config/app";
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
+import MedicineCardLoading from "../../../components/Card/Medicine/MedicineCardLoading";
+import UserMedicineCard from "../../../components/Card/Medicine/UserMedicineCard";
 
 function isTimeInRange(time, start, end) {
     const [tHours, tMinutes] = time.split(':').map(Number);
@@ -27,6 +29,11 @@ const PharmacyViewSection = () => {
     
     const [pharmacy, setPharmacy] = useState({})
     const [loading, setLoading] = useState(false);
+    const [cardsLoading, setCardsLoading] = useState(false);
+    const [medicines, setMedicines] = useState([])
+    const [page, setPage] = useState(1)
+    const [itemsPerPage, setItemsPage] = useState(0)
+    const [total, setTotal] = useState(0)
 
     const {id: param_id} = useParams()
 
@@ -43,6 +50,10 @@ const PharmacyViewSection = () => {
             pauseOnHover: true,
         });
     };
+
+    const handlePageChange = (page) => {
+        setPage(page)
+    }
 
     const getPharmacy = async () => {
         setLoading(true);
@@ -73,16 +84,57 @@ const PharmacyViewSection = () => {
         }
     }
 
+    const getPharmacyMedicines = async () => {
+        setCardsLoading(true);
+
+        try {
+
+            const response = await fetch(`${backend_url}/api/pharmacies/${param_id}/medicines?page=${page}`, {
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                },
+            });
+    
+            if (response.status === 401) {
+                openNotification('Access Denied', 'You are not authorized to perform this action')
+            } else if (response.status === 404) {
+                openNotification('Not Found', 'The pharmacy you were looking for is not in our records', 'error')
+            } else if (response.status === 200 || response.status === 204) {
+                let responseData = await response.json();
+                setMedicines(responseData.medicines.data)
+                setItemsPage(responseData.medicines.per_page)
+                setTotal(responseData.medicines.total)
+            } else {
+                openNotification('Something went wrong', 'Could not perform this action')
+            }
+        } catch (error) {
+            console.log(error)
+            openNotification('Something went wrong', 'Could not perform this action')
+        } finally {
+            setCardsLoading(false)
+        }
+    }
+
     useEffect(() => {
         getPharmacy();
     }, [param_id])
+
+    useEffect(() => {
+        getPharmacyMedicines();
+    }, [page])
     
 
     return (
         <>
             {NotificationHolder}
-            <Box height={400} borderRadius={2} overflow='hidden' mb={4} sx={{ display: 'flex', alignItems: 'flex-end', backgroundPosition: 'center', backgroundSize: 'cover', backgroundImage: 'url("http://localhost:8000/storage/test/pharmacy.jpg")' }}>
-                <Box sx={{ bgcolor: 'rgba(0, 0, 0, .7)', width: '100%', py: 2, px: 3 }}>
+            <Box height={400} borderRadius={2} overflow='hidden' mb={4} sx={{ position: 'relative' }}>
+                <Image
+                    width={'100%'}
+                    height={'100%'}
+                    className="object-cover"
+                    src={`${backend_url}${pharmacy?.building_image ? pharmacy.building_image : '/storage/horizontal_image_placeholder.png'}`}
+                />
+                <Box sx={{ position: 'absolute', bottom: 0, left: 0, bgcolor: 'rgba(0, 0, 0, .7)', width: '100%', py: 2, px: 3 }}>
                     <Typography.Text style={{ color: '#FFF', fontWeight: 500, fontSize: 20}}>
                         {
                             loading ? (
@@ -113,14 +165,14 @@ const PharmacyViewSection = () => {
                         }
                 </Box>
             </Box>
-            <Row gutter={16}>
-                <Col span={16}>
+            <Row gutter={[16, 24]}>
+                <Col span={6}>
                     <Box p={3} bgcolor='#FFF' mb={3} boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4} style={{ marginBottom: 20 }}>About Us</Typography.Title>
                         <TP fontSize={14}>{loading ? 'loading...' : (pharmacy?.bio || "Not added")}</TP>
                     </Box>
 
-                    <Box p={3} bgcolor='#FFF' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
+                    <Box p={3} bgcolor='#FFF' mb={3} boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4}>Working Hours</Typography.Title>
                         {
                             loading ? (
@@ -143,8 +195,6 @@ const PharmacyViewSection = () => {
                         }
                         
                     </Box>
-                </Col>
-                <Col span={8}>
                     <Box p={3} bgcolor='#FFF' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4}>Contact Information</Typography.Title>
                         <Box sx={{ mb: 2.5, fontWeight: 500 }}>
@@ -185,6 +235,46 @@ const PharmacyViewSection = () => {
                                 
                             </Box>
                         </Box>
+                    </Box>
+                </Col>
+                <Col span={18} style={{ paddingTop: 10 }}>
+                    <Typography.Title level={2} style={{ textAlign: 'center', marginBottom: 45 }}>Pharmacy's Medicines</Typography.Title>
+                    <Row gutter={[10, 10]}>
+                        {
+                            cardsLoading ? (
+                                Array(3).fill('').map((_, index) => {
+                                    return (
+                                        <Col span={8} key={'medicine-' + index}>
+                                            <MedicineCardLoading />
+                                        </Col>
+                                    )
+                                })
+                            ) : (
+                                medicines.map((item, index) => {
+                                    return (
+                                        <Col span={8} key={'medicine-' + index}>
+                                            <UserMedicineCard medicine={item} />
+                                        </Col>
+                                    )
+                                })
+                            )
+                        }
+                    </Row>
+                    <Box mt={5}>
+                        <ConfigProvider
+                            theme={{
+                                token: {
+                                    colorPrimary: GREEN
+                                },
+                                components: {
+                                    Pagination: {
+                                        itemBg: LIGHT_BLUE,
+                                    },
+                                },
+                            }}
+                        >
+                            <Pagination align="center" onChange={handlePageChange} defaultCurrent={1} pageSize={itemsPerPage} total={total} showSizeChanger={false} hideOnSinglePage={true} />
+                        </ConfigProvider>
                     </Box>
                 </Col>
             </Row>
