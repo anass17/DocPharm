@@ -5,7 +5,7 @@ export default function AdminUserManagement() {
 
     return (
         <>
-            <AdminSidebarLayout menuItem={'13'}>
+            <AdminSidebarLayout menuItem={'15'}>
                 <UserManagementSection />
             </AdminSidebarLayout>
         </>

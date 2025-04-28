@@ -3,7 +3,7 @@ import { ConfigProvider, Menu } from 'antd';
 import { GREEN, GREEN2, GREEN3, GREEN5 } from '../../config/colors';
 import AddMedicineModal from '../Modal/Medicine/AddMedicineModal';
 import { useNavigate } from 'react-router-dom';
-import { FaBookmark, FaBoxes, FaClock, FaColumns, FaHeadset, FaPen, FaQuestion } from 'react-icons/fa';
+import { FaBan, FaBookmark, FaBoxes, FaClock, FaCog, FaColumns, FaHeadset, FaPen, FaPills, FaQuestion, FaUser, FaUserClock, FaUserCog } from 'react-icons/fa';
 
 const links = {
   '13': 'dashboard',
@@ -21,7 +21,7 @@ const items = [
     label: '',
     type: 'group',
     children: [
-      { key: '13', label: 'Dashboard', icon: <FaColumns /> },
+      { key: '13', label: 'Dashboard', icon: <FaColumns size={16} /> },
     ],
   },
   {
@@ -29,9 +29,9 @@ const items = [
     label: 'Inventory',
     type: 'group',
     children: [
-      { key: '14', label: 'Pending Users', icon: <FaPen /> },
-      { key: '15', label: 'User Management', icon: <FaBoxes />},
-      { key: '16', label: 'Banned Users', icon: <FaBoxes />},
+      { key: '14', label: 'Pending Users', icon: <FaUserClock size={16} /> },
+      { key: '15', label: 'User Management', icon: <FaUserCog size={16} />},
+      { key: '16', label: 'Banned Users', icon: <FaBan size={16} />},
     ],
   },
   {
@@ -39,7 +39,7 @@ const items = [
     label: 'Services',
     type: 'group',
     children: [
-      { key: '17', label: 'Medicine Management', icon: <FaClock /> },
+      { key: '17', label: 'Medicine Management', icon: <FaPills size={16} /> },
     ],
   },
   {
@@ -47,8 +47,8 @@ const items = [
     label: 'My Account',
     type: 'group',
     children: [
-      { key: '18', label: 'Profile', icon: <FaClock /> },
-      { key: '19', label: 'Settings', icon: <FaClock /> },
+      { key: '18', label: 'Profile', icon: <FaUser /> },
+      { key: '19', label: 'Settings', icon: <FaCog /> },
     ],
   },
   {
