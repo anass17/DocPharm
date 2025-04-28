@@ -6,7 +6,6 @@ import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie'
 import UserDisplayDetailsCard from "../../../components/Card/Users/UserDisplayDetailsCard";
 import { GREEN, LIGHT_BLUE } from "../../../config/colors";
-import UserDisplayDetailsDrawer from "../../../components/Drawer/Users/UserDisplayDetailsDrawer";
 import { FaSearch } from "react-icons/fa";
 import UserDisplayDetailsCardLoading from "../../../components/Card/Users/UserDisplayDetailsCardLoading";
 import { Link } from "react-router-dom";
@@ -148,7 +147,7 @@ const PendingUsersSection = () => {
                             users.map((item, index) => {
                                 return (
                                     <Col span={8} key={'user-' + index}>
-                                        <Link to={`/users/pending/${item.id}`}>
+                                        <Link to={`/admin/users/pending/${item.id}`}>
                                             <UserDisplayDetailsCard user={item} onUserSelect={() => {}} />
                                         </Link>
                                     </Col>

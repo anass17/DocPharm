@@ -75,7 +75,9 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = Client::where('status', 'pending')->where('id', $id)->first();
+
+        return response()->json(['user' => $user]);
     }
 
     /**
