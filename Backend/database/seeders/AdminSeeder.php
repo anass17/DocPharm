@@ -23,7 +23,7 @@ class AdminSeeder extends Seeder
                 'email_verified_at' => now(),
                 'password' => Hash::make('123456789'),
                 'phone_number' => '061234568',
-                'profile_picture' => '/storage/profile/anass_boutaib_1.png',
+                'profile_picture' => '/storage/profile/anass_boutaib_1.jpg',
                 'address' => '12 Rue El Farabi',
                 'city' => 'Rabat',
                 'postal_code' => '10000',

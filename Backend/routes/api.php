@@ -19,6 +19,7 @@ use App\Http\Controllers\API\PharmacyMedicineController;
 use App\Http\Controllers\API\PharmacySettingsController;
 use App\Http\Controllers\API\PrescriptionController;
 use App\Http\Controllers\API\UserAppointmentController;
+use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UserPharmacyMedicineController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
@@ -86,3 +87,5 @@ Route::middleware('auth:sanctum')->resource('appointments', UserAppointmentContr
 // Prescriptions
 
 Route::middleware('auth:sanctum')->post('/prescriptions', [PrescriptionController::class, 'store']);
+
+Route::middleware('auth:sanctum')->get('users', [UserController::class, 'index']);
