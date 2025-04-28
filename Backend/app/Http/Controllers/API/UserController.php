@@ -16,9 +16,14 @@ class UserController extends Controller
     {
         
         $page = 1;
+        $sort_dir = 'asc';
 
         if ($request->page) {
             $page = $request->page;
+        }
+
+        if ($request->sort == 'newest_first') {
+            $sort_dir = 'desc';
         }
 
         
@@ -41,7 +46,7 @@ class UserController extends Controller
             });
         }
 
-        $users = $users -> whereNotNull('email_verified_at') -> orderBy('id') -> paginate(12, ['*'], 'page', $page);
+        $users = $users -> whereNotNull('email_verified_at') -> orderBy('id', $sort_dir) -> paginate(12, ['*'], 'page', $page);
 
 
         return response()->json(['users' => $users]);

@@ -8,6 +8,7 @@ import UserDisplayDetailsCard from "../../../components/Card/Users/UserDisplayDe
 import { GREEN, LIGHT_BLUE } from "../../../config/colors";
 import UserDisplayDetailsDrawer from "../../../components/Drawer/Users/UserDisplayDetailsDrawer";
 import { FaSearch } from "react-icons/fa";
+import UserDisplayDetailsCardLoading from "../../../components/Card/Users/UserDisplayDetailsCardLoading";
 
   const items = [
     {
@@ -41,6 +42,7 @@ const UserManagementSection = () => {
     const [page, setPage] = useState(1)
     const [open, setOpen] = useState(false);
     const [search, setSearch] = useState('')
+    const [sort, setSort] = useState('oldest_first')
     const [total, setTotal] = useState(1)
     const [selected, setSelected] = useState(null)
     const [messageApi, contextHolder] = message.useMessage();
@@ -81,13 +83,17 @@ const UserManagementSection = () => {
         
     }
 
+    const handleSortChange = (value) => {
+        setSort(value)
+    }
+
     const getUsers = async () => {
 
         setLoading(true);
         
         try {
 
-            const response = await fetch(`${backend_url}/api/users?type=${type}&page=${page}&search=${search}`, {
+            const response = await fetch(`${backend_url}/api/users?type=${type}&page=${page}&search=${search}&sort=${sort}`, {
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
@@ -114,7 +120,7 @@ const UserManagementSection = () => {
 
     useEffect(() => {
         getUsers()
-    }, [type, page, search])
+    }, [type, page, search, sort])
 
     return (
         <>
@@ -126,25 +132,41 @@ const UserManagementSection = () => {
                         <Input size="large" prefix={<FaSearch style={{ marginRight: 10 }} />} placeholder="Search for ..." onChange={handleSearchChange}/>
                     </Col>
                     <Col span={4}>
-                        <Select placeholder='Sort By' size="large" defaultValue={'a'} style={{ width: '100%' }} options={[{label: 'a', value: 'a'}]} />
+                        <Select placeholder='Sort By' size="large" value={sort} style={{ width: '100%' }}
+                            onChange={handleSortChange} 
+                            options={[
+                                {value: 'oldest_first', label: 'Oldest First'},
+                                {value: 'newest_first', label: 'Newest First'},
+                            ]}
+                        />
                     </Col>
                 </Row>
                 <Tabs defaultActiveKey="1" items={items} onChange={onChange} />
             </Box>
             <Row gutter={[8, 8]}>
                 {
-                    users.length == 0 ? (
-                        <Col span={24}>
-                            <Typography sx={{ py: 3, textAlign: 'center' }}>No result for the chosen filters</Typography>
-                        </Col>
-                    ) : (
-                        users.map((item, index) => {
+                    loading ? (
+                        Array(6).fill('').map((_, index) => {
                             return (
-                                <Col span={8} key={'user-' + index}>
-                                    <UserDisplayDetailsCard user={item} onUserSelect={handleUserSelect} />
+                                <Col span={8}>
+                                    <UserDisplayDetailsCardLoading />
                                 </Col>
                             )
                         })
+                    ) : (
+                        users.length == 0 ? (
+                            <Col span={24}>
+                                <Typography sx={{ py: 3, textAlign: 'center' }}>No result for the chosen filters</Typography>
+                            </Col>
+                        ) : (
+                            users.map((item, index) => {
+                                return (
+                                    <Col span={8} key={'user-' + index}>
+                                        <UserDisplayDetailsCard user={item} onUserSelect={handleUserSelect} />
+                                    </Col>
+                                )
+                            })
+                        )
                     )
                 }
             </Row>
