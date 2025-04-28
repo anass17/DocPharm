@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Drawer } from "@mui/material";
 import { Col, ConfigProvider, message, Pagination, Row, Tabs } from "antd";
 import Title from "antd/es/typography/Title";
 import { useEffect, useState } from "react";
@@ -6,6 +6,7 @@ import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie'
 import UserDisplayDetailsCard from "../../../components/Card/Users/UserDisplayDetailsCard";
 import { GREEN, LIGHT_BLUE } from "../../../config/colors";
+import UserDisplayDetailsDrawer from "../../../components/Drawer/Users/UserDisplayDetailsDrawer";
 
   const items = [
     {
@@ -33,7 +34,9 @@ const UserManagementSection = () => {
     const [users, setUsers] = useState([])
     const [itemsPerPage, setItemsPerPage] = useState(1);
     const [page, setPage] = useState(1)
+    const [open, setOpen] = useState(false);
     const [total, setTotal] = useState(1)
+    const [selected, setSelected] = useState(null)
     const [messageApi, contextHolder] = message.useMessage();
 
     const info = (message) => {
@@ -51,6 +54,11 @@ const UserManagementSection = () => {
 
     const handlePageChange = (page) => {
         setPage(page)
+    }
+
+    const handleUserSelect = (user) => {
+        setOpen(true);
+        setSelected(user)
     }
 
     const getUsers = async () => {
@@ -100,7 +108,7 @@ const UserManagementSection = () => {
                     users.map((item, index) => {
                         return (
                             <Col span={8} key={'user-' + index}>
-                                <UserDisplayDetailsCard user={item} />
+                                <UserDisplayDetailsCard user={item} onUserSelect={handleUserSelect} />
                             </Col>
                         )
                     })
@@ -123,6 +131,8 @@ const UserManagementSection = () => {
                     <Pagination align="center" onChange={handlePageChange} defaultCurrent={1} pageSize={itemsPerPage} total={total} showSizeChanger={false} />
                 </ConfigProvider>
             </Box>
+
+            <UserDisplayDetailsDrawer user={selected} open={open} setOpen={setOpen} />
         </>
 
     )

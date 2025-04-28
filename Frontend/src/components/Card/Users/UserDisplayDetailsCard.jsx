@@ -3,21 +3,21 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Box, Button, Icon } from '@mui/material';
 import { Divider, Flex, Tag, Typography } from 'antd';
-import { GRAY0, GRAY2, GREEN, GREEN2, PRIMARY_BLUE, PRIMARY_GREEN } from '../../../config/colors';
+import { GRAY0, GRAY2, GREEN, GREEN2, LIGHT_GREEN2, PRIMARY_BLUE, PRIMARY_GREEN } from '../../../config/colors';
 import { backend_url } from '../../../config/app';
 import { Link } from 'react-router-dom';
 import { HeartFilled } from '@ant-design/icons';
-import { red } from '@mui/material/colors';
+import { grey, red } from '@mui/material/colors';
 import { FaClock, FaMapMarkerAlt, FaStethoscope } from 'react-icons/fa';
 import dayjs from 'dayjs';
 
 
-const UserDisplayDetailsCard = ({user}) => {
+const UserDisplayDetailsCard = ({user, onUserSelect}) => {
 
     return (
-        <Card sx={{ position: 'relative', p: 0.5, height: '100%', position: 'relative', cursor: 'pointer' }}>
-            <Box style={{ color: GRAY0, backgroundColor: '#FFF' }}>
-                <Box style={{ backgroundColor: '#FFF' }}>
+        <Card sx={{ position: 'relative', p: 0.5, height: '100%', position: 'relative', cursor: 'pointer', transition: 'background-color .2s', '&:hover' : {bgcolor: 'rgba(0, 0, 0, .03)'} }} onClick={() => onUserSelect(user)}>
+            <Box style={{ color: GRAY0 }}>
+                <Box>
                     <CardContent style={{ padding: '0.75rem 0.75rem' }}>
                         <Flex gap={20} align='center'>
                             <Box>
