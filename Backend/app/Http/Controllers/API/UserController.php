@@ -28,8 +28,17 @@ class UserController extends Controller
             $users = Client::where('role', 'doctor');
         } else if ($request->type == 4) {
             $users = Client::where('role', 'pharmacy');
+        } else if ($request->type == 5) {
+            $users = Client::where('role', 'admin');
         } else {
             $users = Client::query();
+        }
+
+        if ($request -> search) {
+            $users = $users -> where(function ($query) use ($request) {
+                $query->where('first_name', 'ILIKE', '%' . $request -> search . '%');
+                $query->orWhere('last_name', 'ILIKE', '%' . $request -> search . '%');
+            });
         }
 
         $users = $users -> whereNotNull('email_verified_at') -> orderBy('id') -> paginate(12, ['*'], 'page', $page);
