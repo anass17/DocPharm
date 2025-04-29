@@ -1,6 +1,6 @@
 import { BorderBottom } from "@mui/icons-material";
 import { Box, Button, TextField, Typography as TP } from "@mui/material";
-import { Col, Flex, Row, Typography } from "antd";
+import { Col, Flex, Image, Row, Typography } from "antd";
 import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarker, FaMapMarkerAlt, FaPhone, FaPhoneAlt, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
@@ -10,6 +10,7 @@ import AppointmentPicker from "../../user/components/AppointmentPicker";
 import AppointmentTimePicker from "../../user/components/AppointmentTimePicker";
 import { DarkGreenButton } from "../../../components/Button/FilledButtons";
 import AppointmentTypeSelect from "../../user/components/ApointmentTypeSelect";
+import { backend_url } from "../../../config/app";
 
 function isTimeInRange(time, start, end) {
     const [tHours, tMinutes] = time.split(':').map(Number);
@@ -40,7 +41,13 @@ const ProfileSection = () => {
                 <Col xs={24} lg={10} xl={8}>
                     <Box sx={{ bgcolor: '#FFF', p: {xs: 2, lg: 4}, mb: 2.5, borderRadius: 2, boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)' }}>
                         <Box height={200} borderRadius={2} mb={10} sx={{ backgroundPosition: 'center', position: 'relative', backgroundSize: 'cover', backgroundImage: 'url("http://localhost:8000/storage/test/pharmacy.jpg")' }}>
-                            <img src="http://localhost:8000/storage/profile/fake.png" width={100} className="rounded-full border-2 border-blue-500 absolute bottom-0 left-10 translate-y-1/2" />
+                            <Image
+                                width={'100%'}
+                                height={'100%'}
+                                className="object-cover rounded-md"
+                                src={`${backend_url}${user?.building_image ? user.building_image : '/storage/horizontal_image_placeholder.png'}`}
+                            />
+                            <img src={`${backend_url}${user?.profile_picture ? user.profile_picture : '/storage/user_placeholder.jpg'}`} width={100} className="rounded-full border-2 border-blue-500 absolute bottom-0 left-10 translate-y-1/2" />
                         </Box>
                         <Box>
                             <Typography.Title level={2} style={{ marginBottom: 0 }}>{user?.first_name} {user?.last_name}</Typography.Title>
