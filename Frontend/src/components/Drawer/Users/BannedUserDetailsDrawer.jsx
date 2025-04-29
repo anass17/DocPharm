@@ -32,7 +32,40 @@ const BannedUserDetailsDrawer = ({user, open, setOpen}) => {
         setOpen(false);
     };
 
-    
+    const handleActivateUser = () => {
+        setUserStatus('active')
+    }
+
+    const setUserStatus = async (status) => {
+        
+        setLoading(true)
+
+        try {
+
+            const response = await fetch(`${backend_url}/api/users/${user.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({ status: status })
+            });
+        
+            if (response.status === 401) {
+                openNotification('Access Denied', 'You are not authorized to view this data', 'error');
+            } else if (response.status === 204) {
+                openNotification('Success', 'User has been activated', 'success');
+                setOpen(false)
+            } else {
+                openNotification('Something went wrong!', 'Could not perform this action', 'error');
+            }
+        } catch (error) {
+            console.log(error)
+            openNotification('Something went wrong!', 'Could not perform this action', 'error');
+        } finally {
+            setLoading(false)
+        }
+    }
 
     if (!user) {
         return
