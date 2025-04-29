@@ -26,6 +26,13 @@ export function updateUserbuidingImage(image_url) {
     }
 }
 
+export function updateUserProfilePicture(image_url) {
+    return {
+        type: 'UPDATE_USER_PROFILE_PICTURE',
+        image_url
+    }
+}
+
 export function logoutUser() {
     return {
         type: 'LOGOUT_USER'

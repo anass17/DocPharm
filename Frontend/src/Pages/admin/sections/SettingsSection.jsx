@@ -20,10 +20,6 @@ const SettingsSection = () => {
                             <FaInfoCircle />
                             <Typography.Text style={{ color: GRAY3 }} className="capitalize">General Information</Typography.Text>
                         </Button>
-                        <Button variant="text" style={{ display: 'flex', gap: 15, color: GREEN, width: '100%', justifyContent: 'flex-start', p: 2 }}>
-                            <FaClock />
-                            <Typography.Text style={{ color: GRAY3 }} className="capitalize">Working Hours</Typography.Text>
-                        </Button>
                     </Box>
                 </Col>
                 <Col xs={24} lg={16}>

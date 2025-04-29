@@ -29,6 +29,13 @@ export default function userReducer(state = initialState, action) {
                     ...state.user, building_image: action.image_url
                 }
             }
+        case 'UPDATE_USER_PROFILE_PICTURE':
+            return {
+                isAuthenticated: true,
+                user: {
+                    ...state.user, profile_picture: action.image_url
+                }
+            }
         case 'LOGOUT_USER':
             return {
                 isAuthenticated: false,

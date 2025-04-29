@@ -9,14 +9,14 @@ import { useDispatch, useSelector } from "react-redux"
 import Cookies from 'js-cookie'
 import { backend_url } from "../../../config/app"
 import LoadingButton from "../../../components/Button/LoadingButton"
-import { updateUserDetails } from "../../../store/actions/userActions"
+import { updateUserDetails, updateUserProfilePicture } from "../../../store/actions/userActions"
 
 const SettingsGeneralInfoChange = () => {
 
     const user = useSelector(data => data.user.user)
     const dispatch = useDispatch();
 
-    const [generalInfoData, setGeneralInfoData] = useState({phone_number: user?.phone_number, bio: user?.bio, address: user?.address, city: user?.city})
+    const [generalInfoData, setGeneralInfoData] = useState({})
     const [generalInfoErrors, setGeneralInfoErrors] = useState({})
     const [loading, setLoading] = useState(false)
     const [api, NotificationHolder] = notification.useNotification();
@@ -45,20 +45,20 @@ const SettingsGeneralInfoChange = () => {
     const handleGeneralInfoSubmit = () => {
         const errors = {}
 
-        if (!generalInfoData.pharmacy_name) {
-            errors.pharmacy_name = "Pharmacy Name is required"
+        if (!generalInfoData.first_name) {
+            errors.first_name = "First Name is required"
+        }
+        if (!generalInfoData.last_name) {
+            errors.last_name = "Last Name is required"
         }
         if (generalInfoData.phone_number.search(/^0[567][0-9]{8}$/) < 0) {
             errors.phone_number = "Enter a valid phone number"
         }
-        if (!generalInfoData.bio) {
-            errors.bio = "Enter a description"
-        }
         if (!generalInfoData.address) {
-            errors.address = "Enter pharmacy address"
+            errors.address = "Enter a valid address"
         }
         if (!generalInfoData.city) {
-            errors.city = "Enter pharmacy city"
+            errors.city = "Enter a valid city"
         }
 
         if (Object.keys(errors).length !== 0) {
@@ -77,7 +77,7 @@ const SettingsGeneralInfoChange = () => {
         
         try {
 
-            const response = await fetch(`${backend_url}/api/pharmacy/update/general`, {
+            const response = await fetch(`${backend_url}/api/admin/update/general`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
@@ -101,8 +101,14 @@ const SettingsGeneralInfoChange = () => {
         }
     }
 
+    const ImageComponent = () => {
+        return (
+            <CustomFileInput name="profile_picture" request_path={'/admin/update/profile_picture'} url={`${backend_url}${user?.profile_picture ? user?.profile_picture : '/storage/user_placeholder.jpg'}`} dispatchMethod={updateUserProfilePicture} />
+        )
+    }
+
     useEffect(() => {
-        setGeneralInfoData({phone_number: user?.phone_number, bio: user?.bio, address: user?.address, city: user?.city})
+        setGeneralInfoData({first_name: user?.first_name, last_name: user?.last_name, phone_number: user?.phone_number, address: user?.address, city: user?.city})
     }, [user])
 
     return (
@@ -111,41 +117,34 @@ const SettingsGeneralInfoChange = () => {
             <Box sx={{ bgcolor: '#FFF', borderRadius: 2, p: 2.5, mb: 3, boxShadow: '0px 1px 2px rgba(0, 0, 0, .2)' }}>
                 <Typography.Title level={4} style={{ marginBottom: 30 }}>General Information</Typography.Title>
                 <Flex justify="center">
-                    <CustomFileInput name="building_image" request_path={'/api/pharmacy/building_image/upload'} url={`${backend_url}${generalInfoData.building_image ? generalInfoData.building_image : '/storage/placeholder.jpg'}`} />
+                    <ImageComponent />
                 </Flex>
                 <Row gutter={[10, 16]} style={{ margin: '1.25rem 0' }}>
-                    <Col xs={24} sm={8}>
+                    <Col xs={24} sm={12}>
                         <InputLabel>First Name *</InputLabel>
-                        <Input type='text' size="large" placeholder="Add pharmacy name ..." onChange={handleGeneralInfoChange} value={generalInfoData.pharmacy_name} name="pharmacy_name" />
-                        <Typography.Text style={{ color: 'red' }}>{generalInfoErrors.pharmacy_name}</Typography.Text>
+                        <Input type='text' size="large" placeholder="Add first name ..." onChange={handleGeneralInfoChange} value={generalInfoData.first_name} name="first_name" />
+                        <Typography.Text style={{ color: 'red' }}>{generalInfoErrors.first_name}</Typography.Text>
                     </Col>
-                    <Col xs={24} sm={8}>
+                    <Col xs={24} sm={12}>
                         <InputLabel>Last Name *</InputLabel>
-                        <Input type='text' size="large" placeholder="Add pharmacy name ..." onChange={handleGeneralInfoChange} value={generalInfoData.pharmacy_name} name="pharmacy_name" />
-                        <Typography.Text style={{ color: 'red' }}>{generalInfoErrors.pharmacy_name}</Typography.Text>
+                        <Input type='text' size="large" placeholder="Add last name ..." onChange={handleGeneralInfoChange} value={generalInfoData.last_name} name="last_name" />
+                        <Typography.Text style={{ color: 'red' }}>{generalInfoErrors.last_name}</Typography.Text>
                     </Col>
-                    <Col xs={24} sm={8}>
+                    <Col xs={24} sm={12}>
                         <InputLabel>Phone Number *</InputLabel>
                         <Input type='text' size="large" placeholder="Add a phone number ..." onChange={handleGeneralInfoChange} value={generalInfoData.phone_number} name="phone_number" />
                         <Typography.Text style={{ color: 'red' }}>{generalInfoErrors.phone_number}</Typography.Text>
                     </Col>
                 </Row>
-                <Box style={{ margin: '1.25rem 0' }}>
-                    <Col span={24}>
-                        <InputLabel>Bio *</InputLabel>
-                        <TextArea rows={3} size="large" style={{ resize: 'none' }} placeholder="Add a description ..." onChange={handleGeneralInfoChange} value={generalInfoData.bio} name="bio" />
-                        <Typography.Text style={{ color: 'red' }}>{generalInfoErrors.bio}</Typography.Text>
-                    </Col>
-                </Box>
                 <Row gutter={[10, 16]} style={{ margin: '1.25rem 0' }}>
                     <Col xs={24} sm={18}>
                         <InputLabel>Address *</InputLabel>
-                        <Input type='text' size="large" placeholder="Add pharmacy address ..." onChange={handleGeneralInfoChange} value={generalInfoData.address} name="address" />
+                        <Input type='text' size="large" placeholder="Add address ..." onChange={handleGeneralInfoChange} value={generalInfoData.address} name="address" />
                         <Typography.Text style={{ color: 'red' }}>{generalInfoErrors.address}</Typography.Text>
                     </Col>
                     <Col xs={24} sm={6}>
                         <InputLabel>City *</InputLabel>
-                        <Input type='text' size="large" placeholder="Add pharmacy city ..." onChange={handleGeneralInfoChange} value={generalInfoData.city} name="city" />
+                        <Input type='text' size="large" placeholder="Add city ..." onChange={handleGeneralInfoChange} value={generalInfoData.city} name="city" />
                         <Typography.Text style={{ color: 'red' }}>{generalInfoErrors.city}</Typography.Text>
                     </Col>
                 </Row>

@@ -45,7 +45,7 @@ const getBase64 = file =>
     reader.onerror = error => reject(error);
 });
 
-const CustomFileInput = ({request_path = '', url = '', name='image'}) => {
+const CustomFileInput = ({request_path = '', url = '', name='image', dispatchMethod = updateUserbuidingImage}) => {
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [fileList, setFileList] = useState([
@@ -88,7 +88,7 @@ const CustomFileInput = ({request_path = '', url = '', name='image'}) => {
       setFileList(newFileList)
       if (file.status === 'done') {
         openNotification('Success!', 'Image Successfully Updated', 'success');
-        dispatch(updateUserbuidingImage(file.response.path))
+        dispatch(dispatchMethod(file.response.path))
       }
     };
 
@@ -102,7 +102,7 @@ const CustomFileInput = ({request_path = '', url = '', name='image'}) => {
         <>
             {NotificationHolder}
             <Upload
-                action={`${backend_url}${request_path}`}
+                action={`${backend_url}/api${request_path}`}
                 method='POST'
                 listType="picture-card"
                 headers={{

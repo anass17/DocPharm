@@ -70,6 +70,8 @@ Route::middleware('auth:sanctum')->get('/medicine/options', function () {
 // Admin
 
 Route::middleware('auth:sanctum')->post('/admin/update/security', [AdminSettingsController::class, 'updateSecurity']);
+Route::middleware('auth:sanctum')->put('/admin/update/general', [AdminSettingsController::class, 'updateGeneralInfo']);
+Route::middleware('auth:sanctum')->post('/admin/update/profile_picture', [AdminSettingsController::class, 'updateProfilePicture']);
 
 // Orders
 
