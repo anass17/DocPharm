@@ -5,9 +5,11 @@ import { GREEN } from "../../../config/colors";
 import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
+import dayjs from 'dayjs'
 import { formatDistanceToNow } from 'date-fns';
 import { Link } from "react-router-dom";
 import { FaCalendar, FaCalendarCheck, FaClock, FaDollarSign, FaUserFriends, FaVideo } from "react-icons/fa";
+import Chart from "../../../components/Chart/chart";
 
 const { Title, Text } = Typography
 
@@ -16,6 +18,7 @@ const DashboardSection = () => {
     const [loading, setLoading] = useState(false);
     const [recentAdded, setRecentAdded] = useState([]);
     const [statistics, setStatistics] = useState({});
+    const [chartData, setChartData] = useState({})
     const [messageApi, contextHolder] = message.useMessage();
 
     const info = (message) => {
@@ -44,6 +47,8 @@ const DashboardSection = () => {
                 info('You are not authorized to view this data');
             } else if (response.status === 200) {
                 setStatistics(responseData.statistics)
+                setChartData({labels: responseData.chart.labels, data: responseData.chart.data})
+                setRecentAdded(responseData.recent_added)
             } else {
                 info('Something went wrong! Could not load this data');
             }
@@ -86,13 +91,14 @@ const DashboardSection = () => {
             </Row>
             <Row gutter={16}>
                 <Col xs={24} xl={12}>
-                    <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow }}>
+                    <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow, height: 400, padding: 10 }}>
+                        <Chart chartData={chartData} name="Appointments" />
                     </div>
                 </Col>
                 <Col xs={24} xl={12}>
                     <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow}}>
                         <div style={{ padding: '15px 20px'  }}>
-                            <Title level={4} style={{ marginBottom: 20 }}>Recent Added</Title>
+                            <Title level={4} style={{ marginBottom: 20 }}>Recent Bookings</Title>
                             <div>
                                 {
                                     loading ?
@@ -108,8 +114,8 @@ const DashboardSection = () => {
                                             return (
                                                 <Flex key={'med-' + index} justify="space-between" style={{ marginBottom: 25 }}>
                                                     <div>
-                                                        <Title level={5} style={{ marginBottom: "0", color: GREEN }}>{item.medicine_name}</Title>
-                                                        <Text>{item.medicine_weight}mg</Text>
+                                                        <Title level={5} style={{ marginBottom: "0", color: GREEN }}>{dayjs(item.appointment_date).format('MMMM DD, YYYY')}</Title>
+                                                        <Text>{dayjs(item.appointment_date).format('HH:mm')}</Text>
                                                     </div>
                                                     <div>
                                                         <Text strong>{formatDistanceToNow(item.created_at, { addSuffix: true })}</Text>
@@ -122,7 +128,7 @@ const DashboardSection = () => {
                             </div>
                         </div>
 
-                        <Link to='/pharmacy/inventory'>
+                        <Link to='/doctor/appointments'>
                             <Button type="text" style={{ borderTop: '1px solid #DDD', paddingTop: 25, paddingBottom: 25 }} block>
                                 Show All
                             </Button>
