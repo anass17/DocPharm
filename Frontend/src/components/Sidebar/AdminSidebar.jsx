@@ -11,7 +11,7 @@ const links = {
   '15': 'users',
   '16': 'users/banned',
   '17': 'medicines/manage',
-  '18': 'profile',
+  '18': 'settings',
   '19': 'settings',
 }
 
