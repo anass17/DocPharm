@@ -11,6 +11,7 @@ import AdminPendingUsers from './Pages/admin/AdminPendingUsers.jsx';
 import AdminPendingUserView from './Pages/admin/AdminPendingUserView.jsx';
 import AdminBannedUsers from './Pages/admin/AdminBannedUsers.jsx';
 import AdminSettings from './Pages/admin/AdminSettings.jsx';
+import UserSettings from './Pages/user/UserSettings.jsx';
 
 const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
@@ -173,6 +174,7 @@ const RoutesList = () => {
             <Route path="/payment_success" element={<UserPaymentSuccess />} />
             <Route path="/client/appointments" element={<UserAppointmentsListing />} />
             <Route path="/client/orders" element={<UserOrdersListing />} />
+            <Route path="/settings" element={<UserSettings />} />
 
 
             {/* Doctor Routes */}
