@@ -5,7 +5,6 @@ import { FaKey } from "react-icons/fa"
 import { useEffect, useState } from "react"
 import { backend_url } from "../../../config/app"
 import Cookies from 'js-cookie'
-import { GRAY4 } from "../../../config/colors"
 import LoadingButton from "../../../components/Button/LoadingButton"
 
 const SettingsPasswordChange = () => {
@@ -74,7 +73,7 @@ const SettingsPasswordChange = () => {
 
             formData.append('pass', passwordData.pass)
 
-            const response = await fetch(`${backend_url}/api/admin/update/security`, {
+            const response = await fetch(`${backend_url}/api/user/update/security`, {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),

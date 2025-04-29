@@ -77,7 +77,7 @@ const SettingsGeneralInfoChange = () => {
         
         try {
 
-            const response = await fetch(`${backend_url}/api/admin/update/general`, {
+            const response = await fetch(`${backend_url}/api/user/update/general`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
@@ -103,7 +103,7 @@ const SettingsGeneralInfoChange = () => {
 
     const ImageComponent = () => {
         return (
-            <CustomFileInput name="profile_picture" request_path={'/admin/update/profile_picture'} url={`${backend_url}${user?.profile_picture ? user?.profile_picture : '/storage/user_placeholder.jpg'}`} dispatchMethod={updateUserProfilePicture} />
+            <CustomFileInput name="profile_picture" request_path={'/user/update/profile_picture'} url={`${backend_url}${user?.profile_picture ? user?.profile_picture : '/storage/user_placeholder.jpg'}`} dispatchMethod={updateUserProfilePicture} />
         )
     }
 

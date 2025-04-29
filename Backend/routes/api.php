@@ -22,6 +22,7 @@ use App\Http\Controllers\API\PrescriptionController;
 use App\Http\Controllers\API\UserAppointmentController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\UserPharmacyMedicineController;
+use App\Http\Controllers\API\UserSettingsController;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -72,6 +73,12 @@ Route::middleware('auth:sanctum')->get('/medicine/options', function () {
 Route::middleware('auth:sanctum')->post('/admin/update/security', [AdminSettingsController::class, 'updateSecurity']);
 Route::middleware('auth:sanctum')->put('/admin/update/general', [AdminSettingsController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->post('/admin/update/profile_picture', [AdminSettingsController::class, 'updateProfilePicture']);
+
+// User
+
+Route::middleware('auth:sanctum')->post('/user/update/security', [UserSettingsController::class, 'updateSecurity']);
+Route::middleware('auth:sanctum')->put('/user/update/general', [UserSettingsController::class, 'updateGeneralInfo']);
+Route::middleware('auth:sanctum')->post('/user/update/profile_picture', [UserSettingsController::class, 'updateProfilePicture']);
 
 // Orders
 
