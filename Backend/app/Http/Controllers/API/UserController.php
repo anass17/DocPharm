@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -85,7 +86,19 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validation = Validator::make($request->all(), [
+            'status' => 'required|in:active,banned'
+        ]);
+
+        if ($validation->fails()) {
+            return response()->json(['errors', $validation->errors()], 422);
+        }
+
+        $client = Client::find($id);
+        $client -> status = $request -> status;
+        $client -> save();
+
+        return response()->json([], 204);
     }
 
     /**

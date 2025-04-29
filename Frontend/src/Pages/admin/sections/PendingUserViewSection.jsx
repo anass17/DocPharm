@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie'
 import { FaCheck, FaFilePdf, FaTimes } from "react-icons/fa";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { GRAY3, PRIMARY_BLUE } from "../../../config/colors";
 
 const items = [
@@ -28,11 +28,14 @@ const PendingUsersViewSection = () => {
     const {id: param_id} = useParams()
     const [user, setUser] = useState({})
     const [loading, setLoading] = useState(true)
+    const navigate = useNavigate()
+    const [isStatusSelected, setIsStatusSelected] = useState(false)
     const [api, NotificationHolder] = notification.useNotification();
 
-    const openNotification = (message, description) => {
-        api.info({
+    const openNotification = (message, description, status) => {
+        api.open({
             message: message,
+            type: status,
             description: <p>{description}</p>,
             placement: 'bottomRight',
             duration: 5,
@@ -40,6 +43,14 @@ const PendingUsersViewSection = () => {
             pauseOnHover: true,
         });
     };
+
+    const handleReject = () => {
+        setUserStatus('banned')
+    }
+
+    const handleApprove = () => {
+        setUserStatus('active')
+    }
 
     const getUser = async () => {
             
@@ -68,6 +79,41 @@ const PendingUsersViewSection = () => {
         }
     }
 
+    const setUserStatus = async (status) => {
+
+        setIsStatusSelected(true)
+        
+        try {
+
+            const response = await fetch(`${backend_url}/api/users/${param_id}`, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
+                    'Content-type': 'application/json'
+                },
+                body: JSON.stringify({ status: status })
+            });
+        
+            if (response.status === 401) {
+                openNotification('Access Denied', 'You are not authorized to view this data', 'error');
+            } else if (response.status === 204) {
+                if (status == 'active') {
+                    openNotification('Success', 'User has been appoved', 'success');
+                } else {
+                    openNotification('Success', 'User has been rejected', 'success');
+                }
+                setTimeout(() => {
+                    navigate('/admin/users/pending')
+                }, 3000)
+            } else {
+                openNotification('Something went wrong!', 'Could not load this data', 'error');
+            }
+        } catch (error) {
+            console.log(error)
+            openNotification('Something went wrong!', 'Could not load this data', 'error');
+        } 
+    }
+
     useEffect(() => {
         getUser()
     }, [])
@@ -75,30 +121,33 @@ const PendingUsersViewSection = () => {
     return (
         <>
             {NotificationHolder}
-            <Flex justify="space-between" style={{ padding: '1.5rem 2.5rem', marginBottom: '2rem' }} className="bg-yellow-200 rounded-md shadow-md items-center">
-                <Typography className="font-semibold">Awaiting Verification</Typography>
-                <Flex gap={5}>
-                    <Button style={{ backgroundColor: red[500], border: 'none', color: '#FFF' }}>
-                        <FaTimes />
-                        Reject
-                    </Button>
-                    <Button style={{ backgroundColor: green[500], border: 'none', color: '#FFF' }}>
-                        <FaCheck />
-                        Approve
-                    </Button>
-                </Flex>
-            </Flex>
+            {
+                !isStatusSelected ?
+                <Flex justify="space-between" style={{ padding: '1.5rem 2.5rem', marginBottom: '2rem' }} className="bg-yellow-200 rounded-md shadow-md items-center">
+                    <Typography className="font-semibold">Awaiting Verification</Typography>
+                    <Flex gap={5}>
+                        <Button style={{ backgroundColor: red[500], border: 'none', color: '#FFF' }} onClick={handleReject}>
+                            <FaTimes />
+                            Reject
+                        </Button>
+                        <Button style={{ backgroundColor: green[500], border: 'none', color: '#FFF' }} onClick={handleApprove}>
+                            <FaCheck />
+                            Approve
+                        </Button>
+                    </Flex>
+                </Flex> : null
+            }
 
             <Box className="bg-white rounded-md shadow" sx={{padding: '2rem', mb: 3}}>
                 <Flex justify="space-between" align="center">
                     <Flex align="center" gap={20} style={{ marginBottom: 40, padding: '0 0.75rem' }}>
                         <img width={80} className='rounded-full' src={backend_url + (user?.profile_picture ? user?.profile_picture : '/storage/user_placeholder.jpg')} />
                         <Box>
-                            <Typography.Title level={3} style={{ marginBottom: 1, color: PRIMARY_BLUE }}>{user?.first_name} {user?.last_name}</Typography.Title>
-                            <Typography.Text style={{ color: GRAY3, fontSize: 14, fontWeight: 500}}>{user?.email}</Typography.Text>
+                            <Typography.Title level={3} style={{ marginBottom: 1, color: PRIMARY_BLUE }}>{loading ? 'loading ...' : (user?.first_name + ' ' + user?.last_name)}</Typography.Title>
+                            <Typography.Text style={{ color: GRAY3, fontSize: 14, fontWeight: 500}}>{loading ? 'loading ...' : user?.email}</Typography.Text>
                         </Box>
                     </Flex>
-                    <Tag color="blue" style={{ padding: '0.5rem 1rem', fontSize: 14 }} className="capitalize">{user?.role}</Tag>
+                    <Tag color="blue" style={{ padding: '0.5rem 1rem', fontSize: 14 }} className="capitalize">{loading ? 'loading ...' : user?.role}</Tag>
                 </Flex>
                 <Row gutter={[20, 20]}>
                     <Col span={12}>

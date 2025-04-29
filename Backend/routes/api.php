@@ -88,4 +88,4 @@ Route::middleware('auth:sanctum')->resource('appointments', UserAppointmentContr
 
 Route::middleware('auth:sanctum')->post('/prescriptions', [PrescriptionController::class, 'store']);
 
-Route::middleware('auth:sanctum')->resource('users', UserController::class)->only(['index', 'show']);
+Route::middleware('auth:sanctum')->resource('users', UserController::class)->only(['index', 'show', 'update']);
