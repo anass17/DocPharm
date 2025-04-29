@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 
 let {Title, Text} = Typography
 
-const UserDisplayDetailsDrawer = ({user, open, setOpen}) => {
+const BannedUserDetailsDrawer = ({user, open, setOpen}) => {
 
     const [loading, setLoading] = useState(false)
     const [api, NotificationHolder] = notification.useNotification();
@@ -32,40 +32,7 @@ const UserDisplayDetailsDrawer = ({user, open, setOpen}) => {
         setOpen(false);
     };
 
-    const handleBanUser = () => {
-        setUserStatus('banned')
-    }
-
-    const setUserStatus = async (status) => {
-        
-        setLoading(true)
-
-        try {
-
-            const response = await fetch(`${backend_url}/api/users/${user.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': 'Bearer ' + Cookies.get('auth_token'),
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify({ status: status })
-            });
-        
-            if (response.status === 401) {
-                openNotification('Access Denied', 'You are not authorized to view this data', 'error');
-            } else if (response.status === 204) {
-                openNotification('Success', 'User has been banned', 'success');
-                setOpen(false)
-            } else {
-                openNotification('Something went wrong!', 'Could not perform this action', 'error');
-            }
-        } catch (error) {
-            console.log(error)
-            openNotification('Something went wrong!', 'Could not perform this action', 'error');
-        } finally {
-            setLoading(false)
-        }
-    }
+    
 
     if (!user) {
         return
@@ -198,9 +165,9 @@ const UserDisplayDetailsDrawer = ({user, open, setOpen}) => {
 
                             {
                                 loading ? (
-                                    <Button variant='contained' loading style={{ backgroundColor: grey[200] }}>Ban</Button>
+                                    <Button variant='contained' loading style={{ backgroundColor: grey[200] }}>Activate</Button>
                                 ) : (
-                                    <Button variant='contained' style={{ px: 5, py: 10, display: 'block', backgroundColor: red[500] }} onClick={handleBanUser}>Ban</Button>
+                                    <Button variant='contained' style={{ px: 5, py: 10, display: 'block', backgroundColor: PRIMARY_GREEN }} onClick={handleActivateUser}>Activate</Button>
                                 )
                             }
                         </>
@@ -208,9 +175,12 @@ const UserDisplayDetailsDrawer = ({user, open, setOpen}) => {
                     
                 }
 
+
+                
+
             </Drawer>
         </>
     );
 };
 
-export default UserDisplayDetailsDrawer;
+export default BannedUserDetailsDrawer;
