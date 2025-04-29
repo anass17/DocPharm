@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AdminSettingsController;
 use App\Http\Controllers\API\AppointmentAvailabilityController;
 use App\Http\Controllers\API\AppointmentHistoryController;
 use App\Http\Controllers\API\AppointmentController;
@@ -45,7 +46,7 @@ Route::middleware('auth:sanctum')->put('/pharmacy/update/working_hours', [Pharma
 Route::middleware('auth:sanctum')->get('/pharmacy/dashboard', [PharmacyDashboardController::class, 'index']);
 Route::middleware('auth:sanctum')->post('/pharmacy/building_image/upload', [PharmacyBuildingImageController::class, 'store']);
 
-// Doctor Toutes
+// Doctor Routes
 
 Route::middleware('auth:sanctum')->get('/doctors', [DoctorController::class, 'index']);
 Route::middleware('auth:sanctum')->get('/doctors/{id}', [DoctorController::class, 'show']);
@@ -65,6 +66,10 @@ Route::middleware('auth:sanctum')->get('/medicine/options', function () {
     $uses = DB::table('medicine_uses')->get();
     return response()->json(['forms' => $forms, 'uses' => $uses]);
 });
+
+// Admin
+
+Route::middleware('auth:sanctum')->post('/admin/update/security', [AdminSettingsController::class, 'updateSecurity']);
 
 // Orders
 
