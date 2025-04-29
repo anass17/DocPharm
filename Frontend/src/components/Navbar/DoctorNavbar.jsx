@@ -17,19 +17,17 @@ import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 
 import { FaHome, FaUser, FaCalendarCheck } from "react-icons/fa";
-import CartDrawer from '../Drawer/CartDrawer.jsx';
-
 
 import * as colors from '../../config/colors.js';
 import { Link } from 'react-router-dom';
 
 import { Badge } from 'antd';
 import { useSelector } from 'react-redux';
+import { backend_url } from '../../config/app.js';
 
 function DoctorNavbar() {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [drawerOpen, setDrawerOpen] = useState(false)
-  const cart = useSelector(data => data.cart.cart)
+  const user = useSelector(data => data.user.user)
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -102,7 +100,7 @@ function DoctorNavbar() {
               </TLP>
 
             </Box>
-            <Tooltip title="Account settings">
+            <Tooltip title={user?.first_name + ' ' + user?.last_name}>
               <IconButton
                 onClick={handleClick}
                 size="small"
@@ -111,7 +109,7 @@ function DoctorNavbar() {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
-                <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                <Avatar sx={{ width: 38, height: 38 }} src={`${backend_url}${user?.profile_picture ? user?.profile_picture : '/storage/user_placeholder.jpg'}`} />
               </IconButton>
             </Tooltip>
           </Box>
@@ -156,7 +154,7 @@ function DoctorNavbar() {
             <Link to={'/doctor/profile'}>
               <MenuItem onClick={handleClose}>
                 <ListItemIcon>
-                  <FaUser fontSize="small" />
+                  <FaUser fontSize="medium" />
                 </ListItemIcon>
                 Profile
               </MenuItem>
@@ -184,7 +182,6 @@ function DoctorNavbar() {
           
         </Toolbar>
       </Container>
-      <CartDrawer open={drawerOpen} setOpen={setDrawerOpen} />
     </AppBar>
   );
 }
