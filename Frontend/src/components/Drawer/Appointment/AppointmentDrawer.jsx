@@ -108,7 +108,7 @@ const AppointmentDrawer = ({appointment, open, setOpen, onUpdate}) => {
                     <Col span={12}>
                         <Box>
                             <Flex align="center" gap={20}>
-                                <img width={50} src="http://localhost:8000/storage/profile/fake.png" />
+                                <img width={50} className="rounded-full" src={`${backend_url}${appointment.client.profile_picture ? appointment.client.profile_picture : '/storage/user_placeholder.jpg'}`} />
                                 <Box>
                                     <Title level={5} style={{ marginBottom: -1 }}>{appointment.client.first_name} {appointment.client.last_name}</Title>
                                     <Text style={{ color: GRAY3, fontSize: 13}}>{appointment.client.email}</Text>
