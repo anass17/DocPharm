@@ -3,15 +3,17 @@ import { AppstoreOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Menu } from 'antd';
 import { GREEN, GREEN5 } from '../../config/colors';
 import { useNavigate } from 'react-router-dom';
-import { FaBars, FaCalendarCheck, FaColumns, FaHistory, FaUser, FaUserEdit } from 'react-icons/fa';
+import { FaBars, FaCalendarCheck, FaColumns, FaHeadset, FaHistory, FaQuestion, FaUser, FaUserEdit } from 'react-icons/fa';
 import { Box, useMediaQuery } from '@mui/material';
 
 const links = {
-  '13': 'dashboard',
-  '15': 'appointments',
-  '16': 'appointments/history',
-  '18': 'profile',
-  '19': 'settings',
+  '13': '/doctor/dashboard',
+  '15': '/doctor/appointments',
+  '16': '/doctor/appointments/history',
+  '18': '/doctor/profile',
+  '19': '/doctor/settings',
+  '20': '/contact',
+  '21': '/faqs',
 }
 
 const items = [
@@ -46,9 +48,8 @@ const items = [
     label: 'Help',
     type: 'group',
     children: [
-      { key: '20', label: 'Contact Us', icon: <AppstoreOutlined /> },
-      { key: '21', label: 'FAQs', icon: <AppstoreOutlined /> },
-      { key: '22', label: 'Terms & Conditions', icon: <AppstoreOutlined /> },
+      { key: '20', label: 'Contact Us', icon: <FaHeadset /> },
+      { key: '21', label: 'FAQs', icon: <FaQuestion /> },
     ],
   },
 ];
@@ -62,7 +63,7 @@ const DoctorSidebar = ({menuItem}) => {
 
     const onClick = e => {
         if (links[e.key]) {
-            navigate(`/doctor/${links[e.key]}`);
+            navigate(`${links[e.key]}`);
         }
     };
 
