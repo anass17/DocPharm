@@ -15,7 +15,7 @@ import Cookies from 'js-cookie';
 const PrescriptionViewSection = () => {
 
     const {id: param_id} = useParams()
-    const [loading, setLoading] = useState(true)
+    // const [loading, setLoading] = useState(true)
     const [prescription, setPrescription] = useState(null)
     const [api, NotificationHolder] = notification.useNotification();
     const element = useRef(null)
@@ -44,7 +44,7 @@ const PrescriptionViewSection = () => {
     }
 
     const getPrescription = async () => {
-        setLoading(true);
+        // setLoading(true);
         
         try {
             const response = await fetch(`${backend_url}/api/prescriptions/${param_id}`, {
@@ -56,18 +56,18 @@ const PrescriptionViewSection = () => {
             const responseData = await response.json();
     
             if (response.status === 401) {
-                openNotification('Access Denied','You are not authorized to view this data', 'error');
+                openNotification('Access Denied', 'You are not authorized to view this data', 'error');
             } else if (response.status === 404) {
-                openNotification('Not Found','This prescription was not found', 'error');
+                openNotification('Not Found', 'This prescription was not found', 'error');
             } else if (response.status === 200) {
                 setPrescription(responseData.prescription);
             } else {
-                openNotification('Something went wrong!','Could not load this data', 'error');
+                openNotification('Something went wrong!', 'Could not load this data', 'error');
             }
-            setLoading(false)
+            // setLoading(false)
         } catch (error) {
             console.log(error)
-            openNotification('Something went wrong!','Could not load this data', 'error');
+            openNotification('Something went wrong!', 'Could not load this data', 'error');
         }
     }
 
@@ -84,17 +84,19 @@ const PrescriptionViewSection = () => {
             {NotificationHolder}
             <Box className="bg-white rounded-md shadow" style={{ padding: '2rem 2.5rem' }}>
                 <Box ref={element} className="relative">
-                    <Title level={3} style={{ textAlign: 'center', marginBottom: 30 }}>Medical Prescription</Title>
+                    <Box sx={{ paddingTop: {xs: 5, md: 0} }}>
+                        <Title level={3} style={{ textAlign: 'center', marginBottom: 30,  }}>Medical Prescription</Title>
+                    </Box>
                     <Title level={5}>Provided By</Title>
                     <Row gutter={[30, 20]}>
-                        <Col span={12}>
+                        <Col xs={24} md={12}>
                             <Title level={4} style={{ color: PRIMARY_BLUE, marginBottom: 3 }}>Dr. {prescription.appointment.doctor.first_name} {prescription.appointment.doctor.last_name}</Title>
                             <Flex gap={15} align="center">
                                 {/* <FaStethoscope /> */}
                                 <TP>{prescription.appointment.doctor.speciality}</TP>
                             </Flex>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} md={12}>
                             <Box>
                                 <Flex gap={15} style={{ marginBottom: 4 }}>
                                     {/* <FaPhoneAlt style={{ position: 'relative', top: 4 }} fill={PRIMARY_GREEN} /> */}
@@ -120,14 +122,14 @@ const PrescriptionViewSection = () => {
 
                     <Title level={5}>Patient</Title>
                     <Row style={{ marginBottom: 50 }} gutter={[30, 20]}>
-                        <Col span={12}>
+                        <Col xs={24} md={12}>
                             <Title level={4} style={{ color: PRIMARY_BLUE, marginBottom: 3 }}>{prescription.appointment.client.first_name} {prescription.appointment.client.last_name}</Title>
                             <Flex gap={15} align="center">
                                 {/* <FaEnvelope /> */}
                                 <TP>{prescription.appointment.client.email}</TP>
                             </Flex>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} md={12}>
                             <Box>
                                 <Flex gap={15} style={{ marginBottom: 4 }}>
                                     {/* <FaCalendarCheck style={{ position: 'relative', top: 4 }} size={15} /> */}
@@ -140,11 +142,11 @@ const PrescriptionViewSection = () => {
                         </Col>
                     </Row>
                     <Row style={{ marginBottom: 30 }} gutter={[30, 20]}>
-                        <Col span={12}>
+                        <Col xs={24} md={12}>
                             <Title level={4}>Notes</Title>
                             <TP>{prescription.prescription_note}</TP>
                         </Col>
-                        <Col span={12}>
+                        <Col xs={24} md={12}>
                             <Title level={4}>Medicines</Title>
                             {
                                 prescription.medicines == 0 ? (
