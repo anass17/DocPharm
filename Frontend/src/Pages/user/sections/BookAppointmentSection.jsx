@@ -1,5 +1,5 @@
 import { Box, Button, TextField, Typography as TP } from "@mui/material";
-import { Col, Flex, notification, Row, Spin, Typography } from "antd";
+import { Col, Flex, Image, notification, Row, Spin, Typography } from "antd";
 import { FaEnvelope, FaFacebook, FaInstagram, FaMapMarker, FaMapMarkerAlt, FaPhone, FaPhoneAlt, FaTwitter } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import WorkingHoursLine from "../../../components/Others/WorkingHoursLine";
@@ -204,7 +204,13 @@ const BookAppointmentSection = () => {
                 <Col xs={24} xl={8}>
                     <Box sx={{ bgcolor: '#FFF', p: 4, mb: 2.5, borderRadius: 2, boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)' }}>
                         <Box height={200} borderRadius={2} mb={10} sx={{ backgroundPosition: 'center', position: 'relative', backgroundSize: 'cover', backgroundImage: 'url("http://localhost:8000/storage/test/pharmacy.jpg")' }}>
-                            <img src="http://localhost:8000/storage/profile/fake.png" width={100} className="rounded-full border-2 border-blue-500 absolute bottom-0 left-10 translate-y-1/2" />
+                            <Image
+                                width={'100%'}
+                                height={'100%'}
+                                className="object-cover rounded-md"
+                                src={`${backend_url}${doctor?.building_image ? doctor.building_image : '/storage/horizontal_image_placeholder.png'}`}
+                            />
+                            <img src={`${backend_url}${doctor?.profile_picture ? doctor.profile_picture : '/storage/user_placeholder.jpg'}`} width={100} className="rounded-full border-2 border-blue-500 absolute bottom-0 left-10 translate-y-1/2" />
                         </Box>
                         <Box>
                             <Typography.Title level={2} style={{ marginBottom: 0 }}>{profileLoading ? 'loading...' : (doctor?.first_name + ' ' + doctor?.last_name)}</Typography.Title>
@@ -224,7 +230,7 @@ const BookAppointmentSection = () => {
                             </Col>
                             <Col xs={24} md={12} xl={24}>
                                 <Typography.Title level={5}>Follow Us</Typography.Title>
-                                <Box>
+                                <Box className="flex gap-3">
                                     {
                                         doctor?.facebook_url ? (
                                             <Box sx={{ color: GRAY2, '&:hover': {color: '#1877F2'} }}>
