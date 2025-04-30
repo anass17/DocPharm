@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Medicine;
 use App\Models\Order;
 use App\Models\OrderMedicine;
+use App\Models\Pharmacy;
 use App\Models\PharmacyMedicine;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -36,7 +37,9 @@ class OrderFactory extends Factory
     public function configure()
     {
         return $this->afterCreating(function (Order $order) {
-            $medicines = PharmacyMedicine::inRandomOrder()->limit(rand(1, 4))->get();
+            $pharmacy = Pharmacy::inRandomOrder()->first();
+
+            $medicines = PharmacyMedicine::where('pharmacy_id', $pharmacy->id)->inRandomOrder()->limit(rand(1, 4))->get();
 
             foreach ($medicines as $medicine) {
                 OrderMedicine::create([

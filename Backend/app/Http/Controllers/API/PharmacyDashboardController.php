@@ -24,11 +24,11 @@ class PharmacyDashboardController extends Controller
         ->join('orders', 'orders.id', '=', 'order_medicines.order_id')
         ->selectRaw("
             COUNT(CASE WHEN status = 'delivered' THEN medicine_quantity END) as sold_units,
-            SUM(CASE WHEN status = 'delivered' THEN unit_price * medicine_quantity END) as earnings,
+            SUM(CASE WHEN status = 'delivered' THEN unit_price * order_quantity END) as earnings,
             COUNT(DISTINCT order_id) as total_orders,
             COUNT(DISTINCT CASE WHEN status = 'delivered' THEN order_id END) as delivered_orders
         ")
-        ->where('pharmacy_medicines.pharmacy_id', 2)
+        ->where('pharmacy_medicines.pharmacy_id', $request->user()->id)
         ->first();
 
         $latest_medicine = DB::table('medicines')
@@ -46,7 +46,7 @@ class PharmacyDashboardController extends Controller
         ->join('pharmacy_medicines', 'pharmacy_medicines.id', '=', 'order_medicines.medicine_id')
         ->where('pharmacy_medicines.pharmacy_id', $request->user()->id)
         ->whereNotNull('orders.confirmed_at')
-        ->selectRaw("TO_CHAR(orders.confirmed_at, 'YYYY-MM') as month, COUNT(*) as total")
+        ->selectRaw("TO_CHAR(orders.confirmed_at, 'YYYY-MM') as month, COUNT(DISTINCT orders.id) as total")
         ->groupBy('month')
         ->pluck('total', 'month');
 

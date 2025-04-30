@@ -177,7 +177,9 @@ const PharmacyOrdersHistorySection = () => {
                         ) : 
                         (
                             <Col span={24} style={{ textAlign: 'center', marginTop: 20 }}>
-                                <FaBan fontSize={40} fill="#444"/>
+                                <Flex justify="center" style={{ marginBottom: 20 }}>
+                                    <FaBan fontSize={40} fill="#444"/>
+                                </Flex>
                                 
                                 <TP style={{ textAlign: 'center', color: GRAY2, paddingTop: 15 }}>
                                     You don't have any received or completed any orders.

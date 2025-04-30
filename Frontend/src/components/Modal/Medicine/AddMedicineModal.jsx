@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Col, message, Modal, Row } from 'antd';
+import { Col, ConfigProvider, message, Modal, Row, Steps } from 'antd';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import FileUploadInput from '../../Form/FileUploadInput';
-import { GRAY2, GRAY4, GREEN } from '../../../config/colors';
+import { GRAY2, GRAY4, GREEN, PRIMARY_GREEN } from '../../../config/colors';
 import MultiSelect from '../../Form/MultiSelect';
 import { red } from '@mui/material/colors';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
+import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
+import { FaCapsules, FaLaptopMedical, FaMedapps, FaPills } from 'react-icons/fa';
   
 const AddMedicineModal = ({open, setOpen}) => {
     const [optionSubmit, setOptionSubmit] = useState(false);
@@ -314,15 +316,35 @@ const AddMedicineModal = ({open, setOpen}) => {
             }
         >
             {contextHolder}
-            <Box textAlign={"center"} mt={3} mb={4}>
-                <Box display={"inline-flex"} position={"relative"}>
-                    <Box height={4} width={120} bgcolor={step != 1 ? GREEN : GRAY4}></Box>
-                    <Box height={4} width={120} bgcolor={step != 3 ? GRAY4 : GREEN}></Box>
-                    <Box width={18} height={18} bgcolor={step != 1 ? GREEN : "#FFF"} border={"3px solid" + GREEN} position={"absolute"} borderRadius={"50%"} top={-10} left={0}></Box>
-                    <Box width={18} height={18} bgcolor={step != 3 ? "#FFF" : GREEN} border={"3px solid #000"} borderColor={step != 1 ? GREEN : GRAY4} position={"absolute"} borderRadius={"50%"} top={-10} left="50%" sx={{ transform: "TranslateX(-50%)" }}></Box>
-                    <Box width={18} height={18} bgcolor={'#FFF'} border={"3px solid #000"} borderColor={step == 3 ? GREEN : GRAY4} position={"absolute"} borderRadius={"50%"} top={-10} right={0}></Box>
-                </Box>
-            </Box>
+
+            <ConfigProvider
+                theme={{
+                    token: {
+                      colorPrimary: PRIMARY_GREEN
+                    },
+                  }}
+            >
+                <Steps
+                    style={{ padding: '2rem 0.5rem' }}
+                    items={[
+                        {
+                            title: 'General',
+                            status: (step > 1 ? 'finish' : 'wait'),
+                            icon: <FaPills />,
+                        },
+                        {
+                            title: 'Second',
+                            status: (step > 2 ? 'finish' : 'wait'),
+                            icon: <FaCapsules />,
+                        },
+                        {
+                            title: 'Usage',
+                            status: 'wait',
+                            icon: <FaMedapps />,
+                        }
+                    ]}
+                />
+            </ConfigProvider>
 
             {
                 !backendErrors ? (

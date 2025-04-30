@@ -97,7 +97,7 @@ function PharmacyNavbar() {
               </TLP>
 
             </Box>
-            <Tooltip title="Account settings">
+            <Tooltip title={user?.pharmacy_name}>
               <IconButton
                 onClick={handleClick}
                 size="small"
