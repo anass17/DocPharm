@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
 import AppointmentPicker from "../components/AppointmentPicker";
-import { FaDotCircle, FaEllipsisH, FaMapMarkerAlt, FaSearch } from "react-icons/fa";
-import { Box, InputLabel, MenuItem } from "@mui/material";
+import { FaBox, FaBoxOpen, FaCheck, FaClock, FaDotCircle, FaEllipsisH, FaEnvelope, FaMapMarkerAlt, FaPhoneAlt, FaRegCalendar, FaSearch } from "react-icons/fa";
+import { Box, InputLabel, MenuItem, Typography as TP } from "@mui/material";
 import { DarkGreenButton } from "../../../components/Button/FilledButtons";
 import { GRAY2, GRAY3, PRIMARY_BLUE, PRIMARY_GREEN } from "../../../config/colors";
 import { LoadingOutlined } from "@ant-design/icons";
@@ -18,9 +18,10 @@ const { Title, Text } = Typography
 
 const OrderListingSection = () => {
 
-    const [appointmentLoading, setAppointmentLoading] = useState(false);
-    const [appointments, setAppointments] = useState([]);
+    const [orders, setOrders] = useState([]);
     const [api, NotificationHolder] = notification.useNotification();
+    const [selected, setSelected] = useState(0)
+    const [loading, setLoading] = useState(true)
     const [status, setStatus] = useState('')
     const [search, setSearch] = useState('')
     const [type, setType] = useState('')
@@ -39,17 +40,19 @@ const OrderListingSection = () => {
         });
     };
 
+    let grandTotal = 0;
+
     // Event Handler
 
     // Fetch API
 
-    const getAppointments = async () => {
+    const getOrders = async () => {
             
-        setAppointmentLoading(true)
+        setLoading(true)
 
         try {
 
-            const response = await fetch(`${backend_url}/api/appointments?status=${status}&type=${type}&search=${search}`, {
+            const response = await fetch(`${backend_url}/api/client/orders`, {
                 method: 'GET',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
@@ -61,160 +64,197 @@ const OrderListingSection = () => {
             } else if (response.status === 200) {
                 let responseData = await response.json()
 
-                setAppointments(responseData.results)
+                setOrders(responseData.result)
 
             } else {
-                openNotification('Something went wrong!', 'Could not load your appointments')
+                openNotification('Something went wrong!', 'Could not load your orders')
             }
         } catch (error) {
             console.log(error)
-            openNotification('Something went wrong!', 'Could not load your appointments')
+            openNotification('Something went wrong!', 'Could not load your orders')
         } finally {
-            setAppointmentLoading(false)
+            setLoading(false)
         }
     }
 
     useEffect(() => {
-        getAppointments()
-    }, [status, type, search]);
+        getOrders()
+    }, []);
     
 
     return (
         <>
             {NotificationHolder}
 
-            <Row gutter={[6, 20]} style={{ marginBottom: 16 }}>
-                <Col span={12}>
-                    <Title level={5}>Search for appointments</Title>
-                    <Input size="large" onChange={(e) => setSearch(e.target.value)} placeholder="Search for ..." prefix={<FaSearch style={{ marginRight: 7 }} />} />
-                </Col>
-                <Col span={6}>
-                    <Title level={5}>Select Type</Title>
-                    <Select 
-                        size="large"
-                        style={{ width: '100%' }}
-                        value={type}
-                        onChange={(value) => setType(value)}
-                        options={[
-                            {label: 'Any', value: ''},
-                            {label: 'In-Person', value: 'in_person'},
-                            {label: 'Online', value: 'online'},
-                        ]}
-                    />
-                </Col>
-                <Col span={6}>
-                    <Title level={5}>Select Status</Title>
-                    <Select 
-                        size="large"
-                        style={{ width: '100%' }}
-                        value={status}
-                        onChange={(value) => setStatus(value)}
-                        options={[
-                            {label: 'Any', value: ''},
-                            {label: 'Upcoming', value: 'active'},
-                            {label: 'Rejected', value: 'rejected'},
-                            {label: 'Completed', value: 'closed'}
-                        ]}
-                    />
-                </Col>
-            </Row>
-
-            <Divider />
-
-            <Box style={{ backgroundColor: '#FFF', boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.15)', marginBottom: 10, padding: '1rem 0.75rem', borderRadius: 5, fontWeight: 500 }}>
-                <Row gutter={16}>
-                    <Col xs={24} md={0} style={{textAlign: 'center' }}>
-                        Appointments
-                    </Col>
-                    <Col xs={0} md={8}>
-                        Client
-                    </Col>
-                    <Col xs={0} md={4}>
-                        Type
-                    </Col>
-                    <Col xs={0} md={4}>
-                        Status
-                    </Col>
-                    <Col xs={0} md={4}>
-                        Date
-                    </Col>
-                    <Col xs={0} md={4}>
-                        Prescription
-                    </Col>
-                </Row>
-            </Box>
-            
-            <Box style={{ backgroundColor: '#FFF', boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.15)', marginBottom: 10, borderRadius: 5, fontWeight: 500 }}>
-                
-                {
-                    appointmentLoading ? (
-                        <Box sx={{ p: 4, textAlign: 'center' }}>
-                            <Spin indicator={<LoadingOutlined spin />} size="large" />
-                        </Box>
-                    ) : (
-                        appointments.length === 0 ? (
-                            <p className="text-center" style={{ padding: '2rem 0' }}>You don't have any appointment!</p>
-                        ) : (
-                            appointments.map((item, index) => {
-                                return (
-                                    <Box key={index} overflow={'hidden'}>
-                                        <Row gutter={[16, 20]} style={{ padding: '1rem 0.75rem', alignItems: 'center' }} className="hover:bg-gray-200 transition cursor-pointer" onClick={() => {setDrawerOpen(true); setOpenAppointment(item)}}>
-                                            <Col xs={12} md={8}>
-                                                <Flex align="center" gap={20}>
-                                                    <img width={50} src="http://localhost:8000/storage/profile/fake.png" />
-                                                    <Box>
-                                                        <Title level={5} style={{ marginBottom: -1 }}>{item.doctor.first_name} {item.doctor.last_name}</Title>
-                                                        <Text style={{ color: GRAY3, fontSize: 13, display: 'flex', gap: 5}}>
-                                                            <FaMapMarkerAlt style={{ position: 'relative', top: 4 }} />
-                                                            {item.doctor.address}, {item.doctor.city}
-                                                        </Text>
-                                                    </Box>
-                                                </Flex>
-                                            </Col>
-                                            <Col xs={12} md={4} className="text-right md:text-left">
-                                                <Tag color={item.appointment_type == 'online' ? PRIMARY_GREEN : PRIMARY_BLUE} className="capitalize">{item.appointment_type.replace('_', '-')}</Tag>
-                                            </Col>
-                                            <Col xs={12} md={4} className="md:text-left">
-                                                {
-                                                    item.appointment_status == 'active' ? (
-                                                        <span style={{color: PRIMARY_GREEN}} className="capitalize">Upcoming</span>
-                                                    ) : (
-                                                        item.appointment_status == 'rejected' ? (
-                                                            <span style={{color: red[500]}} className="capitalize">Rejected</span>
-                                                        ) : (
-                                                            <span style={{color: GRAY2}} className="capitalize">Completed</span>
-                                                        )
-                                                    )
-                                                }
-                                            </Col>
-                                            <Col xs={12} md={4}>
-                                                <Title level={5} style={{ margin: 0 }}>{dayjs(item.appointment_date).format('MMMM D, YYYY')}</Title>
-                                                <Text style={{ color: GRAY3, fontSize: 13 }}>{dayjs(item.appointment_date).format('HH:mm')}</Text>
-                                            </Col>
-                                            <Col xs={12} md={4} className="md:text-left">
-                                                {
-                                                    item.appointment_prescription ? (
-                                                        <Link to={`/prescriptions/${item.appointment_prescription}`}>
-                                                            View
+            {
+                loading ? (
+                    <Flex justify="center" style={{ padding: '2rem 0' }}>
+                        <Spin indicator={<LoadingOutlined spin />} size="large" />
+                    </Flex>
+                ) : (
+                    <Row gutter={[16, 16]}>
+                        <Col xs={24} xl={10}>
+                            <Row gutter={[10, 10]}>
+                                {orders.map((item, index) => {
+                                    return (
+                                        <Col span={24} key={'order-' + index}>
+                                            <Box style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 16 }} className={`shadow border-2 cursor-pointer ${selected == index ? "border-green-500" : "border-gray-100"}`} onClick={() => setSelected(index)}>
+                                                <Row gutter={[12, 20]}>
+                                                    <Col span={16}>
+                                                        <Title level={5}>{item?.medicines[0]?.pharmacy.pharmacy_name}</Title>
+                                                    </Col>
+                                                    <Col span={8}>
+                                                        <TP fontSize={14} align="right">#{item?.id}</TP>
+                                                    </Col>
+                                                    <Col span={16}>
+                                                        <Flex align="center" gap={5}>
+                                                            <FaRegCalendar />
+                                                            <TP fontSize={14}>{dayjs(item?.confirmed_at).format("MMMM DD, YYYY")}</TP>
+                                                        </Flex>
+                                                    </Col>
+                                                    <Col span={8}>
+                                                        <Flex align="center" gap={5} justify="right">
+                                                            {
+                                                                item?.status == 'delivered' ? (
+                                                                    <>
+                                                                        <FaBoxOpen />
+                                                                        <TP fontSize={14}>Delivered</TP>
+                                                                    </>
+                                                                ) : (
+                                                                    item?.status == 'accepted' ? (
+                                                                        <>
+                                                                            <FaCheck />
+                                                                            <TP fontSize={14}>Accepted</TP>
+                                                                        </>
+                                                                    ) : (
+                                                                        item?.status == 'ready' ? (
+                                                                            <>
+                                                                                <FaBox />
+                                                                                <TP fontSize={14}>Ready</TP>
+                                                                            </>
+                                                                        ) : (
+                                                                            <>
+                                                                                <FaClock />
+                                                                                <TP fontSize={14}>Awaiting</TP>
+                                                                            </>
+                                                                        )
+                                                                    )
+                                                                )
+                                                            }
+                                                            
+                                                        </Flex>
+                                                    </Col>
+                                                </Row>
+                                            </Box>
+                                        </Col>
+                                    )
+                                })}
+                            </Row>
+                        </Col>
+                        <Col xs={24} xl={14}>
+                            <Box style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 20 }} className="shadow border border-gray-100">
+                                <Flex align="center" justify="space-between" style={{ marginBottom: 20 }}>
+                                    <Title level={4} style={{color: PRIMARY_BLUE }}>{orders[selected]?.medicines[0]?.pharmacy.pharmacy_name}</Title>
+                                    <TP fontSize={14}>#{orders[selected]?.id}</TP>
+                                </Flex>
+                                <Box>
+                                    <TP fontSize={20} color={GRAY3} style={{ marginBottom: 10 }}>Order's Details</TP>
+                                    <Row gutter={[14, 14]}>
+                                        <Col span={12}>
+                                            <Title level={5} style={{ marginBottom: 2 }}>Placed At</Title>
+                                            <TP>{dayjs(orders[selected]?.confirmed_at).format('MMMM DD, YYYY')}</TP>
+                                        </Col>
+                                        <Col span={12}>
+                                            <Title level={5} style={{ marginBottom: 2 }}>Delivered At</Title>
+                                            <TP>{orders[selected]?.delivered_at ? dayjs(orders[selected]?.confirmed_at).format('MMMM DD, YYYY') : 'N/A'}</TP>
+                                        </Col>
+                                        <Col span={12}>
+                                            <Title level={5} style={{ marginBottom: 2 }}>Order Status</Title>
+                                            <TP className="capitalize">{orders[selected]?.status}</TP>
+                                        </Col>
+                                        {
+                                            orders[selected]?.delivery_code ? (
+                                                <Col span={12}>
+                                                    <Title level={5} style={{ marginBottom: 2 }}>Delivery Code</Title>
+                                                    <TP className="capitalize">{orders[selected].delivery_code}</TP>
+                                                </Col>
+                                            ) : null
+                                        }
+                                    </Row>
+                                </Box>
+                                <Divider />
+                                <Box>
+                                    <TP fontSize={20} color={GRAY3} style={{ marginBottom: 10 }}>Order's Medicines</TP>
+                                    {
+                                        orders[selected]?.medicines?.map(item => {
+                                            grandTotal += item.pivot.order_quantity * item.pivot.unit_price
+                    
+                                            return (
+                                                <Row gutter={[10, 20]} style={{ marginBottom: 10 }}>
+                                                    <Col span={12}>
+                                                        <Link to={'/medicines/' + item.medicine.id} style={{ color: PRIMARY_BLUE, fontWeight: 500 }}>
+                                                            {item.medicine.medicine_name}
                                                         </Link>
-                                                    ): (
-                                                        <span>N/A</span>
-                                                    )
-                                                    
-                                                    }
-                                                    
-                                            </Col>
-                                        </Row>
-                                        <Divider style={{ margin: 0 }}/>
-                                    </Box>
-                                )
-                            })
-                        )
-                    )
-                }
-            </Box>
+                                                    </Col>
+                                                    <Col span={4}>
+                                                        x {item.pivot.order_quantity}
+                                                    </Col>
+                                                    <Col span={4}>
+                                                        {item.pivot.unit_price.toFixed(2)} DH
+                                                    </Col>
+                                                    <Col span={4} style={{ textAlign: 'right' }}>
+                                                        {(item.pivot.order_quantity * item.pivot.unit_price).toFixed(2)} DH
+                                                    </Col>
+                                                </Row>
+                                            )
+                                        })
+                                    }
+                    
+                                    <Row gutter={[10, 20]} style={{ marginBottom: 10, marginTop: 20, fontWeight: 500 }}>
+                                        <Col span={12} style={{ fontSize: 18 }}>
+                                            Total
+                                        </Col>
+                                        <Col span={4}>
+                                            
+                                        </Col>
+                                        <Col span={4}>
+                                            
+                                        </Col>
+                                        <Col span={4} style={{ fontSize: 18, textAlign: 'right' }}>
+                                            {grandTotal.toFixed(2)} DH
+                                        </Col>
+                                    </Row>
+                                </Box>
+                                
+                                <Divider />
 
-            <UserAppointmentDrawer appointment={openAppointment} open={drawerOpen} setOpen={setDrawerOpen} />
+                                <Box>
+                                    <TP fontSize={20} color={GRAY3} style={{ marginBottom: 10 }}>Contact Information</TP>
+                                    <Box>
+                                        <Flex gap={15} style={{ marginBottom: 4 }}>
+                                            <FaPhoneAlt style={{ position: 'relative', top: 4 }} fill={PRIMARY_GREEN} />
+                                            <TP>{orders[selected]?.medicines[0]?.pharmacy.phone_number}</TP>
+                                        </Flex>
+                                    </Box>
+                                    <Box>
+                                        <Flex gap={15} style={{ marginBottom: 4 }}>
+                                            <FaEnvelope style={{ position: 'relative', top: 4 }} fill={PRIMARY_GREEN} />
+                                            <TP>{orders[selected]?.medicines[0]?.pharmacy.email}</TP>
+                                        </Flex>
+                                    </Box>
+                                    <Box>
+                                        <Flex gap={15} style={{ marginBottom: 4 }}>
+                                            <FaMapMarkerAlt style={{ position: 'relative', top: 4 }} fill={PRIMARY_GREEN} />
+                                            <TP>{orders[selected]?.medicines[0]?.pharmacy.address}</TP>
+                                        </Flex>
+                                    </Box>
+                                </Box>
+                                    
+                            </Box>
+                        </Col>
+                    </Row>
+                )
+            }
         </>
     )
 }

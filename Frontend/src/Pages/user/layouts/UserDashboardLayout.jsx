@@ -13,13 +13,13 @@ function UserDashboardLayout({children, menuItem, title, description}) {
             <UserNavbar />
             <div style={{ display: "flex" }}>
                 <UserSidebar menuItem={menuItem} />
-                <div style={{ padding: "3rem 2.5rem", flex: 1 }}>
+                <Box sx={{ padding: {xs: "2rem 1.5rem", lg: "3rem 2.5rem"}, flex: 1 }}>
                     <Box sx={{ marginBottom: '55px', textAlign: {xs: 'center', lg: 'left'} }}>
                         <Title level={1}>{title}</Title>
                         <Title level={5} style={{ color: GRAY2 }}>{description}</Title>
                     </Box>
                     {children}
-                </div>
+                </Box>
             </div>
         </>
     )
