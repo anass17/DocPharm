@@ -5,6 +5,7 @@ import { GRAY2, GRAY3, PRIMARY_BLUE, PRIMARY_GREEN } from '../../../config/color
 import { red } from '@mui/material/colors';
 import dayjs from 'dayjs'
 import { FaMapMarkerAlt, FaPhone, FaPhoneAlt } from 'react-icons/fa';
+import { backend_url } from '../../../config/app';
 
 let {Title, Text} = Typography
 
@@ -25,7 +26,7 @@ const UserAppointmentDrawer = ({appointment, open, setOpen}) => {
                 <Row gutter={[16, 20]} style={{ alignItems: 'center' }}>
                     <Col xs={24} sm={12}>
                         <Flex align="center" gap={20}>
-                            <img width={50} src="http://localhost:8000/storage/profile/fake.png" />
+                            <img width={50} className="rounded-full" src={`${backend_url}${appointment?.doctor.profile_picture ? appointment.doctor.profile_picture : '/storage/user_placeholder.jpg'}`} />
                             <Box>
                                 <Title level={5} style={{ marginBottom: -1 }}>{appointment.doctor.first_name} {appointment.doctor.last_name}</Title>
                                 <Text style={{ color: GRAY3, fontSize: 13}}>{appointment.doctor.email}</Text>

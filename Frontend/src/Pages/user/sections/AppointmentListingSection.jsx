@@ -161,7 +161,7 @@ const AppointmentsListingSection = () => {
                                         <Row gutter={[16, 20]} style={{ padding: '1rem 0.75rem', alignItems: 'center' }} className="hover:bg-gray-200 transition cursor-pointer" onClick={() => {setDrawerOpen(true); setOpenAppointment(item)}}>
                                             <Col xs={12} md={8}>
                                                 <Flex align="center" gap={20}>
-                                                    <img width={50} src="http://localhost:8000/storage/profile/fake.png" />
+                                                    <img width={50} className="rounded-full" src={`${backend_url}${item?.doctor.profile_picture ? item.doctor.profile_picture : '/storage/user_placeholder.jpg'}`} />
                                                     <Box>
                                                         <Title level={5} style={{ marginBottom: -1 }}>{item.doctor.first_name} {item.doctor.last_name}</Title>
                                                         <Text style={{ color: GRAY3, fontSize: 13, display: 'flex', gap: 5}}>
