@@ -16,6 +16,7 @@ import UserProfile from './Pages/user/UserProfile.jsx';
 import AdminProfile from './Pages/admin/AdminProfile.jsx';
 import UserPrescriptionView from './Pages/user/UserPrescriptionView.jsx';
 import UserDashboard from './Pages/user/UserDashboard.jsx';
+import AdminDashboard from './Pages/admin/AdminDashboard.jsx';
 
 const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
@@ -201,6 +202,7 @@ const RoutesList = () => {
             <Route path="/admin/users/banned" element={<AdminBannedUsers />} />
             <Route path="/admin/settings" element={<AdminSettings />} />
             <Route path="/admin/profile" element={<AdminProfile />} />
+            <Route path="/admin/dashboard" element={<AdminDashboard />} />
     
             {/* Catch-all route for undefined paths */}
             <Route path="*" element={<NotFound />} />

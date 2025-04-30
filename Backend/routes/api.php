@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\AdminDashboardController;
 use App\Http\Controllers\API\AdminSettingsController;
 use App\Http\Controllers\API\AppointmentAvailabilityController;
 use App\Http\Controllers\API\AppointmentHistoryController;
@@ -75,6 +76,7 @@ Route::middleware('auth:sanctum')->get('/medicine/options', function () {
 Route::middleware('auth:sanctum')->post('/admin/update/security', [AdminSettingsController::class, 'updateSecurity']);
 Route::middleware('auth:sanctum')->put('/admin/update/general', [AdminSettingsController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->post('/admin/update/profile_picture', [AdminSettingsController::class, 'updateProfilePicture']);
+Route::middleware('auth:sanctum')->get('/admin/dashboard', [AdminDashboardController::class, 'index']);
 
 // User
 

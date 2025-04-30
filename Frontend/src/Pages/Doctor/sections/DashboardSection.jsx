@@ -69,7 +69,7 @@ const DashboardSection = () => {
     return (
         <>
             {contextHolder}
-            <Row gutter={[16, 16]} style={{ marginBottom: 35 }}>
+            <Row gutter={[12, 12]} style={{ marginBottom: 35 }}>
                 <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={statistics.online_appointments || 0} name={"Online Appointments"} component={FaVideo} total={statistics.total_appointments} />
                 </Col>

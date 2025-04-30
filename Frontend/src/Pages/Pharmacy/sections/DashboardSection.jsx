@@ -70,7 +70,7 @@ const DashboardSection = () => {
     return (
         <>
             {contextHolder}
-            <Row gutter={[16, 16]} style={{ marginBottom: 35 }}>
+            <Row gutter={[12, 12]} style={{ marginBottom: 35 }}>
                 <Col span={8}>
                     <StatisticBlock value={loading ? 'loading...' : (medicineStatistics.total_medicines || 0)} name={"Different Medicines"} component={FaPills} />
                 </Col>
