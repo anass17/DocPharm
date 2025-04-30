@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AppstoreOutlined, ClockCircleOutlined, SearchOutlined, UserAddOutlined } from '@ant-design/icons';
-import { GREEN, GREEN2, GREEN3, GREEN5 } from '../../config/colors';
+import { GRAY4, GREEN, GREEN2, GREEN3, GREEN5 } from '../../config/colors';
 import { useNavigate } from 'react-router-dom';
 import { Checkbox, Col, ConfigProvider, Divider, Flex, Input, Row, Typography } from 'antd';
 import { Box, Button, TextField } from '@mui/material';
@@ -39,7 +39,7 @@ const MedicineFiltersSidebar = ({filters, setFilters}) => {
                     <Typography.Title level={4}>Filters</Typography.Title>
                     <div style={{ maxWidth: '420px', width: '100%' }}>
                         <Typography.Title level={5}>Search for Products</Typography.Title>
-                        <Input name="filter_search" id='search-input' onChange={handleChange} size="large" placeholder="Type in something ..." prefix={<SearchOutlined style={{ marginRight: '5px' }} />} style={{backgroundColor: GREEN5, borderColor: GREEN2, borderRadius: '4px' }} />
+                        <Input name="filter_search" id='search-input' onChange={handleChange} size="large" placeholder="Type in something ..." prefix={<SearchOutlined style={{ marginRight: '5px' }} />} style={{backgroundColor: '#FFF', borderColor: GRAY4, borderRadius: '4px' }} />
                     </div>
                     <Divider />
                     <Typography.Title level={5}>Price Range</Typography.Title>

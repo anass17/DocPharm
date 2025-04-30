@@ -89,9 +89,9 @@ const DashboardSection = () => {
                     <StatisticBlock value={statistics.total_earnings || 0} name={"Total Earnings (DH)"} component={FaDollarSign} />
                 </Col>
             </Row>
-            <Row gutter={16}>
+            <Row gutter={[16, 16]}>
                 <Col xs={24} xl={12}>
-                    <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow, height: 400, padding: 10 }}>
+                    <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow, minHeight: 400, height: '100%', padding: 10 }}>
                         <Chart chartData={chartData} name="Appointments" />
                     </div>
                 </Col>

@@ -65,7 +65,7 @@ function UserNavbar() {
             noWrap
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
+              display: 'flex',
               fontFamily: 'roboto',
               fontWeight: 700,
               letterSpacing: '.1rem',
@@ -73,8 +73,8 @@ function UserNavbar() {
               textDecoration: 'none',
             }}
           >
-            <Link to="/" style={{ display: 'flex' }}>
-              <img className='h-[70px]' src='/public/images/logo/logo.png' />
+            <Link to="/user/dashboard" style={{ display: 'flex' }}>
+              <img className='h-[55px]' src='/public/images/logo/logo.png' />
             </Link>
             
           </Typography>
@@ -82,29 +82,29 @@ function UserNavbar() {
           {/* Desktop */}
 
           <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-            <Box sx={{ display: 'flex', mr: 3, gap: '3px' }}>
+            <Box sx={{ display: 'flex', mr: {xs: 0, md: 3}, gap: '3px' }}>
 
-              <TLP title="Home" color={colors.PRIMARY_GREEN}>
-                <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              <TLP title="Dashboard" color={colors.PRIMARY_GREEN}>
+                <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
                   <FaHome fill={colors.GRAY2} size={24} />
                 </Button>
               </TLP>
 
               <TLP title="Updates" color={colors.PRIMARY_GREEN}>
-                <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
                   <FaBell fill={colors.GRAY2} size={22} />
                 </Button>
               </TLP>
 
               <TLP title="Favorite" color={colors.PRIMARY_GREEN}>
-                <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
                   <FaHeart fill='#F40' size={22}/>
                 </Button>
               </TLP>
 
               <TLP title="Cart" color={colors.PRIMARY_GREEN}>
                 <Badge count={cart.length} size="small" offset={[-17, 5]} style={{background: '#FFF', color: colors.PRIMARY_GREEN, borderColor: colors.PRIMARY_GREEN, fontWeight: 500}}>
-                  <Button disableRipple onClick={() => setDrawerOpen(true)} sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                  <Button disableRipple onClick={() => setDrawerOpen(true)} sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
                     <FaShoppingCart fill={colors.GRAY2} size={22} />
                   </Button>
                 </Badge>
@@ -120,7 +120,7 @@ function UserNavbar() {
                 aria-haspopup="true"
                 aria-expanded={open ? 'true' : undefined}
               >
-                <Avatar sx={{ width: 40, height: 40 }} src={`${backend_url}${user.profile_picture ? user.profile_picture : '/storage/user_placeholder.jpg'}`} />
+                <Avatar sx={{ width: 42, height: 42 }} src={`${backend_url}${user.profile_picture ? user.profile_picture : '/storage/user_placeholder.jpg'}`} />
               </IconButton>
             </Tooltip>
           </Box>

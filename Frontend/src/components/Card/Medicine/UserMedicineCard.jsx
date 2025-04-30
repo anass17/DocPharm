@@ -36,7 +36,7 @@ const UserMedicineCard = ({medicine}) => {
     }
 
   return (
-    <Card sx={{ position: 'relative', p: 1 }}>
+    <Card sx={{ position: 'relative', p: 0.5 }}>
         <Box style={{ color: GRAY0, backgroundColor: '#FFF' }}>
             <Box style={{ backgroundColor: '#FFF' }}>
                 <CardMedia
