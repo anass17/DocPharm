@@ -8,16 +8,17 @@ import Cookies from 'js-cookie';
 import { formatDistanceToNow } from 'date-fns';
 import { Link } from "react-router-dom";
 import { FaBoxOpen, FaCheck, FaDollarSign, FaPills, FaShoppingCart } from "react-icons/fa";
+import Chart from "../../../components/Chart/chart";
 
 const { Title, Text } = Typography
 
 const DashboardSection = () => {
 
-    const [submit, setSubmit] = useState(false);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [medicineStatistics, setMedicineStatistics] = useState([]);
     const [orderStatistics, setOrderStatistics] = useState([]);
     const [recentAdded, setRecentAdded] = useState([]);
+    const [chartData, setChartData] = useState({})
     const [messageApi, contextHolder] = message.useMessage();
 
     const info = (message) => {
@@ -30,7 +31,6 @@ const DashboardSection = () => {
 
     const getStatistics = async () => {
 
-        setSubmit(true);
         setLoading(true)
         
         try {
@@ -49,6 +49,7 @@ const DashboardSection = () => {
                 setRecentAdded(responseData.recent_added)
                 setMedicineStatistics(responseData.medicine_statistics)
                 setOrderStatistics(responseData.order_statistics)
+                setChartData({labels: responseData.chart.labels, data: responseData.chart.data})
             } else {
                 info('Something went wrong! Could not load this data');
             }
@@ -64,7 +65,7 @@ const DashboardSection = () => {
     useEffect(() => {
         getStatistics()
 
-    }, [submit])
+    }, [])
 
 
     return (
@@ -75,16 +76,16 @@ const DashboardSection = () => {
                     <StatisticBlock value={loading ? 'loading...' : (medicineStatistics.total_medicines || 0)} name={"Different Medicines"} component={FaPills} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={loading ? 'loading...' : (medicineStatistics.medicine_units || 0)} name={"Medicine Units"} component={FaPills} />
+                    <StatisticBlock value={loading ? 'loading...' : (medicineStatistics.medicine_units || 0)} name={"Available Units"} component={FaPills} />
                 </Col>
                 <Col span={8}>
                     <StatisticBlock value={loading ? 'loading...' : (orderStatistics.sold_units || 0)} name={"Sold Units"} component={FaShoppingCart} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={loading ? 'loading...' : (orderStatistics.delivered_orders || 0)} name={"Delivered Orders"} component={FaBoxOpen} />
+                    <StatisticBlock value={loading ? 'loading...' : (orderStatistics.total_orders || 0)} name={"Total Orders"} component={FaCheck} />
                 </Col>
                 <Col span={8}>
-                    <StatisticBlock value={loading ? 'loading...' : (orderStatistics.total_orders || 0)} name={"Total Orders"} component={FaCheck} />
+                    <StatisticBlock value={loading ? 'loading...' : (orderStatistics.delivered_orders || 0)} total={orderStatistics.total_orders} name={"Delivered Orders"} component={FaBoxOpen} />
                 </Col>
                 <Col span={8}>
                     <StatisticBlock value={loading ? 'loading...' : (orderStatistics.earnings || 0)} name={"Earnings (MAD)"} component={FaDollarSign} />
@@ -92,7 +93,8 @@ const DashboardSection = () => {
             </Row>
             <Row gutter={16}>
                 <Col span={12}>
-                    <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow }}>
+                    <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow, minHeight: 400, height: '100%', padding: 10 }}>
+                        <Chart chartData={chartData} name="Orders" />
                     </div>
                 </Col>
                 <Col span={12}>
