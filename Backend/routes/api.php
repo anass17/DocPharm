@@ -21,6 +21,7 @@ use App\Http\Controllers\API\PharmacySettingsController;
 use App\Http\Controllers\API\PrescriptionController;
 use App\Http\Controllers\API\UserAppointmentController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\UserOrdersController;
 use App\Http\Controllers\API\UserPharmacyMedicineController;
 use App\Http\Controllers\API\UserSettingsController;
 use Illuminate\Support\Facades\DB;
@@ -87,6 +88,7 @@ Route::middleware('auth:sanctum')->resource('orders', OrderController::class);
 Route::middleware('auth:sanctum')->get('/cart', [CartController::class, 'index']);
 Route::middleware('auth:sanctum')->delete('/cart/{id}', [CartController::class, 'destroy']);
 Route::middleware('auth:sanctum')->post('/confirm-order/{sessionId}', [OrderController::class, 'confirm']);
+Route::middleware('auth:sanctum')->resource('/client/orders', UserOrdersController::class)->only('index');
 
 Route::post('/create-checkout-session', [PaymentController::class, 'medicinePayment']);
 Route::post('/create-appointment-checkout-session', [PaymentController::class, 'appointmentPayment']);
@@ -100,6 +102,6 @@ Route::middleware('auth:sanctum')->resource('appointments', UserAppointmentContr
 
 // Prescriptions
 
-Route::middleware('auth:sanctum')->post('/prescriptions', [PrescriptionController::class, 'store']);
+Route::middleware('auth:sanctum')->resource('prescriptions', PrescriptionController::class)->only(['store', 'show']);
 
 Route::middleware('auth:sanctum')->resource('users', UserController::class)->only(['index', 'show', 'update']);

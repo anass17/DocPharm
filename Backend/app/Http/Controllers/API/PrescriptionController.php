@@ -71,7 +71,15 @@ class PrescriptionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $prescription = Prescription::with(['appointment.client', 'appointment.doctor', 'medicines'])
+        ->find($id);
+
+        if (!$prescription) {
+            return response()->json(['message' => "Prescription Not Found"], 404);
+        }
+
+        return response()->json(['prescription' => $prescription]);
+
     }
 
     /**
