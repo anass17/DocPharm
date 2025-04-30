@@ -3,15 +3,17 @@ import { AppstoreOutlined } from '@ant-design/icons';
 import { Button, ConfigProvider, Menu } from 'antd';
 import { GREEN, GREEN5 } from '../../config/colors';
 import { useNavigate } from 'react-router-dom';
-import { FaBars, FaBoxOpen, FaCalendar, FaCalendarCheck, FaColumns, FaHistory, FaPrescription, FaUser, FaUserEdit } from 'react-icons/fa';
+import { FaBars, FaBoxOpen, FaCalendar, FaColumns, FaHeadset, FaQuestion, FaUser, FaUserEdit } from 'react-icons/fa';
 import { Box, useMediaQuery } from '@mui/material';
 
 const links = {
-  '13': 'dashboard',
-  '15': 'appointments',
-  '16': 'orders',
-  '18': 'profile',
-  '19': 'settings',
+  '13': '/client/dashboard',
+  '15': '/client/appointments',
+  '16': '/client/orders',
+  '18': '/profile',
+  '19': '/settings',
+  '20': '/contact',
+  '21': '/faqs',
 }
 
 const items = [
@@ -29,7 +31,7 @@ const items = [
     type: 'group',
     children: [
       { key: '15', label: 'Appointments', icon: <FaCalendar /> },
-      { key: '16', label: 'Orders', icon: <FaPrescription />},
+      { key: '16', label: 'Orders', icon: <FaBoxOpen />},
     ],
   },
   {
@@ -46,9 +48,8 @@ const items = [
     label: 'Help',
     type: 'group',
     children: [
-      { key: '20', label: 'Contact Us', icon: <AppstoreOutlined /> },
-      { key: '21', label: 'FAQs', icon: <AppstoreOutlined /> },
-      { key: '22', label: 'Terms & Conditions', icon: <AppstoreOutlined /> },
+      { key: '20', label: 'Contact Us', icon: <FaHeadset /> },
+      { key: '21', label: 'FAQs', icon: <FaQuestion /> },
     ],
   },
 ];
@@ -62,7 +63,7 @@ const UserSidebar = ({menuItem}) => {
 
     const onClick = e => {
         if (links[e.key]) {
-            navigate(`/client/${links[e.key]}`);
+            navigate(`${links[e.key]}`);
         }
     };
 

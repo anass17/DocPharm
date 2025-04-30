@@ -4,6 +4,7 @@ import { logoutUser } from "../../store/actions/userActions";
 import Cookies from 'js-cookie';
 import { useEffect } from "react";
 import { backend_url } from "../../config/app";
+import { clearCart } from "../../store/actions/cartActions";
 
 export default function Logout() {
 
@@ -21,6 +22,7 @@ export default function Logout() {
 
             if (response.status === 200) {
                 dispatch(logoutUser())
+                dispatch(clearCart())
                 Cookies.remove('auth_token');
                 navigate('/login');
             }

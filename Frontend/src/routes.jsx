@@ -178,6 +178,7 @@ const RoutesList = () => {
             <Route path="/client/orders" element={<UserOrdersListing />} />
             <Route path="/settings" element={<UserSettings />} />
             <Route path="/profile" element={<UserProfile />} />
+            <Route path="/client/dashboard" element={<UserProfile />} />
 
 
             {/* Doctor Routes */}

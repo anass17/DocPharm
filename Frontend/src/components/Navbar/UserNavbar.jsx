@@ -5,7 +5,6 @@ import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
@@ -14,20 +13,16 @@ import Avatar from '@mui/material/Avatar';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import Divider from '@mui/material/Divider';
 import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 
-import { ShoppingCartOutlined, HeartFilled, HomeFilled } from '@ant-design/icons';
-import { FaHome, FaHeart, FaShoppingCart, FaArrowDown, FaUserCircle, FaBell, FaPills, FaColumns, FaUserNurse, FaPlus } from "react-icons/fa";
+import { FaHome, FaHeart, FaShoppingCart, FaPills, FaColumns, FaPlus, FaCalendar, FaStethoscope } from "react-icons/fa";
 import CartDrawer from '../Drawer/CartDrawer.jsx';
 
 import * as colors from '../../config/colors.js';
-import { Link, useParams } from 'react-router-dom';
-import { Icon } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-import { DownOutlined } from '@ant-design/icons';
-import { Badge, Dropdown, Space, Tooltip as TLP } from 'antd';
+import { Badge, Tooltip as TLP } from 'antd';
 import { useSelector } from 'react-redux';
 import { backend_url } from '../../config/app.js';
 
@@ -85,15 +80,20 @@ function UserNavbar() {
             <Box sx={{ display: 'flex', mr: {xs: 0, md: 3}, gap: '3px' }}>
 
               <TLP title="Dashboard" color={colors.PRIMARY_GREEN}>
-                <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
-                  <FaHome fill={colors.GRAY2} size={24} />
-                </Button>
+                <Link to={'/client/dashboard'}>
+                  <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
+                    <FaHome fill={colors.GRAY2} size={24} />
+                  </Button>
+                </Link>
+
               </TLP>
 
-              <TLP title="Updates" color={colors.PRIMARY_GREEN}>
-                <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
-                  <FaBell fill={colors.GRAY2} size={22} />
-                </Button>
+              <TLP title="Appointments" color={colors.PRIMARY_GREEN}>
+                <Link to={'/client/appointments'}>
+                  <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
+                    <FaCalendar fill={colors.GRAY2} size={21} />
+                  </Button>
+                </Link>
               </TLP>
 
               <TLP title="Favorite" color={colors.PRIMARY_GREEN}>
@@ -182,7 +182,7 @@ function UserNavbar() {
             <Link to={'/doctors'}>
               <MenuItem onClick={handleClose}>
                 <ListItemIcon>
-                  <FaUserNurse size={18} />
+                  <FaStethoscope size={18} />
                 </ListItemIcon>
                 Doctors
               </MenuItem>
