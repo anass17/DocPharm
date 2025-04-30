@@ -71,6 +71,7 @@ class UserAppointmentController extends Controller
             'doctor_id' => $doctor->id,
             'client_id' => $request->user()->id,
             'appointment_date' => $request->selectedDate,
+            'appointment_status' => 'active',
             'appointment_type' => $request->selectedType,
             'appointment_price' => $doctor->appointment_prices[$request->selectedType],
             'appointment_description' => $request->addedDescription,

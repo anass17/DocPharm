@@ -199,7 +199,7 @@ function UserNavbar() {
 
             <Divider sx={{ my: 1 }} />
             
-            <Link to={'/user/dashboard'}>
+            <Link to={'/client/dashboard'}>
               <MenuItem onClick={handleClose}>
                 <ListItemIcon>
                   <FaColumns size={18} />

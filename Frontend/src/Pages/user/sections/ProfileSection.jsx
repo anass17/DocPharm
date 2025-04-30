@@ -33,19 +33,19 @@ const ProfileSection = () => {
                         <Box>
                             <Flex gap={15} style={{ marginBottom: 4 }}>
                                 <FaPhoneAlt style={{ position: 'relative', top: 4 }} fill={PRIMARY_GREEN} />
-                                <TP>{user?.phone_number ? user.phone_number : 'loading ...'}</TP>
+                                <TP>{user ? (user?.phone_number ? user.phone_number : 'N/A') : 'loading'}</TP>
                             </Flex>
                         </Box>
                         <Box>
                             <Flex gap={15} style={{ marginBottom: 4 }}>
                                 <FaEnvelope style={{ position: 'relative', top: 4 }} fill={PRIMARY_GREEN} />
-                                <TP>{user?.email ? user.email : 'loading ...'}</TP>
+                                <TP>{user ? (user?.email ? user.email : 'N/A') : 'loading'}</TP>
                             </Flex>
                         </Box>
                         <Box>
                             <Flex gap={15} style={{ marginBottom: 4 }}>
                                 <FaMapMarkerAlt style={{ position: 'relative', top: 4 }} fill={PRIMARY_GREEN} />
-                                <TP>{user?.address ? (user.address + ', ' + user.city) : 'loading ...'}</TP>
+                                <TP>{user ? (user?.address ? (user.address + ', ' + user.city) : 'N/A') : 'loading'}</TP>
                             </Flex>
                         </Box>
                     </Col>

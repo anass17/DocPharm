@@ -6,6 +6,7 @@ use App\Http\Controllers\API\AppointmentHistoryController;
 use App\Http\Controllers\API\AppointmentController;
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\CartController;
+use App\Http\Controllers\API\ClientDashboardController;
 use App\Http\Controllers\API\DoctorController;
 use App\Http\Controllers\API\DoctorDashboardController;
 use App\Http\Controllers\API\DoctorSettingsController;
@@ -80,6 +81,7 @@ Route::middleware('auth:sanctum')->post('/admin/update/profile_picture', [AdminS
 Route::middleware('auth:sanctum')->post('/user/update/security', [UserSettingsController::class, 'updateSecurity']);
 Route::middleware('auth:sanctum')->put('/user/update/general', [UserSettingsController::class, 'updateGeneralInfo']);
 Route::middleware('auth:sanctum')->post('/user/update/profile_picture', [UserSettingsController::class, 'updateProfilePicture']);
+Route::middleware('auth:sanctum')->get('/client/dashboard', [ClientDashboardController::class, 'index']);
 
 // Orders
 

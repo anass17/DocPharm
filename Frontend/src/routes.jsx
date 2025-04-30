@@ -15,6 +15,7 @@ import UserSettings from './Pages/user/UserSettings.jsx';
 import UserProfile from './Pages/user/UserProfile.jsx';
 import AdminProfile from './Pages/admin/AdminProfile.jsx';
 import UserPrescriptionView from './Pages/user/UserPrescriptionView.jsx';
+import UserDashboard from './Pages/user/UserDashboard.jsx';
 
 const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
@@ -179,7 +180,7 @@ const RoutesList = () => {
             <Route path="/client/orders" element={<UserOrdersListing />} />
             <Route path="/settings" element={<UserSettings />} />
             <Route path="/profile" element={<UserProfile />} />
-            <Route path="/client/dashboard" element={<UserProfile />} />
+            <Route path="/client/dashboard" element={<UserDashboard />} />
             <Route path="/client/prescriptions/:id" element={<UserPrescriptionView />} />
 
 
