@@ -3,6 +3,7 @@ import HeroSection from "./sections/HeroSection";
 import AboutSection from './sections/AboutSection';
 import ServicesSection from './sections/ServicesSection';
 import SponsorsSection from './sections/SponsorsSection';
+import VisitSection from "./sections/VisitSection";
 
 function Home() {
 
@@ -12,6 +13,7 @@ function Home() {
         <HeroSection />
         <AboutSection />
         <ServicesSection />
+        <VisitSection />
         <SponsorsSection />
       </Layout>
     </>
