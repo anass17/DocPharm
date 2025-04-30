@@ -72,7 +72,7 @@ const UserMedicinesSection = ({sorting, filters}) => {
                 {
                     medicines.map((item, index) => {
                         return (
-                            <Col span={8} key={'medicine-' + index}>
+                            <Col xs={24} sm={12} xl={8} key={'medicine-' + index}>
                                 <UserMedicineCard medicine={item} />
                             </Col>
                         )

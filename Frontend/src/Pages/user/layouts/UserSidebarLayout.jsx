@@ -11,12 +11,12 @@ function UserSidebarLayout({filters, setFilters, Sidebar, children, title, sorti
             <UserNavbar />
             <Container maxWidth="xl" sx={{py: 3 }}>
                 <Row gutter={22}>
-                    <Col xs={6}>
+                    <Col xs={0} lg={8} xl={6}>
                         <Sidebar filters={filters} setFilters={setFilters} />
                     </Col>
-                    <Col xs={18}>
+                    <Col xs={24} lg={16} xl={18}>
                         <div style={{ padding: "0.5rem 0", flex: 1 }}>
-                            <Flex justify='space-between' align='center' style={{ marginBottom: '45px' }}>
+                            <Flex justify='space-between' align='center' style={{ marginBottom: '45px', flexWrap: 'wrap' }} gap={40}>
                                 <Title level={1} style={{ marginBottom: 0 }}>{title}</Title>
                                 {
                                     sortOptions ? (
