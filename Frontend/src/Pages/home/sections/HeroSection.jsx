@@ -9,7 +9,7 @@ export default function HeroSection() {
             <Container maxWidth="lg" sx={{ height: '100vh', display: 'flex', alignItems: 'center' }}>
                 <Row gutter={[16, 20]}>
                     <Col xs={24} lg={12} style={{ display: 'flex', alignItems: 'center' }}>
-                        <Box sx={{ textAlign: {xs: 'center', lg: 'left'}, paddingBottom: {xs: 10, lg: 0} }}>
+                        <Box sx={{ textAlign: {xs: 'center', lg: 'left'} }}>
                             <Typography variant="h4" color={GRAY0} component='h1' mb={5}>Your Health Is Our Top Priority</Typography>
                             <Typography variant="body1" mb={3} color={GRAY2}>
                                 Find the best doctors, medicines, and healthcare services all in one place. We're here to make healthcare accessible and convenient for you.
