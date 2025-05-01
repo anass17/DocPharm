@@ -26,30 +26,21 @@ class DoctorFactory extends Factory
             'phone_number' => $this->faker->phoneNumber,
             'profile_picture' => $this->faker->randomElement(['/storage/profile/image_' . $this->faker->numberBetween(2, 7) . '.jpg', '']),
             'address' => $this->faker->address,
-            'city' => $this->faker->city,
-            'bio' => $this->faker->optional()->sentence,
+            'city' => $this->faker->randomElement(["Agadir", "Azilal", "Benslimane", "Berkane", "Casablanca", "Chefchaouen", "Dakhla", "El Jadida", "Errachidia", "Essaouira", "Fès", "Figuig", "Guelmim", "Ifrane", "Kénitra", "Khémisset", "Khouribga", "Laâyoune", "Larache", "Marrakesh", "Meknès", "Midelt", "Mohammedia", "Ouarzazate", "Oujda", "Rabat", "Safi", "Salé", "Sefrou", "Settat", "Tanger", "Tata", "Tiznit", "Taroudant", "Tétouan", "Tinghir", "Youssoufia"]),
+            'bio' => $this->faker->sentence,
             'medical_license_number' => $this->faker->word,
             'postal_code' => $this->faker->postcode,
             'verification_step' => $this->faker->randomElement(['complete', 'incomplete']),
-            'appointment_type' => $this->faker->randomElement(['in_person', 'online', 'both']),
-            'appointment_prices' => $this->faker->optional()->randomElement([
+            'appointment_type' => $this->faker->randomElement(['in_person', 'online', 'both', 'paused']),
+            'appointment_prices' => $this->faker->randomElement([
                 json_encode([
                     'online' => $this->faker->randomFloat(2, 100, 200),
                     'in_person' => $this->faker->randomFloat(2, 100, 200),
                 ]),
-                json_encode([
-                    'online' => null,
-                    'in_person' => $this->faker->randomFloat(2, 100, 200),
-                ]),
-                json_encode([
-                    'online' => $this->faker->randomFloat(2, 100, 200),
-                    'in_person' => null,
-                ]),
-                null,
             ]),
             'speciality' => $this->faker->randomElement(['Cardiology', 'Dermatology', 'Neurology', 'Pediatrics', 'Psychiatry', 'Oncology', 'Ophthalmology', 'Orthopedics', 'Gynecology', 'Endocrinology', 'Gastroenterology', 'Pulmonology', 'Radiology', 'Anesthesiology', 'Urology', 'Rheumatology', 'General Surgery', 'Family Medicine', 'Infectious Disease', 'Nephrology']),
             'personal_files_path' => $this->faker->word,
-            'building_image' => '',
+            'building_image' => '/storage/pharmacies/image_' . $this->faker->numberBetween(1,8) . '.jpg',
             'facebook_url' => $this->faker->optional()->url,
             'instagram_url' => $this->faker->optional()->url,
             'twitter_url' => $this->faker->optional()->url,
@@ -63,7 +54,7 @@ class DoctorFactory extends Factory
                 'sunday' => $this->generateWorkingDay(true),
             ],
             'status' => $this->faker->randomElement(['pending', 'active', 'banned']),
-            'created_at' => now(),
+            'created_at' => $this->faker->dateTimeBetween('-2 months', 'now'),
             'updated_at' => now(),
         ];
     }

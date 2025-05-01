@@ -67,7 +67,7 @@ const ProfileSection = () => {
                             </Col>
                             <Col span={24}>
                                 <Typography.Title level={5}>Follow Us</Typography.Title>
-                                <Box>
+                                <Box className="flex gap-3">
                                     {
                                         user?.facebook_url ? (
                                             <Box sx={{ color: GRAY2, '&:hover': {color: '#1877F2'} }}>

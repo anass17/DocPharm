@@ -118,11 +118,11 @@ const SettingsGeneralInfoChange = () => {
                 <Row gutter={16}>
                     <Col span={12}>
                         <Typography.Title level={5}>Profile Picture</Typography.Title>
-                        <CustomFileInput url='http://localhost:8000/storage/profile/fake.png' />
+                        <CustomFileInput url={backend_url + (user?.profile_picture ? user?.profile_picture : '/storage/user_placeholder.jpg')} />
                     </Col>
                     <Col span={12}>
                         <Typography.Title level={5}>Building Image</Typography.Title>
-                        <CustomFileInput url='http://localhost:8000/storage/test/pharmacy.jpg' />
+                        <CustomFileInput url={backend_url + (user?.building_image ? user?.building_image : '/storage/placeholder.jpg')} />
                     </Col>
                 </Row>
                 <Row gutter={[10, 16]} style={{ margin: '1.25rem 0' }}>

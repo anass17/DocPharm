@@ -28,7 +28,7 @@ class AdminSeeder extends Seeder
                 'city' => 'Rabat',
                 'postal_code' => '10000',
                 'verification_step' => 'complete',
-                'personal_files_path' => '/sadasdtesrser',
+                'personal_files_path' => '',
                 'status' => 'active',
             ],
         ]);

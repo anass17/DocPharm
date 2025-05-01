@@ -133,6 +133,7 @@ const SettingsReservationChange = () => {
                                 { value: 'both', label: 'Both' },
                                 { value: 'online', label: 'Online Only' },
                                 { value: 'in-person', label: 'In-Person Only' },
+                                { value: 'paused', label: 'Paused' },
                               ]}
                         />
                         <Typography.Text style={{ color: 'red' }}>{reservationErrors.appointment_type}</Typography.Text>

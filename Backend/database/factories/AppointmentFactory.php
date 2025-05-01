@@ -19,13 +19,13 @@ class AppointmentFactory extends Factory
     public function definition(): array
     {
         return [
-            'appointment_date' => $this->faker->dateTimeBetween('now', '+6 months'),
+            'appointment_date' => $this->faker->dateTimeBetween('-3 months', '+3 months'),
             'appointment_type' => $this->faker->randomElement(['online', 'in_person']),
-            'appointment_price' => $this->faker->randomFloat(2, 100, 1000),
-            'appointment_description' => $this->faker->sentence(8),
+            'appointment_price' => $this->faker->randomFloat(2, 100, 200),
+            'appointment_description' => $this->faker->sentence(10),
             'appointment_status' => $this->faker->randomElement(['active', 'closed', 'rejected']),
             'appointment_prescription' => null,
-            'appointment_rejection_note' => $this->faker->optional()->sentence(10),
+            'appointment_rejection_note' => $this->faker->sentence(10),
             'client_id' => \App\Models\Client::factory(),
             'doctor_id' => \App\Models\Doctor::factory(),
         ];

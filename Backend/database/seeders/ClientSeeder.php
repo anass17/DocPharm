@@ -34,7 +34,7 @@ class ClientSeeder extends Seeder
         //     ],
         // ]);
 
-        Client::factory(19)->create();
+        Client::factory(40)->create();
         
     }
 }

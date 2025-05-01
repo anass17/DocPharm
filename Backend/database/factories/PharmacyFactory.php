@@ -29,8 +29,8 @@ class PharmacyFactory extends Factory
             'phone_number' => $this->faker->phoneNumber,
             'profile_picture' => $this->faker->randomElement(['/storage/profile/image_' . $this->faker->numberBetween(2, 7) . '.jpg', '']),
             'address' => $this->faker->address,
-            'city' => $this->faker->city,
-            'bio' => $this->faker->optional()->sentence,
+            'city' => $this->faker->randomElement(["Agadir", "Azilal", "Benslimane", "Berkane", "Casablanca", "Chefchaouen", "Dakhla", "El Jadida", "Errachidia", "Essaouira", "Fès", "Figuig", "Guelmim", "Ifrane", "Kénitra", "Khémisset", "Khouribga", "Laâyoune", "Larache", "Marrakesh", "Meknès", "Midelt", "Mohammedia", "Ouarzazate", "Oujda", "Rabat", "Safi", "Salé", "Sefrou", "Settat", "Tanger", "Tata", "Tiznit", "Taroudant", "Tétouan", "Tinghir", "Youssoufia"]),
+            'bio' => $this->faker->sentence,
             'medical_license_number' => $this->faker->word,
             'postal_code' => $this->faker->postcode,
             'verification_step' => $this->faker->randomElement(['complete', 'incomplete']),
@@ -51,7 +51,7 @@ class PharmacyFactory extends Factory
                 'sunday' => $this->generateWorkingDay(true),   // weekend
             ],
             'status' => $this->faker->randomElement(['pending', 'active', 'banned']),
-            'created_at' => now(),
+            'created_at' => $this->faker->dateTimeBetween('-2 months', 'now'),
             'updated_at' => now(),
         ];
     }

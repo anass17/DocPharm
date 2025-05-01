@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
         // Orders
 
         $this->call(OrderSeeder::class);
-        // $this->call(OrderMedicineSeeder::class);
 
         // Appointments
 

@@ -23,12 +23,12 @@ class OrderFactory extends Factory
     public function definition(): array
     {
         return [
-            'confirmed_at' => $this->faker->optional()->dateTimeBetween('-1 week', 'now'),
-            'delivered_at' => $this->faker->optional()->dateTimeBetween('now', '+1 week'),
+            'confirmed_at' => $this->faker->optional()->dateTimeBetween('-1 month', 'now'),
+            'delivered_at' => $this->faker->optional()->dateTimeBetween('-1 month', 'now'),
             'status' => $this->faker->randomElement(['pending', 'accepted', 'ready', 'rejected', 'delivered']),
             'rejection_reason' => $this->faker->randomElement(['', 'Out of stock', 'Invalid address', 'Payment issue']),
             'rejection_note' => $this->faker->optional(0.5, '')->sentence,
-            'delivery_code' => $this->faker->optional()->numberBetween(1000, 9999),
+            'delivery_code' => $this->faker->optional()->numberBetween(100000, 999999),
             'tries' => 0,
             'client_id' => Client::where('role', 'client')->inRandomOrder()->value('id'), // picking only clients
         ];

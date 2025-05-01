@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('medical_license_number')->nullable();
             $table->string('postal_code')->nullable();
             $table->enum('verification_step', ['complete', 'incomplete'])->default('incomplete');
-            $table->enum('appointment_type', ['in_person', 'online', 'both'])->nullable();
+            $table->enum('appointment_type', ['in_person', 'online', 'both', 'paused'])->nullable();
             $table->json('appointment_prices')->nullable();
             $table->string('pharmacy_name')->nullable();
             $table->string('speciality')->nullable();

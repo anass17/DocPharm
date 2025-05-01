@@ -16,7 +16,7 @@ class PharmacySeeder extends Seeder
     public function run(): void
     {
 
-        Pharmacy::factory(20)->create();
+        Pharmacy::factory(40)->create();
 
         // DB::table('users')->insert([
         //     [

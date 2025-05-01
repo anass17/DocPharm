@@ -92,7 +92,7 @@ class DoctorSettingsController extends Controller
 
     public function updateReservationDetails(Request $request) {
         $validation = Validator::make($request->all(), [
-            'appointment_type' => 'required|in:both,in-person,online',
+            'appointment_type' => 'required|in:both,in-person,online,paused',
             'in_person_appointment_price' => 'required|numeric',
             'online_appointment_price' => 'required|numeric',
         ]);
