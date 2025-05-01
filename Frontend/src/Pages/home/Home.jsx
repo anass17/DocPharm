@@ -12,7 +12,7 @@ function Home() {
 
   return (
     <>
-        <Navbar bgColor="rgba(255, 255, 255, 0)" textColor={GRAY2} shadow="none" logo="Logo-Dark.png" />
+        <Navbar bgColor="rgba(255, 255, 255, 0)" textColor={GRAY2} shadow="none" logo="Logo-Dark.png" position="absolute" />
         <HeroSection />
         <AboutSection />
         <ServicesSection />

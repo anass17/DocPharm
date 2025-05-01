@@ -1,5 +1,4 @@
 import { Box, Container, Grid2, Link, Typography } from '@mui/material';
-import {styled} from '@mui/system'
 import { GRAY0, GREEN, GRAY2, GRAY3, GRAY4 } from "../../config/colors"
 import { Col, Row } from 'antd';
 
@@ -15,10 +14,10 @@ export default function Footer() {
                     <Col xs={24} md={12} lg={6}>
                         <Typography variant="h6" color={'#FFF'} component='h3' mb={2}>Quick Links</Typography>
                         <Box color={'#9CA3AF'} sx={{display: 'flex', flexDirection: 'column', gap: '10px'}}>
-                            <Link href="#" sx={{textDecoration: 'none', color: 'inherit', fontFamily: 'inherit'}}>Medicines</Link>
-                            <Link href="#" sx={{textDecoration: 'none', color: 'inherit', fontFamily: 'inherit'}}>Doctors</Link>
-                            <Link href="#" sx={{textDecoration: 'none', color: 'inherit', fontFamily: 'inherit'}}>Pharmacies</Link>
-                            <Link href="#" sx={{textDecoration: 'none', color: 'inherit', fontFamily: 'inherit'}}>FAQs</Link>
+                            <Link href="/login" sx={{textDecoration: 'none', color: 'inherit', fontFamily: 'inherit'}}>Medicines</Link>
+                            <Link href="/login" sx={{textDecoration: 'none', color: 'inherit', fontFamily: 'inherit'}}>Doctors</Link>
+                            <Link href="/login" sx={{textDecoration: 'none', color: 'inherit', fontFamily: 'inherit'}}>Pharmacies</Link>
+                            <Link href="/faqs" sx={{textDecoration: 'none', color: 'inherit', fontFamily: 'inherit'}}>FAQs</Link>
                         </Box>
                     </Col>
                     <Col xs={24} md={12} lg={6}>
