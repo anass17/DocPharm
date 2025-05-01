@@ -22,15 +22,17 @@ import CartDrawer from '../Drawer/CartDrawer.jsx';
 import * as colors from '../../config/colors.js';
 import { Link } from 'react-router-dom';
 
-import { Badge, Tooltip as TLP } from 'antd';
+import { Badge, ConfigProvider, Dropdown, Tooltip as TLP } from 'antd';
 import { useSelector } from 'react-redux';
 import { backend_url } from '../../config/app.js';
+import Title from 'antd/es/typography/Title.js';
 
 function UserNavbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false)
   const cart = useSelector(data => data.cart.cart)
   const user = useSelector(data => data.user.user)
+  const favorite = useSelector(data => data.favorite.favorite)
 
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -96,11 +98,50 @@ function UserNavbar() {
                 </Link>
               </TLP>
 
-              <TLP title="Favorite" color={colors.PRIMARY_GREEN}>
-                <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
-                  <FaHeart fill='#F40' size={22}/>
-                </Button>
-              </TLP>
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Dropdown: {
+                      paddingBlock: 10
+                    },
+                  },
+                }}
+              >
+                <Dropdown menu={{items: [
+                    {
+                      key: '1',
+                      type: 'group',
+                      label: <Title level={5} style={{ textAlign: 'center', marginBottom: 0 }}>Favorite</Title>,
+                      children: 
+                        favorite.length === 0 ? (
+                          [
+                            {
+                              key: 'disabled',
+                              label: <Typography fontSize={14} className='text-center'>You have no items in favorite</Typography>,
+                            }
+                          ]
+                        ) :
+                        favorite.map((item, index) => {
+                          return {
+                            key: 'fav-' + index,
+                            label: 
+                              <Link to={'/medicines/' + item.id}>
+                                <Typography>{item.medicine_name}</Typography>
+                                <Typography fontSize={12} color={colors.GRAY3}>{item.medicine_weight}mg</Typography>
+                              </Link>
+                          }
+                        }),
+                    },
+                  ]}} 
+                  trigger={['click']} placement="bottom" arrow={{ pointAtCenter: true }} overlayStyle={{ minWidth: 320 }}
+                >
+                  <a onClick={e => e.preventDefault()}>
+                    <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
+                      <FaHeart fill='#F40' size={22}/>
+                    </Button>
+                  </a>
+                </Dropdown>
+              </ConfigProvider>
 
               <TLP title="Cart" color={colors.PRIMARY_GREEN}>
                 <Badge count={cart.length} size="small" offset={[-17, 5]} style={{background: '#FFF', color: colors.PRIMARY_GREEN, borderColor: colors.PRIMARY_GREEN, fontWeight: 500}}>

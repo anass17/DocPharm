@@ -7,9 +7,10 @@ import Cookies from 'js-cookie';
 import { Link, useParams } from "react-router-dom";
 import { Tabs } from 'antd';
 import AddToCartModal from "../../../components/Modal/Medicine/AddToCartModal";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaCheck, FaHeart, FaMapMarker, FaMapMarkerAlt, FaMarker, FaPills, FaRegHeart, FaShoppingCart } from "react-icons/fa";
-import { grey } from "@mui/material/colors";
+import { grey, red } from "@mui/material/colors";
+import { addMedicineToFavorite, deleteMedicineFromFavorite } from "../../../store/actions/favoriteActions";
 
 const { Title, Text } = Typography
 
@@ -40,6 +41,9 @@ const UserMedicineDisplaySection = () => {
     const [open, setOpen] = useState(false);
     const { id: param_id } = useParams();
     const cart = useSelector(data => data.cart.cart)
+    const favoriteList = useSelector(data => data.favorite.favorite)
+    const [favorited, setFavorited] = useState(false)
+    const dispatch = useDispatch()
 
     const info = (message) => {
         messageApi.open({
@@ -53,6 +57,14 @@ const UserMedicineDisplaySection = () => {
     const onChange = key => {
         console.log(key);
     };
+
+    const handleFavorite = () => {
+        favorited ? 
+        dispatch(deleteMedicineFromFavorite(medicine.id)) :
+        dispatch(addMedicineToFavorite(medicine))
+
+        setFavorited(!favorited)
+    }
 
     const getMedicineDetails = async (id) => {
 
@@ -111,6 +123,9 @@ const UserMedicineDisplaySection = () => {
         getMedicineDetails(param_id)
     }, [param_id])
 
+    useEffect(() => {
+        setFavorited(favoriteList.filter(item => item.id === medicine.id).length > 0 ? true : false)
+    }, [medicine])
 
     return (
         <>
@@ -169,10 +184,10 @@ const UserMedicineDisplaySection = () => {
                     <Flex gap={6}>
                         {
                             cart?.filter(item => item.medicine_id == param_id).length > 0 ?
-                            <Button style={{ flex: 1, backgroundColor: grey[300], border: 'none', height: 40, color: GRAY2 }} onClick={() => setOpen(true)} icon={<FaCheck />}>Added To cart</Button> :
-                            <Button style={{ flex: 1, backgroundColor: GREEN, borderColor: GREEN, height: 40, color: '#FFF' }} onClick={() => setOpen(true)} icon={<FaShoppingCart />}>Add To Cart</Button>
+                            <Button style={{ flex: 1, backgroundColor: grey[300], border: 'none', height: 40, color: GRAY2 }} onClick={() => setOpen(true)} icon={<FaCheck size={16} />}>Added To cart</Button> :
+                            <Button style={{ flex: 1, backgroundColor: GREEN, borderColor: GREEN, height: 40, color: '#FFF' }} onClick={() => setOpen(true)} icon={<FaShoppingCart size={16} />}>Add To Cart</Button>
                         }
-                        <Button style={{ width: 40, height: 40, padding: 0 }}><FaRegHeart /></Button>
+                        <Button style={{ width: 40, height: 40, padding: 0 }} onClick={handleFavorite}>{favorited ? <FaHeart size={18} color={red[500]} /> : <FaRegHeart size={18} />}</Button>
                     </Flex>
                 </Col>
             </Row>

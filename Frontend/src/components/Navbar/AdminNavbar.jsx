@@ -16,7 +16,7 @@ import {Tooltip as TLP} from 'antd'
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 
-import { FaHome, FaBoxes, FaCheckCircle, FaUser } from "react-icons/fa";
+import { FaHome, FaBoxes, FaCheckCircle, FaUser, FaClock, FaCapsules } from "react-icons/fa";
 
 
 import * as colors from '../../config/colors.js';
@@ -78,20 +78,18 @@ function AdminNavbar() {
                 </Link>
               </TLP>
 
-              <TLP title="Orders" color={colors.PRIMARY_GREEN}>
-                <Badge count={0} size="small" offset={[-17, 5]} style={{background: '#FFF', color: colors.PRIMARY_GREEN, borderColor: colors.PRIMARY_GREEN, fontWeight: 500}}>
-                  <Link to={'/pharmacy/orders'}>
-                    <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
-                      <FaCheckCircle fill={colors.GRAY2} size={21} />
-                    </Button>
-                  </Link>
-                </Badge>
+              <TLP title="Pending Requests" color={colors.PRIMARY_GREEN}>
+                <Link to={'/admin/users/pending'}>
+                  <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
+                    <FaClock fill={colors.GRAY2} size={21} />
+                  </Button>
+                </Link>
               </TLP>
 
-              <TLP title="Inventory" color={colors.PRIMARY_GREEN}>
-                <Link to={'/pharmacy/inventory'}>
+              <TLP title="Medicine Management" color={colors.PRIMARY_GREEN}>
+                <Link to={'/admin/medicines/manage'}>
                   <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}> 
-                    <FaBoxes fill={colors.GRAY2} size={21}/>
+                    <FaCapsules fill={colors.GRAY2} size={21}/>
                   </Button>
                 </Link>
               </TLP>

@@ -12,6 +12,8 @@ import { Link } from 'react-router-dom';
 import { HeartFilled } from '@ant-design/icons';
 import { red } from '@mui/material/colors';
 import { FaShoppingCart } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { addMedicineToFavorite, deleteMedicineFromFavorite } from '../../../store/actions/favoriteActions';
 
 const customPillsIcon = (
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-capsule-pill" viewBox="0 0 16 16">
@@ -29,9 +31,13 @@ const customPrescriptionIcon = (
 
 const UserMedicineCard = ({medicine}) => {
     const [favorite, setFavorite] = React.useState(false);
+    const dispatch = useDispatch()
 
 
     const handleFavoriteClick = () => {
+        favorite ? 
+        dispatch(deleteMedicineFromFavorite(medicine.id)) :
+        dispatch(addMedicineToFavorite(medicine))
         setFavorite(!favorite)
     }
 

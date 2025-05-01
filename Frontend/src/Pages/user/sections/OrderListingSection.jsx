@@ -92,63 +92,70 @@ const OrderListingSection = () => {
                         <Spin indicator={<LoadingOutlined spin />} size="large" />
                     </Flex>
                 ) : (
+                    orders.length === 0 ? (
+                        <Box style={{ padding: '2rem 0', textAlign: 'center' }}>
+                            <TP>You have not placed any orders</TP>
+                        </Box>
+                    ) : 
                     <Row gutter={[16, 16]}>
                         <Col xs={24} xl={10}>
                             <Row gutter={[10, 10]}>
-                                {orders.map((item, index) => {
-                                    return (
-                                        <Col span={24} key={'order-' + index}>
-                                            <Box style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 16 }} className={`shadow border-2 cursor-pointer ${selected == index ? "border-green-500" : "border-gray-100"}`} onClick={() => setSelected(index)}>
-                                                <Row gutter={[12, 20]}>
-                                                    <Col span={16}>
-                                                        <Title level={5}>{item?.medicines[0]?.pharmacy.pharmacy_name}</Title>
-                                                    </Col>
-                                                    <Col span={8}>
-                                                        <TP fontSize={14} align="right">#{item?.id}</TP>
-                                                    </Col>
-                                                    <Col span={16}>
-                                                        <Flex align="center" gap={5}>
-                                                            <FaRegCalendar />
-                                                            <TP fontSize={14}>{dayjs(item?.confirmed_at).format("MMMM DD, YYYY")}</TP>
-                                                        </Flex>
-                                                    </Col>
-                                                    <Col span={8}>
-                                                        <Flex align="center" gap={5} justify="right">
-                                                            {
-                                                                item?.status == 'delivered' ? (
-                                                                    <>
-                                                                        <FaBoxOpen />
-                                                                        <TP fontSize={14}>Delivered</TP>
-                                                                    </>
-                                                                ) : (
-                                                                    item?.status == 'accepted' ? (
+                                {
+                                    orders.map((item, index) => {
+                                        return (
+                                            <Col span={24} key={'order-' + index}>
+                                                <Box style={{ backgroundColor: '#FFF', borderRadius: 5, padding: 16 }} className={`shadow border-2 cursor-pointer ${selected == index ? "border-green-500" : "border-gray-100"}`} onClick={() => setSelected(index)}>
+                                                    <Row gutter={[12, 20]}>
+                                                        <Col span={16}>
+                                                            <Title level={5}>{item?.medicines[0]?.pharmacy.pharmacy_name}</Title>
+                                                        </Col>
+                                                        <Col span={8}>
+                                                            <TP fontSize={14} align="right">#{item?.id}</TP>
+                                                        </Col>
+                                                        <Col span={16}>
+                                                            <Flex align="center" gap={5}>
+                                                                <FaRegCalendar />
+                                                                <TP fontSize={14}>{dayjs(item?.confirmed_at).format("MMMM DD, YYYY")}</TP>
+                                                            </Flex>
+                                                        </Col>
+                                                        <Col span={8}>
+                                                            <Flex align="center" gap={5} justify="right">
+                                                                {
+                                                                    item?.status == 'delivered' ? (
                                                                         <>
-                                                                            <FaCheck />
-                                                                            <TP fontSize={14}>Accepted</TP>
+                                                                            <FaBoxOpen />
+                                                                            <TP fontSize={14}>Delivered</TP>
                                                                         </>
                                                                     ) : (
-                                                                        item?.status == 'ready' ? (
+                                                                        item?.status == 'accepted' ? (
                                                                             <>
-                                                                                <FaBox />
-                                                                                <TP fontSize={14}>Ready</TP>
+                                                                                <FaCheck />
+                                                                                <TP fontSize={14}>Accepted</TP>
                                                                             </>
                                                                         ) : (
-                                                                            <>
-                                                                                <FaClock />
-                                                                                <TP fontSize={14}>Awaiting</TP>
-                                                                            </>
+                                                                            item?.status == 'ready' ? (
+                                                                                <>
+                                                                                    <FaBox />
+                                                                                    <TP fontSize={14}>Ready</TP>
+                                                                                </>
+                                                                            ) : (
+                                                                                <>
+                                                                                    <FaClock />
+                                                                                    <TP fontSize={14}>Awaiting</TP>
+                                                                                </>
+                                                                            )
                                                                         )
                                                                     )
-                                                                )
-                                                            }
-                                                            
-                                                        </Flex>
-                                                    </Col>
-                                                </Row>
-                                            </Box>
-                                        </Col>
-                                    )
-                                })}
+                                                                }
+                                                                
+                                                            </Flex>
+                                                        </Col>
+                                                    </Row>
+                                                </Box>
+                                            </Col>
+                                        )
+                                    })
+                                }
                             </Row>
                         </Col>
                         <Col xs={24} xl={14}>
