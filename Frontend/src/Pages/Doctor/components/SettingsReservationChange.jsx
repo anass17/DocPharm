@@ -61,10 +61,10 @@ const SettingsReservationChange = () => {
         if (!reservationData.appointment_type) {
             errors.appointment_type = "Select a type"
         }
-        if (reservationData.online_appointment_price.search(/^[0-9]+(.[0-9]+)*$/) < 0) {
+        if (!reservationData.online_appointment_price || reservationData.online_appointment_price.search(/^[0-9]+(.[0-9]+)*$/) < 0) {
             errors.online_appointment_price = "Enter a valid price"
         }
-        if (reservationData.in_person_appointment_price.search(/^[0-9]+(.[0-9]+)*$/) < 0) {
+        if (!reservationData.in_person_appointment_price || reservationData.in_person_appointment_price.search(/^[0-9]+(.[0-9]+)*$/) < 0) {
             errors.in_person_appointment_price = "Enter a valid price"
         }
 

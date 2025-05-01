@@ -289,61 +289,72 @@ const BookAppointmentSection = () => {
                     </Box>
                     <Box p={3} bgcolor='#FFF' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)' borderRadius={2}>
                         <Typography.Title level={4} style={{ marginBottom: 35 }}>Book an Appointment</Typography.Title>
-                        <Row gutter={[30, 30]}>
-                            <Col xs={24} lg={12}>
-                                <Typography.Title level={5} style={{ marginBottom: 10 }}>Select Date</Typography.Title>
-                                <AppointmentPicker onDateChange={handleDateChange}/>
-                                <Typography.Text style={{ color: 'red' }}>{formErrors.selectedDate}</Typography.Text>
-                            </Col>
-                            <Col xs={24} lg={12}>
-                            <Typography.Title level={5} style={{ marginBottom: 10 }}>Select Time</Typography.Title>
-                            {
-                                slotLoading ? (
-                                    <Box style={{ textAlign: 'center', paddingTop: 30 }}>
-                                        <Spin indicator={<LoadingOutlined spin />} size="large" />
-                                    </Box>
-                                ) : (
-                                    <>
-                                        <AppointmentTimePicker active={doctor.working_hours ? doctor.working_hours[selectedDay].active : false} 
-                                            start={doctor.working_hours ? doctor.working_hours[selectedDay].open : '9:00'} end={doctor.working_hours ? doctor.working_hours[selectedDay].close : '17:00'} 
-                                            onSelect={handleTimeSelect} selectedSlot={selectedSlot}
-                                            reservedSlots={reservedSlots}
-                                        />
-                                        <Typography.Text style={{ color: 'red' }}>{formErrors.selectedSlot}</Typography.Text>
-                                    </>
-                                )
-                            }
-                                
-                            </Col>
-                            <Col xs={24} lg={12}>
-                                <Typography.Title level={5} style={{ marginBottom: 10 }}>Appointment Type</Typography.Title>
-                                <AppointmentTypeSelect value={selectedType} onSelect={setSelectedType} data={doctor.appointment_prices} />
-                                <Typography.Text style={{ color: 'red' }}>{formErrors.selectedType}</Typography.Text>
-                            </Col>
-                            <Col xs={24} lg={12}>
-                                <Typography.Title level={5} style={{ marginBottom: 10 }}>Description</Typography.Title>
-                                <TextField multiline rows={4} name="" onChange={handleTextChange} value={addedDescription} fullWidth placeholder="Please provide a brief description of the reason for your visit or any symptoms you're experiencing." />
-                                <Typography.Text style={{ color: 'red' }}>{formErrors.addedDescription}</Typography.Text>
-                                
-                                {
-                                    loading ? (
-                                        <LoadingButton style={{ width: '100%', marginTop: 10 }}>
-                                            Book Appointment
-                                        </LoadingButton>
-                                    ) : (
-                                        booked ? (
-                                            <DarkGreenButton disabled style={{ width: '100%', marginTop: 10, backgroundColor: '#EEE', color: GRAY2 }}>
-                                                Booked
-                                            </DarkGreenButton>
+
+                        {
+                            doctor.appointment_type === 'paused' ? (
+                                <Box style={{ textAlign: 'center', paddingTop: 30, paddingBottom: 30 }}>
+                                    <Typography.Text style={{ fontWeight: 500 }}>Bookings are paused for the moment</Typography.Text>
+                                </Box>
+                            ) : (
+                                <Row gutter={[30, 30]}>
+                                    <Col xs={24} lg={12}>
+                                        <Typography.Title level={5} style={{ marginBottom: 10 }}>Select Date</Typography.Title>
+                                        <AppointmentPicker onDateChange={handleDateChange}/>
+                                        <Typography.Text style={{ color: 'red' }}>{formErrors.selectedDate}</Typography.Text>
+                                    </Col>
+                                    <Col xs={24} lg={12}>
+                                    <Typography.Title level={5} style={{ marginBottom: 10 }}>Select Time</Typography.Title>
+                                    {
+                                        slotLoading ? (
+                                            <Box style={{ textAlign: 'center', paddingTop: 30 }}>
+                                                <Spin indicator={<LoadingOutlined spin />} size="large" />
+                                            </Box>
                                         ) : (
-                                            <DarkGreenButton style={{ width: '100%', marginTop: 10 }} onClick={handleAppointmentBooking}>
-                                                Book Appointment
-                                            </DarkGreenButton>
+                                            <>
+                                                <AppointmentTimePicker active={doctor.working_hours ? doctor.working_hours[selectedDay].active : false} 
+                                                    start={doctor.working_hours ? doctor.working_hours[selectedDay].open : '9:00'} end={doctor.working_hours ? doctor.working_hours[selectedDay].close : '17:00'} 
+                                                    onSelect={handleTimeSelect} selectedSlot={selectedSlot}
+                                                    reservedSlots={reservedSlots}
+                                                />
+                                                <Typography.Text style={{ color: 'red' }}>{formErrors.selectedSlot}</Typography.Text>
+                                            </>
+                                            
                                         )
-                                    )
-                                }
-                            </Col>
-                        </Row>
+                                    }
+                                        
+                                    </Col>
+                                    <Col xs={24} lg={12}>
+                                        <Typography.Title level={5} style={{ marginBottom: 10 }}>Appointment Type</Typography.Title>
+                                        <AppointmentTypeSelect value={selectedType} onSelect={setSelectedType} data={doctor.appointment_prices} type={doctor.appointment_type} />
+                                        <Typography.Text style={{ color: 'red' }}>{formErrors.selectedType}</Typography.Text>
+                                    </Col>
+                                    <Col xs={24} lg={12}>
+                                        <Typography.Title level={5} style={{ marginBottom: 10 }}>Description</Typography.Title>
+                                        <TextField multiline rows={4} name="" onChange={handleTextChange} value={addedDescription} fullWidth placeholder="Please provide a brief description of the reason for your visit or any symptoms you're experiencing." />
+                                        <Typography.Text style={{ color: 'red' }}>{formErrors.addedDescription}</Typography.Text>
+                                        
+                                        {
+                                            loading ? (
+                                                <LoadingButton style={{ width: '100%', marginTop: 10 }}>
+                                                    Book Appointment
+                                                </LoadingButton>
+                                            ) : (
+                                                booked ? (
+                                                    <DarkGreenButton disabled style={{ width: '100%', marginTop: 10, backgroundColor: '#EEE', color: GRAY2 }}>
+                                                        Booked
+                                                    </DarkGreenButton>
+                                                ) : (
+                                                    <DarkGreenButton style={{ width: '100%', marginTop: 10 }} onClick={handleAppointmentBooking}>
+                                                        Book Appointment
+                                                    </DarkGreenButton>
+                                                )
+                                            )
+                                        }
+                                    </Col>
+                                </Row>
+                            )
+                        }
+                        
                     </Box>            
                 </Col>
             </Row>

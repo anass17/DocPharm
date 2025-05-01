@@ -32,12 +32,10 @@ class DoctorFactory extends Factory
             'postal_code' => $this->faker->postcode,
             'verification_step' => $this->faker->randomElement(['complete', 'incomplete']),
             'appointment_type' => $this->faker->randomElement(['in_person', 'online', 'both', 'paused']),
-            'appointment_prices' => $this->faker->randomElement([
-                json_encode([
-                    'online' => $this->faker->randomFloat(2, 100, 200),
-                    'in_person' => $this->faker->randomFloat(2, 100, 200),
-                ]),
-            ]),
+            'appointment_prices' => [
+                'online' => $this->faker->randomFloat(2, 100, 200),
+                'in_person' => $this->faker->randomFloat(2, 100, 200),
+            ],
             'speciality' => $this->faker->randomElement(['Cardiology', 'Dermatology', 'Neurology', 'Pediatrics', 'Psychiatry', 'Oncology', 'Ophthalmology', 'Orthopedics', 'Gynecology', 'Endocrinology', 'Gastroenterology', 'Pulmonology', 'Radiology', 'Anesthesiology', 'Urology', 'Rheumatology', 'General Surgery', 'Family Medicine', 'Infectious Disease', 'Nephrology']),
             'personal_files_path' => $this->faker->word,
             'building_image' => '/storage/pharmacies/image_' . $this->faker->numberBetween(1,8) . '.jpg',

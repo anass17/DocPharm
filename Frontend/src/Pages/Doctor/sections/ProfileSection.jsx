@@ -124,14 +124,20 @@ const ProfileSection = () => {
                         <Typography.Title level={4}>Appointments Details</Typography.Title>
                         {
                             user?.appointment_prices ? (
-                                <Row gutter={[14, 10]}>
-                                    <Col xs={24} md={12}>
+                                <Row gutter={[8, 10]}>
+                                    <Col xs={24} md={12} xl={8}>
+                                        <Box sx={{ border: '1px solid #DDD' }} borderRadius={2} py={1.5} px={4}>
+                                            <Typography.Title level={5} style={{ marginBottom: 1 }}>Appointment Type</Typography.Title>
+                                            <Typography.Text style={{ color: PRIMARY_BLUE, fontWeight: 500 }} className="capitalize">{user?.appointment_type}</Typography.Text>
+                                        </Box>
+                                    </Col>
+                                    <Col xs={24} md={12} xl={8}>
                                         <Box sx={{ border: '1px solid #DDD' }} borderRadius={2} py={1.5} px={4}>
                                             <Typography.Title level={5} style={{ marginBottom: 1 }}>Online Consultation</Typography.Title>
                                             <Typography.Text style={{ color: PRIMARY_BLUE, fontWeight: 500 }}>{user?.appointment_prices.online} MAD</Typography.Text>
                                         </Box>
                                     </Col>
-                                    <Col xs={24} md={12}>
+                                    <Col xs={24} md={12} xl={8}>
                                         <Box sx={{ border: '1px solid #DDD' }} borderRadius={2} py={1.5} px={4}>
                                             <Typography.Title level={5} style={{ marginBottom: 1 }}>In-Person Visit</Typography.Title>
                                             <Typography.Text style={{ color: PRIMARY_BLUE, fontWeight: 500 }}>{user?.appointment_prices.in_person} MAD</Typography.Text>
