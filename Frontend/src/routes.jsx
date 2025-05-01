@@ -18,6 +18,7 @@ import UserPrescriptionView from './Pages/user/UserPrescriptionView.jsx';
 import UserDashboard from './Pages/user/UserDashboard.jsx';
 import AdminDashboard from './Pages/admin/AdminDashboard.jsx';
 import FaqsPage from './Pages/Common/Faqs.jsx';
+import ContactPage from './Pages/Common/Contact.jsx';
 
 const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
@@ -208,6 +209,7 @@ const RoutesList = () => {
             {/* Common Routes */}
 
             <Route path="/faqs" element={<FaqsPage />} />
+            <Route path="/contact" element={<ContactPage />} />
     
             {/* Catch-all route for undefined paths */}
             <Route path="*" element={<NotFound />} />
