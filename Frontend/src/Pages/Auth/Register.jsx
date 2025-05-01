@@ -83,13 +83,13 @@ function Register() {
                   <Grid2 size={{md: 6, sm: 12}}>
                       <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
                           <Typography variant="h4" component="h1" mb={1}>Join Us!</Typography>
-                          <Typography variant="body1" mb={5}>Create an account and access to our services</Typography>
-                          <Box display={"flex"} gap={1}>
-                              <TextField label="First Name" name="first_name" error={!!errors.first_name} helperText={errors.first_name} variant="outlined" onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
+                          <Typography variant="body1" mb={8}>Create an account and access to our services</Typography>
+                          <Box display={"flex"} gap={1} style={{ marginBottom: '12px' }}>
+                              <TextField label="First Name" name="first_name" error={!!errors.first_name} helperText={errors.first_name} variant="outlined" onChange={handleChange} sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
                               <TextField label="Last Name" name="last_name" error={!!errors.last_name} helperText={errors.last_name} onChange={handleChange} variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
                           </Box>
-                          <TextField label="Email" variant="outlined" name="email" error={!!errors.email} helperText={errors.email} onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
-                          <TextField label="Password" type="password" name="password" error={!!errors.password} helperText={errors.password} variant="outlined" onChange={handleChange} sx={{ marginBottom: 1, backgroundColor: '#F9F9F9' }} fullWidth />
+                          <TextField label="Email" variant="outlined" name="email" error={!!errors.email} helperText={errors.email} onChange={handleChange} sx={{ marginBottom: '12px', backgroundColor: '#F9F9F9' }} fullWidth />
+                          <TextField label="Password" type="password" name="password" error={!!errors.password} helperText={errors.password} variant="outlined" onChange={handleChange} sx={{ marginBottom: '12px', backgroundColor: '#F9F9F9' }} fullWidth />
 
                           {/* Select - Account Type */}
 
@@ -127,24 +127,6 @@ function Register() {
                                       </Button>   
                                   )
                               }
-                              <Button variant="text" sx={{ color: GREEN }}>Reset Password</Button>
-                          </Box>
-
-                          <Box position={"relative"} mt={6}>
-                              <Typography variant="body1" component="h6" bgcolor={"#FFF"} zIndex={10} color={GRAY3} position={"relative"} display={"inline-block"} px={2}>Or Continue With</Typography>
-                              <Box height={'1px'} width={"100%"} bgcolor={GRAY4} position={"relative"} bottom={11}  ></Box>
-                          </Box>
-
-                          <Box mt={2} display={'flex'} justifyContent={"center"} gap={3}>
-                              <Button>
-                                  <img width={50} src="/images/brands/Google.png" />
-                              </Button>
-                              <Button>
-                                  <img width={60} src="/images/brands/Twitter.png" />
-                              </Button>
-                              <Button>
-                                  <img width={40} src="/images/brands/Facebook.png" />
-                              </Button>
                           </Box>
                       </form>
                   </Grid2>

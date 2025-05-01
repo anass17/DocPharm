@@ -72,32 +72,32 @@ const DashboardSection = () => {
         <>
             {contextHolder}
             <Row gutter={[12, 12]} style={{ marginBottom: 35 }}>
-                <Col span={8}>
+                <Col xs={24} sm={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (medicineStatistics.total_medicines || 0)} name={"Different Medicines"} component={FaPills} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} sm={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (medicineStatistics.medicine_units || 0)} name={"Available Units"} component={FaPills} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} sm={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (orderStatistics.sold_units || 0)} name={"Sold Units"} component={FaShoppingCart} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} sm={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (orderStatistics.total_orders || 0)} name={"Total Orders"} component={FaCheck} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} sm={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (orderStatistics.delivered_orders || 0)} total={orderStatistics.total_orders} name={"Delivered Orders"} component={FaBoxOpen} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} sm={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (orderStatistics.earnings || 0)} name={"Earnings (MAD)"} component={FaDollarSign} />
                 </Col>
             </Row>
-            <Row gutter={16}>
-                <Col span={12}>
+            <Row gutter={[16, 16]}>
+                <Col xs={24} xl={12}>
                     <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow, minHeight: 400, height: '100%', padding: 10 }}>
                         <Chart chartData={chartData} name="Orders" />
                     </div>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} xl={12}>
                     <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow}}>
                         <div style={{ padding: '15px 20px'  }}>
                             <Title level={4} style={{ marginBottom: 20 }}>Recent Added</Title>

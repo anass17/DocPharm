@@ -1,7 +1,7 @@
 import { Button, Col, Flex, message, Row, Skeleton, Typography } from "antd";
 import StatisticBlock from "../../../components/Statistics/StatisticBlock";
 import { defaultShadow } from "../../../config/shadow";
-import { GREEN, PRIMARY_BLUE, PRIMARY_GREEN } from "../../../config/colors";
+import { GRAY2, GREEN, PRIMARY_BLUE, PRIMARY_GREEN } from "../../../config/colors";
 import { useEffect, useState } from "react";
 import { backend_url } from "../../../config/app";
 import Cookies from 'js-cookie';
@@ -10,7 +10,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { Link } from "react-router-dom";
 import { FaBox, FaBoxOpen, FaCheck, FaClinicMedical, FaClock, FaDollarSign, FaPills, FaPlus, FaShoppingCart, FaStethoscope, FaUser, FaUserFriends, FaUsers } from "react-icons/fa";
 import Chart from "../../../components/Chart/chart";
-import { Typography as TP } from "@mui/material";
+import { Box, Typography as TP } from "@mui/material";
 
 const { Title, Text } = Typography
 
@@ -83,42 +83,46 @@ const DashboardSection = () => {
     return (
         <>
             {contextHolder}
+            <Box sx={{ marginBottom: '55px', textAlign: {xs: 'center', lg: 'left'} }}>
+                <Typography.Title level={1}>Dashboard</Typography.Title>
+                <Typography.Title level={5} style={{ color: GRAY2 }}>Get an overview of all activities and updates</Typography.Title>
+            </Box>
             <Row gutter={[12, 12]} style={{ marginBottom: 35 }}>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.total_users || 0)} name={"Total Users"} component={FaUserFriends} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.total_doctors || 0)} total={statistics[0]?.total_users} name={"Active Doctors"} component={FaStethoscope} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.total_pharmacies || 0)} total={statistics[0]?.total_users} name={"Total Pharmacies"} component={FaPlus} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.total_clients || 0)} total={statistics[0]?.total_users} name={"Registered Clients"} component={FaUser} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (statistics[1]?.total_appointments || 0)} name={"Total Appointments"} component={FaClock} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (statistics[1]?.completed_appointments || 0)} total={statistics[1]?.total_appointments} name={"Completed Appointments"} component={FaCheck} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (statistics[2]?.total_orders || 0)} name={"Total Orders"} component={FaBox} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (statistics[2]?.delivered_orders || 0)} total={statistics[2]?.total_orders} name={"Delivered Orders"} component={FaBoxOpen} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (statistics[1]?.total_earnings || 0)} name={"Total Spent (MAD)"} component={FaDollarSign} />
                 </Col>
             </Row>
-            <Row gutter={16}>
-                <Col span={12}>
+            <Row gutter={[16, 16]}>
+                <Col xs={24} xl={12}>
                     <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow, minHeight: 400, height: '100%', padding: 10 }}>
                         <Chart chartData={chartData} />
                     </div>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} xl={12}>
                     <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow}}>
                         <div style={{ padding: '15px 20px'  }}>
                             <Title level={4} style={{ marginBottom: 20 }}>Recent Activities</Title>

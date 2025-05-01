@@ -5,6 +5,11 @@ import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
 import { Box, Container, Typography as TP } from '@mui/material';
 import { GRAY3 } from '../../config/colors';
+import AdminNavbar from '../../components/Navbar/AdminNavbar';
+import { useSelector } from 'react-redux';
+import PharmacyNavbar from '../../components/Navbar/PharmacyNavbar';
+import DoctorNavbar from '../../components/Navbar/DoctorNavbar';
+import UserNavbar from '../../components/Navbar/UserNavbar';
 
 const getItems = (panelStyle, state, handleClick) => [
   {
@@ -245,15 +250,20 @@ const getItems = (panelStyle, state, handleClick) => [
     style: panelStyle,
   },
 ];
+
+
+
 const FaqsPage = () => {
 
-    const [selected, setSelected] = useState({key: 'reg-1', question: 'What documents do I need for verification ?', answer: <p>To complete your verification, please prepare the following documents:<br /><br />
+    const [selected, setSelected] = useState({key: 'reg-1', question: 'What documents do I need for verification ?', answer: `To complete your verification, please prepare the following documents:<br /><br />
                     • A valid government-issued ID (e.g., passport or national ID card)<br />
                     • Proof of address (e.g., utility bill or bank statement dated within the last 3 months)<br />
                     • A clear profile picture<br />
                     • Your medical license or professional certificate (for doctors and pharmacies)<br />
                     • Business registration document (for pharmacies)<br /><br />
-                    Make sure all documents are clear, up-to-date, and match the information you provided during registration.</p>})
+                    Make sure all documents are clear, up-to-date, and match the information you provided during registration.`})
+
+    const user = useSelector(data => data.user.user)
 
     const handleClick = (data) => {
         setSelected({
@@ -274,7 +284,25 @@ const FaqsPage = () => {
   return (
 
     <>
-        <Navbar />
+        {
+            user?.role === 'admin' ? (
+                <AdminNavbar />
+            ) : (
+                user?.role === 'pharmacy' ? (
+                    <PharmacyNavbar />
+                ) : (
+                    user?.role === 'doctor' ? (
+                        <DoctorNavbar />
+                    ) : (
+                        user?.role === 'client' ? (
+                            <UserNavbar />
+                        ) : (
+                            <Navbar />
+                        )
+                    )
+                )
+            )
+        }
 
         <Container maxWidth="xl">
             <Row gutter={[40, 40]} style={{ padding: '2rem 0' }}>

@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
-import { ConfigProvider, Menu } from 'antd';
+import { Button, ConfigProvider, Menu } from 'antd';
 import { GREEN, GREEN2, GREEN3, GREEN5 } from '../../config/colors';
-import AddMedicineModal from '../Modal/Medicine/AddMedicineModal';
 import { useNavigate } from 'react-router-dom';
-import { FaBan, FaBookmark, FaBoxes, FaClock, FaCog, FaColumns, FaHeadset, FaPen, FaPills, FaQuestion, FaUser, FaUserClock, FaUserCog } from 'react-icons/fa';
+import { FaBan, FaBars, FaBookmark, FaBoxes, FaClock, FaCog, FaColumns, FaHeadset, FaPen, FaPills, FaQuestion, FaUser, FaUserClock, FaUserCog } from 'react-icons/fa';
+import { Box, useMediaQuery } from '@mui/material';
 
 const links = {
-  '13': 'dashboard',
-  '14': 'users/pending',
-  '15': 'users',
-  '16': 'users/banned',
-  '17': 'medicines/manage',
-  '18': 'settings',
-  '19': 'settings',
+  '13': '/admin/dashboard',
+  '14': '/admin/users/pending',
+  '15': '/admin/users',
+  '16': '/admin/users/banned',
+  '17': '/admin/medicines/manage',
+  '18': '/admin/profile',
+  '19': '/admin/settings',
+  '20': '/contact',
+  '21': '/faqs'
 }
 
 const items = [
@@ -65,19 +67,18 @@ const items = [
 
 const AdminSidebar = ({menuItem}) => {
 
-    let [modalOpen, setModalOpen] = useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false)
+    const lgScreen = useMediaQuery('(min-width: 1024px)');
     let navigate = useNavigate()
 
     const onClick = e => {
-        navigate(`/admin/${links[e.key]}`);
+        navigate(links[e.key]);
     };
 
 
     return (
 
         <>
-
-            <AddMedicineModal open={modalOpen} setOpen={setModalOpen} />
 
             <ConfigProvider theme={{
                 components: {
@@ -88,14 +89,19 @@ const AdminSidebar = ({menuItem}) => {
                   },
                 },
             }}>
+                <Box className="absolute top-[85px] left-2 z-10 block lg:hidden" onClick={() => setMobileOpen(true)}>
+                  <Button><FaBars /></Button>
+                </Box>
                 <Menu
-                onClick={onClick}
-                style={{ width: 320, minHeight: 'calc(100vh - 40px)', fontWeight: '500', paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
-                selectedKeys={[menuItem]}
-                mode="inline"
-                items={items}
+                  onClick={onClick}
+                  style={{ width: 320, minHeight: 'calc(100vh - 80px)', transition: 'transform .5s', fontWeight: '500', transform: (lgScreen ? 'none' : (mobileOpen ? 'translateX(0)' : 'translateX(-100%)')), paddingLeft: 4, paddingRight: 4, boxShadow: '0px 0px 2px rgba(0, 0, 0, .2)' }}
+                  className={`fixed lg:static left-0 top-0 z-20 h-full lg:translate-x-0`}
+                  selectedKeys={[menuItem]}
+                  mode="inline"
+                  items={items}
                 />
             </ConfigProvider>
+            <Box className={"absolute top-0 left-0 w-full h-full z-[15] bg-[#00000077] lg:hidden " + (mobileOpen ? 'block' : 'hidden')} onClick={() => setMobileOpen(false)} />
         </>
 
     );

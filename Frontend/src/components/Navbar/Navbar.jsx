@@ -27,7 +27,7 @@ function Navbar({bgColor = '#FFF', textColor = colors.GRAY0, shadow = '0px 0px 2
               textDecoration: 'none',
             }}
           >
-            <Link to="/pharmacy/dashboard" style={{ display: 'flex' }}>
+            <Link to="/" style={{ display: 'flex' }}>
               <img className='h-[55px]' src={`/public/images/logo/${logo}`} />
             </Link>
             

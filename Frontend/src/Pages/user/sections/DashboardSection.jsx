@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 import dayjs from 'dayjs'
 import { formatDistanceToNow } from 'date-fns';
 import { Link } from "react-router-dom";
-import { FaBoxOpen, FaCheck, FaDollarSign, FaPills, FaShoppingCart } from "react-icons/fa";
+import { FaBox, FaBoxOpen, FaCalendar, FaCalendarCheck, FaCalendarTimes, FaCheck, FaDollarSign, FaPills, FaShoppingCart } from "react-icons/fa";
 import Chart from "../../../components/Chart/chart";
 import { Typography as TP } from "@mui/material";
 
@@ -84,32 +84,32 @@ const DashboardSection = () => {
         <>
             {contextHolder}
             <Row gutter={[12, 12]} style={{ marginBottom: 35 }}>
-                <Col span={8}>
-                    <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.total_appointments || 0)} name={"Total Appointments"} component={FaPills} />
+                <Col xs={24} md={12} xl={8}>
+                    <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.total_appointments || 0)} name={"Total Appointments"} component={FaCalendar} />
                 </Col>
-                <Col span={8}>
-                    <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.completed_appointments || 0)} total={statistics[0]?.total_appointments} name={"Completed Appointments"} component={FaPills} />
+                <Col xs={24} md={12} xl={8}>
+                    <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.completed_appointments || 0)} total={statistics[0]?.total_appointments} name={"Completed Appointments"} component={FaCalendarCheck} />
                 </Col>
-                <Col span={8}>
-                    <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.rejected_appointments || 0)} total={statistics[0]?.total_appointments} name={"Rejected Appointments"} component={FaShoppingCart} />
+                <Col xs={24} md={12} xl={8}>
+                    <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.rejected_appointments || 0)} total={statistics[0]?.total_appointments} name={"Rejected Appointments"} component={FaCalendarTimes} />
                 </Col>
-                <Col span={8}>
-                    <StatisticBlock value={loading ? 'loading...' : (statistics[1]?.total_orders || 0)} name={"Total Orders"} component={FaBoxOpen} />
+                <Col xs={24} md={12} xl={8}>
+                    <StatisticBlock value={loading ? 'loading...' : (statistics[1]?.total_orders || 0)} name={"Total Orders"} component={FaBox} />
                 </Col>
-                <Col span={8}>
-                    <StatisticBlock value={loading ? 'loading...' : (statistics[1]?.delivered_orders || 0)} total={statistics[1]?.total_orders} name={"Delivered Orders"} component={FaCheck} />
+                <Col xs={24} md={12} xl={8}>
+                    <StatisticBlock value={loading ? 'loading...' : (statistics[1]?.delivered_orders || 0)} total={statistics[1]?.total_orders} name={"Delivered Orders"} component={FaBoxOpen} />
                 </Col>
-                <Col span={8}>
+                <Col xs={24} md={12} xl={8}>
                     <StatisticBlock value={loading ? 'loading...' : (statistics[0]?.total_earnings || 0)} name={"Total Spent (MAD)"} component={FaDollarSign} />
                 </Col>
             </Row>
-            <Row gutter={16}>
-                <Col span={12}>
+            <Row gutter={[16, 16]}>
+                <Col xs={24} xl={12}>
                     <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow, minHeight: 400, height: '100%', padding: 10 }}>
                         <Chart chartData={chartData} />
                     </div>
                 </Col>
-                <Col span={12}>
+                <Col xs={24} xl={12}>
                     <div style={{ backgroundColor: '#FFF', borderRadius: 7, boxShadow: defaultShadow}}>
                         <div style={{ padding: '15px 20px'  }}>
                             <Title level={4} style={{ marginBottom: 20 }}>Recent Activities</Title>

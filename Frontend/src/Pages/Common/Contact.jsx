@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { CaretRightOutlined } from '@ant-design/icons';
 import { Button, Col, Collapse, Flex, Input, Row, Select, theme, Typography } from 'antd';
 import Navbar from '../../components/Navbar/Navbar';
 import Footer from '../../components/Footer/Footer';
@@ -8,13 +7,38 @@ import { GRAY3, GREEN } from '../../config/colors';
 import Title from 'antd/es/typography/Title';
 import { FaEnvelope, FaPhoneAlt } from 'react-icons/fa';
 import TextArea from 'antd/es/input/TextArea';
+import { useSelector } from 'react-redux';
+import AdminNavbar from '../../components/Navbar/AdminNavbar';
+import PharmacyNavbar from '../../components/Navbar/PharmacyNavbar';
+import DoctorNavbar from '../../components/Navbar/DoctorNavbar';
+import UserNavbar from '../../components/Navbar/UserNavbar';
 
 const ContactPage = () => {
+
+    const user = useSelector(data => data.user.user)
 
   return (
 
     <>
-        <Navbar />
+        {
+            user?.role === 'admin' ? (
+                <AdminNavbar />
+            ) : (
+                user?.role === 'pharmacy' ? (
+                    <PharmacyNavbar />
+                ) : (
+                    user?.role === 'doctor' ? (
+                        <DoctorNavbar />
+                    ) : (
+                        user?.role === 'client' ? (
+                            <UserNavbar />
+                        ) : (
+                            <Navbar />
+                        )
+                    )
+                )
+            )
+        }
 
         <Container maxWidth="lg" style={{ overflow: 'hidden' }}>
             <Box>

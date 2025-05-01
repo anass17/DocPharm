@@ -85,11 +85,11 @@ export default function Login() {
                           </Box>
                       </Grid2>
                       <Grid2 size={{md: 6, xs: 12}}>
-                          <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
+                          <form onSubmit={handleSubmit} style={{ textAlign: 'center', paddingBottom: 20 }}>
                               <Typography variant="h4" component="h1" mb={1}>Welcome There</Typography>
-                              <Typography variant="body1" mb={5}>Log into your account and see what you missed</Typography>
+                              <Typography variant="body1" mb={8}>Log into your account and see what you missed</Typography>
                               
-                              <TextField label="Email" name="email" value={data.email} error={!!errors} onChange={handleChange} helperText={errors} variant="outlined" sx={{ marginBottom: '7px', backgroundColor: '#F9F9F9' }} fullWidth />
+                              <TextField label="Email" name="email" value={data.email} error={!!errors} onChange={handleChange} helperText={errors} variant="outlined" sx={{ marginBottom: '12px', backgroundColor: '#F9F9F9' }} fullWidth />
                               <TextField label="Password" name="password" value={data.password} onChange={handleChange} type="password" variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
                               
                               <Box mt={2} display="flex" justifyContent={"space-between"} alignItems={"center"}>
@@ -105,24 +105,6 @@ export default function Login() {
                                           </Button>   
                                       )
                                   }
-                                  <Button variant="text" sx={{ color: GREEN }}>Reset Password</Button>
-                              </Box>
-
-                              <Box position={"relative"} mt={6}>
-                                  <Typography variant="body1" component="h6" bgcolor={"#FFF"} zIndex={10} color={GRAY3} position={"relative"} display={"inline-block"} px={2}>Or Continue With</Typography>
-                                  <Box height={'1px'} width={"100%"} bgcolor={GRAY4} position={"relative"} bottom={11}></Box>
-                              </Box>
-
-                              <Box mt={2} display={'flex'} justifyContent={"center"} gap={3}>
-                                  <Button>
-                                      <img width={50} src="/images/brands/Google.png" />
-                                  </Button>
-                                  <Button>
-                                      <img width={60} src="/images/brands/Twitter.png" />
-                                  </Button>
-                                  <Button>
-                                      <img width={40} src="/images/brands/Facebook.png" />
-                                  </Button>
                               </Box>
                           </form>
                       </Grid2>

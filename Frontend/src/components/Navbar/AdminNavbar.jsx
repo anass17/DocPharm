@@ -50,7 +50,7 @@ function AdminNavbar() {
             noWrap
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
+              display: 'flex',
               fontFamily: 'roboto',
               fontWeight: 700,
               letterSpacing: '.1rem',
@@ -58,8 +58,8 @@ function AdminNavbar() {
               textDecoration: 'none',
             }}
           >
-            <Link to="/pharmacy/dashboard" style={{ display: 'flex' }}>
-              <img className='h-[70px]' src='/public/images/logo/logo.png' />
+            <Link to="/admin/dashboard" style={{ display: 'flex' }}>
+              <img className='h-[55px]' src='/public/images/logo/logo.png' />
             </Link>
             
           </Typography>
@@ -67,13 +67,13 @@ function AdminNavbar() {
           {/* Desktop */}
 
           <Box sx={{ ml: 'auto', display: 'flex', alignItems: 'center', textAlign: 'center' }}>
-            <Box sx={{ display: 'flex', mr: 3, gap: '3px' }}>
+            <Box sx={{ display: 'flex', mr: {xs: 0, md: 3}, gap: '3px' }}>
               
 
               <TLP title="Dashboard" color={colors.PRIMARY_GREEN}>
                 <Link to={'/pharmacy/dashboard'}>
-                  <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                    <FaHome fill={colors.GRAY2} size={24} />
+                  <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
+                    <FaHome fill={colors.GRAY2} size={23} />
                   </Button>
                 </Link>
               </TLP>
@@ -81,8 +81,8 @@ function AdminNavbar() {
               <TLP title="Orders" color={colors.PRIMARY_GREEN}>
                 <Badge count={0} size="small" offset={[-17, 5]} style={{background: '#FFF', color: colors.PRIMARY_GREEN, borderColor: colors.PRIMARY_GREEN, fontWeight: 500}}>
                   <Link to={'/pharmacy/orders'}>
-                    <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-                      <FaCheckCircle fill={colors.GRAY2} size={22} />
+                    <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
+                      <FaCheckCircle fill={colors.GRAY2} size={21} />
                     </Button>
                   </Link>
                 </Badge>
@@ -90,8 +90,8 @@ function AdminNavbar() {
 
               <TLP title="Inventory" color={colors.PRIMARY_GREEN}>
                 <Link to={'/pharmacy/inventory'}>
-                  <Button disableRipple sx={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> 
-                    <FaBoxes fill={colors.GRAY2} size={22}/>
+                  <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}> 
+                    <FaBoxes fill={colors.GRAY2} size={21}/>
                   </Button>
                 </Link>
               </TLP>
@@ -148,7 +148,7 @@ function AdminNavbar() {
             transformOrigin={{ horizontal: 'right', vertical: 'top' }}
             anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
           >
-            <Link to={'/pharmacy/profile'}>
+            <Link to={'/admin/profile'}>
               <MenuItem onClick={handleClose}>
                 <ListItemIcon>
                   <FaUser fontSize="small" />
@@ -157,7 +157,7 @@ function AdminNavbar() {
               </MenuItem>
             </Link>
 
-            <Link to={'/pharmacy/settings'}>
+            <Link to={'/admin/settings'}>
               <MenuItem onClick={handleClose}>
                 <ListItemIcon>
                   <Settings fontSize="small" />

@@ -1,6 +1,7 @@
 import { Typography } from 'antd';
 import AdminSidebar from '../../../components/Sidebar/AdminSidebar';
 import AdminNavbar from '../../../components/Navbar/AdminNavbar';
+import { Box } from '@mui/material';
 
 const {Title} = Typography
 
@@ -11,9 +12,9 @@ function AdminSidebarLayout({children, menuItem}) {
             <AdminNavbar />
             <div style={{ display: "flex" }}>
                 <AdminSidebar menuItem={menuItem} />
-                <div style={{ padding: "3rem 2.5rem", flex: 1 }}>
+                <Box sx={{ padding: {xs: "2rem 1.5rem", md: "3rem 2.5rem"}, flex: 1 }}>
                     {children}
-                </div>
+                </Box>
             </div>
         </>
     )

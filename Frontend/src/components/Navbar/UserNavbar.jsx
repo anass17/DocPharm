@@ -82,7 +82,7 @@ function UserNavbar() {
               <TLP title="Dashboard" color={colors.PRIMARY_GREEN}>
                 <Link to={'/client/dashboard'}>
                   <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
-                    <FaHome fill={colors.GRAY2} size={24} />
+                    <FaHome fill={colors.GRAY2} size={23} />
                   </Button>
                 </Link>
 
@@ -91,7 +91,7 @@ function UserNavbar() {
               <TLP title="Appointments" color={colors.PRIMARY_GREEN}>
                 <Link to={'/client/appointments'}>
                   <Button disableRipple sx={{display: 'flex', minWidth: {xs: 40, md: 60}, justifyContent: 'center', alignItems: 'center'}}>
-                    <FaCalendar fill={colors.GRAY2} size={21} />
+                    <FaCalendar fill={colors.GRAY2} size={20} />
                   </Button>
                 </Link>
               </TLP>
