@@ -113,6 +113,7 @@ class AuthController extends Controller
         $user -> bio = $request -> bio;
         $user -> speciality = $request -> speciality;
         $user -> phone_number = $request -> phone_number;
+        $user -> appointment_type = 'paused';
         $user -> verification_step = 'complete';
 
         $user -> save();
@@ -122,7 +123,7 @@ class AuthController extends Controller
 
     // Get pharmacy's verification data and store it
 
-    public function registerAsPharmacy(Request $request) {
+    public function registerAsPharmacy(Request $request, FileController $fileUpload) {
 
         $validation = Validator::make($request->all(), [
             'cne_front' => 'required|file|mimes:jpg,png,webp|max:10240',
@@ -134,7 +135,6 @@ class AuthController extends Controller
             'address' => 'required|string|max:255',
             'city' => 'required|string',
             'postal_code' => 'required|integer',
-            'order_type' => 'required|in:online,in-person,both',
             'phone_number' => 'required|string|regex:/^0[567][0-9]{8}$/',
         ]);
 
@@ -149,16 +149,20 @@ class AuthController extends Controller
         $this -> uploadFile($request->file('cne_front'), "cne_front", $dir_name);
         $this -> uploadFile($request->file('cne_back'), "cne_back", $dir_name);
         $this -> uploadFile($request->file('prof_document'), "prof_document", $dir_name);
-        $this -> uploadFile($request->file('building_front'), "building_front", $dir_name);
+
+        $building_image_path = $fileUpload->uploadPublicImage($request, 'pharmacies', 'building_front');
+        $profile_picture_path = $fileUpload->uploadPublicImage($request, 'profile', 'profile_picture');
+
 
         $user -> medical_license_number = $request -> medical_license_number;
         $user -> pharmacy_name = $request -> pharmacy_name;
-        $user -> personal_files_path = $request -> dir_name;
+        $user -> personal_files_path = $dir_name;
+        $user -> building_image = $building_image_path->getData(true)['image_path'];
+        $user -> profile_picture = $profile_picture_path->getData(true)['image_path'];
         $user -> address = $request -> address;
         $user -> city = $request -> city;
         $user -> postal_code = $request -> postal_code;
         $user -> bio = $request -> bio;
-        $user -> order_type = $request -> order_type;
         $user -> phone_number = $request -> phone_number;
         $user -> verification_step = 'complete';
 

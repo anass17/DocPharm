@@ -302,18 +302,6 @@ function RegisterAsForm() {
                 <Typography variant="h4" component="h1" textAlign={"center"} mb={2}>Welcome Dr. Anass!</Typography>
                 <Typography variant="body1" textAlign={"center"} color={GRAY2} mb={5}>Please complete the registration process by providing the following details</Typography>
                 
-                {/* <Box textAlign={"center"}>
-                    <Box display={"inline-block"} position={"relative"}>
-                        <Box height={5} width={200} bgcolor={step == 2 ? GREEN : GRAY4}></Box>
-                        <Box width={18} height={18} bgcolor={'#FFF'} border={"3px solid #000"} borderColor={step == 2 ? GREEN : GRAY4} position={"absolute"} borderRadius={"50%"} top={-10} left={0}>
-                            <Typography position={"absolute"} left={9} top={30} sx={{ transform: 'translateX(-50%)' }} color={step == 1 ? GREEN : "#aeacb6"} fontWeight={500}>Preferences</Typography>
-                        </Box>
-                        <Box width={18} height={18} bgcolor={step == 2 ? GREEN : "#FFF"} border={"3px solid" + GREEN} position={"absolute"} borderRadius={"50%"} top={-10} right={0}>
-                            <Typography position={"absolute"} left={9} top={30} sx={{ transform: 'translateX(-50%)' }} color={GREEN} fontWeight={500}>Verification</Typography>
-                        </Box>
-                    </Box>
-                </Box> */}
-
                 <ConfigProvider
                 theme={{
                     token: {
