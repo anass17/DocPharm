@@ -107,6 +107,8 @@ const PrivateRoute = ({ roles, element }) => {
 
     if (user.status === 'pending') {
       return <Navigate to='/pending' replace />
+    } else if (user.status === 'banned') {
+      return <Navigate to='/banned' replace />
     }
     
     if (!roles.includes(user.role)) {
