@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, useNavigate, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import React, { Suspense, lazy, useEffect } from 'react';
 import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
@@ -92,14 +92,25 @@ const DashboardRedirection = () => {
 const PrivateRoute = ({ roles, element }) => {
     const { isAuthenticated, user } = useSelector((state) => state.user);
     const navigate = useNavigate();
+
+    if (!isAuthenticated) {
+      alert('k')
+      return <Navigate to='/login' />
+    }
   
-    useEffect(() => {
-      if (!isAuthenticated) {
-        navigate('/login');
-      } else if (!roles.includes(user.role)) {
-        navigate('/unauthorized');
-      }
-    }, [isAuthenticated]);
+    if (user.verification_step === 'incomplete') {
+      alert('d')
+        if (user.role === 'doctor') {
+          return navigate('/register/doctor');
+        } else if (user.role === 'pharmacy') {
+          return navigate('/register/pharmacy');
+        }
+    }
+    
+    if (!roles.includes(user.role)) {
+      alert('s')
+      return navigate('/unauthorized');
+    }
   
     return isAuthenticated && roles.includes(user.role) ? element : null;
 };
@@ -189,12 +200,37 @@ const RoutesList = () => {
 
             {/* Doctor Routes */}
 
-            <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
-            <Route path="/doctor/profile" element={<DoctorProfile />} />
-            <Route path="/doctor/settings" element={<DoctorSettings />} />
-            <Route path="/doctor/appointments" element={<DoctorAppointments />} />
-            <Route path="/doctor/appointments/history" element={<DoctorAppointmentsHistory />} />
+            {/* <Route path="/doctor/dashboard" element={<DoctorDashboard />} /> */}
 
+            {/* <PrivateRoute path="/doctor/dashboard" roles={['doctor']}
+              component={() => (<DoctorDashboard />)}
+            /> */}
+
+            <Route path="/doctor/dashboard" 
+              element={
+                <PrivateRoute role={['doctor']} element={<DoctorDashboard />} />
+              } 
+            />
+            <Route path="/doctor/profile" 
+              element={
+                <PrivateRoute role={['doctor']} element={<DoctorProfile />} />
+              } 
+            />
+            <Route path="/doctor/settings" 
+              element={
+                <PrivateRoute role={['doctor']} element={<DoctorSettings />} />
+              } 
+            />
+            <Route path="/doctor/appointments" 
+              element={
+                <PrivateRoute role={['doctor']} element={<DoctorAppointments />} />
+              } 
+            />
+            <Route path="/doctor/appointments/history" 
+              element={
+                <PrivateRoute role={['doctor']} element={<DoctorAppointmentsHistory />} />
+              } 
+            />
 
             {/* Doctor Routes */}
 

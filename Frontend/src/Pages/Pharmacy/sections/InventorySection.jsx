@@ -73,12 +73,13 @@ const InventorySection = () => {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 }
             });
-    
-            const responseData = await response.json();
-    
-            if (response.status === 401) {
+
+            if (response.status === 403) {
                 info('You are not authorized to view this data');
             } else if (response.status === 200) {
+
+                let responseData = await response.json();
+
                 setMedicines(responseData.medicines.data);
                 setTotal(responseData.medicines.total)
                 setItemsPerPage(responseData.medicines.per_page)
@@ -88,6 +89,7 @@ const InventorySection = () => {
             setLoading(false)
         } catch (error) {
             if (error.name !== 'AbortError') {
+                console.log(error)
                 info('Something went wrong! Could not load this data');
             }
         }

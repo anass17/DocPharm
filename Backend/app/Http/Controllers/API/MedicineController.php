@@ -9,9 +9,12 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Medicine;
 use App\Models\Pharmacy;
 use App\Models\PharmacyMedicine;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\DB;
 
 class MedicineController extends Controller {
+
+    use AuthorizesRequests;
 
     protected $fileController;
 
@@ -75,6 +78,8 @@ class MedicineController extends Controller {
      * Store a newly created resource in storage.
      */
     public function store(Request $request) {
+
+        $this->authorize('pharmacy_access');
         
         $validation = Validator::make($request->all(), [
             'medicine_name' => 'required|string|max:255',

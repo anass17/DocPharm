@@ -5,14 +5,19 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\OrderMedicine;
 use App\Models\PharmacyMedicine;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PharmacyMedicineController extends Controller
 {
+    use AuthorizesRequests;
+
     public function index(Request $request)
     {
+
+        $this->authorize('pharmacy_access');
 
         $page = 1;
         $sort_by = 'medicines.id';
@@ -53,6 +58,8 @@ class PharmacyMedicineController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $this->authorize('pharmacy_access');
+
         $validation = Validator::make($request->all(), [
             'new_quantity' => 'required|integer',
             'new_visibility' => 'required|bool'
@@ -84,6 +91,8 @@ class PharmacyMedicineController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Request $request, string $id) {
+
+        $this->authorize('pharmacy_access');
         
         $medicine = PharmacyMedicine::where('medicine_id', '=', $id)->where('pharmacy_id', '=', $request->user() -> id)->first();
 

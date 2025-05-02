@@ -52,7 +52,7 @@ function Register() {
           } else if (response.status === 200) {
               dispatch(loginUser(responseData.user))
               Cookies.set('auth_token', responseData.token, { expires: 1, path: '' });
-              navigate('/verifyEmail');
+              navigate('/verification');
           } else {
               setErrors('An unexpected error occurred.')
               setData({
@@ -89,7 +89,7 @@ function Register() {
                               <TextField label="Last Name" name="last_name" error={!!errors.last_name} helperText={errors.last_name} onChange={handleChange} variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
                           </Box>
                           <TextField label="Email" variant="outlined" name="email" error={!!errors.email} helperText={errors.email} onChange={handleChange} sx={{ marginBottom: '12px', backgroundColor: '#F9F9F9' }} fullWidth />
-                          <TextField label="Password" type="password" name="password" error={!!errors.password} helperText={errors.password} variant="outlined" onChange={handleChange} sx={{ marginBottom: '12px', backgroundColor: '#F9F9F9' }} fullWidth />
+                          <TextField label="Password" type="password" name="password" value={data.password} error={!!errors.password} helperText={errors.password} variant="outlined" onChange={handleChange} sx={{ marginBottom: '12px', backgroundColor: '#F9F9F9' }} fullWidth />
 
                           {/* Select - Account Type */}
 

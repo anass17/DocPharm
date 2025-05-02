@@ -13,7 +13,11 @@ import { red } from "@mui/material/colors"
 import { updateUserVerificationStep } from "../../store/actions/userActions"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import Navbar from '../../components/Navbar/DoctorNavbar'
+import { ConfigProvider, Steps } from "antd"
+import PreLoggedNavbar from "../../components/Navbar/PreLoggedNavbar"
+
+const specialityList = ['Cardiology', 'Dermatology', 'Neurology', 'Pediatrics', 'Psychiatry', 'Oncology', 'Ophthalmology', 'Orthopedics', 'Gynecology', 'Endocrinology', 'Gastroenterology', 'Pulmonology', 'Radiology', 'Anesthesiology', 'Urology', 'Rheumatology', 'General Surgery', 'Family Medicine', 'Infectious Disease', 'Nephrology']
+const cityList = ["Agadir", "Azilal", "Benslimane", "Berkane", "Casablanca", "Chefchaouen", "Dakhla", "El Jadida", "Errachidia", "Essaouira", "Fès", "Figuig", "Guelmim", "Ifrane", "Kénitra", "Khémisset", "Khouribga", "Laâyoune", "Larache", "Marrakesh", "Meknès", "Midelt", "Mohammedia", "Ouarzazate", "Oujda", "Rabat", "Safi", "Salé", "Sefrou", "Settat", "Tanger", "Tata", "Tiznit", "Taroudant", "Tétouan", "Tinghir", "Youssoufia"]
 
 function RegisterAsForm() {
     const [step, setStep] = useState(1);
@@ -52,59 +56,9 @@ function RegisterAsForm() {
 
         let errorList = {}
 
-        if (!data.medical_license_number) {
-            errorList = {
-                medical_license_number: true
-            }
-        }
-        if (!data.cne_front) {
-            errorList = {
-                ...errorList,
-                cne_front: true
-            }
-        }
-        if (!data.cne_back) {
-            errorList = {
-                ...errorList,
-                cne_back: true
-            }
-        }
-        if (!data.prof_document) {
-            errorList = {
-                ...errorList,
-                prof_document: true
-            }
-        }
-        if (!data.building_front) {
-            errorList = {
-                ...errorList,
-                building_front: true
-            }
-        }
-
-        if (Object.keys(errorList).length > 0) {
-            setErrors(errorList);
-            return
-        }
-        
-        setStep(2)
-        setErrors({})
-    }
-
-    function handleSaveButton(e) {
-        e.preventDefault();
-
-        let errorList = {}
-
         if (!data.profile_picture) {
             errorList = {
                 profile_picture: true
-            }
-        }
-        if (!data.appointment_type) {
-            errorList = {
-                ...errorList,
-                appointment_type: true
             }
         }
         if (!data.speciality) {
@@ -141,6 +95,51 @@ function RegisterAsForm() {
             errorList = {
                 ...errorList,
                 phone_number: true
+            }
+        }
+
+        if (Object.keys(errorList).length > 0) {
+            setErrors(errorList);
+            return
+        }
+
+        setStep(2)
+        
+        setErrors({})
+    }
+
+    function handleSaveButton(e) {
+        e.preventDefault();
+
+        let errorList = {}
+
+        if (!data.medical_license_number) {
+            errorList = {
+                medical_license_number: true
+            }
+        }
+        if (!data.cne_front) {
+            errorList = {
+                ...errorList,
+                cne_front: true
+            }
+        }
+        if (!data.cne_back) {
+            errorList = {
+                ...errorList,
+                cne_back: true
+            }
+        }
+        if (!data.prof_document) {
+            errorList = {
+                ...errorList,
+                prof_document: true
+            }
+        }
+        if (!data.building_front) {
+            errorList = {
+                ...errorList,
+                building_front: true
             }
         }
 
@@ -193,7 +192,7 @@ function RegisterAsForm() {
     }
 
     let VerificationStep = (
-        <form onSubmit={handleNextButton} style={{ textAlign: 'center', marginTop: 75 }}>
+        <form style={{ textAlign: 'center', marginTop: 75 }}>
             <Grid2 container spacing={5}>
                 <Grid2 size={{md: 6, xs: 12}}>
 
@@ -214,38 +213,21 @@ function RegisterAsForm() {
 
                 </Grid2>
             </Grid2>
-            <Box mt={2} display="flex" justifyContent={"center"} alignItems={"center"}>
-                <Button variant="contained" type="submit" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Next</Button>
+            <Box mt={6} display="flex" justifyContent={"center"} alignItems={"center"} gap={1}>
+                <Button variant="contained" onClick={handleBackButton} sx={{ bgcolor: GRAY3, py: 1, px: 5 }}>Back</Button>
+                <Button variant="contained" onClick={handleSaveButton} sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Save</Button>
             </Box>
         </form>
     )
 
     let PreferencesStep = (
-        <form style={{ textAlign: 'center', marginTop: 75 }}>
+        <form onSubmit={handleNextButton} style={{ textAlign: 'center', marginTop: 75 }}>
             <Grid2 container spacing={5}>
                 <Grid2 size={{md: 6, xs: 12}}>
 
                     <FormDivisor>Additional Information</FormDivisor>
 
                     <FileUploadInput onChange={handleFileUpload} error={errors.profile_picture} inputName="profile_picture" format="JPG, PNG, WEBP" description={!data.profile_picture ? "Profile Picture" : data.profile_picture.name} />
-
-                    <FormControl fullWidth sx={{ mb: 2, bgcolor: '#F9F9F9' }}>
-                        <InputLabel id="appointmentType">Appointment Type</InputLabel>
-                        <Select
-                            labelId="appointmentType"
-                            label="Appointment Type"
-                            sx={{ textAlign: 'left' }}
-                            value={data.appointment_type}
-                            name="appointment_type"
-                            error={!errors.appointment_type ? false : true}
-                            onChange={handleChange}
-                        >
-                            <MenuItem value="">Select</MenuItem>
-                            <MenuItem value="in-person">In-Person Appointments</MenuItem>
-                            <MenuItem value="online">Online Appointments</MenuItem>
-                            <MenuItem value="both">Both</MenuItem>
-                        </Select>
-                    </FormControl>
 
                     <FormControl fullWidth sx={{ mb: 2, bgcolor: '#F9F9F9' }}>
                         <InputLabel id="speciality">Speciality</InputLabel>
@@ -259,8 +241,11 @@ function RegisterAsForm() {
                             onChange={handleChange}
                         >
                             <MenuItem value="">Select</MenuItem>
-                            <MenuItem value="in-person">Cardiology</MenuItem>
-                            <MenuItem value="online">Physiology</MenuItem>
+                            {
+                                specialityList.map((item, index) => {
+                                    return <MenuItem key={'sp-' + index} value={item}>{item}</MenuItem>
+                                })
+                            }
                         </Select>
                     </FormControl>
 
@@ -273,7 +258,7 @@ function RegisterAsForm() {
 
                     <TextField variant="outlined" name="address" value={data.address} error={!errors.address ? false : true} onChange={handleChange} label="Address" rows={4} multiline fullWidth sx={{ mb: 2, bgcolor: '#F9F9F9' }}></TextField>
 
-                    <Box display={"flex"} gap={2} sx={{ mb: 6 }}>
+                    <Box display={"flex"} gap={2} sx={{ mb: 4.3 }}>
                         <FormControl fullWidth sx={{ bgcolor: '#F9F9F9' }}>
                             <InputLabel id="city">City</InputLabel>
                             <Select
@@ -286,8 +271,11 @@ function RegisterAsForm() {
                                 onChange={handleChange}
                             >
                                 <MenuItem value="">Select</MenuItem>
-                                <MenuItem value="in-person">Cardiology</MenuItem>
-                                <MenuItem value="online">Physiology</MenuItem>
+                                {
+                                    cityList.map((item, index) => {
+                                        return <MenuItem key={'city-' + index} value={item}>{item}</MenuItem>
+                                    })
+                                }
                             </Select>
                         </FormControl>
 
@@ -300,32 +288,54 @@ function RegisterAsForm() {
 
                 </Grid2>
             </Grid2>
-            <Box mt={6} display="flex" justifyContent={"center"} alignItems={"center"} gap={1}>
-                <Button variant="contained" onClick={handleBackButton} sx={{ bgcolor: GRAY3, py: 1, px: 5 }}>Back</Button>
-                <Button variant="contained" onClick={handleSaveButton} sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Save</Button>
+            <Box mt={5} display="flex" justifyContent={"center"} alignItems={"center"}>
+                <Button variant="contained" type="submit" sx={{ bgcolor: GREEN, py: 1, px: 5 }}>Next</Button>
             </Box>
         </form>
     )
 
     return (
       <>
-        <Navbar />
+        <PreLoggedNavbar />
         <Container maxWidth="lg" sx={{ py: 5, display:"flex", alignItems:'center', minHeight: '100vh' }}>
-          <Box py={6} px={{md: 5, xs: 4}} sx={{ position: 'relative', backgroundColor: '#FFF', width: '100%', borderRadius: '5px', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', border: '1px solid rgba(0, 0, 0, .1)' }}>
-              <Typography variant="h4" component="h1" textAlign={"center"} mb={2}>Welcome Mr. Anass Boutaib</Typography>
-              <Typography variant="body1" textAlign={"center"} color={GRAY2} mb={5}>Please complete the registration process by providing the following details</Typography>
-              
-              <Box textAlign={"center"}>
-                  <Box display={"inline-block"} position={"relative"}>
-                      <Box height={5} width={200} bgcolor={step == 2 ? GREEN : GRAY4}></Box>
-                      <Box width={18} height={18} bgcolor={step == 2 ? GREEN : "#FFF"} border={"3px solid" + GREEN} position={"absolute"} borderRadius={"50%"} top={-10} left={0}>
-                          <Typography position={"absolute"} left={9} top={30} sx={{ transform: 'translateX(-50%)' }} color={GREEN} fontWeight={500}>Verification</Typography>
-                      </Box>
-                      <Box width={18} height={18} bgcolor={'#FFF'} border={"3px solid #000"} borderColor={step == 2 ? GREEN : GRAY4} position={"absolute"} borderRadius={"50%"} top={-10} right={0}>
-                          <Typography position={"absolute"} left={9} top={30} sx={{ transform: 'translateX(-50%)' }} color={step == 2 ? GREEN : "#aeacb6"} fontWeight={500}>Preferences</Typography>
-                      </Box>
-                  </Box>
-              </Box>
+            <Box py={6} px={{md: 5, xs: 4}} sx={{ position: 'relative', backgroundColor: '#FFF', width: '100%', borderRadius: '5px', boxShadow: '0px 1px 2px rgba(0, 0, 0, .15)', border: '1px solid rgba(0, 0, 0, .1)' }}>
+                <Typography variant="h4" component="h1" textAlign={"center"} mb={2}>Welcome Dr. Anass!</Typography>
+                <Typography variant="body1" textAlign={"center"} color={GRAY2} mb={5}>Please complete the registration process by providing the following details</Typography>
+                
+                {/* <Box textAlign={"center"}>
+                    <Box display={"inline-block"} position={"relative"}>
+                        <Box height={5} width={200} bgcolor={step == 2 ? GREEN : GRAY4}></Box>
+                        <Box width={18} height={18} bgcolor={'#FFF'} border={"3px solid #000"} borderColor={step == 2 ? GREEN : GRAY4} position={"absolute"} borderRadius={"50%"} top={-10} left={0}>
+                            <Typography position={"absolute"} left={9} top={30} sx={{ transform: 'translateX(-50%)' }} color={step == 1 ? GREEN : "#aeacb6"} fontWeight={500}>Preferences</Typography>
+                        </Box>
+                        <Box width={18} height={18} bgcolor={step == 2 ? GREEN : "#FFF"} border={"3px solid" + GREEN} position={"absolute"} borderRadius={"50%"} top={-10} right={0}>
+                            <Typography position={"absolute"} left={9} top={30} sx={{ transform: 'translateX(-50%)' }} color={GREEN} fontWeight={500}>Verification</Typography>
+                        </Box>
+                    </Box>
+                </Box> */}
+
+                <ConfigProvider
+                theme={{
+                    token: {
+                        colorPrimary: GREEN
+                    },
+                }}
+                >
+                    <Steps
+                        size="small"
+                        current={step - 1}
+                        labelPlacement="vertical"
+                        items={[
+                            {
+                                title: 'Profile Details',
+                            },
+                            {
+                                title: 'Verification',
+                            },
+                        ]}
+                        style={{ maxWidth: 500, marginLeft: 'auto', marginRight: 'auto', fontWeight: 500 }}
+                    />
+                </ConfigProvider>
 
               {
                   !backendErrors ? (
@@ -343,9 +353,9 @@ function RegisterAsForm() {
               
               {
                   step === 1 ? (
-                      VerificationStep
-                  ) : (
                       PreferencesStep
+                    ) : (
+                    VerificationStep
                   )
               }
           </Box>

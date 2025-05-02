@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, ConfigProvider, message, Modal, Row, Steps } from 'antd';
+import { Col, ConfigProvider, message, Modal, notification, Row, Steps } from 'antd';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import FileUploadInput from '../../Form/FileUploadInput';
 import { GRAY2, GRAY4, GREEN, PRIMARY_GREEN } from '../../../config/colors';
@@ -7,8 +7,7 @@ import MultiSelect from '../../Form/MultiSelect';
 import { red } from '@mui/material/colors';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
-import { LoadingOutlined, SmileOutlined, SolutionOutlined, UserOutlined } from '@ant-design/icons';
-import { FaCapsules, FaLaptopMedical, FaMedapps, FaPills } from 'react-icons/fa';
+import { FaCapsules, FaMedapps, FaPills } from 'react-icons/fa';
   
 const AddMedicineModal = ({open, setOpen}) => {
     const [optionSubmit, setOptionSubmit] = useState(false);
@@ -19,16 +18,19 @@ const AddMedicineModal = ({open, setOpen}) => {
     const [backendErrors, setBackendErrors] = useState(null)
     const [errors, setErrors] = useState({});
     const [submit, setSubmit] = useState(false)
-    const [messageApi, contextHolder] = message.useMessage();
+    const [api, NotificationHolder] = notification.useNotification();
 
-    const info = (message, type = 'success') => {
-        messageApi.open({
+    const openNotification = (message, description, type = 'info') => {
+        api.open({
             type: type,
-            content: message,
-            duration: 5
+            message: message,
+            description: <p>{description}</p>,
+            placement: 'bottomRight',
+            duration: 5,
+            showProgress: true,
+            pauseOnHover: true,
         });
     };
-
     const getOptions = async () => {
         setOptionSubmit(true);
         
@@ -42,16 +44,17 @@ const AddMedicineModal = ({open, setOpen}) => {
     
             const responseData = await response.json();
     
-            if (response.status === 401) {
-                info('You are not authorized to view this data', 'error');
+            if (response.status === 403) {
+                openNotification('Access Denied!', 'You are not authorized to view this data', 'error')
             } else if (response.status === 200) {
                 setUses(responseData.uses)
                 setForms(responseData.forms)
             } else {
-                info('Something went wrong! Could not load this data', 'error');
+                openNotification('Something went wrong!', 'Could not load this data', 'error')
             }
         } catch (error) {
-            info('Something went wrong! Could not load this data', 'error');
+            console.log(error)
+            openNotification('Something went wrong!', 'Could not load this data', 'error')
         }
     }
 
@@ -161,7 +164,8 @@ const AddMedicineModal = ({open, setOpen}) => {
         Object.keys(data).forEach((key) => {
             formData.append(key, data[key]);
         });
-
+        
+        
         try {
             const response = await fetch(backend_url + '/api/medicines', {
                 method: 'POST',
@@ -170,15 +174,17 @@ const AddMedicineModal = ({open, setOpen}) => {
                 },
                 body:formData,
             });
-    
-            const responseData = await response.json();
-    
-            if (response.status === 422) {
+                        
+            if (response.status === 403) {
+                setBackendErrors(['You are not autorized to preform this action']);
+            } else if (response.status === 422) {
+                const responseData = await response.json();
                 setBackendErrors(responseData.errors);
             } else if (response.status === 201) {
+                const responseData = await response.json();
                 // alert('added');
                 setBackendErrors(null);
-                info(responseData.message);
+                openNotification('Success', responseData.message, 'success')
                 setData({})
                 setErrors({})
                 setStep(1)
@@ -315,7 +321,7 @@ const AddMedicineModal = ({open, setOpen}) => {
                 )
             }
         >
-            {contextHolder}
+            {NotificationHolder}
 
             <ConfigProvider
                 theme={{
@@ -350,7 +356,7 @@ const AddMedicineModal = ({open, setOpen}) => {
                 !backendErrors ? (
                     <></>
                 ) : (
-                    <Box my={5} color={red[600]} py={2} borderRadius={2} textAlign={"center"} bgcolor={red[50]}>
+                    <Box mb={5} color={red[600]} py={2} borderRadius={2} textAlign={"center"} bgcolor={red[50]}>
                         {
                             Object.values(backendErrors).map((item, index) => {
                                 return (<p style={{ margin: '0.5rem 0', fontFamily: 'roboto' }} key={index}>{item}</p>)

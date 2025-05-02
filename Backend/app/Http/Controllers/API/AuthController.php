@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\FileController;
+use App\Jobs\SendVerificationEmailJob;
 use App\Models\Client;
 use App\Models\User;
 
@@ -44,6 +46,7 @@ class AuthController extends Controller
         $token = $user -> createToken('auth_token')->plainTextToken;
 
         // $this -> sendVerificationEmail($user);
+        SendVerificationEmailJob::dispatch($user);
 
         return response()->json(['message' => 'Successfully Registered', 'token' => $token, 'user' => $user]);
     }
@@ -80,13 +83,13 @@ class AuthController extends Controller
             ]
         );
 
-        Mail::to($user->email)->send(new VerificationEmail($user, $verificationUrl));
+        Mail::to(env('TESTING_MODE', true) ? 'anassboutaib2018@gmail.com' : $user -> email)->send(new VerificationEmail($user, $verificationUrl));
 
     }
 
     // Get doctor's verification data and store it
 
-    public function registerAsDoctor(Request $request) {
+    public function registerAsDoctor(Request $request, FileController $fileUpload) {
 
         $validation = Validator::make($request->all(), [
             'cne_front' => 'required|file|mimes:jpg,png,webp|max:10240',
@@ -100,7 +103,6 @@ class AuthController extends Controller
             'postal_code' => 'required|integer',
             'bio' => 'required|string',
             'speciality' => 'required|string',
-            'appointment_type' => 'required|in:online,in-person,both',
             'phone_number' => 'required|string|regex:/^0[567][0-9]{8}$/',
         ]);
 
@@ -115,17 +117,19 @@ class AuthController extends Controller
         $this -> uploadFile($request->file('cne_front'), "cne_front", $dir_name);
         $this -> uploadFile($request->file('cne_back'), "cne_back", $dir_name);
         $this -> uploadFile($request->file('prof_document'), "prof_document", $dir_name);
-        $this -> uploadFile($request->file('building_front'), "building_front", $dir_name);
-        $this -> uploadFile($request->file('profile_picture'), "profile_picture", $dir_name);
+
+        $building_image_path = $fileUpload->uploadPublicImage($request, 'doctors', 'building_front');
+        $profile_picture_path = $fileUpload->uploadPublicImage($request, 'profile', 'profile_picture');
 
         $user -> medical_license_number = $request -> medical_license_number;
         $user -> personal_files_path = $request -> dir_name;
         $user -> address = $request -> address;
         $user -> city = $request -> city;
+        $user -> building_image = $building_image_path;
+        $user -> profile_picture = $profile_picture_path;
         $user -> postal_code = $request -> postal_code;
         $user -> bio = $request -> bio;
         $user -> speciality = $request -> speciality;
-        $user -> appointment_type = $request -> appointment_type;
         $user -> phone_number = $request -> phone_number;
         $user -> verification_step = 'complete';
 
@@ -201,8 +205,17 @@ class AuthController extends Controller
             $user->email_verified_at = now();
             $user->save();
         }
+
+        if ($user->role === 'admin') {
+            return redirect()->away('http://localhost:5173/admin/dashboard');
+        } else if ($user->role === 'doctor') {
+            return redirect()->away('http://localhost:5173/register/doctor');
+        } else if ($user->role === 'pharmacy') {
+            return redirect()->away('http://localhost:5173/register/pharmacy');
+        }
+
+        return redirect()->away('http://localhost:5173/client/dashboard');
     
-        return redirect()->away('http://localhost:5173/');
     }
 
     // Log the user out
