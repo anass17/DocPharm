@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\DeliveryCodeEmail;
 use App\Models\Order;
 use App\Models\OrderMedicine;
+use App\Models\PharmacyMedicine;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -50,12 +51,20 @@ class OrderController extends Controller
         
         $validation = Validator::make($request->all(), [
             'pharmacy' => 'required|int',
-            'quantity' => 'required|integer',
+            'quantity' => 'required|integer|max:3',
             'price' => 'required|numeric',
         ]);
 
         if ($validation->fails()) {
             return response()->json(['errors' => $validation->errors()], 422);
+        }
+
+        $pharmacy_medicine = PharmacyMedicine::find($request->pharmacy);
+
+        if (!$pharmacy_medicine) {
+            return response()->json(['error' => 'This medicine does not exist'], 404);
+        } else if ($pharmacy_medicine->medicine_quantity < $request -> quantity) {
+            return response()->json(['errors' => ['The pharmacy does not have that number of units']], 422);
         }
 
         $order = Order::whereNull('confirmed_at')->where('client_id', '=', $request->user()->id)->first();

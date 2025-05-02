@@ -7,11 +7,12 @@ import '@fontsource/roboto/700.css';
 
 import RoutesList from './routes.jsx'; 
 import { backend_url } from './config/app.js';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie'
 import { useDispatch } from 'react-redux';
 import { addMedicineToCart } from './store/actions/cartActions.js';
 import { loginUser } from './store/actions/userActions.js';
+import LoadingOverlay from './components/Loading/LoadingOverlay.jsx';
 
 const getCartItems = async (dispatch) => {
   try {
@@ -65,16 +66,26 @@ const getUserDetails = async (dispatch) => {
   }
 }
 
+
 function App() {
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      if (Cookies.get('auth_token')) {
-        getCartItems(dispatch)
-        getUserDetails(dispatch)
-      }
-    }, [])
+      const fetchUser = async () => {
+        if (Cookies.get('auth_token')) {
+          await getCartItems(dispatch);
+          await getUserDetails(dispatch);
+        }
+        setLoading(false);
+      };
+  
+      fetchUser();
+    }, []);
 
+    if (loading) {
+      return <LoadingOverlay />
+    }
 
   return(
     <div>
