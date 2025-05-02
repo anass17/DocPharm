@@ -61,7 +61,6 @@ class OrderController extends Controller
         $order = Order::whereNull('confirmed_at')->where('client_id', '=', $request->user()->id)->first();
 
         if (!$order) {
-            
             $order = Order::create([
                 'client_id' => $request->user()->id
             ]);

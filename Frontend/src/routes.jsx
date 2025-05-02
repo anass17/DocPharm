@@ -185,67 +185,67 @@ const RoutesList = () => {
 
             <Route path="/medicines" 
               element={
-                <PrivateRoute roles={['user']} element={<UserMedicines />} />
+                <PrivateRoute roles={['client']} element={<UserMedicines />} />
               } 
             />
             <Route path="/pharmacies" 
               element={
-                <PrivateRoute roles={['user']} element={<UserPharmacyListing />} />
+                <PrivateRoute roles={['client']} element={<UserPharmacyListing />} />
               } 
             />
             <Route path="/doctors" 
               element={
-                <PrivateRoute roles={['user']} element={<UserDoctorsListing />} />
+                <PrivateRoute roles={['client']} element={<UserDoctorsListing />} />
               } 
             />
             <Route path="/pharmacies/:id" 
               element={
-                <PrivateRoute roles={['user']} element={<UserPharmacyView />} />
+                <PrivateRoute roles={['client']} element={<UserPharmacyView />} />
               } 
             />
             <Route path="/medicines/:id" 
               element={
-                <PrivateRoute roles={['user']} element={<UserMedicine />} />
+                <PrivateRoute roles={['client']} element={<UserMedicine />} />
               } 
             />
             <Route path="/doctors/:id" 
               element={
-                <PrivateRoute roles={['user']} element={<UserBookAppointment />} />
+                <PrivateRoute roles={['client']} element={<UserBookAppointment />} />
               } 
             />
             <Route path="/payment_success" 
               element={
-                <PrivateRoute roles={['user']} element={<UserPaymentSuccess />} />
+                <PrivateRoute roles={['client']} element={<UserPaymentSuccess />} />
               } 
             />
             <Route path="/client/appointments" 
               element={
-                <PrivateRoute roles={['user']} element={<UserAppointmentsListing />} />
+                <PrivateRoute roles={['client']} element={<UserAppointmentsListing />} />
               } 
             />
             <Route path="/client/orders" 
               element={
-                <PrivateRoute roles={['user']} element={<UserOrdersListing />} />
+                <PrivateRoute roles={['client']} element={<UserOrdersListing />} />
               } 
             />
             <Route path="/settings" 
               element={
-                <PrivateRoute roles={['user']} element={<UserSettings />} />
+                <PrivateRoute roles={['client']} element={<UserSettings />} />
               } 
             />
             <Route path="/profile" 
               element={
-                <PrivateRoute roles={['user']} element={<UserProfile />} />
+                <PrivateRoute roles={['client']} element={<UserProfile />} />
               } 
             />
             <Route path="/client/dashboard" 
               element={
-                <PrivateRoute roles={['user']} element={<UserDashboard />} />
+                <PrivateRoute roles={['client']} element={<UserDashboard />} />
               } 
             />
             <Route path="/client/prescriptions/:id" 
               element={
-                <PrivateRoute roles={['user']} element={<UserPrescriptionView />} />
+                <PrivateRoute roles={['client']} element={<UserPrescriptionView />} />
               } 
             />
 
