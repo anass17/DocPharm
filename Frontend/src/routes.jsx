@@ -19,6 +19,7 @@ import UserDashboard from './Pages/user/UserDashboard.jsx';
 import AdminDashboard from './Pages/admin/AdminDashboard.jsx';
 import FaqsPage from './Pages/Common/Faqs.jsx';
 import ContactPage from './Pages/Common/Contact.jsx';
+import BannedMessage from './Pages/Auth/BannedMessage.jsx';
 
 const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
@@ -91,25 +92,25 @@ const DashboardRedirection = () => {
 
 const PrivateRoute = ({ roles, element }) => {
     const { isAuthenticated, user } = useSelector((state) => state.user);
-    const navigate = useNavigate();
 
     if (!isAuthenticated) {
-      alert('k')
-      return <Navigate to='/login' />
+      return <Navigate to='/login' replace />
     }
   
     if (user.verification_step === 'incomplete') {
-      alert('d')
         if (user.role === 'doctor') {
-          return navigate('/register/doctor');
+          return <Navigate to='/register/doctor' replace />
         } else if (user.role === 'pharmacy') {
-          return navigate('/register/pharmacy');
+          return <Navigate to='/register/pharmacy' replace />
         }
+    }
+
+    if (user.status === 'pending') {
+      return <Navigate to='/pending' replace />
     }
     
     if (!roles.includes(user.role)) {
-      alert('s')
-      return navigate('/unauthorized');
+      return <Navigate to='/unauthorized' replace />
     }
   
     return isAuthenticated && roles.includes(user.role) ? element : null;
@@ -122,8 +123,11 @@ const RoutesList = () => {
       <Router>
         <Suspense fallback={<LoadingOverlay />}>
           <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<HomePage />} />
+
+            <Route path="/dashboard" element={<DashboardRedirection />} />
+
+            {/* Authentication */}
+
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/logout" element={<Logout />} />
@@ -132,118 +136,188 @@ const RoutesList = () => {
             <Route path="/pending" element={<PendingMessage />} />
             <Route path="/verification" element={<VerificationMessage />} />
             <Route path="/unauthorized" element={<Unauthorized />} />
-
-            <Route path="/dashboard" element={<DashboardRedirection />} />
+            <Route path="/banned" element={<BannedMessage />} />
 
     
-            {/* Protected Routes */}
-            {/* <PrivateRoute
-              path="/admin"
-              roles={['admin']}  // Only Admin can access
-              component={() => (
-                <AdminLayout>
-                <AdminDashboard />
-                </AdminLayout>
-                )}
-                />
-                
-                <PrivateRoute
-                path="/pharmacy"
-                roles={['pharmacy']}  // Only Pharmacy can access
-                component={() => (
-                  <PharmacyLayout>
-                  <PharmacyDashboard />
-                  </PharmacyLayout>
-                  )}
-                  />
-            
-            <PrivateRoute
-            path="/doctor"
-            roles={['doctor']}  // Only Doctor can access
-            component={() => (
-              <DoctorLayout>
-              <DoctorDashboard />
-              </DoctorLayout>
-              )}
-              /> */}
-            
             {/* Pharmacy Routes */}
 
-            <Route path="/pharmacy/dashboard" element={<PharmacyDashboard />} />
-            {/* <Route path="/pharmacy/dashboard" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyDashboard />} />} /> */}
-            {/* <Route path="/pharmacy/inventory" element={<PrivateRoute roles={['pharmacy']} element={<PharmacyInventory />} />} /> */}
-            <Route path="/pharmacy/inventory" element={<PharmacyInventory />} />
-            <Route path="/pharmacy/medicines/:id" element={<PharmacyMedicine />} />
-            <Route path="/pharmacy/orders" element={<PharmacyOrders />} />
-            <Route path="/pharmacy/history" element={<PharmacyOrdersHistory />} />
-            <Route path="/pharmacy/profile" element={<PharmacyProfile />} />
-            <Route path="/pharmacy/settings" element={<PharmacySettings />} />
+            <Route path="/pharmacy/dashboard" 
+              element={
+                <PrivateRoute roles={['pharmacy']} element={<PharmacyDashboard />} />
+              } 
+            />
+            <Route path="/pharmacy/inventory" 
+              element={
+                <PrivateRoute roles={['pharmacy']} element={<PharmacyInventory />} />
+              } 
+            />
+            <Route path="/pharmacy/medicines/:id" 
+              element={
+                <PrivateRoute roles={['pharmacy']} element={<PharmacyMedicine />} />
+              } 
+            />
+            <Route path="/pharmacy/orders" 
+              element={
+                <PrivateRoute roles={['pharmacy']} element={<PharmacyOrders />} />
+              } 
+            />
+            <Route path="/pharmacy/history" 
+              element={
+                <PrivateRoute roles={['pharmacy']} element={<PharmacyOrdersHistory />} />
+              } 
+            />
+            <Route path="/pharmacy/profile" 
+              element={
+                <PrivateRoute roles={['pharmacy']} element={<PharmacyProfile />} />
+              } 
+            />
+            <Route path="/pharmacy/settings" 
+              element={
+                <PrivateRoute roles={['pharmacy']} element={<PharmacySettings />} />
+              } 
+            />
 
 
 
-            {/* User Routes */}
+            {/* Client Routes */}
 
-            <Route path="/medicines" element={<UserMedicines />} />
-            <Route path="/pharmacies" element={<UserPharmacyListing />} />
-            <Route path="/doctors" element={<UserDoctorsListing />} />
-            <Route path="/pharmacies/:id" element={<UserPharmacyView />} />
-            <Route path="/medicines/:id" element={<UserMedicine />} />
-            <Route path="/doctors/:id" element={<UserBookAppointment />} />
-            <Route path="/payment_success" element={<UserPaymentSuccess />} />
-            <Route path="/client/appointments" element={<UserAppointmentsListing />} />
-            <Route path="/client/orders" element={<UserOrdersListing />} />
-            <Route path="/settings" element={<UserSettings />} />
-            <Route path="/profile" element={<UserProfile />} />
-            <Route path="/client/dashboard" element={<UserDashboard />} />
-            <Route path="/client/prescriptions/:id" element={<UserPrescriptionView />} />
+            <Route path="/medicines" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserMedicines />} />
+              } 
+            />
+            <Route path="/pharmacies" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserPharmacyListing />} />
+              } 
+            />
+            <Route path="/doctors" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserDoctorsListing />} />
+              } 
+            />
+            <Route path="/pharmacies/:id" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserPharmacyView />} />
+              } 
+            />
+            <Route path="/medicines/:id" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserMedicine />} />
+              } 
+            />
+            <Route path="/doctors/:id" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserBookAppointment />} />
+              } 
+            />
+            <Route path="/payment_success" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserPaymentSuccess />} />
+              } 
+            />
+            <Route path="/client/appointments" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserAppointmentsListing />} />
+              } 
+            />
+            <Route path="/client/orders" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserOrdersListing />} />
+              } 
+            />
+            <Route path="/settings" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserSettings />} />
+              } 
+            />
+            <Route path="/profile" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserProfile />} />
+              } 
+            />
+            <Route path="/client/dashboard" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserDashboard />} />
+              } 
+            />
+            <Route path="/client/prescriptions/:id" 
+              element={
+                <PrivateRoute roles={['user']} element={<UserPrescriptionView />} />
+              } 
+            />
 
 
             {/* Doctor Routes */}
 
-            {/* <Route path="/doctor/dashboard" element={<DoctorDashboard />} /> */}
-
-            {/* <PrivateRoute path="/doctor/dashboard" roles={['doctor']}
-              component={() => (<DoctorDashboard />)}
-            /> */}
-
             <Route path="/doctor/dashboard" 
               element={
-                <PrivateRoute role={['doctor']} element={<DoctorDashboard />} />
+                <PrivateRoute roles={['doctor']} element={<DoctorDashboard />} />
               } 
             />
             <Route path="/doctor/profile" 
               element={
-                <PrivateRoute role={['doctor']} element={<DoctorProfile />} />
+                <PrivateRoute roles={['doctor']} element={<DoctorProfile />} />
               } 
             />
             <Route path="/doctor/settings" 
               element={
-                <PrivateRoute role={['doctor']} element={<DoctorSettings />} />
+                <PrivateRoute roles={['doctor']} element={<DoctorSettings />} />
               } 
             />
             <Route path="/doctor/appointments" 
               element={
-                <PrivateRoute role={['doctor']} element={<DoctorAppointments />} />
+                <PrivateRoute roles={['doctor']} element={<DoctorAppointments />} />
               } 
             />
             <Route path="/doctor/appointments/history" 
               element={
-                <PrivateRoute role={['doctor']} element={<DoctorAppointmentsHistory />} />
+                <PrivateRoute roles={['doctor']} element={<DoctorAppointmentsHistory />} />
               } 
             />
 
-            {/* Doctor Routes */}
 
-            <Route path="/admin/users" element={<AdminUserManagement />} />
-            <Route path="/admin/users/pending" element={<AdminPendingUsers />} />
-            <Route path="/admin/users/pending/:id" element={<AdminPendingUserView />} />
-            <Route path="/admin/users/banned" element={<AdminBannedUsers />} />
-            <Route path="/admin/settings" element={<AdminSettings />} />
-            <Route path="/admin/profile" element={<AdminProfile />} />
-            <Route path="/admin/dashboard" element={<AdminDashboard />} />
+            {/* Admin Routes */}
+
+            <Route path="/admin/users" 
+              element={
+                <PrivateRoute roles={['admin']} element={<AdminUserManagement />} />
+              } 
+            />
+            <Route path="/admin/users/pending" 
+              element={
+                <PrivateRoute roles={['admin']} element={<AdminPendingUsers />} />
+              } 
+            />
+            <Route path="/admin/users/pending/:id" 
+              element={
+                <PrivateRoute roles={['admin']} element={<AdminPendingUserView />} />
+              } 
+            />
+            <Route path="/admin/users/banned" 
+              element={
+                <PrivateRoute roles={['admin']} element={<AdminBannedUsers />} />
+              } 
+            />
+            <Route path="/admin/settings" 
+              element={
+                <PrivateRoute roles={['admin']} element={<AdminSettings />} />
+              } 
+            />
+            <Route path="/admin/profile" 
+              element={
+                <PrivateRoute roles={['admin']} element={<AdminProfile />} />
+              } 
+            />
+            <Route path="/admin/dashboard" 
+              element={
+                <PrivateRoute roles={['admin']} element={<AdminDashboard />} />
+              } 
+            />
 
             {/* Common Routes */}
 
+            <Route path="/" element={<HomePage />} />
             <Route path="/faqs" element={<FaqsPage />} />
             <Route path="/contact" element={<ContactPage />} />
     

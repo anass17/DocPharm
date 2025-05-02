@@ -87,7 +87,7 @@ export default function Login() {
                       <Grid2 size={{md: 6, xs: 12}}>
                           <form onSubmit={handleSubmit} style={{ textAlign: 'center', paddingBottom: 20 }}>
                               <Typography variant="h4" component="h1" mb={1}>Welcome There</Typography>
-                              <Typography variant="body1" mb={8}>Log into your account and see what you missed</Typography>
+                              <Typography variant="body1" mb={7}>Log into your account and see what you missed</Typography>
                               
                               <TextField label="Email" name="email" value={data.email} error={!!errors} onChange={handleChange} helperText={errors} variant="outlined" sx={{ marginBottom: '12px', backgroundColor: '#F9F9F9' }} fullWidth />
                               <TextField label="Password" name="password" value={data.password} onChange={handleChange} type="password" variant="outlined" sx={{ backgroundColor: '#F9F9F9' }} fullWidth />
