@@ -54,7 +54,7 @@ class ClientDashboardController extends Controller
 
         $orders = DB::table('orders')
         ->where('client_id', $request->user()->id)
-        ->selectRaw("TO_CHAR(delivered_at, 'YYYY-MM') as month, COUNT(*) as total")
+        ->selectRaw("TO_CHAR(confirmed_at, 'YYYY-MM') as month, COUNT(*) as total")
         ->groupBy('month')
         ->pluck('total', 'month');
 

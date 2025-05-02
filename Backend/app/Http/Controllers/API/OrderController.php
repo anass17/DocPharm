@@ -171,6 +171,15 @@ class OrderController extends Controller
             if ($session->payment_status === 'paid') {
                 
                 $order = Order::where('client_id', '=', $request->user()->id)->whereNull('confirmed_at')->first();
+
+                $order_medicines = OrderMedicine::where('order_id', $order->id)->get();
+                
+                foreach($order_medicines as $item) {
+                    $pharmacy_medicine = PharmacyMedicine::where('id', $item->medicine_id)->first();
+                    $pharmacy_medicine -> medicine_quantity = $pharmacy_medicine -> medicine_quantity - $item -> order_quantity;
+                    $pharmacy_medicine -> save();
+                }
+
                 $order->confirmed_at = now();
                 $order->save();
 

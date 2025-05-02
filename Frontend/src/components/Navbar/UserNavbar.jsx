@@ -70,7 +70,7 @@ function UserNavbar() {
               textDecoration: 'none',
             }}
           >
-            <Link to="/user/dashboard" style={{ display: 'flex' }}>
+            <Link to="/client/dashboard" style={{ display: 'flex' }}>
               <img className='h-[55px]' src='/public/images/logo/logo.png' />
             </Link>
             
