@@ -18,7 +18,7 @@ class FileController extends Controller {
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return response()->json(['errors' => $validator->errors(), 'image_path' => ''], 422);
         }
 
         // Store the image
@@ -33,7 +33,7 @@ class FileController extends Controller {
             return response()->json(['image_path' => "/storage/$folder/" . $imageName], 200);
         }
 
-        return response()->json(['errors' => ['No image file found.']], 422);
+        return response()->json(['errors' => ['No image file found.'], 'image_path' => ''], 422);
     }
 
 }

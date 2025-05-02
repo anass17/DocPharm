@@ -186,7 +186,7 @@ function RegisterAsForm() {
                 alert('An unexpected error occurred.');
             }
         } catch (error) {
-            console.error('Error:', error);
+            console.log('Error:', error);
             alert('An error occurred while processing your request.');
         }
     }

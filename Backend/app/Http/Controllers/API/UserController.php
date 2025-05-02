@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -78,7 +79,18 @@ class UserController extends Controller
     {
         $user = Client::where('status', 'pending')->where('id', $id)->first();
 
-        return response()->json(['user' => $user]);
+        // $path = 'private/private/' . $user->personal_files_path . '/cne_back.jpg';
+        $path = 'private/' . $user->personal_files_path . '/cne_back.jpg';
+
+        $front = Storage::disk('local')->get('private/' . $user->personal_files_path . '/cne_front.jpg');
+        $base64_front = base64_encode($front);
+        $mime_front = Storage::mimeType($path);
+
+        $back = Storage::disk('local')->get('private/' . $user->personal_files_path . '/cne_back.jpg');
+        $base64 = base64_encode($back);
+        $mime = Storage::mimeType($path);
+
+        return response()->json(['user' => $user, 'cne_front' => "data:$mime_front;base64,$base64_front", 'cne_back' => "data:$mime;base64,$base64"]);
     }
 
     /**

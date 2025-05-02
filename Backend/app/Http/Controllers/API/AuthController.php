@@ -45,7 +45,6 @@ class AuthController extends Controller
 
         $token = $user -> createToken('auth_token')->plainTextToken;
 
-        // $this -> sendVerificationEmail($user);
         SendVerificationEmailJob::dispatch($user);
 
         return response()->json(['message' => 'Successfully Registered', 'token' => $token, 'user' => $user]);
@@ -68,23 +67,6 @@ class AuthController extends Controller
             'token' => $token,
             'user' => $user
         ], 200);
-    }
-
-    // Send Verification Email to the user
-
-    public function sendVerificationEmail(User $user) {
-
-        $verificationUrl = URL::temporarySignedRoute(
-            'verification.verify',
-            now()->addMinutes(10),
-            [
-                'id' => $user->id, 
-                'hash' => sha1($user->email)
-            ]
-        );
-
-        Mail::to(env('TESTING_MODE', true) ? 'anassboutaib2018@gmail.com' : $user -> email)->send(new VerificationEmail($user, $verificationUrl));
-
     }
 
     // Get doctor's verification data and store it
@@ -122,11 +104,11 @@ class AuthController extends Controller
         $profile_picture_path = $fileUpload->uploadPublicImage($request, 'profile', 'profile_picture');
 
         $user -> medical_license_number = $request -> medical_license_number;
-        $user -> personal_files_path = $request -> dir_name;
+        $user -> personal_files_path = $dir_name;
         $user -> address = $request -> address;
         $user -> city = $request -> city;
-        $user -> building_image = $building_image_path;
-        $user -> profile_picture = $profile_picture_path;
+        $user -> building_image = $building_image_path->getData(true)['image_path'];
+        $user -> profile_picture = $profile_picture_path->getData(true)['image_path'];
         $user -> postal_code = $request -> postal_code;
         $user -> bio = $request -> bio;
         $user -> speciality = $request -> speciality;

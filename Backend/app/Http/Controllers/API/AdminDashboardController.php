@@ -39,8 +39,6 @@ class AdminDashboardController extends Controller
         ")
         ->first();
 
-        // $recent_added = Appointment::orderBy('created_at', 'desc')->limit(4)->get();
-
         $appointments = DB::table('appointments')
             ->join('users', 'users.id', '=', 'appointments.doctor_id')
             ->select('appointments.created_at as created_at', 'appointment_date', 'first_name', 'last_name', DB::raw('NULL as status'), DB::raw("'appointment' as type"));

@@ -32,8 +32,6 @@ class ClientDashboardController extends Controller
         ->where('client_id', $request->user()->id)
         ->first();
 
-        // $recent_added = Appointment::orderBy('created_at', 'desc')->limit(4)->get();
-
         $appointments = DB::table('appointments')
             ->join('users', 'users.id', '=', 'appointments.doctor_id')
             ->where('client_id', $request->user()->id)

@@ -27,6 +27,8 @@ const PendingUsersViewSection = () => {
 
     const {id: param_id} = useParams()
     const [user, setUser] = useState({})
+    const [CNEBack, setCNEBack] = useState(null)
+    const [CNEFront, setCNEFront] = useState(null)
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate()
     const [isStatusSelected, setIsStatusSelected] = useState(false)
@@ -68,6 +70,8 @@ const PendingUsersViewSection = () => {
                 openNotification('Access Denied', 'You are not authorized to view this data', 'error');
             } else if (response.status === 200) {
                 setUser(responseData.user)
+                setCNEBack(responseData.cne_back)
+                setCNEFront(responseData.cne_front)
             } else {
                 openNotification('Something went wrong!', 'Could not load this data', 'error');
             }
@@ -206,7 +210,7 @@ const PendingUsersViewSection = () => {
                             width={'100%'}
                             height={300}
                             className="object-cover rounded-md"
-                            src={`${backend_url}${user?.building_image ? user.building_image : '/storage/horizontal_image_placeholder.png'}`}
+                            src={CNEBack}
                         />
                     </Col>
                     <Col span={12}>
@@ -214,7 +218,7 @@ const PendingUsersViewSection = () => {
                             width={'100%'}
                             height={300}
                             className="object-cover rounded-md"
-                            src={`${backend_url}${user?.building_image ? user.building_image : '/storage/horizontal_image_placeholder.png'}`}
+                            src={CNEFront}
                         />
                     </Col>
                 </Row>
