@@ -20,6 +20,7 @@ import AdminDashboard from './Pages/admin/AdminDashboard.jsx';
 import FaqsPage from './Pages/Common/Faqs.jsx';
 import ContactPage from './Pages/Common/Contact.jsx';
 import BannedMessage from './Pages/Auth/BannedMessage.jsx';
+import AdminMedicineManagement from './Pages/admin/AdminMedicineManagement.jsx';
 
 const HomePage = lazy(() => import('./Pages/home/Home.jsx'));
 
@@ -314,6 +315,11 @@ const RoutesList = () => {
             <Route path="/admin/dashboard" 
               element={
                 <PrivateRoute roles={['admin']} element={<AdminDashboard />} />
+              } 
+            />
+            <Route path="/admin/medicines/manage" 
+              element={
+                <PrivateRoute roles={['admin']} element={<AdminMedicineManagement />} />
               } 
             />
 

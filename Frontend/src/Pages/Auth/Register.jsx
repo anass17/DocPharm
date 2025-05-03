@@ -51,7 +51,7 @@ function Register() {
               setSubmit(false);
           } else if (response.status === 200) {
               dispatch(loginUser(responseData.user))
-              Cookies.set('auth_token', responseData.token, { expires: 1, path: '' });
+              Cookies.set('auth_token', responseData.token, { expires: 1, path: '/' });
               navigate('/verification');
           } else {
               setErrors('An unexpected error occurred.')

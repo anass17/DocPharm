@@ -59,7 +59,7 @@ const UpdateMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
                 setBackendErrors(responseData.errors);
             } else if (response.status === 200) {
                 setBackendErrors(null);
-                info(`The antibody "${medicine.medicine_name}" has been updated`);
+                info(`The medicine "${medicine.medicine_name}" has been updated`);
                 handleUpdate(medicine.id, +data.new_quantity + +medicine.medicine_quantity, data.new_visibility)
                 setOpen(false)
                 setData({

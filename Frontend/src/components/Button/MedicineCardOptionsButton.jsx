@@ -51,7 +51,7 @@ const StyledMenu = styled((props) => (
     },
 }));
 
-export default function OptionsButton({onUpdate, onDelete}) {
+export default function MedicineCardOptionsButton({onUpdate, onDelete}) {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const open = Boolean(anchorEl);
     

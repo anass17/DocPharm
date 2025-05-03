@@ -17,7 +17,9 @@ class PharmacyDashboardController extends Controller
         $medicine_statistics = PharmacyMedicine::selectRaw("
             COUNT(*) as total_medicines,
             SUM(medicine_quantity) as medicine_units
-        ")->where('pharmacy_id', 2)->first();
+        ")
+        ->where('pharmacy_medicines.pharmacy_id', $request->user()->id)
+        ->where('pharmacy_id', 2)->first();
 
         $order_statistics = DB::table('order_medicines')
         ->join('pharmacy_medicines', 'pharmacy_medicines.id', '=', 'order_medicines.medicine_id')

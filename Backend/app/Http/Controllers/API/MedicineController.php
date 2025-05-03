@@ -43,6 +43,8 @@ class MedicineController extends Controller {
             $dir = 'asc';
         } else if ($request->sort == "availability") {
             $sort_by = 'medicine_quantity';
+        } else if ($request->sort == "oldest_first") {
+            $dir = 'asc';
         }
 
         $medicines = DB::table('medicines')->leftJoin('medicine_forms', 'medicines.medicine_form', '=', 'medicine_forms.id');
@@ -160,6 +162,21 @@ class MedicineController extends Controller {
         }
 
         return response()->json(['medicine' => $medicine]);
+    }
+
+    /**
+     * Delete the specified resource.
+    */
+    public function destroy(Request $request, $id) {
+        $medicine = Medicine::find($id);
+        
+        if (!$medicine) {
+            return response()->json(['message' => 'Medicine was not found!'], 404);
+        }
+
+        $medicine -> delete();
+
+        return response()->json([], 204);
     }
 
 }

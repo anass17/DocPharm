@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Col, message, Modal, Row, Typography } from 'antd';
+import { Col, message, Modal, notification, Row, Typography } from 'antd';
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { GRAY2, GRAY4, GREEN } from '../../../config/colors';
 import { grey, red } from '@mui/material/colors';
 import { backend_url } from '../../../config/app';
 import Cookies from 'js-cookie'
 
-const DeleteMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
+const AdminDeleteMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
     const [backendErrors, setBackendErrors] = useState(null)
     const [loading, setLoading] = useState(null);
-    const [messageApi, contextHolder] = message.useMessage();
+    const [api, NotificationHolder] = notification.useNotification();
 
-    const info = (message, type = 'success') => {
-        messageApi.open({
-            type: type,
-            content: message,
-            duration: 5
+    const openNotification = (message, description, status = 'info') => {
+        api.open({
+            message: message,
+            type: status,
+            description: <p>{description}</p>,
+            placement: 'bottomRight',
+            duration: 5,
+            showProgress: true,
+            pauseOnHover: true,
         });
     };
+
 
     // Event Handlers
 
@@ -27,28 +32,28 @@ const DeleteMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
     };
 
     const submitForm = () => {
-        sendMedicineUpdate()
+        deleteMedicine()
     }
 
     // Fetch API
 
-    async function sendMedicineUpdate() {
+    async function deleteMedicine() {
         setLoading(true)
         try {
-            const response = await fetch(`${backend_url}/api/pharmacy/medicines/${medicine.medicine_id}`, {
+            const response = await fetch(`${backend_url}/api/medicines/${medicine.id}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': 'Bearer ' + Cookies.get('auth_token'),
                 },
             });
-    
-            const responseData = await response.json();
-    
-            if (response.status === 422 || response.status === 404) {
+
+     
+            if (response.status === 422) {
+                const responseData = await response.json();
                 setBackendErrors(responseData.errors);
-            } else if (response.status === 200) {
+            } else if (response.status === 204) {
                 setBackendErrors(null);
-                info(`The medicine "${medicine.medicine_name}" has been delete`);
+                openNotification('Sucess!', `The medicine "${medicine.medicine_name}" has been delete from all pharmacies inventory.`, 'success')
                 handleUpdate(medicine.id)
                 setOpen(false)
             } else {
@@ -56,6 +61,7 @@ const DeleteMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
             }
 
         } catch (error) {
+            console.log(error)
             setBackendErrors(['An error occurred while processing your request.']);
         } finally {
             setLoading(false)
@@ -86,7 +92,7 @@ const DeleteMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
                 
             }
         >
-            {contextHolder}
+            {NotificationHolder}
 
             {
                 !backendErrors ? (
@@ -104,7 +110,7 @@ const DeleteMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
 
             
             <Box sx={{ my: 4 }}>
-                <Typography.Text style={{ fontSize: 15 }}>Do you really want to delete this medicine?</Typography.Text>
+                <Typography.Text style={{ fontSize: 15 }}>Before deleting this medicine, please note that it will also be removed from all pharmacy inventories.<br /><br /> Do you really want to delete this medicine?</Typography.Text>
             </Box>
             
         </Modal>
@@ -112,4 +118,4 @@ const DeleteMedicineModal = ({medicine, open, setOpen, handleUpdate}) => {
     );
 };
 
-export default DeleteMedicineModal;
+export default AdminDeleteMedicineModal;
