@@ -30,7 +30,7 @@ class DoctorFactory extends Factory
             'bio' => $this->faker->sentence,
             'medical_license_number' => $this->faker->word,
             'postal_code' => $this->faker->postcode,
-            'verification_step' => $this->faker->randomElement(['complete', 'incomplete']),
+            'verification_step' => 'complete',
             'appointment_type' => $this->faker->randomElement(['in_person', 'online', 'both', 'paused']),
             'appointment_prices' => [
                 'online' => $this->faker->randomFloat(2, 100, 200),

@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Appointment;
+use App\Models\Client;
+use App\Models\Doctor;
 use App\Models\Prescription;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -26,8 +28,8 @@ class AppointmentFactory extends Factory
             'appointment_status' => $this->faker->randomElement(['active', 'closed', 'rejected']),
             'appointment_prescription' => null,
             'appointment_rejection_note' => $this->faker->sentence(10),
-            'client_id' => \App\Models\Client::factory(),
-            'doctor_id' => \App\Models\Doctor::factory(),
+            'client_id' => Client::where('role', 'client')->inRandomOrder()->value('id'),
+            'doctor_id' => Doctor::where('role', 'doctor')->inRandomOrder()->value('id'),
         ];
     }
 

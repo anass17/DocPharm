@@ -30,7 +30,7 @@ class OrderFactory extends Factory
             'rejection_note' => $this->faker->optional(0.5, '')->sentence,
             'delivery_code' => $this->faker->optional()->numberBetween(100000, 999999),
             'tries' => 0,
-            'client_id' => Client::where('role', 'client')->inRandomOrder()->value('id'), // picking only clients
+            'client_id' => Client::where('role', 'client')->inRandomOrder()->value('id'),
         ];
     }
 
