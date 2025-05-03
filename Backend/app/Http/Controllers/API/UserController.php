@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendUserApproveEmailJob;
 use App\Models\Client;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -66,7 +67,7 @@ class UserController extends Controller
      * Display the specified resource.
      */
     public function show(string $id) {
-        
+
         $user = Client::where('status', 'pending')->where('id', $id)->first();
 
         // $path = 'private/private/' . $user->personal_files_path . '/cne_back.jpg';
@@ -98,6 +99,10 @@ class UserController extends Controller
         $client = Client::find($id);
         $client -> status = $request -> status;
         $client -> save();
+
+        if ($request -> status == 'active') {
+            SendUserApproveEmailJob::dispatch($client);
+        }
 
         return response()->json([], 204);
     }
