@@ -149,7 +149,7 @@ const AddPrescriptionModal = ({apt_id, open, setOpen, statusUpdate}) => {
                 <Box py={2}>
                     <TextField name='' label='Prescription Note' multiline rows={4} fullWidth sx={{ mb: 1.5 }} value={description} onChange={(e) => setDescription(e.target.value)} />
                     <Box position={'relative'}>
-                        <TextField name='' label="Add Medicine *" value={search} fullWidth onChange={handleSearch}/>
+                        <TextField name='' label="Add Medicine" value={search} fullWidth onChange={handleSearch}/>
                         <Box position={'absolute'} bgcolor="#FFF" width="100%" zIndex={100} maxHeight={300} overflow='auto' boxShadow='0px 1px 2px rgba(0, 0, 0, .2)'>
                             {
                                 searchLoading ? (
@@ -164,7 +164,7 @@ const AddPrescriptionModal = ({apt_id, open, setOpen, statusUpdate}) => {
                                                 return (
                                                     <Box key={index} px={3} py={2} sx={{ cursor: 'pointer' }} className="hover:bg-gray-200 transition" borderBottom='1px solid #DDD' display={'flex'} gap={3} alignItems='center' onClick={() => handleMedicineClick(item)}>
                                                         <div>
-                                                            <img style={{ width: 100, height: 70, objectFit: 'cover', borderRadius: 5 }} src="http://localhost:8000/storage/medicines/fake_image.jpg" />
+                                                            <img style={{ width: 100, height: 70, objectFit: 'cover', borderRadius: 5 }} src={backend_url + (item.medicine_image ? item.medicine_image : '/storage/placeholder.jpg')} />
                                                         </div>
                                                         <div>
                                                             <Title level={5} style={{marginBottom: 1 }}>{item.medicine_name} - {item.medicine_weight} {item.form_unit}</Title>
@@ -190,7 +190,7 @@ const AddPrescriptionModal = ({apt_id, open, setOpen, statusUpdate}) => {
                                     <Col span={20}>
                                         <Box display={'flex'} gap={2} alignItems='center'>
                                             <div>
-                                                <img style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 5 }} src="http://localhost:8000/storage/medicines/fake_image.jpg" />
+                                                <img style={{ width: 80, height: 60, objectFit: 'cover', borderRadius: 5 }} src={backend_url + (item.medicine_image ? item.medicine_image : '/storage/placeholder.jpg')} />
                                             </div>
                                             <div>
                                                 <Title level={5} style={{marginBottom: 1 }}>{item.medicine_name} - {item.medicine_weight} {item.form_unit}</Title>

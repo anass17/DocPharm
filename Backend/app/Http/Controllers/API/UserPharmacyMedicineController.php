@@ -8,8 +8,7 @@ use Illuminate\Support\Facades\DB;
 
 class UserPharmacyMedicineController extends Controller
 {
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
 
         $page = 1;
 

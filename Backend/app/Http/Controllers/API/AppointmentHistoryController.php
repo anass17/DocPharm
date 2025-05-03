@@ -35,7 +35,7 @@ class AppointmentHistoryController extends Controller
             $results = $results -> where('appointment_status', $request->status);
         }
         
-        $results = $results -> whereNot('appointment_status', 'active') -> orderBy('appointment_date')->get();
+        $results = $results -> where('doctor_id', $request->user()->id) -> whereNot('appointment_status', 'active') -> orderBy('appointment_date')->get();
 
         return response()->json(['results' => $results]);
     }

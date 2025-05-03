@@ -54,7 +54,7 @@ class PrescriptionController extends Controller
         $apt -> appointment_status = 'closed';
         $apt -> save();
 
-        Mail::to('anassboutaib2018@gmail.com')->send(new PrescriptionEmail(Client::find($apt -> client_id), $request -> user(), $apt));
+        Mail::to('anassboutaib2018@gmail.com')->send(new PrescriptionEmail(Client::find($apt -> client_id), $request -> user(), $apt, $request->description));
 
         return response()->json(['message' => 'Prescription Successfully Added'], 201);
     }

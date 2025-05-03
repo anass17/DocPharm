@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendAppointmentRejectionEmailJob;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class AppointmentController extends Controller
             $results = $results -> where('appointment_type', $request->type);
         }
         
-        $results = $results -> where('appointment_status', 'active') -> orderBy('appointment_date')->get();
+        $results = $results -> where('doctor_id', $request -> user() -> id) -> where('appointment_status', 'active') -> orderBy('appointment_date')->get();
 
         return response()->json(['results' => $results]);
         
@@ -53,13 +54,17 @@ class AppointmentController extends Controller
             return response()->json(['errors' => $validation->errors()], 422);
         }
 
-        $appointment = Appointment::find($id);
+        $appointment = Appointment::with(['client', 'doctor'])->find($id);
 
         if (!$appointment) {
             return response()->json(['message' => 'Not Found'], 404);
         }
 
         $appointment->update($validation->valid());
+
+        if ($request -> appointment_status === 'rejected') {
+            SendAppointmentRejectionEmailJob::dispatch($appointment -> client, $appointment -> doctor, $appointment);
+        }
 
         return response()->json(['message' => 'Successfully Updated'], 204);
 
