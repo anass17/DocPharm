@@ -14,8 +14,7 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
         
         $page = 1;
         $sort_dir = 'asc';
@@ -33,7 +32,6 @@ class UserController extends Controller
             $status = $request->status;
         }
 
-        
         if ($request->type == 2) {
             $users = Client::where('role', 'client');
         } else if ($request->type == 3) {
@@ -65,18 +63,10 @@ class UserController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
+    public function show(string $id) {
+        
         $user = Client::where('status', 'pending')->where('id', $id)->first();
 
         // $path = 'private/private/' . $user->personal_files_path . '/cne_back.jpg';
@@ -96,8 +86,7 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
+    public function update(Request $request, string $id) {
         $validation = Validator::make($request->all(), [
             'status' => 'required|in:active,banned'
         ]);
@@ -111,13 +100,5 @@ class UserController extends Controller
         $client -> save();
 
         return response()->json([], 204);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

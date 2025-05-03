@@ -11,8 +11,7 @@ class UserOrdersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
-    {
+    public function index(Request $request) {
 
         $orders = Order::with('medicines.pharmacy')
         ->with('medicines.medicine')

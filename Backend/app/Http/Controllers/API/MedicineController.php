@@ -165,6 +165,14 @@ class MedicineController extends Controller {
     }
 
     /**
+     * Update the specified resource.
+    */
+
+    public function update(Request $request, $id) {
+
+    }
+
+    /**
      * Delete the specified resource.
     */
     public function destroy(Request $request, $id) {

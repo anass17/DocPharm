@@ -86,14 +86,6 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(Order $order)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, Order $order)
@@ -152,15 +144,6 @@ class OrderController extends Controller
 
         return response()->json([], 204);
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
-        //
-    }
-    
 
     public function confirm (Request $request, $sessionId) {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));

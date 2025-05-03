@@ -8,14 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class PharmacyBuildingImageController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index(Request $request)
-    {
-        
-    }
-
+    
     /**
      * Store a newly created resource in storage.
      */
