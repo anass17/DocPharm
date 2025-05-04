@@ -57,7 +57,7 @@ class UserController extends Controller
             });
         }
 
-        $users = $users -> whereNotNull('email_verified_at') -> where('verification_step', 'complete') -> where('status', $status) -> orderBy('id', $sort_dir) -> paginate(12, ['*'], 'page', $page);
+        $users = $users -> where('verification_step', 'complete') -> where('status', $status) -> orderBy('id', $sort_dir) -> paginate(12, ['*'], 'page', $page);
 
 
         return response()->json(['users' => $users]);
