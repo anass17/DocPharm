@@ -180,7 +180,7 @@ const OrderListingSection = () => {
                                             <TP className="capitalize">{orders[selected]?.status}</TP>
                                         </Col>
                                         {
-                                            orders[selected]?.delivery_code ? (
+                                            orders[selected]?.delivery_code && orders[selected].status == 'ready' ? (
                                                 <Col span={12}>
                                                     <Title level={5} style={{ marginBottom: 2 }}>Delivery Code</Title>
                                                     <TP className="capitalize">{orders[selected].delivery_code}</TP>
