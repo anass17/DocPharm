@@ -17,7 +17,7 @@ class PharmacyController extends Controller {
             $page = $request->page;
         }
 
-        $pharmacies = Pharmacy::where('role', 'pharmacy');
+        $pharmacies = Pharmacy::where('role', 'pharmacy')->where('status', 'active');
 
         if ($request->search) {
             $pharmacies = $pharmacies->where("pharmacy_name", "ILIKE", "%{$request->search}%");

@@ -23,7 +23,7 @@ const ProfileSection = () => {
                         src={`${backend_url}${user?.profile_picture ? user?.profile_picture : '/storage/user_placeholder.jpg'}`}
                     />
                     <Box>
-                        <Typography.Title level={4} style={{ marginBottom: 3 }}>{user?.first_name ? (user.first_name + user?.last_name) : 'loading ...'}</Typography.Title>
+                        <Typography.Title level={4} style={{ marginBottom: 3 }}>{user?.first_name ? (user.first_name + ' ' + user?.last_name) : 'loading ...'}</Typography.Title>
                         <Typography.Title level={5} style={{ margin: 0, color: GRAY3 }}>Member Since: {dayjs(user?.created_at).format("MMMM DD, YYYY")}</Typography.Title>
                     </Box>
                 </Flex>

@@ -19,7 +19,7 @@ class DoctorController extends Controller {
             $page = $request->page;
         }
 
-        $doctors = Doctor::where('role', 'doctor');
+        $doctors = Doctor::where('role', 'doctor')->where('status', 'active');
 
         if ($request->search) {
             $doctors = $doctors->where(function ($query) use ($request) {
